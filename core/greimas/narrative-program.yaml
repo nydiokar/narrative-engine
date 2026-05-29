@@ -1,0 +1,39 @@
+# Narrative Program (NP)
+# Formalizes a transformation from an initial state to a terminal state.
+
+narrative_program:
+  description: "A formal transformation between two states of junction."
+
+  structure:
+    initial_state:
+      junction: disjunction  # or conjunction
+      actant: "<actant_role>"
+      object: "<object_of_value>"
+      description: "The state of lack or separation."
+
+    transformation:
+      operation: "<operation_type>"  # e.g., transfer, acquisition, removal
+      operator: "<performing_actant>"
+      modalities_applied:
+        - wanting
+        - knowing
+        - being_able
+        - having_to
+
+    terminal_state:
+      junction: conjunction  # or disjunction
+      actant: "<actant_role>"
+      object: "<object_of_value>"
+      description: "The state of fulfillment or separation."
+
+  operations:
+    - transfer
+    - acquisition
+    - removal
+    - destruction
+    - transformation
+    - communication
+
+  junction_types:
+    conjunction: "The actant is joined with the Object."
+    disjunction: "The actant is separated from the Object."

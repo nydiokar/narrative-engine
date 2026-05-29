@@ -1,0 +1,21 @@
+# Scene Contract
+# Defines a single scene in the narrative.
+
+scene:
+  id: "<uuid>"
+  episode_id: "<episode_id>"
+  sequence_number: "<integer>"
+  setting:
+    location: "<string>"
+    time: "<string>"
+    atmosphere: "<string>"
+  characters_present: ["<character_id>"]
+  events: ["<event_id>"]
+  function_served: "<propp_function_symbol>"
+  narrative_program_advanced: "<narrative_program_id>"
+  modality_changes:
+    - actant: "<actant_id>"
+      modality: "<modality_name>"
+      change: "<from> → <to>"
+  content: "<prose_text>"
+  status: "<draft|review|final>"

@@ -1,0 +1,24 @@
+# Human Intake Template
+# Used in Workflow 01 to capture raw premise and constraints.
+
+intake:
+  project_name: "<string>"
+  premise: "<string>"
+  genre: "<string>"
+  tone: "<string>"
+  target_audience: "<string>"
+  target_length: "<word_count>"
+  constraints:
+    - "<string>"
+  reference_works:
+    - title: "<string>"
+      author: "<string>"
+      notes: "<string>"
+  author_notes: "<string>"
+  desired_actants:
+    subject: "<optional description>"
+    object: "<optional description>"
+    sender: "<optional description>"
+    receiver: "<optional description>"
+    helpers: ["<optional>"]
+    opponents: ["<optional>"]

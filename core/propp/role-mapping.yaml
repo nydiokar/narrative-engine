@@ -1,0 +1,43 @@
+# Role Mapping: Proppian Spheres of Action → Greimasian Actants
+# Maps Propp's character spheres onto the actantial model.
+
+role_mapping:
+  villain_sphere:
+    propp_roles: [Villain]
+    maps_to_actant: Opponent
+    typical_functions: [δ, ε, ζ, η, A, Pr, Ex, U]
+
+  donor_sphere:
+    propp_roles: [Donor, Provider]
+    maps_to_actant: Helper
+    typical_functions: [D, E, F]
+
+  helper_sphere:
+    propp_roles: [Magical Helper, Ally]
+    maps_to_actant: Helper
+    typical_functions: [F, G, Rs]
+
+  princess_sphere:
+    propp_roles: [Princess, Sought-after Person]
+    maps_to_actant: Object
+    typical_functions: [M, N, Q, W]
+
+  dispatcher_sphere:
+    propp_roles: [Dispatcher]
+    maps_to_actant: Sender
+    typical_functions: [B, C]
+
+  hero_sphere:
+    propp_roles: [Hero, Seeker-Hero, Victim-Hero]
+    maps_to_actant: Subject
+    typical_functions: [C, ↑, E, H, I, J, K, ↓, N, Q, T, W]
+
+  false_hero_sphere:
+    propp_roles: [False Hero]
+    maps_to_actant: Opponent
+    typical_functions: [L, Ex, U]
+
+mapping_principles:
+  - One character may map to multiple spheres across the narrative.
+  - The mapping may shift as the fabula progresses (e.g., a Helper becomes an Opponent).
+  - Each sphere's typical functions inform the Structuralist's function selection.

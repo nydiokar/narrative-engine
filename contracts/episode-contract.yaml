@@ -1,0 +1,18 @@
+# Episode Contract
+# Defines a major segment of the narrative.
+
+episode:
+  id: "<uuid>"
+  title: "<string>"
+  sequence_number: "<integer>"
+  summary: "<string>"
+  narrative_programs: ["<narrative_program_id>"]
+  functions: ["<propp_function_symbol>"]
+  scenes: ["<scene_id>"]
+  modality_shifts:
+    - actant: "<actant_id>"
+      modality: "<modality_name>"
+      from: "<state>"
+      to: "<state>"
+      trigger: "<event_id>"
+  status: "<draft|review|final>"

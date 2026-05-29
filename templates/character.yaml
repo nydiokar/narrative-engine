@@ -1,0 +1,37 @@
+# Character Template
+# Used by Character Architect to define narrative characters.
+
+character:
+  id: "<uuid>"
+  name: "<string>"
+  role: "<hero|villain|helper|mentor|etc>"
+
+  actant_mapping:
+    primary_role: "<subject|object|sender|receiver|helper|opponent>"
+    secondary_roles: ["<actant_role>"]
+
+  description: "<string>"
+  traits: ["<string>"]
+
+  modalities:
+    wanting: "<desires|indifferent|rejects>"
+    knowing: "<knows|partially_knows|ignorant>"
+    being_able: "<able|unable>"
+    having_to: "<obligated|free>"
+
+  arc:
+    initial_modalities:
+      wanting: "<state>"
+      knowing: "<state>"
+      being_able: "<state>"
+      having_to: "<state>"
+    terminal_modalities:
+      wanting: "<state>"
+      knowing: "<state>"
+      being_able: "<state>"
+      having_to: "<state>"
+
+  relationships:
+    - character_id: "<uuid>"
+      relation_type: "<ally|rival|lover|family|enemy>"
+      description: "<string>"

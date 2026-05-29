@@ -1,0 +1,20 @@
+# Intake — _template
+# Copy this directory to start a new story.
+
+intake:
+  project_name: "My Story"
+  premise: "A hero must overcome great odds to save their world."
+  genre: "fantasy"
+  tone: "heroic"
+  target_audience: "young adult"
+  target_length: 50000
+  constraints: []
+  reference_works: []
+  author_notes: ""
+  desired_actants:
+    subject: ""
+    object: ""
+    sender: ""
+    receiver: ""
+    helpers: []
+    opponents: []

@@ -1,0 +1,37 @@
+# Causality Rules
+# Governs the causal relationships between narrative events.
+
+causality_rules:
+  description: "Every event must follow from prior events by logical necessity."
+
+  rule_types:
+    direct_causation:
+      description: "Event A directly causes Event B."
+      schema:
+        cause: "<event_id>"
+        effect: "<event_id>"
+        mechanism: "<physical|psychological|social|magical>"
+
+    enablement:
+      description: "Event A creates the conditions for Event B."
+      schema:
+        enabler: "<event_id>"
+        enabled: "<event_id>"
+        condition: "<modality or state change>"
+
+    prevention:
+      description: "Event A prevents Event B from occurring."
+      schema:
+        preventer: "<event_id>"
+        prevented: "<event_id>"
+        mechanism: "<blocked_mechanism>"
+
+  axioms:
+    - "Ex nihilo: No event arises without a cause."
+    - "Transitivity: If A causes B and B causes C, then A indirectly causes C."
+    - "No backward causation: Effects cannot precede their causes in the fabula."
+    - "Conservation of modality: Modality changes must have explicit causes."
+
+  violation_response:
+    type: critique_flag
+    action: "The event and its preceding chain are flagged for the Revision Agent."

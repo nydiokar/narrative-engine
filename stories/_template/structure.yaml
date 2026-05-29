@@ -1,0 +1,8 @@
+# Structure — _template
+# Fabula chain and actantial configuration.
+# Populated during Workflow 03.
+
+fabula:
+  events: []
+  causality_chains: []
+actantial_configuration: {}

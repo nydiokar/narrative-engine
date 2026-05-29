@@ -1,0 +1,30 @@
+# No-Filler Rules
+# Enforces that every narrative element serves a structural function.
+
+no_filler_rules:
+  description: "No scene, event, or character may exist without a causal or functional role."
+
+  rules:
+    scene_necessity:
+      condition: "A scene exists"
+      requirement: "The scene must advance at least one narrative program or modify at least one modality."
+      violation: "Cut scene."
+
+    character_necessity:
+      condition: "A character appears"
+      requirement: "The character must occupy at least one actantial role in the current narrative program."
+      violation: "Remove or merge character."
+
+    dialogue_necessity:
+      condition: "Dialogue occurs"
+      requirement: "The dialogue must convey information that changes the actantial configuration or modality state."
+      violation: "Replace with narration or cut."
+
+    event_necessity:
+      condition: "An event is added to the fabula"
+      requirement: "The event must be causally connected to at least one prior event and at least one subsequent event."
+      violation: "Flag as orphan event."
+
+  enforcement:
+    check_point: "After each scene is drafted."
+    action_on_violation: "Flag in Critique Contract for the Revision Agent to remediate."

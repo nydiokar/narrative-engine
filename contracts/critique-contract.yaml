@@ -1,0 +1,38 @@
+# Critique Contract
+# Structured report produced by the Critic agent.
+
+critique:
+  id: "<uuid>"
+  target_id: "<artifact_id>"
+  target_type: "<story|episode|scene|character|fabula>"
+  reviewer: "<critic>"
+
+  dimensions:
+    coherence:
+      score: "<0-10>"
+      issues: ["<string>"]
+      pass: "<bool>"
+
+    completeness:
+      score: "<0-10>"
+      issues: ["<string>"]
+      pass: "<bool>"
+
+    character_consistency:
+      score: "<0-10>"
+      issues: ["<string>"]
+      pass: "<bool>"
+
+    no_filler_compliance:
+      score: "<0-10>"
+      issues: ["<string>"]
+      pass: "<bool>"
+
+    structural_fidelity:
+      score: "<0-10>"
+      issues: ["<string>"]
+      pass: "<bool>"
+
+  overall_pass: "<bool>"
+  summary: "<string>"
+  revision_instructions: ["<string>"]

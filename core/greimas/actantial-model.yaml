@@ -1,0 +1,41 @@
+# Greimasian Actantial Model
+# Defines the six actantial roles and their relationships.
+
+actantial_model:
+  description: "A.J. Greimas's deep-structural role schema for narrative."
+
+  roles:
+    subject:
+      alias: Hero / Protagonist
+      definition: "The actant who desires or pursues the Object."
+      canonical_question: "Who acts?"
+
+    object:
+      alias: Object of Value
+      definition: "The actant which is desired, pursued, or avoided."
+      canonical_question: "What is sought?"
+
+    sender:
+      alias: Destinator
+      definition: "The actant who instigates the action or mandates the quest."
+      canonical_question: "Who sets the action in motion?"
+
+    receiver:
+      alias: Beneficiary
+      definition: "The actant who benefits from the attainment of the Object."
+      canonical_question: "Who benefits?"
+
+    helper:
+      alias: Adjuvant
+      definition: "Actants that assist the Subject in attaining the Object."
+      canonical_question: "Who aids?"
+
+    opponent:
+      alias: Opponent / Antagonist
+      definition: "Actants that obstruct the Subject from attaining the Object."
+      canonical_question: "Who hinders?"
+
+  principles:
+    - An actant is a structural role, not necessarily a character. One character may fulfill multiple actant roles.
+    - Actants exist only in relation to one another; the model is relational, not absolute.
+    - Every narrative can be reduced to a series of actantial configurations.

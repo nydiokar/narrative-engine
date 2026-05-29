@@ -1,0 +1,26 @@
+# Story Contract
+# Top-level contract for a complete narrative.
+
+story:
+  id: "<uuid>"
+  title: "<string>"
+  premise: "<string>"
+  genre: "<string>"
+  tone: "<string>"
+  target_audience: "<string>"
+  constraints: ["<string>"]
+
+  actantial_model:
+    subject: "<character_id>"
+    object: "<object_of_value_id>"
+    sender: "<character_id>"
+    receiver: "<character_id>"
+    helpers: ["<character_id>"]
+    opponents: ["<character_id>"]
+
+  fabula:
+    events: ["<event_id>"]
+    causality_chains: ["<causality_chain_id>"]
+
+  episodes: ["<episode_id>"]
+  status: "<draft|review|final>"

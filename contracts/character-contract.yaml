@@ -1,0 +1,20 @@
+# Character Contract
+# Defines a character in the narrative.
+
+character:
+  id: "<uuid>"
+  name: "<string>"
+  actant_roles: ["<subject|object|sender|receiver|helper|opponent>"]
+  description: "<string>"
+  traits: ["<string>"]
+  modalities:
+    wanting: "<desires|indifferent|rejects>"
+    knowing: "<knows|partially_knows|ignorant>"
+    being_able: "<able|unable>"
+    having_to: "<obligated|free>"
+  arc:
+    initial_state: "<state_reference>"
+    terminal_state: "<state_reference>"
+  relationships:
+    - target: "<character_id>"
+      relation: "<string>"

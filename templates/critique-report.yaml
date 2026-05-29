@@ -1,0 +1,35 @@
+# Critique Report Template
+# Structured evaluation report from the Critic agent.
+
+critique_report:
+  id: "<uuid>"
+  target: "<artifact_id>"
+  target_type: "<story|episode|scene|character|fabula>"
+  reviewer: "critic"
+  timestamp: "<iso_datetime>"
+
+  scores:
+    coherence:
+      value: "<0-10>"
+      issues: ["<string>"]
+    completeness:
+      value: "<0-10>"
+      issues: ["<string>"]
+    character_consistency:
+      value: "<0-10>"
+      issues: ["<string>"]
+    no_filler_compliance:
+      value: "<0-10>"
+      issues: ["<string>"]
+    structural_fidelity:
+      value: "<0-10>"
+      issues: ["<string>"]
+
+  verdict: "<pass|fail|conditional_pass>"
+  summary: "<string>"
+
+  revision_actions:
+    - priority: "<high|medium|low>"
+      description: "<string>"
+      affected_contract: "<contract_type>"
+      suggested_change: "<string>"

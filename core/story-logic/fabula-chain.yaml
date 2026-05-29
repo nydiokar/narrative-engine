@@ -1,0 +1,33 @@
+# Fabula Chain
+# Defines the structure of the chronological event sequence.
+
+fabula_chain:
+  description: "A linear, causally-ordered sequence of narrative events."
+
+  structure:
+    events:
+      - id: "<uuid>"
+        sequence_number: "<integer>"
+        type: "<event_type>"
+        actantial_configuration:
+          subject: "<actant_id>"
+          object: "<actant_id>"
+          sender: "<actant_id>"
+          receiver: "<actant_id>"
+          helpers: ["<actant_id>"]
+          opponents: ["<actant_id>"]
+        narrative_program:
+          initial_state: "<state_reference>"
+          terminal_state: "<state_reference>"
+          operation: "<operation_type>"
+        propp_function: "<function_symbol>"
+        causal_predecessors: ["<event_id>"]
+        causal_successors: ["<event_id>"]
+        modalities:
+          - actant: "<actant_id>"
+            modalities: {wanting: bool, knowing: bool, being_able: bool, having_to: bool}
+
+  constraints:
+    - Events are strictly ordered by sequence_number.
+    - Every event except the first must have at least one causal_predecessor.
+    - Modalities must be consistent across the chain (no unexplained modality shifts).

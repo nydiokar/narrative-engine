@@ -1,0 +1,12 @@
+# Object of Value Contract
+# Defines an object, state, or quality that actants seek or possess.
+
+object_of_value:
+  id: "<uuid>"
+  name: "<string>"
+  type: "<concrete|abstract|relational>"
+  description: "<string>"
+  desirability: "<high|medium|low>"
+  current_possessor: "<actant_id>"
+  desired_by: ["<actant_id>"]
+  significance_to_narrative: "<string>"

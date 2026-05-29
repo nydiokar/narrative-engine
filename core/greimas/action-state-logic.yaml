@@ -1,0 +1,33 @@
+# Action-State Logic
+# Governs the transition between narrative states via actantial operations.
+
+action_state_logic:
+  description: "Rules for how actions transform narrative states."
+
+  state_types:
+    - state_of_lack
+    - state_of_fulfillment
+    - state_of_test
+    - state_of_conflict
+    - state_of_alliance
+
+  state_transitions:
+    lack_to_quest:
+      trigger: "Subject acquires modality of wanting"
+      action: "Subject enters narrative program"
+      result: "State changes from lack to active seeking"
+
+    test_to_qualification:
+      trigger: "Helper provides modality of being-able"
+      action: "Subject undergoes qualification"
+      result: "Subject gains competence"
+
+    conflict_to_resolution:
+      trigger: "Subject vs Opponent confrontation"
+      action: "Struggle operation executed"
+      result: "One actant achieves/disachieves junction"
+
+  rules:
+    - A state persists until a valid trigger fires.
+    - Multiple narrative programs may run in parallel for different actants.
+    - State transitions must respect causality rules defined in /core/story-logic/causality-rules.yaml.

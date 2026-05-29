@@ -1,0 +1,47 @@
+# Modality Rules
+# Defines the four modal competences and their transformation logic.
+
+modality_rules:
+  description: "Modalities qualify an actant's capacity to act."
+
+  modalities:
+    wanting:
+      definition: "The actant desires or intends to act."
+      states: [desires, indifferent, rejects]
+      transformations:
+        - trigger: "actant acquires Object of Value's desirability"
+          effect: "indifferent → desires"
+        - trigger: "actant is coerced by Sender"
+          effect: "indifferent → desires (having-to induced)"
+
+    knowing:
+      definition: "The actant possesses necessary knowledge."
+      states: [knows, partially_knows, ignorant]
+      transformations:
+        - trigger: "Helper communicates information"
+          effect: "ignorant → knows"
+        - trigger: "Opponent conceals information"
+          effect: "knows → partially_knows"
+
+    being_able:
+      definition: "The actant has the physical/social capacity to act."
+      states: [able, unable]
+      transformations:
+        - trigger: "acquisition of Helper/magical agent"
+          effect: "unable → able"
+        - trigger: "opposition by Opponent"
+          effect: "able → unable"
+
+    having_to:
+      definition: "The actant is under obligation to act."
+      states: [obligated, free]
+      transformations:
+        - trigger: "Sender imposes mandate"
+          effect: "free → obligated"
+        - trigger: "mandate fulfilled or rejected"
+          effect: "obligated → free"
+
+  combination_rules:
+    - "An actant can only execute an action if wanting AND (being_able OR having_to) are satisfied."
+    - "Knowing modifies the quality but not the possibility of action."
+    - "Conflicting modalities (wanting ≠ having_to) generate narrative tension."

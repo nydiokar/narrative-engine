@@ -1,0 +1,30 @@
+# Episode Template
+# Defines a single episode in the narrative.
+
+episode:
+  id: "<uuid>"
+  title: "<string>"
+  sequence: "<integer>"
+  summary: "<string>"
+  function: "<string>"
+
+  narrative_programs_active:
+    - "<np_id>"
+
+  propp_functions: ["<function_symbol>"]
+
+  scenes: ["<scene_id>"]
+
+  modality_changes:
+    - actant: "<character_id>"
+      modality: "<modality_name>"
+      from: "<state>"
+      to: "<state>"
+      trigger_event: "<event_id>"
+
+  setting:
+    primary_location: "<string>"
+    time_period: "<string>"
+    atmosphere: "<string>"
+
+  status: "<draft|review|final>"

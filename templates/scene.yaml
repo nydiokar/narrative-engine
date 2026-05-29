@@ -1,0 +1,37 @@
+# Scene Template
+# Defines a single scene in the narrative.
+
+scene:
+  id: "<uuid>"
+  episode_id: "<episode_id>"
+  sequence: "<integer>"
+
+  setting:
+    location: "<string>"
+    time: "<string>"
+    atmosphere: "<string>"
+
+  characters_present:
+    - character_id: "<uuid>"
+      state: "<emotional/physical state>"
+
+  events:
+    - sequence: "<integer>"
+      description: "<string>"
+      causal_predecessor: "<event_id>"
+      function: "<propp_function_symbol>"
+
+  dialogue:
+    - speaker: "<character_id>"
+      line: "<string>"
+      function: "<narrative_function>"
+
+  modality_changes:
+    - actant: "<character_id>"
+      modality: "<modality_name>"
+      from: "<state>"
+      to: "<state>"
+
+  prose: "<full_scene_text>"
+  word_count: "<integer>"
+  status: "<draft|review|final>"

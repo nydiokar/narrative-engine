@@ -1,0 +1,47 @@
+# Story Bible Template
+# Comprehensive reference document for the narrative.
+
+story_bible:
+  title: "<string>"
+  premise: "<string>"
+  genre: "<string>"
+  tone: "<string>"
+
+  actants:
+    subject:
+      id: "<character_id>"
+      name: "<string>"
+      description: "<string>"
+    object:
+      id: "<object_id>"
+      name: "<string>"
+      type: "<concrete|abstract|relational>"
+      description: "<string>"
+    sender:
+      id: "<character_id>"
+      name: "<string>"
+      description: "<string>"
+    receiver:
+      id: "<character_id>"
+      name: "<string>"
+      description: "<string>"
+    helpers:
+      - id: "<character_id>"
+        name: "<string>"
+    opponents:
+      - id: "<character_id>"
+        name: "<string>"
+
+  world:
+    setting: "<string>"
+    rules: ["<string>"]
+    atmosphere: "<string>"
+
+  narrative_programs:
+    - id: "<np_id>"
+      description: "<string>"
+      initial_state: "<string>"
+      terminal_state: "<string>"
+
+  propp_sequence:
+    - "<function_symbol>"

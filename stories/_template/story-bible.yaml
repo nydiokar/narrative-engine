@@ -1,0 +1,15 @@
+# Story Bible — _template
+# Populated during Workflow 02-03.
+
+story_bible:
+  title: ""
+  premise: ""
+  genre: ""
+  tone: ""
+  actants: {}
+  world:
+    setting: ""
+    rules: []
+    atmosphere: ""
+  narrative_programs: []
+  propp_sequence: []

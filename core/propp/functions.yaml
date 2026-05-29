@@ -1,0 +1,163 @@
+# Proppian Functions
+# Based on Vladimir Propp's Morphology of the Folktale (1928).
+
+functions:
+  - id: 1
+    symbol: α
+    name: Absentation
+    description: "A member of the family leaves home."
+
+  - id: 2
+    symbol: β
+    name: Interdiction
+    description: "An interdiction is addressed to the hero."
+
+  - id: 3
+    symbol: γ
+    name: Violation
+    description: "The interdiction is violated."
+
+  - id: 4
+    symbol: δ
+    name: Reconnaissance
+    description: "The villain attempts reconnaissance."
+
+  - id: 5
+    symbol: ε
+    name: Delivery
+    description: "The villain gains information about the victim."
+
+  - id: 6
+    symbol: ζ
+    name: Trickery
+    description: "The villain attempts to deceive the victim."
+
+  - id: 7
+    symbol: η
+    name: Complicity
+    description: "The victim is deceived and unwittingly helps the villain."
+
+  - id: 8
+    symbol: A
+    name: Villainy
+    description: "The villain causes harm or injury to a family member."
+
+  - id: 9
+    symbol: a
+    name: Lack
+    description: "A member lacks something or desires something."
+
+  - id: 10
+    symbol: B
+    name: Mediation
+    description: "Misfortune is made known; the hero is dispatched."
+
+  - id: 11
+    symbol: C
+    name: Beginning Counteraction
+    description: "The hero agrees to or decides upon counteraction."
+
+  - id: 12
+    symbol: ↑
+    name: Departure
+    description: "The hero leaves home."
+
+  - id: 13
+    symbol: D
+    name: First Function of the Donor
+    description: "The hero is tested, interrogated, attacked, etc., preparing the way for receiving a magical agent or helper."
+
+  - id: 14
+    symbol: E
+    name: Hero's Reaction
+    description: "The hero reacts to the actions of the donor."
+
+  - id: 15
+    symbol: F
+    name: Provision or Receipt of a Magical Agent
+    description: "The hero acquires the use of a magical agent."
+
+  - id: 16
+    symbol: G
+    name: Spatial Transference
+    description: "The hero is transferred to the location of the object of search."
+
+  - id: 17
+    symbol: H
+    name: Struggle
+    description: "The hero and the villain join in direct combat."
+
+  - id: 18
+    symbol: J
+    name: Branding
+    description: "The hero is branded or marked."
+
+  - id: 19
+    symbol: I
+    name: Victory
+    description: "The villain is defeated."
+
+  - id: 20
+    symbol: K
+    name: Liquidation
+    description: "The initial misfortune or lack is liquidated."
+
+  - id: 21
+    symbol: ↓
+    name: Return
+    description: "The hero returns home."
+
+  - id: 22
+    symbol: Pr
+    name: Pursuit
+    description: "The hero is pursued."
+
+  - id: 23
+    symbol: Rs
+    name: Rescue
+    description: "The hero is rescued from pursuit."
+
+  - id: 24
+    symbol: o
+    name: Unrecognized Arrival
+    description: "The hero, unrecognized, arrives home or in another country."
+
+  - id: 25
+    symbol: L
+    name: Unfounded Claims
+    description: "A false hero presents unfounded claims."
+
+  - id: 26
+    symbol: M
+    name: Difficult Task
+    description: "A difficult task is proposed to the hero."
+
+  - id: 27
+    symbol: N
+    name: Solution
+    description: "The task is resolved."
+
+  - id: 28
+    symbol: Q
+    name: Recognition
+    description: "The hero is recognized."
+
+  - id: 29
+    symbol: Ex
+    name: Exposure
+    description: "The false hero or villain is exposed."
+
+  - id: 30
+    symbol: T
+    name: Transfiguration
+    description: "The hero is given a new appearance."
+
+  - id: 31
+    symbol: U
+    name: Punishment
+    description: "The villain is punished."
+
+  - id: 32
+    symbol: W
+    name: Wedding
+    description: "The hero is married and ascends the throne."
