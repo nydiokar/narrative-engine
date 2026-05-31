@@ -1,6 +1,6 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-05-31 | **Status:** Phase A (types integration) complete. Phase B (Python scaffold) next.
+**Branch:** `main` | **Last Updated:** 2026-05-31 | **Status:** Phase B (Python scaffold) complete. Phase C (Greimas Engine) next.
 
 ---
 
@@ -9,8 +9,8 @@
 | ID | Task | Priority |
 |:--:|:-----|:--------:|
 | INT-1 | ✅ **[TYPES-INTEGRATION]** types_maps.md integrated — 9 new research files, 6 updated, 4 contracts extended with concrete enums | 🟢 DONE |
-| INT-2 | **[ARCHITECTURE-PHASE-1]** Build Python project scaffold (`pyproject.toml`, Pydantic models from YAML contracts, YAML loaders, logging, config) | 🔴 NOW |
-| INT-3 | **[ARCHITECTURE-PHASE-2]** Implement core Greimas Fabula Coherence Engine — 8 diagnostic checks, 5-question scene diagnostic, action/state validation | 🟡 |
+| INT-2 | ✅ **[ARCHITECTURE-PHASE-1]** Python project scaffold — `pyproject.toml`, 53 Pydantic models, YAML loader, config/logging, 11 tests | 🟢 DONE |
+| INT-3 | **[ARCHITECTURE-PHASE-2]** Implement core Greimas Fabula Coherence Engine — 8 diagnostic checks, 5-question scene diagnostic, action/state validation | 🔴 NOW |
 | INT-4 | **[ARCHITECTURE-PHASE-3]** Implement agent modules — Showrunner orchestration loop, contract read/write for each agent, LLM call stubs | 🟡 |
 | INT-5 | **[ARCHITECTURE-PHASE-4]** Implement two-gate evaluation system (hard gate + soft gate), editorial pass pipeline, cliché detection | ⚪ |
 | INT-6 | **[ARCHITECTURE-PHASE-5]** Integration test: generate a complete story from seed to final draft through the full pipeline | ⚪ |
@@ -54,7 +54,7 @@ The narrative-engine repository was scaffolded from scratch in this session:
 
 **4 contracts extended:** `story-contract.yaml` (premise_type, ending_type), `scene-contract.yaml` (scene_type), `episode-contract.yaml` (sequence_type, stakes_type), `conflict-contract.yaml` (classical_type, operations, quality_level)
 
-**Pending for Phase B:** Python project scaffold
+**Phase B complete:** Python project scaffold with `pyproject.toml`, 53 Pydantic models (all contracts), YAML loader with validation, config/settings module, 11 passing tests (zero warnings).
 
 **Key decisions:**
 - Greimas sits above Propp in the pipeline: Greimas defines *why* (structural necessity); Propp defines *how* (functional morphology).
@@ -109,19 +109,23 @@ New contracts added: theme, conflict, discourse, chapter.
 | Research | `research/*.md` | 15 domain research files |
 | Docs | `docs/` | System overview, theory notes, glossary |
 | Templates | `templates/` | 6 YAML templates |
-| Types (pending) | `../types_maps.md` | 1130-line user type map (not yet integrated) |
+| Python source | `src/` | `models.py`, `loader.py`, `config.py` |
+| Tests | `tests/` | 11 smoke tests for all contract models |
 
 ### Repository Growth
 
 | Metric | Value |
 |:-------|:------|
-| Total files | 81 |
+| Total files (spec) | 81 |
 | Research files | 15 |
 | Agent role cards | 20 |
-| Contract schemas | 10 |
+| Contract schemas (YAML) | 10 |
 | Workflow stages | 8 |
 | Template files | 6 |
 | Core model files | 8 |
+| Python source files | 7 |
+| Python test files | 1 |
+| Lines of Python | 1017 |
 
 ---
 
