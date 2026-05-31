@@ -7,11 +7,101 @@ There is no universally accepted exhaustive taxonomy for all character archetype
 | Layer | Framework | Purpose |
 |-------|-----------|---------|
 | **Function** | Propp / Greimas actantial roles | What structural role does the character serve in the fabula? |
+| **Dramatic Role** | Dramatic personae (23 roles) | What is the character's theatrical function in the narrative? |
+| **Archetype** | Jungian archetypes | What symbolic/collective pattern does the character embody? |
 | **Personality** | Five-Factor Model (Big Five) | Broad trait dimensions: Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism |
 | **Values** | Schwartz Theory of Basic Values (10/19 values) | What does the character see as worth pursuing? |
 | **Social Mode** | Relational Models Theory (4 elementary models) | How does the character relate to others? |
 | **Attachment** | Attachment frameworks | How does the character behave under relational threat? |
+| **Enneagram** | Enneagram (fiction-use map) | Motivation/fear generator — fear + desire pair |
 | **Narratological** | GOLEM + computational character ontologies | Structured attributes, relations, setting/event links |
+
+## Dramatic Roles (Functional)
+
+| Role | Definition |
+|------|------------|
+| **Protagonist** | Central character; drives the action |
+| **Antagonist** | Opposes the protagonist |
+| **Deuteragonist** | Second most important character |
+| **Foil** | Contrasts with protagonist to highlight traits |
+| **Mentor** | Guides or teaches the protagonist |
+| **Ally** | Supports the protagonist |
+| **Rival** | Competes with the protagonist |
+| **Love Interest** | Object of romantic desire |
+| **Trickster** | Undermines certainty; causes chaos |
+| **Guardian** | Tests or protects the threshold |
+| **Threshold Figure** | Guards the entrance to a new world/state |
+| **False Ally** | Appears allied but is not |
+| **False Hero** | Claims heroic status falsely |
+| **Betrayer** | Switches sides |
+| **Witness** | Observes; provides perspective |
+| **Victim** | Suffers without agency |
+| **Tempter** | Offers temptation |
+| **Judge** | Evaluates or passes sentence |
+| **Messenger** | Brings information or a call to action |
+| **Protector** | Defends someone weaker |
+| **Comic Relief** | Provides humour; reduces tension |
+| **Moral Compass** | Embodies the story's ethical position |
+| **Shadow Self** | Dark mirror of the protagonist |
+
+Dramatic roles differ from actantial roles (Greimas): a Protagonist is a dramatic position; a Subject is an actantial position. One character can be both, but the layers are not equivalent.
+
+## Propp Roles
+
+| Role | Function |
+|------|----------|
+| **Hero** | The seeker or victim-hero |
+| **Villain** | Causes harm or lacks |
+| **Donor** | Provides magical agent or test |
+| **Helper** | Aids the hero |
+| **Princess / Sought-for Person** | The object of the quest |
+| **Dispatcher** | Sends the hero |
+| **False Hero** | Claims without deserving |
+
+Propp's dramatis personae are role-functions, not personality types. One character can occupy several functions across the narrative.
+
+## Greimas Actants
+
+| Actant | Definition |
+|--------|------------|
+| **Subject** | Pursues the Object |
+| **Object** | Value sought (abstract or concrete) |
+| **Sender** | Initiates the quest / gives mandate |
+| **Receiver** | Benefits from the Object |
+| **Helper** | Enables the Subject |
+| **Opponent** | Blocks the Subject |
+
+**Important**: Character ≠ actant. One character can shift actantial position. One actant can be distributed across multiple characters, institutions, objects, or internal forces.
+
+The Object can be abstract: truth, legitimacy, love, recognition, freedom, power, restoration.
+
+## Jungian/Archetypal Fiction Roles
+
+| Archetype | Core Drive |
+|-----------|------------|
+| **Hero** | Slay dragons, overcome |
+| **Shadow** | Confront the repressed |
+| **Mentor** | Guide the seeker |
+| **Anima / Animus** | Encounter the inner other |
+| **Self** | Achieve wholeness |
+| **Persona** | Wear the social mask |
+| **Trickster** | Break the pattern |
+| **Wise Old Figure** | Dispense hard-won truth |
+| **Great Mother** | Nurture or devour |
+| **Child** | Innocence or new beginning |
+| **Sage** | Seek knowledge |
+| **Innocent** | Believe the best |
+| **Explorer** | Venture into the unknown |
+| **Ruler** | Take control, bring order |
+| **Creator** | Build something new |
+| **Caregiver** | Protect and nurture |
+| **Magician** | Transform reality |
+| **Outlaw** | Break the rules |
+| **Lover** | Connect with others |
+| **Jester** | Enjoy the moment |
+| **Everyperson** | Fit in, belong |
+
+Jungian archetypes remain influential in narrative and media analysis, but they are not empirical personality science. Use them as symbolic/story tools, not factual psychology.
 
 ## Five-Factor Model (Personality)
 
@@ -57,6 +147,24 @@ Characters can operate in different models depending on context.
 - Fearful-avoidant
 
 Attachment patterns govern character behaviour under relationship conflict, loss, and intimacy.
+
+## Enneagram (Fiction-Use Map)
+
+Use as a motivation/fear generator, not as science.
+
+| Type | Core Fear | Core Desire |
+|------|-----------|-------------|
+| 1 Reformer | Corruption | Integrity |
+| 2 Helper | Being unloved | Love/worth |
+| 3 Achiever | Worthlessness | Value/success |
+| 4 Individualist | No identity | Uniqueness |
+| 5 Investigator | Helplessness | Competence |
+| 6 Loyalist | Insecurity | Safety |
+| 7 Enthusiast | Deprivation | Freedom/options |
+| 8 Challenger | Control/weakness | Autonomy/power |
+| 9 Peacemaker | Separation | Peace/wholeness |
+
+The Enneagram is widely used for fears/desires, but its scientific validation is disputed; treat it as a creative taxonomy.
 
 ## Integration
 

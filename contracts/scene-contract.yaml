@@ -18,6 +18,8 @@ scene:
         emotion: "<plutchik_emotion>"
         intensity: "<low|medium|high>"
 
+  scene_type: "<introduction|inciting|decision|discovery|confrontation|interrogation|seduction|betrayal|reversal|revelation|training|test|negotiation|escape|chase|battle|quiet_aftermath|recognition|judgment|sacrifice|temptation|false_victory|dark_night|climax|resolution|epilogue>"
+
   greimas_diagnostic:
     question_1_state_before: "<string>"
     question_2_action_occurs: "<string>"

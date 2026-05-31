@@ -7,6 +7,10 @@ conflict_contract:
   global_conflicts:
     - id: "<conflict_id>"
       type: "<internal|interpersonal|institutional|environmental|epistemic|metaphysical|systemic>"
+      classical_type: "<person_vs_person|person_vs_self|person_vs_society|person_vs_nature|person_vs_fate|person_vs_technology|person_vs_supernatural|person_vs_god|person_vs_institution|person_vs_memory|person_vs_time|person_vs_desire>"
+      operations:
+        - "<block|delay|steal|hide|corrupt|counterfeit|tempt|deceive|forbid|punish|misrecognize|displace|invert|trap|exploit|reveal|transfer|sacrifice|destroy|transform>"
+      quality_level: "<weak|good|strong|great|tragic|mythic>"
       description: "<string>"
       primary_actants: ["<actant_id>"]
       object_of_value: "<object_id>"

@@ -6,6 +6,8 @@ story:
   id: "<uuid>"
   title: "<string>"
   premise: "<string>"
+  premise_type: "<quest|escape|revenge|discovery|transformation|survival|mystery|forbidden_desire|fall_from_grace|rise_to_power|redemption|corruption|coming_of_age|conspiracy|invasion|rescue|return_home|double_life|hidden_identity|impossible_choice|moral_test|social_ascent|social_exile|monster_confrontation|world_restoration|truth_revelation|inheritance|sacrifice|rebellion|cursed_fate>"
+  ending_type: "<restoration|transformation|tragic|bittersweet|pyrrhic_victory|ambiguous|circular|open|revelatory|ironic|redemptive|corruption|sacrificial|false_happy|cosmic_horror|romantic_union|romantic_separation|coming_home|exile|ascension|fall>"
   logline: "<string>"
   hook: "<string>"
 

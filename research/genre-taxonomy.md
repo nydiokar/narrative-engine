@@ -55,3 +55,57 @@ FIC009000 Fantasy
 ```
 
 The engine navigates this tree to select the most specific valid classification.
+
+## Major Genre Map
+
+| Genre | Core Experience | Common Stakes |
+|-------|-----------------|---------------|
+| **Fantasy** | Wonder, power, myth, transformation | World restoration, power, identity |
+| **Science Fiction** | Possibility, consequence, systems, future shock | Survival, truth, freedom |
+| **Horror** | Dread, violation, survival, forbidden knowledge | Life/death, soul/damnation, sanity |
+| **Thriller** | Threat, speed, pursuit, reversals | Life/death, freedom/captivity, truth |
+| **Mystery** | Curiosity, clues, revelation, hidden truth | Truth/ignorance, justice/corruption |
+| **Crime** | Transgression, law, corruption, moral compromise | Justice/corruption, power/subjugation |
+| **Romance** | Desire, intimacy, obstacle, union/separation | Love/loss, belonging/exile |
+| **Historical** | Immersion, continuity, period conflict | Legacy, justice, freedom |
+| **Literary** | Interiority, language, ambiguity, meaning | Identity, memory, meaning |
+| **Adventure** | Movement, danger, discovery, resourcefulness | Survival, freedom, discovery |
+| **War** | Sacrifice, loyalty, trauma, survival | Life/death, honour/shame, legacy |
+| **Satire** | Exposure, ridicule, social critique | Truth/comfort, justice/corruption |
+| **Comedy** | Disorder, misrecognition, release, renewal | Belonging, love, identity |
+| **Tragedy** | Flaw, inevitability, loss, recognition | Power, honour, identity |
+
+## Genre Promises (Reader Contract)
+
+Each genre carries an implicit promise to the reader:
+
+| Genre | Promise |
+|-------|---------|
+| **Fantasy** | Wonder, power, myth, transformation |
+| **Science Fiction** | Possibility, consequence, systems, future shock |
+| **Horror** | Dread, violation, survival, forbidden knowledge |
+| **Thriller** | Threat, speed, pursuit, reversals |
+| **Mystery** | Curiosity, clues, revelation, hidden truth |
+| **Crime** | Transgression, law, corruption, moral compromise |
+| **Romance** | Desire, intimacy, obstacle, union/separation |
+| **Historical** | Immersion, continuity, period conflict |
+| **Literary** | Interiority, language, ambiguity, meaning |
+| **Adventure** | Movement, danger, discovery, resourcefulness |
+| **War** | Sacrifice, loyalty, trauma, survival |
+| **Satire** | Exposure, ridicule, social critique |
+| **Comedy** | Disorder, misrecognition, release, renewal |
+| **Tragedy** | Flaw, inevitability, loss, recognition |
+
+## Genre Selection Logic
+
+Genre should be inferred from the seed, not chosen first. Selection heuristics:
+
+| Seed Characteristic | Likely Genre(s) |
+|--------------------|-----------------|
+| Forbidden knowledge | Mystery, horror, dark academia, sci-fi |
+| Lost order | Fantasy, dystopian, historical, epic |
+| Desire blocked by society | Romance, literary, historical |
+| System corruption | Crime, thriller, dystopia, satire |
+| Identity formation | Coming-of-age, literary, fantasy |
+| Power and cost | Fantasy, political thriller, tragedy |
+| Survival under pressure | Thriller, horror, war, adventure |

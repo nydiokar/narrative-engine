@@ -1,6 +1,6 @@
 # Narrative Engine — Project Context
 
-**Branch:** `master` | **Last Updated:** 2026-05-31 | **Status:** Specification scaffold complete (81 files); architecture confirmed; types_maps.md integration pending; implementation phase not yet started.
+**Branch:** `main` | **Last Updated:** 2026-05-31 | **Status:** Phase A (types integration) complete. Phase B (Python scaffold) next.
 
 ---
 
@@ -8,8 +8,8 @@
 
 | ID | Task | Priority |
 |:--:|:-----|:--------:|
-| INT-1 | **[TYPES-INTEGRATION]** Integrate `types_maps.md` (1130 lines) into structured research/ files, contract enums, and taxonomies — premise types, scene types, sequence types, stakes, endings, character layers, conflict ops, world types, theme families, tone/style maps, selection logic, cliché/freshness logic, and integration with existing Greimas/Propp contracts. | 🔴 NOW |
-| INT-2 | **[ARCHITECTURE-PHASE-1]** Build Python project scaffold (`pyproject.toml`, Pydantic models from YAML contracts, YAML loaders, logging, config) | 🔴 NEXT |
+| INT-1 | ✅ **[TYPES-INTEGRATION]** types_maps.md integrated — 9 new research files, 6 updated, 4 contracts extended with concrete enums | 🟢 DONE |
+| INT-2 | **[ARCHITECTURE-PHASE-1]** Build Python project scaffold (`pyproject.toml`, Pydantic models from YAML contracts, YAML loaders, logging, config) | 🔴 NOW |
 | INT-3 | **[ARCHITECTURE-PHASE-2]** Implement core Greimas Fabula Coherence Engine — 8 diagnostic checks, 5-question scene diagnostic, action/state validation | 🟡 |
 | INT-4 | **[ARCHITECTURE-PHASE-3]** Implement agent modules — Showrunner orchestration loop, contract read/write for each agent, LLM call stubs | 🟡 |
 | INT-5 | **[ARCHITECTURE-PHASE-4]** Implement two-gate evaluation system (hard gate + soft gate), editorial pass pipeline, cliché detection | ⚪ |
@@ -45,6 +45,16 @@ The narrative-engine repository was scaffolded from scratch in this session:
 | **Professional Role Stack** | Replaced simple agent list with full production pipeline: Showrunner → Script Editor → Theme Specialist → Structuralist → Character Simulator → Dialogue Specialist → World Researcher → Outline/Chapter Planners → Continuity Editor → Critic → Editorial Editors (developmental/line/copy/proof) → Revision Agent | `agents/*` (12 new, 8 updated) |
 | **Workflow Restructure** | Re-aligned 8 workflows (00-07) to the operating sequence from the research: brief/taxonomy → seed → structure → episodes → scenes → draft → editorial passes → critique/revision | `workflows/*` (8 files, 6 superseded originals removed) |
 | **User types_maps.md received** | 1130-line type map received at end of session (premise types, scene types, sequence types, stakes, endings, character taxonomies, conflict operations, world types, theme families, tone/style/voice maps, relationship archetypes, symbolism, selection logic, cliché/freshness, integrated Greimas+Propp contracts, full agent role definitions, LLM pipeline spec, story quality definition, master prompt structure) | `types_maps.md` (in repo root, not yet integrated) |
+
+### May 31, 2026 — Phase A: types_maps.md Integrated ✅
+
+**9 new research files:** `premise-types.md`, `scene-types.md`, `sequence-types.md`, `stakes-types.md`, `ending-types.md`, `tone-style-maps.md`, `relationship-archetypes.md`, `symbolism-motifs.md`, `story-definition.md`
+
+**6 updated research files:** `character-layers.md` (dramatic roles, Jungian, Enneagram), `motivation-stack.md` (desires, fears, wounds, needs), `conflict-types.md` (classical types, operations, quality levels), `worldbuilding-dimensions.md` (world types, spectrums, functions), `theme-ontology.md` (theme families, moral questions, expression channels), `genre-taxonomy.md` (genre promises, selection logic), `selection-logic.md` (matrix compatibility, rejection rules), `cliche-definition.md` (signals, generators, formula), `story-components.md` (plot structure systems)
+
+**4 contracts extended:** `story-contract.yaml` (premise_type, ending_type), `scene-contract.yaml` (scene_type), `episode-contract.yaml` (sequence_type, stakes_type), `conflict-contract.yaml` (classical_type, operations, quality_level)
+
+**Pending for Phase B:** Python project scaffold
 
 **Key decisions:**
 - Greimas sits above Propp in the pipeline: Greimas defines *why* (structural necessity); Propp defines *how* (functional morphology).

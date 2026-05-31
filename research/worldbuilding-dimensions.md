@@ -29,6 +29,90 @@ Worldbuilding is modelled as a set of axis sliders rather than categorical types
 | Technological Level | Prehistoric → Medieval → Industrial → Information → Post-human |
 | Social Complexity | Homogeneous → Stratified → Complex → Fractured |
 
+## World Types
+
+| Type | Description |
+|------|-------------|
+| **Realist Contemporary** | Present-day, grounded in actual reality |
+| **Historical** | A specific past period, researched |
+| **Alternate History** | A past that diverges from known history |
+| **Near Future** | Imminent future, extrapolated from present |
+| **Far Future** | Distant future, speculative |
+| **Secondary Fantasy World** | Entirely invented world with its own rules |
+| **Portal World** | A gateway connects our world to another |
+| **Hidden World** | A secret world coexists with our own |
+| **Post-Apocalyptic** | After a civilisation-ending event |
+| **Dystopian** | An oppressive societal structure |
+| **Utopian** | A seemingly perfect society (often with hidden cost) |
+| **Decaying Empire** | A once-great civilisation in decline |
+| **Frontier World** | A boundary between settled and wild |
+| **City-State World** | Power centres are individual city-states |
+| **Underworld** | A realm of the dead or beneath the known world |
+| **War-Torn World** | Active or recent large-scale conflict |
+| **Colonized World** | One culture dominates another |
+| **Surveillance World** | Total monitoring and control |
+| **Mythic World** | Shaped by mythic forces and archetypes |
+| **Dream World** | Landscape of the subconscious |
+| **Artificial Simulation** | A constructed reality |
+| **Religious Cosmology** | A world structured by divine order |
+| **Haunted World** | Ghosts, residues, or repeating past trauma |
+| **Corporate World** | Organisations as the primary power |
+| **Criminal Underworld** | Illegal economies and power structures |
+| **Academic World** | Universities, research, intellectual contest |
+| **Court/Palace World** | Royal or imperial politics |
+| **Monastic World** | Religious or ascetic communities |
+| **Nomadic World** | Mobile cultures, temporary settlements |
+| **Island World** | Confined geography, limited resources |
+| **Closed-Room World** | A single confined space (mystery, thriller) |
+
+## World Spectrums
+
+| Spectrum | Pole A | Pole B |
+|----------|--------|--------|
+| Order ↔ Chaos | Rigid structure | Anarchy |
+| Sacred ↔ Profane | Divine significance | Mundane, secular |
+| Soft ↔ Hard | Rules are flexible | Rules are rigorous |
+| Ancient ↔ Futuristic | Old, traditional | New, advanced |
+| Closed ↔ Open | Restricted, hidden | Accessible, known |
+| Abundant ↔ Scarce | Plenty | Shortage |
+| Hierarchical ↔ Egalitarian | Ranked power | Equal standing |
+| Visible ↔ Hidden Power | Power is obvious | Power is concealed |
+| Lawful ↔ Corrupt | Rules are followed | Rules are broken |
+| Stable ↔ Collapsing | Enduring | Falling apart |
+| Human-scale ↔ Cosmic-scale | Personal | Universal |
+| Rational ↔ Magical | Logic-based | Supernatural |
+| Personal ↔ Institutional | Individual power | Organisational power |
+| Urban ↔ Wilderness | City | Untamed |
+| Local ↔ Global | Small scope | World-spanning |
+| Beautiful ↔ Grotesque | Pleasing | Repulsive |
+| Warm ↔ Cold | Welcoming | Harsh |
+| Light ↔ Dark | Hope | Gloom |
+| Natural ↔ Artificial | Organic | Constructed |
+| Free ↔ Controlled | Liberty | Restriction |
+| Known ↔ Unknown | Mapped, understood | Mysterious, unexplored |
+
+## World Functions
+
+How the world serves the narrative:
+
+| Function | Description |
+|----------|-------------|
+| **World as Obstacle** | The world actively hinders the protagonist |
+| **World as Mirror of Theme** | The world's structure embodies the theme |
+| **World as Antagonist** | The world itself is the opposing force |
+| **World as Temptation** | The world offers allure and distraction |
+| **World as Prison** | The world confines and restricts |
+| **World as Inheritance** | The world is a legacy to be claimed or rejected |
+| **World as Wound** | The world is damaged and needs healing |
+| **World as Mystery** | The world conceals a truth to be discovered |
+| **World as Moral Test** | The world forces ethical choices |
+| **World as Decaying Order** | The world's structures are eroding |
+| **World as False Paradise** | The world appears ideal but is not |
+| **World as Machine** | The world operates by deterministic rules |
+| **World as Dream** | The world is fluid, subjective, mutable |
+| **World as Battlefield** | The world is defined by conflict |
+| **World as Sanctuary** | The world offers refuge |
+
 ## Role in the System
 
 Worldbuilding dimensions feed into:

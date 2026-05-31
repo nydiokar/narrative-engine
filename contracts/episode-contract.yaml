@@ -24,6 +24,9 @@ episode:
     sanction_or_judgment: "<string>"
     contribution_to_whole_fabula: "<string>"
 
+  sequence_type: "<quest|investigation|training|pursuit|infiltration|courtship|trial|battle|escape|descent|revelation|transformation|betrayal|reconciliation|corruption|redemption|return>"
+  stakes_type: "<life_death|freedom_captivity|love_loss|truth_ignorance|honor_shame|belonging_exile|power_subjugation|identity_erasure|memory_oblivion|order_chaos|justice_corruption|survival_extinction|family_separation|community_collapse|soul_damnation|legacy_meaninglessness|future_stagnation|innocence_corruption|recognition_invisibility|autonomy_control>"
+
   canonical_phase: "<manipulation|competence|performance|sanction>"
   narrative_programs: ["<narrative_program_id>"]
   functions: ["<propp_function_symbol>"]
