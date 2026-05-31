@@ -16,6 +16,8 @@ class Showrunner(BaseAgent):
     def execute(self, context: AgentContext) -> AgentResult:
         self.log("info", f"Executing workflow step: {context.step_id}")
 
+        if context.step_id == "review_brief":
+            return self._review_brief(context)
         if context.step_id == "approve_brief":
             return self._approve_brief(context)
         if context.step_id == "approve_premise":
@@ -30,6 +32,20 @@ class Showrunner(BaseAgent):
             return self._approve_final(context)
 
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
+
+    def _review_brief(self, context: AgentContext) -> AgentResult:
+        """Review the premise viability (workflow 01 step 1)."""
+        stories = self.list_contracts("story")
+        if not stories:
+            return AgentResult(success=False, errors=["No story contract to review"])
+        story = stories[0]
+        has_premise = bool(story.premise) if hasattr(story, "premise") else False
+        if not has_premise:
+            return AgentResult(success=False, errors=["Story premise is empty — cannot proceed"])
+        return AgentResult(
+            success=True,
+            message=f"Brief reviewed for '{getattr(story, 'title', 'untitled')}' — viable",
+        )
 
     def _approve_brief(self, context: AgentContext) -> AgentResult:
         stories = self.list_contracts("story")

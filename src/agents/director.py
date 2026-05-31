@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from logging import Logger
 from typing import Any
 
-from src.agents.base import AgentContext, AgentResult, BaseAgent
+from src.agents.base import AgentContext, AgentResult
 from src.agents.store import ContractStore, get_store
 
 
@@ -110,8 +110,17 @@ class Director:
         for step in steps:
             agent = self.agents.get(step.agent_role)
             if not agent:
-                self.log(f"  No agent registered for '{step.agent_role}' — skipping")
-                continue
+                msg = f"No agent registered for '{step.agent_role}' — required by workflow {workflow_id}"
+                self.log(f"  ERROR: {msg}")
+                results.append(AgentResult(success=False, errors=[msg]))
+                self.execution_log.append({
+                    "workflow": workflow_id,
+                    "agent": step.agent_role,
+                    "step": step.step_id,
+                    "success": False,
+                    "message": msg,
+                })
+                break
 
             context = AgentContext(
                 workflow_id=workflow_id,

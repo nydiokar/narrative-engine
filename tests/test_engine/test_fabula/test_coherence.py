@@ -3,7 +3,7 @@
 import pytest
 
 from src.engine.fabula.coherence import FabulaCoherenceEngine, FabulaCoherenceReport
-from src.contracts.models import FabulaCoherenceCheck
+from src.contracts.models import CoherenceCheckResult
 
 
 class TestFabulaCoherenceEngine:

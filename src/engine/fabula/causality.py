@@ -13,6 +13,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
+from uuid import UUID
 
 
 class CausalityMechanism(str, Enum):
@@ -45,6 +46,7 @@ class CausalityGraph:
     def __init__(self) -> None:
         self.events: dict[str, int] = {}  # event_id -> sequence_number
         self.causal_links: list[CausalLink] = []
+        self._unexplained_modality_shifts: list[str] = []
 
     def add_event(self, event_id: str, sequence_number: int) -> None:
         self.events[event_id] = sequence_number
@@ -56,20 +58,37 @@ class CausalityGraph:
         self, events: list[dict[str, Any]]
     ) -> None:
         for event in events:
-            eid = event.get("id", "")
-            if isinstance(eid, str):
-                seq = event.get("sequence_number", 0)
-                self.add_event(eid, seq)
+            raw_eid = event.get("id", "")
+            eid = str(raw_eid) if not isinstance(raw_eid, str) else raw_eid
+            if not eid:
+                continue
+            seq = event.get("sequence_number", 0)
+            self.add_event(eid, seq)
 
-                predecessors = event.get("causal_predecessors", [])
-                for pred_id in predecessors:
-                    mechanism_str = event.get("causality_mechanism", "physical")
-                    mechanism = CausalityMechanism(mechanism_str)
-                    self.add_link(CausalLink(
-                        cause_id=str(pred_id),
-                        effect_id=eid,
-                        mechanism=mechanism,
-                    ))
+            predecessors = event.get("causal_predecessors", [])
+            for pred_id in predecessors:
+                mechanism_str = event.get("causality_mechanism", "physical")
+                if mechanism_str not in ("physical", "psychological", "social", "magical"):
+                    mechanism_str = "physical"
+                mechanism = CausalityMechanism(mechanism_str)
+                self.add_link(CausalLink(
+                    cause_id=str(pred_id),
+                    effect_id=eid,
+                    mechanism=mechanism,
+                ))
+
+            # Check modality conservation (axiom 4)
+            modality_changes = event.get("modality_changes", [])
+            for mc in modality_changes:
+                trigger = mc.get("trigger", mc.get("cause", ""))
+                if not trigger:
+                    from_state = mc.get("from", "?")
+                    to_state = mc.get("to", "?")
+                    mod = mc.get("modality", "?")
+                    self._unexplained_modality_shifts.append(
+                        f"Event '{eid}': {mod} changed {from_state}→{to_state} "
+                        "with no trigger"
+                    )
 
     def get_ancestors(self, event_id: str) -> set[str]:
         ancestors: set[str] = set()
@@ -130,6 +149,8 @@ class CausalityGraph:
                         pass  # Indirect chain exists by definition via get_descendants
 
         is_valid = len(issues) == 0
+        unexplained_modality_shifts = self._unexplained_modality_shifts[:]
+        issues.extend(unexplained_modality_shifts)
         return CausalityValidationResult(
             is_valid=is_valid,
             issues=issues,

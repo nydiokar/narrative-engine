@@ -512,6 +512,12 @@ class CharacterContract(BaseModel):
     relationships: list[Relationship] = Field(default_factory=list)
 
 
+class ValueTrajectory(BaseModel):
+    initial_definition: str = ""
+    transformations: list[str] = Field(default_factory=list)
+    final_definition: str = ""
+
+
 class ObjectOfValueContract(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     name: str
@@ -522,6 +528,7 @@ class ObjectOfValueContract(BaseModel):
     current_possessor: str = ""
     desired_by: list[str] = Field(default_factory=list)
     significance: str = ""
+    narrative_trajectory: ValueTrajectory = Field(default_factory=ValueTrajectory)
 
 
 class EpistemicState(BaseModel):
@@ -533,6 +540,12 @@ class EpistemicState(BaseModel):
     misbeliefs: list[tuple[str, str]] = Field(default_factory=list)
 
 
+class ModalityChangeRecord(BaseModel):
+    modality: str = ""
+    change: str = ""
+    source_or_cause: str = ""
+
+
 class GreimasEpisodeTracking(BaseModel):
     subject: str = ""
     object_of_value: str = ""
@@ -541,8 +554,7 @@ class GreimasEpisodeTracking(BaseModel):
     opponent: str = ""
     opponent_value_logic: str = ""
     helper: str = ""
-    modality_gained: str = ""
-    modality_lost: str = ""
+    modality_gained_or_lost: ModalityChangeRecord = Field(default_factory=ModalityChangeRecord)
     action_type: str = ""
     resulting_state: str = ""
     sanction_or_judgment: str = ""
@@ -662,24 +674,40 @@ class ConflictContract(BaseModel):
     per_scene_conflict_load: list[SceneConflictLoad] = Field(default_factory=list)
 
 
+class DiscourseEvent(BaseModel):
+    at_point: str = ""
+    change_parameter: str = ""
+    change_from: str = ""
+    change_to: str = ""
+    justification: str = ""
+
+
 class DiscourseContract(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     story_id: UUID | None = None
     point_of_view: POV = POV.THIRD_LIMITED
     tense: Tense = Tense.PAST
+    focalisation: str = "internal"
     voice_register: str = "neutral"
+    diction: str = "standard"
+    sentence_rhythm: str = "mixed"
+    metaphor_density: str = "moderate"
     temporal_handling: str = "chronological"
+    flashback_permitted: bool = False
+    flash_forward_permitted: bool = False
     exposition_strategy: str = "integrated"
     suspense_strategy: str = "suspense"
-    discourse_events: list[dict] = Field(default_factory=list)
+    dialogue_mode: str = "direct"
+    discourse_events: list[DiscourseEvent] = Field(default_factory=list)
 
 
 class CritiqueDimensionScore(BaseModel):
+    pass_: bool = False
     value: int = Field(default=0, ge=0, le=10)
     issues: list[str] = Field(default_factory=list)
 
 
-class FabulaCoherenceCheck(BaseModel):
+class CoherenceCheckResult(BaseModel):
     check: str
     pass_: bool = Field(default=False, alias="pass")
     violations: list[str] = Field(default_factory=list)
@@ -692,7 +720,7 @@ class CritiqueContract(BaseModel):
     reviewer: str = "critic"
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
-    greimas_checks: list[FabulaCoherenceCheck] = Field(default_factory=list)
+    greimas_checks: list[CoherenceCheckResult] = Field(default_factory=list)
 
     coherence: CritiqueDimensionScore = Field(default_factory=CritiqueDimensionScore)
     completeness: CritiqueDimensionScore = Field(default_factory=CritiqueDimensionScore)
@@ -702,4 +730,19 @@ class CritiqueContract(BaseModel):
 
     verdict: str = "fail"
     summary: str = ""
+    revision_instructions: list[str] = Field(default_factory=list)
     revision_actions: list[dict] = Field(default_factory=list)
+
+
+class WorldDimension(BaseModel):
+    axis: str = ""
+    value: float = 0.0
+    description: str = ""
+
+
+class WorldContract(BaseModel):
+    id: UUID = Field(default_factory=uuid4)
+    name: str = ""
+    dimensions: list[WorldDimension] = Field(default_factory=list)
+    rules: list[str] = Field(default_factory=list)
+    description: str = ""

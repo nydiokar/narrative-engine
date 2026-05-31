@@ -64,11 +64,18 @@ class ModalityValidator:
         wanting: ModalityState,
         having_to: ModalityState,
     ) -> bool:
-        """Rule 3: Conflict when wanting ≠ having_to."""
+        """Rule 3: Conflicting modalities generate narrative tension.
+
+        Tension exists when the actant's desire and obligation pull in
+        opposite directions:
+        - Wants to act but is not obligated (free desire)
+        - Does not want to act but is forced (coerced)
+        - Indifferent but obligated (reluctant duty)
+        """
         return (
-            wanting == ModalityState.DESIRES and having_to == ModalityState.FREE
-        ) or (
-            wanting == ModalityState.REJECTS and having_to == ModalityState.OBLIGATED
+            (wanting == ModalityState.DESIRES and having_to != ModalityState.OBLIGATED)
+            or (wanting == ModalityState.REJECTS and having_to == ModalityState.OBLIGATED)
+            or (wanting == ModalityState.INDIFFERENT and having_to == ModalityState.OBLIGATED)
         )
 
     @staticmethod

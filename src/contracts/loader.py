@@ -19,6 +19,7 @@ from src.contracts.models import (
     SceneContract,
     StoryContract,
     ThemeContract,
+    WorldContract,
 )
 
 CONTRACT_REGISTRY: dict[str, type] = {
@@ -32,6 +33,7 @@ CONTRACT_REGISTRY: dict[str, type] = {
     "conflict": ConflictContract,
     "discourse": DiscourseContract,
     "critique": CritiqueContract,
+    "world": WorldContract,
 }
 
 
@@ -48,7 +50,7 @@ def load_yaml(path: str | Path) -> dict[str, Any]:
 
 def detect_contract_type(data: dict[str, Any]) -> tuple[str, type]:
     """Detect the contract type from the data dict and return (type_key, model_class)."""
-    for type_key in "story", "character", "episode", "scene", "chapter", "theme", "conflict", "discourse", "critique", "object_of_value":
+    for type_key in "story", "character", "episode", "scene", "chapter", "theme", "conflict", "discourse", "critique", "object_of_value", "world":
         if type_key in data:
             return type_key, CONTRACT_REGISTRY[type_key]
     msg = f"Cannot detect contract type — data keys: {list(data.keys())}"
@@ -56,10 +58,18 @@ def detect_contract_type(data: dict[str, Any]) -> tuple[str, type]:
 
 
 def load_contract(path: str | Path) -> Any:
-    """Load and validate a single YAML contract file."""
+    """Load and validate a single YAML contract file.
+
+    YAML files use a root key (e.g. story:, character:). This function
+    unwraps the root key so Pydantic models receive the inner fields directly.
+    """
     data = load_yaml(path)
-    _, model_class = detect_contract_type(data)
-    return model_class.model_validate(data)
+    type_key, model_class = detect_contract_type(data)
+    inner = data[type_key]
+    if not isinstance(inner, dict):
+        msg = f"Expected a mapping under '{type_key}' in {path}"
+        raise ValueError(msg)
+    return model_class.model_validate(inner)
 
 
 def load_all_contracts(directory: str | Path, glob_pattern: str = "*.yaml") -> dict[str, list]:

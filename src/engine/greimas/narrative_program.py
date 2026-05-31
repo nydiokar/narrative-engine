@@ -80,12 +80,14 @@ class CanonicalSchemaChecker:
         """Check that phases are completed in canonical order with no gaps."""
         issues: list[str] = []
         last_completed_index = -1
+        seen_any = False
 
         for phase in PHASE_ORDER:
             completed = completed_phases.get(phase.value, False)
             idx = PHASE_INDEX[phase]
 
             if completed:
+                seen_any = True
                 if last_completed_index >= 0 and idx > last_completed_index + 1:
                     gap_phases = [
                         p.value for p in PHASE_ORDER[last_completed_index + 1 : idx]
@@ -95,6 +97,18 @@ class CanonicalSchemaChecker:
                         f"{', '.join(gap_phases)} not completed"
                     )
                 last_completed_index = idx
+
+        # If first completed phase isn't MANIPULATION, report leading gap
+        if seen_any and last_completed_index > 0:
+            missing_leading = [
+                p.value for p in PHASE_ORDER[:last_completed_index]
+                if not completed_phases.get(p.value, False)
+            ]
+            if missing_leading:
+                issues.append(
+                    f"Phases '{', '.join(missing_leading)}' not completed before "
+                    f"'{PHASE_ORDER[last_completed_index].value}'"
+                )
 
         return issues
 

@@ -33,15 +33,13 @@ class SceneWriter(BaseAgent):
                     chapter_id=ch.id,
                     sequence_number=i,
                     setting_location="unknown",
-                    greimas={
-                        "state_before": "Initial state",
-                        "action_occurs": "Key action",
-                        "state_after": "Transformed state",
-                        "value_object_change": "transferred",
-                        "future_action_possible_or_blocked": "Next scene enabled",
-                        "pass": True,
-                    } if hasattr(SceneContract, "greimas") else {},
                 )
+                sc.greimas_diagnostic.state_before = "Initial state"
+                sc.greimas_diagnostic.action_occurs = "Key action"
+                sc.greimas_diagnostic.state_after = "Transformed state"
+                sc.greimas_diagnostic.value_object_change = "transferred"
+                sc.greimas_diagnostic.future_action_possible_or_blocked = "Next scene enabled"
+                sc.greimas_diagnostic.diagnostic_pass = True
                 sid = self.write_contract("scene", sc)
                 artifacts.append(sid)
         return AgentResult(

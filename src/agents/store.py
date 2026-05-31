@@ -6,12 +6,11 @@ of truth, not agent memory.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Generic, TypeVar
 from uuid import UUID
-
-from src.contracts.loader import CONTRACT_REGISTRY
 
 T = TypeVar("T")
 
@@ -40,9 +39,9 @@ class ContractStore:
 
     def __init__(self) -> None:
         self._contracts: dict[tuple[str, str], ContractEntry] = {}
-        self._subscribers: list[callable] = []
+        self._subscribers: list[Callable[[str, str, str, str], None]] = []
 
-    def subscribe(self, callback: callable) -> None:
+    def subscribe(self, callback: Callable[[str, str, str, str], None]) -> None:
         self._subscribers.append(callback)
 
     def _notify(self, type_key: str, contract_id: str, action: str, agent: str) -> None:

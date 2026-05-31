@@ -14,7 +14,7 @@ class TestSoftGate:
 
     def test_perfect_scores(self):
         gate = SoftGate(threshold=5.0)
-        for dim in gate.DIMENSIONS:
+        for dim in gate.dimensions:
             gate.set_score(dim.name, 10)
         result = gate.evaluate()
         assert result.passed is True
