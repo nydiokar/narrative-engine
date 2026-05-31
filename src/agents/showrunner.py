@@ -13,8 +13,24 @@ class Showrunner(BaseAgent):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(role="showrunner", **kwargs)
 
+    def get_prerequisites(self, step_id: str) -> list[str]:
+        if step_id in ("approve_premise",):
+            return ["story", "character"]
+        if step_id in ("approve_structure",):
+            return ["story", "character", "theme"]
+        if step_id in ("approve_episodes",):
+            return ["story", "episode", "chapter"]
+        return ["story"]
+
     def execute(self, context: AgentContext) -> AgentResult:
         self.log("info", f"Executing workflow step: {context.step_id}")
+
+        missing = self.check_prerequisites(context.step_id)
+        if missing:
+            return AgentResult(
+                success=False,
+                errors=[f"Missing prerequisites: {missing} — go back"],
+            )
 
         if context.step_id == "review_brief":
             return self._review_brief(context)
@@ -34,53 +50,65 @@ class Showrunner(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _review_brief(self, context: AgentContext) -> AgentResult:
-        """Review the premise viability (workflow 01 step 1)."""
         stories = self.list_contracts("story")
-        if not stories:
-            return AgentResult(success=False, errors=["No story contract to review"])
         story = stories[0]
-        has_premise = bool(story.premise) if hasattr(story, "premise") else False
-        if not has_premise:
-            return AgentResult(success=False, errors=["Story premise is empty — cannot proceed"])
+        result = self._call_llm_for_step(context)
         return AgentResult(
-            success=True,
-            message=f"Brief reviewed for '{getattr(story, 'title', 'untitled')}' — viable",
+            success=result.get("success", False),
+            message=result.get("message", ""),
+            errors=result.get("errors", []),
         )
 
     def _approve_brief(self, context: AgentContext) -> AgentResult:
-        stories = self.list_contracts("story")
-        if not stories:
-            return AgentResult(success=False, errors=["No story contract found"])
-        story = stories[0]
-        has_premise = bool(story.premise) if hasattr(story, "premise") else False
-        if not has_premise:
+        story = self.list_contracts("story")[0]
+        if not story.premise:
             return AgentResult(success=False, errors=["Story has no premise"])
+        result = self._call_llm_for_step(context)
         return AgentResult(
-            success=True,
-            message=f"Brief approved for '{getattr(story, 'title', 'untitled')}'",
-            artifacts=[str(story.id)],
+            success=result.get("success", False),
+            message=result.get("message", ""),
+            artifacts=[str(story.id)] if result.get("success") else [],
+            errors=result.get("errors", []),
         )
 
     def _approve_premise(self, context: AgentContext) -> AgentResult:
-        stories = self.list_contracts("story")
-        if not stories:
-            return AgentResult(success=False, errors=["No story contract found"])
-        story = stories[0]
-        has_subject = bool(getattr(story, "subject_id", ""))
+        result = self._call_llm_for_step(context)
+        story = self.list_contracts("story")[0]
         return AgentResult(
-            success=has_subject,
-            message="Premise approved" if has_subject else "Premise missing subject",
-            artifacts=[str(story.id)],
+            success=result.get("success", False),
+            message=result.get("message", ""),
+            artifacts=[str(story.id)] if result.get("success") else [],
+            errors=result.get("errors", []),
         )
 
     def _approve_structure(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Structure approved")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Structure approved"),
+            errors=result.get("errors", []),
+        )
 
     def _approve_episodes(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Episode structure approved")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Episode structure approved"),
+            errors=result.get("errors", []),
+        )
 
     def _assemble_draft(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Draft assembled")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Draft assembled"),
+            errors=result.get("errors", []),
+        )
 
     def _approve_final(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Final version approved")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Final version approved"),
+            errors=result.get("errors", []),
+        )

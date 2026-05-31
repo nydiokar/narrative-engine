@@ -15,7 +15,19 @@ class SceneWriter(BaseAgent):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(role="scene_writer", **kwargs)
 
+    def get_prerequisites(self, step_id: str) -> list[str]:
+        if step_id == "render_prose":
+            return ["chapter", "story"]
+        return ["scene"]
+
     def execute(self, context: AgentContext) -> AgentResult:
+        missing = self.check_prerequisites(context.step_id)
+        if missing:
+            return AgentResult(
+                success=False,
+                errors=[f"Missing prerequisites: {missing} — go back"],
+            )
+
         if context.step_id == "render_prose":
             return self._render_prose(context)
         if context.step_id == "run_greimas_diagnostic":
@@ -25,27 +37,45 @@ class SceneWriter(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _render_prose(self, context: AgentContext) -> AgentResult:
-        chapters = self.list_contracts("chapter")
+        result = self._call_llm_for_step(context)
+
+        contracts_data = result.get("contracts_data", [])
+        if not contracts_data:
+            chapters = self.list_contracts("chapter")
+            fallback = []
+            for ch in chapters:
+                for i in range(2):
+                    fallback.append({
+                        "chapter_id": str(ch.id),
+                        "sequence_number": i,
+                        "setting_location": "unknown",
+                        "greimas_diagnostic": {
+                            "state_before": "Initial state",
+                            "action_occurs": "Key action",
+                            "state_after": "Transformed state",
+                            "value_object_change": "transferred",
+                            "future_action_possible_or_blocked": "Next scene enabled",
+                            "diagnostic_pass": True,
+                        },
+                    })
+            contracts_data = fallback
+
         artifacts = []
-        for ch in chapters:
-            for i in range(2):
-                sc = SceneContract(
-                    chapter_id=ch.id,
-                    sequence_number=i,
-                    setting_location="unknown",
-                )
-                sc.greimas_diagnostic.state_before = "Initial state"
-                sc.greimas_diagnostic.action_occurs = "Key action"
-                sc.greimas_diagnostic.state_after = "Transformed state"
-                sc.greimas_diagnostic.value_object_change = "transferred"
-                sc.greimas_diagnostic.future_action_possible_or_blocked = "Next scene enabled"
-                sc.greimas_diagnostic.diagnostic_pass = True
+        for sc_data in contracts_data:
+            try:
+                sc = SceneContract(**sc_data)
                 sc.conflict_load = ConflictLoad(
                     interpersonal=Intensity.MEDIUM,
                     internal=Intensity.LOW,
                 )
                 sid = self.write_contract("scene", sc)
                 artifacts.append(sid)
+            except Exception as e:
+                return AgentResult(
+                    success=False,
+                    errors=[f"Invalid scene data: {e}"],
+                )
+
         return AgentResult(
             success=True,
             message=f"Rendered {len(artifacts)} scenes",

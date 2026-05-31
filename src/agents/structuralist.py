@@ -5,8 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from src.agents.base import AgentContext, AgentResult, BaseAgent
-from src.engine.greimas.action_state import SceneDiagnosticEngine
-from src.engine.greimas.narrative_program import CanonicalSchemaChecker, EpisodeTrackingValidator, NarrativeProgramData
+from src.contracts.models import StoryContract
 from src.engine.fabula.coherence import FabulaCoherenceEngine
 
 
@@ -16,7 +15,21 @@ class Structuralist(BaseAgent):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(role="structuralist", **kwargs)
 
+    def get_prerequisites(self, step_id: str) -> list[str]:
+        if step_id == "analyze_premise":
+            return ["story"]
+        if step_id in ("build_fabula", "check_constraints"):
+            return ["story", "character"]
+        return ["story"]
+
     def execute(self, context: AgentContext) -> AgentResult:
+        missing = self.check_prerequisites(context.step_id)
+        if missing:
+            return AgentResult(
+                success=False,
+                errors=[f"Missing prerequisites: {missing} — go back"],
+            )
+
         if context.step_id == "analyze_premise":
             return self._analyze_premise(context)
         if context.step_id == "select_backbone":
@@ -28,26 +41,43 @@ class Structuralist(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _analyze_premise(self, context: AgentContext) -> AgentResult:
-        stories = self.list_contracts("story")
-        if not stories:
-            return AgentResult(success=False, errors=["No story contract"])
-        return AgentResult(success=True, message="Premise analyzed")
+        result = self._call_llm_for_step(context)
+        story = self.list_contracts("story")[0]
+
+        # If LLM returned actantial data, update the story contract
+        contract_data = result.get("contract_data")
+        if contract_data and isinstance(contract_data, dict):
+            for field in ("subject_id", "object_of_value_id", "object_of_value_description", "sender_id", "receiver_id"):
+                if field in contract_data:
+                    setattr(story, field, contract_data[field])
+            self.write_contract("story", story)
+
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Premise analyzed"),
+            errors=result.get("errors", []),
+        )
 
     def _select_backbone(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Backbone grammar: Propp (secondary to Greimas)")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Backbone grammar selected"),
+            errors=result.get("errors", []),
+        )
 
     def _build_fabula(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Fabula chain constructed with Greimas diagnostics")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Fabula constructed"),
+            errors=result.get("errors", []),
+        )
 
     def _check_constraints(self, context: AgentContext) -> AgentResult:
-        stories = self.list_contracts("story")
         scenes = self.list_contracts("scene")
-        events_data = []
-        scenes_data = []
-        for s in scenes:
-            d = s.model_dump(mode="json") if hasattr(s, "model_dump") else {}
-            scenes_data.append(d)
-        report = FabulaCoherenceEngine.run_all_checks(events=events_data, scenes=scenes_data)
+        scenes_data = [s.model_dump(mode="json") for s in scenes if hasattr(s, "model_dump")]
+        report = FabulaCoherenceEngine.run_all_checks(events=[], scenes=scenes_data)
         if report.passed:
             return AgentResult(success=True, message="All fabula constraints satisfied")
         return AgentResult(

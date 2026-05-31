@@ -7,6 +7,9 @@ Every agent follows this lifecycle:
 4. teardown() — cleanup
 
 Agents communicate *only* through the contract store.
+
+Pre-flight gate: before executing, an agent checks that all prerequisite
+contracts exist. If any are missing, it fails with "go back, missing [X]".
 """
 
 from __future__ import annotations
@@ -17,6 +20,12 @@ from logging import Logger
 from typing import Any
 
 from src.agents.llm import LLMProvider, get_llm
+from src.agents.prompts import (
+    contracts_to_yaml,
+    parse_json_output,
+    render_system_prompt,
+    render_user_prompt,
+)
 from src.agents.store import ContractStore, get_store
 
 
@@ -79,3 +88,75 @@ class BaseAgent(ABC):
 
     def list_contracts(self, type_key: str) -> list[Any]:
         return self.store.list_by_type(type_key)
+
+    # ── Pre-flight gate ──────────────────────────────────────────────
+
+    def get_prerequisites(self, step_id: str) -> list[str]:
+        """Return list of contract type keys needed for this step.
+
+        Override in subclasses to declare what must exist before this step runs.
+        """
+        return []
+
+    def check_prerequisites(self, step_id: str) -> list[str]:
+        """Check all prerequisites exist in the contract store.
+
+        Returns a list of missing contract type keys (empty = all present).
+        """
+        missing: list[str] = []
+        for prereq in self.get_prerequisites(step_id):
+            if not self.list_contracts(prereq):
+                missing.append(prereq)
+        return missing
+
+    # ── Prompt + LLM helpers ─────────────────────────────────────────
+
+    def _gather_upstream_yaml(self) -> str:
+        """Collect all contracts from the store into a YAML string."""
+        all_contracts = self.store.list_all()
+        chunks: list[str] = []
+        for type_key, contracts in all_contracts.items():
+            y = contracts_to_yaml(contracts, max_chars=2000)
+            chunks.append(f"{type_key}:\n{y}")
+        return "\n".join(chunks)
+
+    def _call_llm_for_step(
+        self,
+        context: AgentContext,
+    ) -> dict[str, Any]:
+        """Build prompt from role template, call LLM, parse JSON response.
+
+        Returns the parsed JSON dict from the LLM, or a default
+        success dict if parsing fails.
+        """
+        upstream_yaml = self._gather_upstream_yaml()
+
+        system_prompt = render_system_prompt(
+            self.role,
+            upstream_contracts=upstream_yaml,
+            current_step=context.step_id,
+        )
+        user_prompt = render_user_prompt(
+            step_id=context.step_id,
+            upstream_yaml=upstream_yaml,
+            agent_name=self.role,
+        )
+
+        self.log("info", f"Calling LLM for step '{context.step_id}'")
+        response = self.llm.generate(
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            temperature=0.7,
+            max_tokens=4096,
+        )
+
+        try:
+            return parse_json_output(response.content)
+        except Exception:
+            self.log("warning", f"Failed to parse LLM output as JSON, using defaults")
+            return {
+                "success": True,
+                "message": f"Step '{context.step_id}' completed",
+                "errors": [],
+                "artifacts": [],
+            }

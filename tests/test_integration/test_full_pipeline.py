@@ -3,7 +3,7 @@
 import pytest
 
 from src.agents.director import WORKFLOW_REGISTRY
-from src.agents.llm import set_llm, MockLLMProvider
+from src.agents.llm import reset_llm, set_llm, MockLLMProvider
 from src.agents.store import get_store, reset_store
 from src.contracts.models import StoryContract
 from src.pipeline.orchestrator import PipelineOrchestrator, default_agent_registry
@@ -12,8 +12,7 @@ from src.pipeline.orchestrator import PipelineOrchestrator, default_agent_regist
 class TestFullPipeline:
     def setup_method(self):
         reset_store()
-        self.mock_llm = MockLLMProvider(fallback="Integration test response.")
-        set_llm(self.mock_llm)
+        reset_llm()  # uses default MockLLMProvider with valid JSON fallback
 
     def _seed_story(self, title: str = "The Crystal Key", premise: str = "A disgraced mage seeks redemption by unlocking a sealed archive that holds the key to stopping an encroaching blight.") -> str:
         store = get_store()

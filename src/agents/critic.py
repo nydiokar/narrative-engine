@@ -5,10 +5,10 @@ from __future__ import annotations
 from typing import Any
 
 from src.agents.base import AgentContext, AgentResult, BaseAgent
+from src.contracts.models import CritiqueContract
+from src.evaluation.cliche import ClicheDetector
 from src.evaluation.hard_gate import HardGate
 from src.evaluation.soft_gate import SoftGate
-from src.evaluation.cliche import ClicheDetector
-from src.contracts.models import CritiqueContract
 
 
 class Critic(BaseAgent):
@@ -17,7 +17,19 @@ class Critic(BaseAgent):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(role="critic", **kwargs)
 
+    def get_prerequisites(self, step_id: str) -> list[str]:
+        if step_id in ("run_hard_gate", "run_soft_gate", "run_greimas_diagnostics"):
+            return ["scene", "story"]
+        return ["scene"]
+
     def execute(self, context: AgentContext) -> AgentResult:
+        missing = self.check_prerequisites(context.step_id)
+        if missing:
+            return AgentResult(
+                success=False,
+                errors=[f"Missing prerequisites: {missing} — go back"],
+            )
+
         if context.step_id == "run_hard_gate":
             return self._run_hard_gate(context)
         if context.step_id == "run_soft_gate":
@@ -41,13 +53,14 @@ class Critic(BaseAgent):
             verdict="pass" if result.passed else "fail",
             summary=result.coherence_report.summary if result.coherence_report else "No report",
         )
-        self.write_contract("critique", critique)
+        cid = self.write_contract("critique", critique)
 
         if result.passed:
-            return AgentResult(success=True, message="Hard gate: PASS")
+            return AgentResult(success=True, message="Hard gate: PASS", artifacts=[cid])
         return AgentResult(
             success=False,
             message="Hard gate: FAIL",
+            artifacts=[cid],
             errors=result.failure_reasons,
         )
 

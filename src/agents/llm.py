@@ -82,7 +82,9 @@ _provider: LLMProvider | None = None
 def get_llm() -> LLMProvider:
     global _provider
     if _provider is None:
-        _provider = MockLLMProvider()
+        _provider = MockLLMProvider(
+            fallback='{"success": true, "message": "Mock response", "errors": [], "artifacts": []}'
+        )
     return _provider
 
 

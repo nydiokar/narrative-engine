@@ -14,7 +14,21 @@ class CharacterArchitect(BaseAgent):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(role="character_architect", **kwargs)
 
+    def get_prerequisites(self, step_id: str) -> list[str]:
+        if step_id == "draft_protagonists":
+            return ["story"]
+        if step_id == "refine_arcs":
+            return ["story", "character", "episode"]
+        return ["story"]
+
     def execute(self, context: AgentContext) -> AgentResult:
+        missing = self.check_prerequisites(context.step_id)
+        if missing:
+            return AgentResult(
+                success=False,
+                errors=[f"Missing prerequisites: {missing} — go back"],
+            )
+
         if context.step_id == "prepare_layers":
             return self._prepare_layers(context)
         if context.step_id == "draft_protagonists":
@@ -27,23 +41,42 @@ class CharacterArchitect(BaseAgent):
         return AgentResult(success=True, message="Character layer defaults configured")
 
     def _draft_protagonists(self, context: AgentContext) -> AgentResult:
-        hero = CharacterContract(
-            name="Protagonist",
-            description="Primary viewpoint character",
-            actant_roles=["subject"],
-            personality=PersonalityProfile(openness=7, conscientiousness=6, extraversion=5, agreeableness=6, neuroticism=4),
-            core_desires=["freedom", "belonging"],
-            core_fears=["captivity", "isolation"],
+        result = self._call_llm_for_step(context)
+
+        contract_data = result.get("contract_data")
+        if not contract_data:
+            hero = CharacterContract(
+                name="Protagonist",
+                description="Primary viewpoint character",
+                actant_roles=["subject"],
+                personality=PersonalityProfile(openness=7, conscientiousness=6, extraversion=5, agreeableness=6, neuroticism=4),
+                core_desires=["freedom", "belonging"],
+                core_fears=["captivity", "isolation"],
+            )
+            character = hero
+        else:
+            try:
+                character = CharacterContract(**contract_data)
+            except Exception as e:
+                return AgentResult(success=False, errors=[f"Invalid character data: {e}"])
+
+        cid = self.write_contract("character", character)
+
+        story = self.list_contracts("story")[0]
+        story.subject_id = cid
+        self.write_contract("story", story)
+
+        return AgentResult(
+            success=True,
+            message=result.get("message", "Protagonist drafted"),
+            artifacts=[cid],
+            errors=result.get("errors", []),
         )
-        cid = self.write_contract("character", hero)
-
-        stories = self.list_contracts("story")
-        if stories:
-            story = stories[0]
-            story.subject_id = cid
-            self.write_contract("story", story)
-
-        return AgentResult(success=True, message="Protagonist drafted", artifacts=[cid])
 
     def _refine_arcs(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Character arcs refined")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Character arcs refined"),
+            errors=result.get("errors", []),
+        )

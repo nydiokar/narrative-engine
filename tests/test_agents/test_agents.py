@@ -15,7 +15,8 @@ from src.agents.showrunner import Showrunner
 from src.agents.structuralist import Structuralist
 from src.agents.theme_specialist import ThemeSpecialist
 from src.agents.store import reset_store
-from src.contracts.models import StoryContract
+from src.contracts.models import CharacterContract, ConflictLoad, Intensity, SceneContract, StoryContract
+from src.engine.config import get_settings
 
 
 class TestIndividualAgents:
@@ -40,6 +41,9 @@ class TestIndividualAgents:
 
     def test_outline_planner_creates_episodes(self):
         planner = OutlinePlanner()
+        store = planner.store
+        store.put("story", StoryContract(title="Test", premise="A test premise"))
+        store.put("character", CharacterContract(name="Hero", description="Main character"))
         ctx = AgentContext(workflow_id="03", step_id="segment_fabula")
         result = planner.execute(ctx)
         assert result.success is True
@@ -47,6 +51,9 @@ class TestIndividualAgents:
 
     def test_chapter_planner_creates_chapters(self):
         planner = OutlinePlanner()
+        store = planner.store
+        store.put("story", StoryContract(title="Test", premise="A test premise"))
+        store.put("character", CharacterContract(name="Hero", description="Main character"))
         planner.execute(AgentContext(workflow_id="03", step_id="segment_fabula"))
 
         cp = ChapterPlanner()
@@ -57,12 +64,15 @@ class TestIndividualAgents:
         assert len(chapters) == 9  # 3 episodes * 3 chapters
 
     def test_scene_writer_renders_prose(self):
-        planner = OutlinePlanner()
+        sw = SceneWriter()
+        store = sw.store
+        store.put("story", StoryContract(title="Test", premise="A test premise"))
+        store.put("character", CharacterContract(name="Hero", description="Main character"))
+        planner = OutlinePlanner(store=store)
         planner.execute(AgentContext(workflow_id="03", step_id="segment_fabula"))
-        cp = ChapterPlanner()
+        cp = ChapterPlanner(store=store)
         cp.execute(AgentContext(workflow_id="03", step_id="divide_episodes"))
 
-        sw = SceneWriter()
         ctx = AgentContext(workflow_id="04", step_id="render_prose")
         result = sw.execute(ctx)
         assert result.success is True
@@ -71,6 +81,9 @@ class TestIndividualAgents:
 
     def test_structuralist_checks_empty(self):
         s = Structuralist()
+        store = s.store
+        store.put("story", StoryContract(title="Test", premise="A test premise"))
+        store.put("character", CharacterContract(name="Hero", description="Main character"))
         ctx = AgentContext(workflow_id="02", step_id="check_constraints")
         result = s.execute(ctx)
         assert result.success is True  # empty = pass
@@ -85,6 +98,14 @@ class TestIndividualAgents:
 
     def test_critic_hard_gate_passes_empty(self):
         c = Critic()
+        store = c.store
+        store.put("story", StoryContract(title="Test", premise="A test premise"))
+        sc = SceneContract(setting_location="test", chapter_id=uuid4())
+        sc.greimas_diagnostic.value_object_change = "transferred"
+        sc.conflict_load = ConflictLoad(
+            interpersonal=Intensity.MEDIUM,
+        )
+        store.put("scene", sc)
         ctx = AgentContext(workflow_id="07", step_id="run_hard_gate")
         result = c.execute(ctx)
         assert result.success is True
