@@ -55,7 +55,13 @@ class Critic(BaseAgent):
         gate = SoftGate(threshold=5.0)
         gate.set_score("genre_fit", 7)
         gate.set_score("thematic_clarity", 6)
+        gate.set_score("conflict_density", 6)
+        gate.set_score("relationship_tension", 5)
+        gate.set_score("scene_level_purpose", 8)
+        gate.set_score("suspense_curiosity_surprise", 6)
+        gate.set_score("emotional_transport", 6)
         gate.set_score("novelty", 5)
+        gate.set_score("prose_distinctiveness", 5)
         s_result = gate.evaluate()
 
         critique_list = self.list_contracts("critique")

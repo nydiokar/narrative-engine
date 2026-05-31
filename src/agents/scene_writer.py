@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from src.agents.base import AgentContext, AgentResult, BaseAgent
-from src.contracts.models import SceneContract
+from src.contracts.models import ConflictLoad, Intensity, SceneContract
 from src.engine.greimas.action_state import SceneDiagnosticEngine
 
 
@@ -40,6 +40,10 @@ class SceneWriter(BaseAgent):
                 sc.greimas_diagnostic.value_object_change = "transferred"
                 sc.greimas_diagnostic.future_action_possible_or_blocked = "Next scene enabled"
                 sc.greimas_diagnostic.diagnostic_pass = True
+                sc.conflict_load = ConflictLoad(
+                    interpersonal=Intensity.MEDIUM,
+                    internal=Intensity.LOW,
+                )
                 sid = self.write_contract("scene", sc)
                 artifacts.append(sid)
         return AgentResult(

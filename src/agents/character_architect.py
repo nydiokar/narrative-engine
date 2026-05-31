@@ -36,6 +36,13 @@ class CharacterArchitect(BaseAgent):
             core_fears=["captivity", "isolation"],
         )
         cid = self.write_contract("character", hero)
+
+        stories = self.list_contracts("story")
+        if stories:
+            story = stories[0]
+            story.subject_id = cid
+            self.write_contract("story", story)
+
         return AgentResult(success=True, message="Protagonist drafted", artifacts=[cid])
 
     def _refine_arcs(self, context: AgentContext) -> AgentResult:
