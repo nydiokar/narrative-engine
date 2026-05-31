@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.pytest_cache
+*.egg
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+.env
+narrative_engine.log
+output/
