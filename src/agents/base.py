@@ -1,0 +1,81 @@
+"""Base agent class — lifecycle, contract access, LLM integration.
+
+Every agent follows this lifecycle:
+1. __init__ — receives role name and optional store/LLM references
+2. setup() — one-time initialization (load schemas, etc.)
+3. execute(context) — the main work method (subclass implements)
+4. teardown() — cleanup
+
+Agents communicate *only* through the contract store.
+"""
+
+from __future__ import annotations
+
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from logging import Logger
+from typing import Any
+
+from src.agents.llm import LLMProvider, get_llm
+from src.agents.store import ContractStore, get_store
+
+
+@dataclass
+class AgentContext:
+    """Context passed to agent.execute(). Carries workflow state."""
+
+    workflow_id: str  # e.g. "00-brief-and-taxonomy"
+    step_id: str = ""
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class AgentResult:
+    success: bool = False
+    message: str = ""
+    artifacts: list[str] = field(default_factory=list)  # contract IDs created/updated
+    errors: list[str] = field(default_factory=list)
+
+
+class BaseAgent(ABC):
+    """Abstract base for all narrative-engine agents."""
+
+    def __init__(
+        self,
+        role: str,
+        store: ContractStore | None = None,
+        llm: LLMProvider | None = None,
+        logger: Logger | None = None,
+    ) -> None:
+        self.role = role
+        self.store = store or get_store()
+        self.llm = llm or get_llm()
+        self.logger = logger
+
+    def log(self, level: str, message: str) -> None:
+        if self.logger:
+            getattr(self.logger, level.lower(), print)(f"[{self.role}] {message}")
+
+    def setup(self) -> None:
+        """Override for one-time initialization."""
+        pass
+
+    @abstractmethod
+    def execute(self, context: AgentContext) -> AgentResult:
+        """Main work method. Subclass must implement."""
+        ...
+
+    def teardown(self) -> None:
+        """Override for cleanup."""
+        pass
+
+    # ── Contract helpers ─────────────────────────────────────────────
+
+    def read_contract(self, type_key: str, contract_id: str) -> Any | None:
+        return self.store.get(type_key, contract_id)
+
+    def write_contract(self, type_key: str, contract: Any) -> str:
+        return self.store.put(type_key, contract, agent=self.role)
+
+    def list_contracts(self, type_key: str) -> list[Any]:
+        return self.store.list_by_type(type_key)
