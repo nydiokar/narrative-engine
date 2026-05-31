@@ -12,10 +12,10 @@ story_bible:
       id: "<character_id>"
       name: "<string>"
       description: "<string>"
-    object:
+    object_of_value:
       id: "<object_id>"
       name: "<string>"
-      type: "<concrete|abstract|relational>"
+      type: "<value_state>"
       description: "<string>"
     sender:
       id: "<character_id>"
@@ -28,9 +28,11 @@ story_bible:
     helpers:
       - id: "<character_id>"
         name: "<string>"
+        modality_provided: "<knowing|being_able>"
     opponents:
       - id: "<character_id>"
         name: "<string>"
+        value_logic: "<string>"
 
   world:
     setting: "<string>"
@@ -40,6 +42,12 @@ story_bible:
   narrative_programs:
     - id: "<np_id>"
       description: "<string>"
+      object_of_value: "<value_state>"
+      canonical_phases:
+        manipulation: "<bool>"
+        competence: "<bool>"
+        performance: "<bool>"
+        sanction: "<bool>"
       initial_state: "<string>"
       terminal_state: "<string>"
 

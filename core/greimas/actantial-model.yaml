@@ -1,24 +1,36 @@
 # Greimasian Actantial Model
-# Defines the six actantial roles and their relationships.
+# A.J. Greimas's deep-structural role schema for narrative.
+# Acts as the fabula coherence engine — defines why actions must exist,
+# what value-object is being contested, who desires it, who blocks it,
+# who authorizes it, who benefits, and whether each episode transforms the fabula.
 
 actantial_model:
-  description: "A.J. Greimas's deep-structural role schema for narrative."
+  description: >
+    Greimas's actantial model provides a near-formal diagnostic grammar for narrative.
+    It is the structural necessity layer above Propp's sequence morphology.
+    Characters are actants — not fixed "people" — and can shift actantial position
+    depending on the narrative program.
 
   roles:
     subject:
-      alias: Hero / Protagonist
-      definition: "The actant who desires or pursues the Object."
-      canonical_question: "Who acts?"
+      alias: Hero / Protagonist / Seeker
+      definition: "The actant who desires or pursues the Object of value."
+      canonical_question: "Who acts / desires?"
 
     object:
       alias: Object of Value
-      definition: "The actant which is desired, pursued, or avoided."
-      canonical_question: "What is sought?"
+      definition: "The value-state under contest — what is desired, defended, blocked, or redefined."
+      canonical_question: "What value is contested?"
+      note: >
+        Object ≠ physical item only. Object = value-state.
+        Examples: love, recognition, freedom, truth, revenge, belonging,
+        legitimacy, inheritance, forgiveness, control, restoration of order,
+        escape from shame.
 
     sender:
-      alias: Destinator
-      definition: "The actant who instigates the action or mandates the quest."
-      canonical_question: "Who sets the action in motion?"
+      alias: Destinator / Mandator
+      definition: "The actant who instigates the action, mandates the quest, or authorizes the pursuit."
+      canonical_question: "Who sets the action in motion / authorizes the quest?"
 
     receiver:
       alias: Beneficiary
@@ -27,15 +39,24 @@ actantial_model:
 
     helper:
       alias: Adjuvant
-      definition: "Actants that assist the Subject in attaining the Object."
-      canonical_question: "Who aids?"
+      definition: "Actants that enable the Subject by providing modalities (knowing, being-able)."
+      canonical_question: "Who enables / provides competence?"
 
     opponent:
-      alias: Opponent / Antagonist
-      definition: "Actants that obstruct the Subject from attaining the Object."
-      canonical_question: "Who hinders?"
+      alias: Opponent / Antagonist / Blocking force
+      definition: "Actants that obstruct the Subject from attaining the Object, often via competing value-logic."
+      canonical_question: "Who blocks / competes for the same value?"
+
+  conflict_definition:
+    statement: "Conflict = multiple actants desiring, defending, blocking, misrecognizing, or redefining the same Object of value."
+    implications:
+      - An Opponent must have their own value-logic, not merely "oppose."
+      - True drama arises from competing value-states, not superficial antagonism.
+      - Actantial positions shift as the Object of value is redefined across narrative programs.
 
   principles:
-    - An actant is a structural role, not necessarily a character. One character may fulfill multiple actant roles.
+    - An actant is a structural role, not a character. One character may fulfill multiple actant roles across different narrative programs.
+    - A character may shift actantial position within the same narrative as the value-object relationship changes.
     - Actants exist only in relation to one another; the model is relational, not absolute.
-    - Every narrative can be reduced to a series of actantial configurations.
+    - Every narrative can be reduced to a series of actantial configurations, each transforming the junction between actants and Objects of value.
+    - The model is diagnostic: it detects whether a scene, episode, or event actually transforms the actantial configuration.

@@ -6,13 +6,43 @@ episode:
   title: "<string>"
   sequence_number: "<integer>"
   summary: "<string>"
+
+  greimas_tracking:
+    subject: "<actant_id>"
+    object_of_value: "<value_state>"
+    current_state: "<junction_state + description>"
+    desired_transformation: "<string>"
+    opponent: "<actant_id>"
+    opponent_value_logic: "<string>"
+    helper: "<actant_id>"
+    modality_gained_or_lost:
+      modality: "<modality_name>"
+      change: "<gained|lost>"
+      source_or_cause: "<string>"
+    action_type: "<operation>"
+    resulting_state: "<junction_state + description>"
+    sanction_or_judgment: "<string>"
+    contribution_to_whole_fabula: "<string>"
+
+  canonical_phase: "<manipulation|competence|performance|sanction>"
   narrative_programs: ["<narrative_program_id>"]
   functions: ["<propp_function_symbol>"]
-  scenes: ["<scene_id>"]
+
+  themes_active: ["<theme_id>"]
+
+  dominant_conflict: "<conflict_type>"
+
+  chapters: ["<chapter_id>"]
+
   modality_shifts:
     - actant: "<actant_id>"
       modality: "<modality_name>"
       from: "<state>"
       to: "<state>"
       trigger: "<event_id>"
+
+  emotional_arc:
+    opening_tone: "<plutchik_emotion>"
+    closing_tone: "<plutchik_emotion>"
+
   status: "<draft|review|final>"

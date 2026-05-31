@@ -1,39 +1,129 @@
 # Narrative Program (NP)
-# Formalizes a transformation from an initial state to a terminal state.
+# Formalizes a transformation from an initial state to a terminal state
+# via the canonical narrative schema: Manipulation → Competence → Performance → Sanction.
 
 narrative_program:
-  description: "A formal transformation between two states of junction."
+  description: >
+    A narrative program (NP) is a formal transformation between two states of junction.
+    Every NP follows the canonical schema, which acts as a diagnostic for completeness.
+
+  canonical_schema:
+    phases:
+      - phase: 1. Manipulation / Contract
+        description: >
+          Someone or something causes the Subject to pursue the Object.
+          A Sender establishes a mandate or the Subject internalizes a desire.
+        diagnostic: "Is it clear why the Subject wants the Object? Who or what established this desire?"
+
+      - phase: 2. Competence / Qualification
+        description: >
+          The Subject gains or reveals the required modalities to act:
+          - wanting (vouloir)
+          - knowing (savoir)
+          - being-able (pouvoir)
+          - having-to (devoir)
+        diagnostic: "Does the Subject have or acquire the modalities needed for the Performance phase?"
+
+      - phase: 3. Performance
+        description: >
+          The decisive action where the Subject acts on the Object or engages the central conflict.
+          This is the junction-transforming operation.
+        diagnostic: "What action transforms the state? What value-object is gained, lost, or redefined?"
+
+      - phase: 4. Sanction
+        description: >
+          The action is judged, recognized, punished, rewarded, exposed, or reinterpreted.
+          This is the cognitive/evaluative phase — society, the Sender, or the Subject themselves
+          assess the transformed state.
+        diagnostic: "Is the transformation recognized or judged? By whom? With what consequence?"
 
   structure:
-    initial_state:
-      junction: disjunction  # or conjunction
-      actant: "<actant_role>"
-      object: "<object_of_value>"
-      description: "The state of lack or separation."
+    id: "<uuid>"
+    narrative_program:
+      subject: "<actant_id>"
+      object_of_value:
+        id: "<object_id>"
+        type: "<value_state>"  # e.g., recognition, freedom, truth, revenge, belonging, etc.
+        description: "<string>"
 
-    transformation:
-      operation: "<operation_type>"  # e.g., transfer, acquisition, removal
-      operator: "<performing_actant>"
-      modalities_applied:
-        - wanting
-        - knowing
-        - being_able
-        - having_to
+      initial_state:
+        junction: disjunction
+        actant: "<actant_role>"
+        object: "<object_of_value_id>"
+        modality_state:
+          wanting: "<bool>"
+          knowing: "<bool>"
+          being_able: "<bool>"
+          having_to: "<bool>"
+        description: "The state of lack or separation from the value-object."
 
-    terminal_state:
-      junction: conjunction  # or disjunction
-      actant: "<actant_role>"
-      object: "<object_of_value>"
-      description: "The state of fulfillment or separation."
+      canonical_phases:
+        manipulation:
+          sender: "<actant_id>"
+          mandate: "<string>"
+          completed: "<bool>"
+
+        competence:
+          modalities_acquired:
+            - modality: "<modality_name>"
+              source: "<helper_actant_id>"
+          completed: "<bool>"
+
+        performance:
+          operation: "<operation_type>"
+          operator: "<performing_actant>"
+          completed: "<bool>"
+
+        sanction:
+          judge: "<actant_id>"
+          judgment: "<positive|negative|ambiguous>"
+          consequence: "<string>"
+          completed: "<bool>"
+
+      terminal_state:
+        junction: conjunction
+        actant: "<actant_role>"
+        object: "<object_of_value_id>"
+        modality_state:
+          wanting: "<bool>"
+          knowing: "<bool>"
+          being_able: "<bool>"
+          having_to: "<bool>"
+        description: "The state of fulfillment, redefinition, or transformed junction."
+
+      global_fabula_contribution: "<string>"
+      # Describes how this NP moves the overall narrative forward.
 
   operations:
-    - transfer
-    - acquisition
-    - removal
-    - destruction
-    - transformation
-    - communication
+    - transfer       # Object changes possessor
+    - acquisition    # Subject gains Object
+    - removal        # Object is taken away
+    - destruction    # Object is eliminated
+    - transformation # Object is altered in nature
+    - communication  # Knowledge about Object is conveyed
+    - revelation     # True nature of Object is exposed
+    - redefinition   # Object's value is reinterpreted
 
   junction_types:
-    conjunction: "The actant is joined with the Object."
-    disjunction: "The actant is separated from the Object."
+    conjunction: "The actant is joined with the Object of value."
+    disjunction: "The actant is separated from the Object of value."
+
+  episode_tracking_format:
+    description: "Every episode must be trackable through this Greimas diagnostic lens."
+    fields:
+      episode: "<episode_id>"
+      subject: "<actant_id>"
+      object_of_value: "<value_state>"
+      current_state: "<junction_state + description>"
+      desired_transformation: "<string>"
+      opponent: "<actant_id>"
+      opponent_value_logic: "<string>"  # What value is the opponent competing for?
+      helper: "<actant_id>"
+      modality_gained_or_lost:
+        modality: "<modality_name>"
+        change: "<gained|lost>"
+        source_or_cause: "<string>"
+      action_type: "<operation>"
+      resulting_state: "<junction_state + description>"
+      sanction_or_judgment: "<string>"
+      contribution_to_whole_fabula: "<string>"

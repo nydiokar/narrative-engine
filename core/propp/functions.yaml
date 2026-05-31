@@ -1,5 +1,16 @@
 # Proppian Functions
 # Based on Vladimir Propp's Morphology of the Folktale (1928).
+#
+# LAYER NOTE:
+# Propp defines the functional SEQUENCE — what kind of story-function happens next.
+# Greimas (see /core/greimas/) defines the STRUCTURAL NECESSITY — why this action
+# must exist, what value-object is being contested.
+#
+# Integration: Greimas defines why the narrative movement is necessary.
+#              Propp defines one possible morphology of how the movement unfolds.
+#
+# Propp is excellent for sequence morphology.
+# Greimas is better for structural necessity and diagnostic validation.
 
 functions:
   - id: 1

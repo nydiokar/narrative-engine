@@ -41,3 +41,8 @@ mapping_principles:
   - One character may map to multiple spheres across the narrative.
   - The mapping may shift as the fabula progresses (e.g., a Helper becomes an Opponent).
   - Each sphere's typical functions inform the Structuralist's function selection.
+
+integration_rule:
+  greimas_layer: "Defines why the narrative movement is necessary — the value-object logic, actantial necessity, and canonical schema phase."
+  propp_layer: "Defines one possible morphology of how the movement unfolds — the functional sequence skeleton."
+  principle: "Greimas constrains and validates the Propp selection. A Propp function is only valid if it serves an active Greimasian narrative program."

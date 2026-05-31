@@ -1,33 +1,85 @@
 # Fabula Chain
 # Defines the structure of the chronological event sequence.
+# Integrates the Greimas actantial layer with the Propp morphology layer.
 
 fabula_chain:
-  description: "A linear, causally-ordered sequence of narrative events."
+  description: "A linear, causally-ordered sequence of narrative events, tracked through both Greimasian and Proppian lenses."
+
+  greimas_layer:
+    description: >
+      Greimas defines why the narrative movement is necessary.
+      Tracks actantial configurations, value-objects, and canonical schema phases.
+    per_event:
+      actantial_configuration:
+        subject: "<actant_id>"
+        object_of_value:
+          id: "<object_id>"
+          type: "<value_state>"
+          current_status: "<contested|acquired|lost|redefined|revealed>"
+        sender: "<actant_id>"
+        receiver: "<actant_id>"
+        helpers: ["<actant_id>"]
+        opponents: ["<actant_id>"]
+      canonical_phase: "<manipulation|competence|performance|sanction>"
+      narrative_program_id: "<np_id>"
+      action_type: "<operation_type>"
+      modality_changes:
+        - actant: "<actant_id>"
+          modality: "<modality_name>"
+          from: "<state>"
+          to: "<state>"
+      state_before: "<string>"
+      state_after: "<string>"
+      value_object_change: "<increased|decreased|transferred|revealed|corrupted|redefined|none>"
+      unlocks_or_blocks: "<future_action_description>"
+
+  propp_layer:
+    description: >
+      Propp defines one possible morphology of how the movement unfolds.
+      Provides functional sequence vocabulary for the surface skeleton.
+    per_event:
+      propp_function: "<function_symbol>"
+      sphere: "<villain|donor|helper|princess|dispatcher|hero|false_hero>"
 
   structure:
     events:
       - id: "<uuid>"
         sequence_number: "<integer>"
-        type: "<event_type>"
-        actantial_configuration:
-          subject: "<actant_id>"
-          object: "<actant_id>"
-          sender: "<actant_id>"
-          receiver: "<actant_id>"
-          helpers: ["<actant_id>"]
-          opponents: ["<actant_id>"]
-        narrative_program:
-          initial_state: "<state_reference>"
-          terminal_state: "<state_reference>"
+
+        greimas:
+          actantial_configuration:
+            subject: "<actant_id>"
+            object_of_value:
+              id: "<object_id>"
+              type: "<value_state>"
+              status: "<contested|acquired|lost|redefined|revealed>"
+            sender: "<actant_id>"
+            receiver: "<actant_id>"
+            helpers: ["<actant_id>"]
+            opponents: ["<actant_id>"]
+          canonical_phase: "<manipulation|competence|performance|sanction>"
+          narrative_program: "<np_id>"
           operation: "<operation_type>"
-        propp_function: "<function_symbol>"
+          modality_changes:
+            - actant: "<actant_id>"
+              modality: "<modality_name>"
+              change: "<from> → <to>"
+          state_before: "<string>"
+          state_after: "<string>"
+          value_object_change: "<increased|decreased|transferred|revealed|corrupted|redefined|none>"
+          unlocks: "<string>"
+          blocks: "<string>"
+
+        propp:
+          function: "<function_symbol>"
+          sphere: "<sphere_name>"
+
         causal_predecessors: ["<event_id>"]
         causal_successors: ["<event_id>"]
-        modalities:
-          - actant: "<actant_id>"
-            modalities: {wanting: bool, knowing: bool, being_able: bool, having_to: bool}
 
   constraints:
     - Events are strictly ordered by sequence_number.
     - Every event except the first must have at least one causal_predecessor.
     - Modalities must be consistent across the chain (no unexplained modality shifts).
+    - Every event must register a non-none value_object_change or a modality change — otherwise it is filler.
+    - The canonical_phase sequence must respect the order: Manipulation → Competence → Performance → Sanction (may repeat across N programs).

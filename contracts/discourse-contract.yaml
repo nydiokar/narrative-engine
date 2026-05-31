@@ -1,0 +1,33 @@
+# Discourse Contract
+# Declares the sujet-level presentation choices for the narrative.
+
+discourse_contract:
+  id: "<uuid>"
+  story_id: "<story_id>"
+
+  global_settings:
+    point_of_view: "<first_person|second_person|third_limited|third_omniscient|third_objective>"
+    focalisation: "<internal|external|zero>"
+    tense: "<past|present|future>"
+    voice_profile:
+      register: "<formal|neutral|colloquial|vernacular>"
+      diction: "<simple|moderate|rich>"
+      sentence_rhythm: "<short|varied|long>"
+      metaphor_density: "<low|medium|high>"
+
+  temporal_handling:
+    default_mode: "<chronological|analepsis|prolepsis>"
+    flashback_permitted: "<bool>"
+    flash_forward_permitted: "<bool>"
+
+  exposition_strategy: "<integrated|block|delayed|withheld>"
+  suspense_strategy: "<mystery|suspense|surprise>"
+  dialogue_mode: "<direct|indirect|free_indirect|narratised>"
+
+  discourse_events:
+    - at_point: "<chapter_or_scene_id>"
+      change:
+        parameter: "<dimension_name>"
+        from: "<value>"
+        to: "<value>"
+      justification: "<string>"

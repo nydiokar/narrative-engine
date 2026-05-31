@@ -1,20 +1,79 @@
 # Character Contract
-# Defines a character in the narrative.
+# Defines a character across all layers of the character ontology.
 
 character:
   id: "<uuid>"
   name: "<string>"
+
+  # Layer 1: Function (Propp/Greimas)
   actant_roles: ["<subject|object|sender|receiver|helper|opponent>"]
-  description: "<string>"
-  traits: ["<string>"]
+
+  # Layer 2: Personality (Five-Factor Model)
+  personality:
+    openness: "<1-10>"
+    conscientiousness: "<1-10>"
+    extraversion: "<1-10>"
+    agreeableness: "<1-10>"
+    neuroticism: "<1-10>"
+
+  # Layer 3: Values (Schwartz)
+  values:
+    primary: "<value_name>"
+    secondary: ["<value_name>"]
+    value_priorities:
+      - value: "<value_name>"
+        priority: "<1-10>"
+
+  # Layer 4: Social Mode (Relational Models)
+  social_mode:
+    default: "<communal_sharing|authority_ranking|equality_matching|market_pricing>"
+    context_shifts:
+      - context: "<string>"
+        mode: "<mode>"
+
+  # Layer 5: Attachment
+  attachment_pattern: "<secure|anxious_preoccupied|dismissive_avoidant|fearful_avoidant>"
+
+  # Motivation Stack
+  motivation:
+    basic_needs:
+      autonomy: "<satisfied|frustrated>"
+      competence: "<satisfied|frustrated>"
+      relatedness: "<satisfied|frustrated>"
+    desires:
+      - desire: "<reiss_desire_name>"
+        intensity: "<1-10>"
+    goal_polarity: "<attain|maintain|leave|avoid>"
+
+  # Modalities (Greimas)
   modalities:
     wanting: "<desires|indifferent|rejects>"
     knowing: "<knows|partially_knows|ignorant>"
     being_able: "<able|unable>"
     having_to: "<obligated|free>"
+
+  # Emotional baseline
+  emotional_baseline:
+    dominant_emotion: "<plutchik_emotion>"
+    intensity: "<low|medium|high>"
+
+  description: "<string>"
+
   arc:
     initial_state: "<state_reference>"
     terminal_state: "<state_reference>"
+    personality_changes:
+      - trait: "<trait_name>"
+        from: "<score>"
+        to: "<score>"
+        trigger: "<event_id>"
+    value_shifts:
+      - from: "<value_name>"
+        to: "<value_name>"
+        trigger: "<event_id>"
+
   relationships:
     - target: "<character_id>"
       relation: "<string>"
+      relational_model: "<communal_sharing|authority_ranking|equality_matching|market_pricing>"
+      tension: "<none|low|medium|high>"

@@ -1,13 +1,30 @@
 # No-Filler Rules
 # Enforces that every narrative element serves a structural function.
+# Powered by both Greimasian action/state diagnostics and Proppian function necessity.
 
 no_filler_rules:
-  description: "No scene, event, or character may exist without a causal or functional role."
+  description: "No scene, event, or character may exist without a causal or functional role. Every element must either transform a state or be causally necessary for a future transformation."
+
+  greimas_anti_filler_diagnostic:
+    description: >
+      Greimas provides the primary anti-filler mechanism.
+      For every scene, the system must confirm a state-transforming operation occurred.
+      If no actantial position changed, no value-object was affected, and no modality
+      was gained or lost, the scene is structurally dead.
+
+    checks:
+      - "Does this scene change the junction (conjunction/disjunction) between any actant and its Object of value?"
+      - "Does this scene modify any actant's modality (wanting, knowing, being-able, having-to)?"
+      - "Does this scene redefine the Object of value itself (reveal, corrupt, transform)?"
+      - "Does this scene make a future action possible or impossible that was not before?"
 
   rules:
     scene_necessity:
       condition: "A scene exists"
-      requirement: "The scene must advance at least one narrative program or modify at least one modality."
+      requirement: >
+        The scene must advance at least one narrative program OR modify at least one modality
+        OR redefine an Object of value OR make/block a future action.
+        (Greimas diagnostic: at least one of the 4 anti-filler checks must pass.)
       violation: "Cut scene."
 
     character_necessity:
@@ -17,7 +34,9 @@ no_filler_rules:
 
     dialogue_necessity:
       condition: "Dialogue occurs"
-      requirement: "The dialogue must convey information that changes the actantial configuration or modality state."
+      requirement: >
+        The dialogue must convey information that changes the actantial configuration,
+        modality state, or value-object definition. Pure banter is filler.
       violation: "Replace with narration or cut."
 
     event_necessity:
@@ -25,6 +44,11 @@ no_filler_rules:
       requirement: "The event must be causally connected to at least one prior event and at least one subsequent event."
       violation: "Flag as orphan event."
 
+    action_state_necessity:
+      condition: "An action is described"
+      requirement: "The action must transform at least one state parameter (junction, modality, or value-object definition)."
+      violation: "Flag as pseudo-action / filler."
+
   enforcement:
-    check_point: "After each scene is drafted."
+    check_point: "After each scene is drafted. Greimas diagnostic runs first, Propp function check second."
     action_on_violation: "Flag in Critique Contract for the Revision Agent to remediate."

@@ -1,20 +1,47 @@
 # Human Intake Template
-# Used in Workflow 01 to capture raw premise and constraints.
+# Used in Workflow 00 to capture the full narrative brief.
 
 intake:
   project_name: "<string>"
   premise: "<string>"
-  genre: "<string>"
-  tone: "<string>"
-  target_audience: "<string>"
-  target_length: "<word_count>"
-  constraints:
-    - "<string>"
+  logline: "<string>"
+
+  brief_layer:
+    medium: "novel"
+    audience_band: "<middle_grade|young_adult|adult>"
+    language: "<string>"
+    target_word_count: "<integer>"
+    series_type: "<standalone|duology|trilogy|series>"
+    content_limits:
+      - "<string>"
+
+  genre:
+    preferred: "<string>"
+    subgenre: "<string>"
+
+  emotional_core: "<string>"
+  thematic_core: "<string>"
+  realism_speculative_balance: "<historical|speculative|fantastic>"
+
+  tolerances:
+    darkness: "<low|medium|high>"
+    sexual_content: "<none|implied|moderate|explicit>"
+    violence: "<none|mild|moderate|graphic>"
+    ending_mode: "<hopeful|bittersweet|ambiguous|tragic>"
+
+  inviolable_constraints:
+    world: ["<string>"]
+    setting: ["<string>"]
+    character: ["<string>"]
+    plot: ["<string>"]
+
   reference_works:
     - title: "<string>"
       author: "<string>"
       notes: "<string>"
+
   author_notes: "<string>"
+
   desired_actants:
     subject: "<optional description>"
     object: "<optional description>"

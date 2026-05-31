@@ -1,5 +1,6 @@
 # Critique Report Template
 # Structured evaluation report from the Critic agent.
+# Includes Greimas Fabula Coherence Engine diagnostic results.
 
 critique_report:
   id: "<uuid>"
@@ -7,6 +8,42 @@ critique_report:
   target_type: "<story|episode|scene|character|fabula>"
   reviewer: "critic"
   timestamp: "<iso_datetime>"
+
+  greimas_diagnostics:
+    fabula_coherence_engine_checks:
+      - check: "scenes_that_do_not_transform_state"
+        pass: "<bool>"
+        violations: ["<scene_id>"]
+      - check: "conflicts_without_clear_value_object"
+        pass: "<bool>"
+        violations: ["<string>"]
+      - check: "protagonists_without_object_desire"
+        pass: "<bool>"
+        violations: ["<character_id>"]
+      - check: "antagonists_without_competing_value_logic"
+        pass: "<bool>"
+        violations: ["<character_id>"]
+      - check: "missing_qualification_before_performance"
+        pass: "<bool>"
+        violations: ["<event_id>"]
+      - check: "missing_sanction_after_performance"
+        pass: "<bool>"
+        violations: ["<event_id>"]
+      - check: "false_drama_no_actantial_position_change"
+        pass: "<bool>"
+        violations: ["<scene_id>"]
+      - check: "unsupported_heroicity"
+        pass: "<bool>"
+        violations: ["<character_id>"]
+
+    scene_diagnostic_5_questions:
+      - scene_id: "<uuid>"
+        q1_state_before: "<string>"
+        q2_action_occurs: "<string>"
+        q3_state_after: "<string>"
+        q4_value_object_change: "<string>"
+        q5_future_action: "<string>"
+        pass: "<bool>"
 
   scores:
     coherence:
@@ -32,4 +69,5 @@ critique_report:
     - priority: "<high|medium|low>"
       description: "<string>"
       affected_contract: "<contract_type>"
+      greimas_check_failed: "<check_name>"
       suggested_change: "<string>"

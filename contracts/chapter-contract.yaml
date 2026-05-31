@@ -1,0 +1,22 @@
+# Chapter Contract
+# Defines a chapter-level segment between episode and scene.
+
+chapter:
+  id: "<uuid>"
+  episode_id: "<episode_id>"
+  sequence_number: "<integer>"
+  title: "<string>"
+
+  summary: "<string>"
+
+  narrative_programs_active: ["<narrative_program_id>"]
+
+  scenes: ["<scene_id>"]
+
+  chapter_arc:
+    opening_state: "<string>"
+    closing_state: "<string>"
+    primary_conflict_type: "<conflict_type>"
+
+  word_count_target: "<integer>"
+  status: "<outline|draft|review|final>"

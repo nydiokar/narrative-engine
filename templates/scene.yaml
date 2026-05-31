@@ -1,10 +1,19 @@
 # Scene Template
 # Defines a single scene in the narrative.
+# Must pass the 5-question Greimas diagnostic.
 
 scene:
   id: "<uuid>"
   episode_id: "<episode_id>"
   sequence: "<integer>"
+
+  greimas_diagnostic:
+    question_1_state_before: "<string>"
+    question_2_action_occurs: "<string>"
+    question_3_state_after: "<string>"
+    question_4_value_object_change: "<increased|decreased|transferred|revealed|corrupted|redefined|none>"
+    question_5_future_action_possible_or_blocked: "<string>"
+    diagnostic_pass: "<bool>"
 
   setting:
     location: "<string>"
@@ -19,7 +28,8 @@ scene:
     - sequence: "<integer>"
       description: "<string>"
       causal_predecessor: "<event_id>"
-      function: "<propp_function_symbol>"
+      greimas_operation: "<operation_type>"
+      propp_function: "<propp_function_symbol>"
 
   dialogue:
     - speaker: "<character_id>"

@@ -1,0 +1,31 @@
+# Theme Contract
+# Declares the thematic content of the narrative, drawing on the Literary Theme Ontology.
+
+theme_contract:
+  id: "<uuid>"
+
+  primary_themes:
+    - id: "<lto_theme_id>"
+      name: "<string>"
+      hierarchy_path: "<lto_hierarchy_path>"
+      definition: "<string>"
+
+  secondary_themes:
+    - id: "<lto_theme_id>"
+      name: "<string>"
+      hierarchy_path: "<lto_hierarchy_path>"
+
+  moral_tensions:
+    - theme_a: "<theme_id>"
+      theme_b: "<theme_id>"
+      tension_description: "<string>"
+
+  symbolic_motifs:
+    - motif: "<string>"
+      embodies_theme: "<theme_id>"
+      scenes: ["<scene_id>"]
+
+  theme_progression:
+    - episode: "<episode_id>"
+      themes_active: ["<theme_id>"]
+      shift_description: "<string>"

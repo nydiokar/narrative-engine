@@ -1,12 +1,27 @@
 # Object of Value Contract
-# Defines an object, state, or quality that actants seek or possess.
+# Defines a value-state that actants desire, defend, block, or redefine.
+# Object != physical item. Object = value-state under contest.
 
 object_of_value:
   id: "<uuid>"
   name: "<string>"
-  type: "<concrete|abstract|relational>"
+  type: "<value_state>"  # e.g., recognition, freedom, truth, revenge, belonging, legitimacy, inheritance, forgiveness, control, restoration_of_order, escape_from_shame, love
   description: "<string>"
-  desirability: "<high|medium|low>"
+
+  value_state_details:
+    domain: "<personal|social|moral|existential|political>"
+    polarity: "<positive|negative|ambiguous>"
+
   current_possessor: "<actant_id>"
   desired_by: ["<actant_id>"]
+  defended_by: ["<actant_id>"]
+  contested_by: ["<actant_id>"]
+
+  narrative_trajectory:
+    initial_definition: "<string>"
+    transformations:
+      - event: "<event_id>"
+        redefinition: "<string>"
+    final_definition: "<string>"
+
   significance_to_narrative: "<string>"

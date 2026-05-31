@@ -1,33 +1,82 @@
-# Action-State Logic
-# Governs the transition between narrative states via actantial operations.
+# Action-State Logic (действие / състояние)
+# Governs the fundamental distinction between action and state,
+# and enforces that every meaningful action transforms a state.
 
 action_state_logic:
-  description: "Rules for how actions transform narrative states."
+  description: >
+    The core distinction: действие (action) / състояние (state).
+    Every meaningful action must transform a state.
+    Every important state must condition possible actions.
+    The AI must not write "events." It must write state-transforming operations.
 
-  state_types:
-    - state_of_lack
-    - state_of_fulfillment
-    - state_of_test
-    - state_of_conflict
-    - state_of_alliance
+  definitions:
+    action_действие:
+      definition: "An operation performed by an actant that changes the state of the narrative."
+      criteria:
+        - Must have a clear actantial source (who acts?)
+        - Must target a specific Object of value (what is acted upon?)
+        - Must produce a measurable change in junction or modality
+      counterexample: "A character walking through a forest with no change in junction, modality, or value-state is not an action — it is filler."
+
+    state_състояние:
+      definition: "A configuration of actantial junctions, modality values, and Object-of-value relations at a given point in the fabula."
+      types:
+        - state_of_lack
+        - state_of_fulfillment
+        - state_of_test
+        - state_of_conflict
+        - state_of_alliance
+        - state_of_misrecognition
+        - state_of_qualification
+        - state_of_judgment
 
   state_transitions:
+    manipulation_to_competence:
+      trigger: "Subject accepts Sender's mandate or internalizes desire"
+      action: "Subject begins acquiring modalities"
+      result: "State changes from contracted to qualifying"
+
+    competence_to_performance:
+      trigger: "Subject possesses all required modalities"
+      action: "Subject engages the central conflict"
+      result: "State changes from qualified to performing"
+
+    performance_to_sanction:
+      trigger: "Performance action concludes"
+      action: "Judgment or recognition is rendered"
+      result: "State changes from performed to evaluated"
+
     lack_to_quest:
       trigger: "Subject acquires modality of wanting"
       action: "Subject enters narrative program"
       result: "State changes from lack to active seeking"
 
-    test_to_qualification:
-      trigger: "Helper provides modality of being-able"
-      action: "Subject undergoes qualification"
-      result: "Subject gains competence"
-
     conflict_to_resolution:
-      trigger: "Subject vs Opponent confrontation"
+      trigger: "Subject vs Opponent confrontation over Object of value"
       action: "Struggle operation executed"
       result: "One actant achieves/disachieves junction"
 
+  scene_diagnostic:
+    description: "Mandatory Greimas check for every scene. Five questions the system must answer."
+    questions:
+      - q1: "What state exists before the scene?"
+        purpose: "Establishes the baseline actantial configuration."
+
+      - q2: "What action occurs?"
+        purpose: "Identifies the operation performed and by which actant."
+
+      - q3: "What state changes after the action?"
+        purpose: "Confirms the transformation. If no state changes, the scene is filler."
+
+      - q4: "Which value-object increased, decreased, transferred, revealed, corrupted, or became desirable?"
+        purpose: "Tracks the Object of value through the scene."
+
+      - q5: "Which future action is now possible or impossible?"
+        purpose: "Ensures causality: every scene opens or closes narrative possibilities."
+
   rules:
     - A state persists until a valid trigger fires.
-    - Multiple narrative programs may run in parallel for different actants.
+    - An action that does not transform at least one state parameter (junction, modality, or value-object definition) is filler by definition.
+    - Multiple narrative programs may run in parallel for different actants; each has its own action/state trajectory.
     - State transitions must respect causality rules defined in /core/story-logic/causality-rules.yaml.
+    - Every scene must pass all 5 diagnostic questions. Failure = critique flag.

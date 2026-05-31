@@ -4,18 +4,49 @@
 scene:
   id: "<uuid>"
   episode_id: "<episode_id>"
+  chapter_id: "<chapter_id>"
   sequence_number: "<integer>"
+
   setting:
     location: "<string>"
     time: "<string>"
     atmosphere: "<string>"
-  characters_present: ["<character_id>"]
+
+  characters_present:
+    - character_id: "<uuid>"
+      emotional_state:
+        emotion: "<plutchik_emotion>"
+        intensity: "<low|medium|high>"
+
+  greimas_diagnostic:
+    question_1_state_before: "<string>"
+    question_2_action_occurs: "<string>"
+    question_3_state_after: "<string>"
+    question_4_value_object_change: "<increased|decreased|transferred|revealed|corrupted|redefined|none>"
+    question_5_future_action_possible_or_blocked: "<string>"
+    diagnostic_pass: "<bool>"
+
   events: ["<event_id>"]
   function_served: "<propp_function_symbol>"
+  canonical_phase: "<manipulation|competence|performance|sanction>"
   narrative_program_advanced: "<narrative_program_id>"
+
+  conflict_load:
+    internal: "<none|low|medium|high>"
+    interpersonal: "<none|low|medium|high>"
+    institutional: "<none|low|medium|high>"
+    environmental: "<none|low|medium|high>"
+    epistemic: "<none|low|medium|high>"
+    metaphysical: "<none|low|medium|high>"
+    systemic: "<none|low|medium|high>"
+
   modality_changes:
     - actant: "<actant_id>"
       modality: "<modality_name>"
       change: "<from> → <to>"
+
+  emotional_tone: "<plutchik_emotion>"
+
   content: "<prose_text>"
+  word_count: "<integer>"
   status: "<draft|review|final>"

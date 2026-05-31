@@ -1,26 +1,65 @@
 # Story Contract
 # Top-level contract for a complete narrative.
+# Incorporates the full narrative ontology stack.
 
 story:
   id: "<uuid>"
   title: "<string>"
   premise: "<string>"
-  genre: "<string>"
-  tone: "<string>"
-  target_audience: "<string>"
-  constraints: ["<string>"]
+  logline: "<string>"
+  hook: "<string>"
+
+  brief_layer:
+    medium: "<novel>"
+    audience_band: "<middle_grade|young_adult|adult>"
+    language: "<string>"
+    target_word_count: "<integer>"
+    series_type: "<standalone|duology|trilogy|series>"
+    content_limits: ["<string>"]
+
+  concept_layer:
+    story_promise: "<string>"
+    comps:
+      - title: "<string>"
+        author: "<string>"
+        similarity_reason: "<string>"
+
+  genre:
+    primary_bisac: "<bisac_code>"
+    secondary_bisac: ["<bisac_code>"]
+    subgenre_notes: "<string>"
+
+  theme_contract_id: "<theme_contract_id>"
 
   actantial_model:
     subject: "<character_id>"
-    object: "<object_of_value_id>"
+    object_of_value:
+      id: "<object_id>"
+      type: "<value_state>"
+      description: "<string>"
     sender: "<character_id>"
     receiver: "<character_id>"
     helpers: ["<character_id>"]
     opponents: ["<character_id>"]
+
+  narrative_programs:
+    - id: "<np_id>"
+      subject: "<actant_id>"
+      object_of_value: "<value_state>"
+      canonical_phases_completed:
+        manipulation: "<bool>"
+        competence: "<bool>"
+        performance: "<bool>"
+        sanction: "<bool>"
+
+  conflict_contract_id: "<conflict_contract_id>"
+  discourse_contract_id: "<discourse_contract_id>"
 
   fabula:
     events: ["<event_id>"]
     causality_chains: ["<causality_chain_id>"]
 
   episodes: ["<episode_id>"]
-  status: "<draft|review|final>"
+  chapters: ["<chapter_id>"]
+
+  status: "<seed|brief|bible|outline|draft|developmental|line|copy|proof|final>"

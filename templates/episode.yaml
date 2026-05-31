@@ -1,12 +1,31 @@
 # Episode Template
 # Defines a single episode in the narrative.
+# Tracked via the Greimas episode tracking format.
 
 episode:
   id: "<uuid>"
   title: "<string>"
   sequence: "<integer>"
   summary: "<string>"
-  function: "<string>"
+
+  greimas_tracking:
+    subject: "<actant_id>"
+    object_of_value: "<value_state>"
+    current_state: "<junction_state + description>"
+    desired_transformation: "<string>"
+    opponent: "<actant_id>"
+    opponent_value_logic: "<string>"
+    helper: "<actant_id>"
+    modality_gained_or_lost:
+      modality: "<modality_name>"
+      change: "<gained|lost>"
+      source_or_cause: "<string>"
+    action_type: "<operation>"
+    resulting_state: "<junction_state + description>"
+    sanction_or_judgment: "<string>"
+    contribution_to_whole_fabula: "<string>"
+
+  canonical_phase: "<manipulation|competence|performance|sanction>"
 
   narrative_programs_active:
     - "<np_id>"

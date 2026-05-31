@@ -1,0 +1,26 @@
+# Conflict Contract
+# Declares the active conflict types and their configuration across the narrative.
+
+conflict_contract:
+  id: "<uuid>"
+
+  global_conflicts:
+    - id: "<conflict_id>"
+      type: "<internal|interpersonal|institutional|environmental|epistemic|metaphysical|systemic>"
+      description: "<string>"
+      primary_actants: ["<actant_id>"]
+      object_of_value: "<object_id>"
+      intensity: "<low|medium|high>"
+      resolution_criteria: "<string>"
+
+  per_scene_conflict_load:
+    - scene_id: "<scene_id>"
+      conflict_load:
+        internal: "<none|low|medium|high>"
+        interpersonal: "<none|low|medium|high>"
+        institutional: "<none|low|medium|high>"
+        environmental: "<none|low|medium|high>"
+        epistemic: "<none|low|medium|high>"
+        metaphysical: "<none|low|medium|high>"
+        systemic: "<none|low|medium|high>"
+      dominant_type: "<conflict_type>"
