@@ -21,7 +21,7 @@ Divide the complete fabula into episodes. For each episode create:
 - sequence_number (0, 1, 2, ...)
 - title (brief, thematic)
 - summary (what transformation occurs)
-- canonical_phase (which phase of the schema)
+- canonical_phase: MUST be one of these EXACT lowercase values: "manipulation", "competence", "performance", "sanction"
 - greimas_tracking (subject, object, current_state, desired_transformation)
 
 Output: EpisodeContract entries for each episode.

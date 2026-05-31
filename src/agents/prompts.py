@@ -49,11 +49,13 @@ def render_user_prompt(
     step_id: str,
     upstream_yaml: str,
     agent_name: str = "",
+    medium: str = "book",
 ) -> str:
     """Build a step-specific user prompt with upstream contract context."""
     parts = [f"Current step: {step_id}"]
     if agent_name:
         parts.append(f"Agent: {agent_name}")
+    parts.append(f"Medium: {medium}")
     if upstream_yaml:
         parts.append("\nUpstream contracts available:\n" + upstream_yaml)
     parts.append(

@@ -44,7 +44,7 @@ class CharacterArchitect(BaseAgent):
         result = self._call_llm_for_step(context)
 
         contract_data = result.get("contract_data")
-        if not contract_data:
+        if not contract_data or not contract_data.get("name"):
             hero = CharacterContract(
                 name="Protagonist",
                 description="Primary viewpoint character",
@@ -58,7 +58,21 @@ class CharacterArchitect(BaseAgent):
             try:
                 character = CharacterContract(**contract_data)
             except Exception as e:
-                return AgentResult(success=False, errors=[f"Invalid character data: {e}"])
+                self.log("warning", f"LLM contract_data invalid, using fallback: {e}")
+                character = CharacterContract(
+                    name=contract_data.get("name", "Protagonist"),
+                    description=contract_data.get("description", "Primary viewpoint character"),
+                    actant_roles=contract_data.get("actant_roles", ["subject"]),
+                    personality=PersonalityProfile(
+                        openness=contract_data.get("personality", {}).get("openness", 7),
+                        conscientiousness=contract_data.get("personality", {}).get("conscientiousness", 6),
+                        extraversion=contract_data.get("personality", {}).get("extraversion", 5),
+                        agreeableness=contract_data.get("personality", {}).get("agreeableness", 6),
+                        neuroticism=contract_data.get("personality", {}).get("neuroticism", 4),
+                    ),
+                    core_desires=contract_data.get("core_desires", ["freedom", "belonging"]),
+                    core_fears=contract_data.get("core_fears", ["captivity", "isolation"]),
+                )
 
         cid = self.write_contract("character", character)
 

@@ -2,10 +2,10 @@
 
 import pytest
 
-from src.agents.director import WORKFLOW_REGISTRY
+from src.agents.director import get_registry
 from src.agents.llm import reset_llm, set_llm, MockLLMProvider
 from src.agents.store import get_store, reset_store
-from src.contracts.models import StoryContract
+from src.contracts.models import Medium, StoryContract
 from src.pipeline.orchestrator import PipelineOrchestrator, default_agent_registry
 
 
@@ -178,8 +178,8 @@ class TestFullPipeline:
             "07-critique-and-revision",
         ]
         for wid in expected:
-            assert wid in WORKFLOW_REGISTRY, f"Missing workflow: {wid}"
-        assert len(WORKFLOW_REGISTRY) == 8
+            assert wid in get_registry(Medium.BOOK), f"Missing workflow: {wid}"
+        assert len(get_registry(Medium.BOOK)) == 8
 
     def test_all_agent_modules_importable(self):
         from src.agents.showrunner import Showrunner
@@ -240,7 +240,7 @@ class TestFullPipeline:
 
         total_steps = len(director.execution_log)
         all_workflow_steps = set()
-        for wid, steps in WORKFLOW_REGISTRY.items():
+        for wid, steps in get_registry(Medium.BOOK).items():
             for step in steps:
                 all_workflow_steps.add((wid, step.agent_role, step.step_id))
 
@@ -251,15 +251,15 @@ class TestFullPipeline:
         assert logged_steps.issubset(all_workflow_steps)
         assert len(logged_steps) > 0
         for (wid, agent, step) in logged_steps:
-            assert step in (s.step_id for s in WORKFLOW_REGISTRY[wid]), f"Unexpected step {step} in {wid}"
+            assert step in (s.step_id for s in get_registry(Medium.BOOK)[wid]), f"Unexpected step {step} in {wid}"
 
     def test_each_workflow_step_produces_result(self):
         self._seed_story()
         orchestrator = PipelineOrchestrator()
 
-        for wid in sorted(WORKFLOW_REGISTRY.keys()):
+        for wid in sorted(get_registry(Medium.BOOK).keys()):
             results = orchestrator.run_workflow(wid)
-            expected_steps = len(WORKFLOW_REGISTRY[wid])
+            expected_steps = len(get_registry(Medium.BOOK)[wid])
             assert len(results) == expected_steps, (
                 f"Workflow {wid}: expected {expected_steps} results, got {len(results)}"
             )

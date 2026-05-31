@@ -8,7 +8,8 @@ from src.agents.base import AgentContext
 from src.agents.chapter_planner import ChapterPlanner
 from src.agents.character_architect import CharacterArchitect
 from src.agents.critic import Critic
-from src.agents.director import WORKFLOW_REGISTRY, Director
+from src.agents.director import Director, get_registry
+from src.contracts.models import Medium
 from src.agents.outline_planner import OutlinePlanner
 from src.agents.scene_writer import SceneWriter
 from src.agents.showrunner import Showrunner
@@ -132,22 +133,24 @@ class TestDirector:
             def execute(self, ctx):
                 return type('Result', (), {'success': True, 'message': 'ok', 'artifacts': [], 'errors': []})()
 
+        registry = get_registry(Medium.BOOK)
         agents = {}
-        for wid, steps in WORKFLOW_REGISTRY.items():
+        for wid, steps in registry.items():
             for step in steps:
                 if step.agent_role not in agents:
                     agents[step.agent_role] = StubAgent(role=step.agent_role, **common)
         return agents
 
     def test_workflow_registry_has_all_stages(self):
-        assert "00-brief-and-taxonomy" in WORKFLOW_REGISTRY
-        assert "01-seed-to-premise" in WORKFLOW_REGISTRY
-        assert "02-premise-to-structure" in WORKFLOW_REGISTRY
-        assert "03-structure-to-episodes" in WORKFLOW_REGISTRY
-        assert "04-episodes-to-scenes" in WORKFLOW_REGISTRY
-        assert "05-scenes-to-draft" in WORKFLOW_REGISTRY
-        assert "06-editorial-passes" in WORKFLOW_REGISTRY
-        assert "07-critique-and-revision" in WORKFLOW_REGISTRY
+        registry = get_registry(Medium.BOOK)
+        assert "00-brief-and-taxonomy" in registry
+        assert "01-seed-to-premise" in registry
+        assert "02-premise-to-structure" in registry
+        assert "03-structure-to-episodes" in registry
+        assert "04-episodes-to-scenes" in registry
+        assert "05-scenes-to-draft" in registry
+        assert "06-editorial-passes" in registry
+        assert "07-critique-and-revision" in registry
 
     def test_director_runs_workflow(self):
         agents = self._minimal_registry()
@@ -155,6 +158,35 @@ class TestDirector:
         results = director.run_workflow("00-brief-and-taxonomy")
         assert len(results) > 0
         assert all(r.success for r in results)
+
+    def test_medium_registries_differ_at_rendering_layer(self):
+        book = get_registry(Medium.BOOK)
+        animation = get_registry(Medium.ANIMATION)
+        movie = get_registry(Medium.MOVIE)
+
+        # Structure workflows are identical
+        assert book["00-brief-and-taxonomy"] == animation["00-brief-and-taxonomy"]
+        assert book["01-seed-to-premise"] == animation["01-seed-to-premise"]
+        assert book["02-premise-to-structure"] == animation["02-premise-to-structure"]
+        assert book["03-structure-to-episodes"] == animation["03-structure-to-episodes"]
+        assert book["07-critique-and-revision"] == animation["07-critique-and-revision"]
+
+        # Rendering workflows differ
+        assert book["04-episodes-to-scenes"] != animation["04-episodes-to-scenes"]
+        assert book["05-scenes-to-draft"] != animation["05-scenes-to-draft"]
+        assert book["06-editorial-passes"] != animation["06-editorial-passes"]
+
+        # Animation and movie share scene structure but differ in step names
+        animation_scene_steps = {s.step_id for s in animation["04-episodes-to-scenes"]}
+        movie_scene_steps = {s.step_id for s in movie["04-episodes-to-scenes"]}
+        assert animation_scene_steps != movie_scene_steps
+
+    def test_director_medium_routes_correct_registry(self):
+        book_director = Director({}, medium=Medium.BOOK)
+        anim_director = Director({}, medium=Medium.ANIMATION)
+        assert "06-editorial-passes" in book_director.registry
+        assert "06-editorial-passes" in anim_director.registry
+        assert book_director.registry["06-editorial-passes"] != anim_director.registry["06-editorial-passes"]
 
     def test_director_unknown_workflow(self):
         director = Director({})

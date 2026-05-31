@@ -130,16 +130,19 @@ class BaseAgent(ABC):
         success dict if parsing fails.
         """
         upstream_yaml = self._gather_upstream_yaml()
+        medium = context.metadata.get("medium", "book")
 
         system_prompt = render_system_prompt(
             self.role,
             upstream_contracts=upstream_yaml,
             current_step=context.step_id,
+            medium=medium,
         )
         user_prompt = render_user_prompt(
             step_id=context.step_id,
             upstream_yaml=upstream_yaml,
             agent_name=self.role,
+            medium=medium,
         )
 
         self.log("info", f"Calling LLM for step '{context.step_id}'")

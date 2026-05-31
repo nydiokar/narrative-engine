@@ -1,183 +1,74 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-05-31 | **Status:** Phase D (Agent Framework) complete. Phase E (Integration, end-to-end test) next.
+**Branch:** `main` | **Last Updated:** 2026-05-31 | **Status:** Phase F complete (6 prompt templates, pre-flight gates, real LLM working). Pipeline runs end-to-end with real LLM (qwen3-coder via Ollama) but scenes fail Greimas diagnostic and hard gate rejects without iterating. 149 tests passing.
+
+**Critical path:** 3 tasks remain before the system can produce a valid draft from a real LLM.
 
 ---
 
-## Active Work
+## Critical Path — What Must Be Done
 
-| ID | Task | Priority |
-|:--:|:-----|:--------:|
-| INT-1 | ✅ **[TYPES-INTEGRATION]** types_maps.md integrated — 9 new research files, 6 updated, 4 contracts extended with concrete enums | 🟢 DONE |
-| INT-2 | ✅ **[ARCHITECTURE-PHASE-1]** Python project scaffold — `pyproject.toml`, 53 Pydantic models, YAML loader, config/logging, 11 tests | 🟢 DONE |
-| INT-3 | ✅ **[ARCHITECTURE-PHASE-2]** Greimas Fabula Coherence Engine — 8 checks, 5-question scene diagnostic, action/state validation, causality, no-filler, evaluation gates, 92 tests | 🟢 DONE |
-| INT-4 | ✅ **[ARCHITECTURE-PHASE-3]** Agent framework — 20 agent modules, contract store, base class, LLM stub, Director orchestrator, pipeline sequencer, 127 tests | 🟢 DONE |
-| INT-5 | **[ARCHITECTURE-PHASE-4]** Integration test: generate a complete story from seed to final draft through the full pipeline | 🟢 DONE |
-| INT-6 | **[PIPELINE-IMPLEMENTATION]** Convert 8 workflow specs into executable Python pipeline | 🟢 DONE |
-| PHASE-F | **[DYNAMIC-AGENT-SYSTEM]** LLM as role-booted agent: prompt templates, context injection, pre-flight gates, structured output, real LLM provider | 🔴 NOW |
-| PHASE-G | **[BIG-PICTURE-ARCH]** Actantial planning, episode goals, conflict architecture, character arcs, revisit triggers | 🟡 NEXT |
-| PHASE-H | **[CHAPTER-WRITING]** Per-chapter scenes, character simulation, dialogue planning, discourse rendering | 🟡 NEXT |
-| PHASE-I | **[REVISION-LOOP]** Critique-driven iteration: hard gate rejection, soft gate improvement, editorial passes, final approval | 🟡 NEXT |
-| PHASE-J | **[HUMAN-INTERFACE]** Intake form, release package, legal check | 🟢 ON DECK |
-| STRETCH | Split ModalityState, Propp validation, GOLEM, Todorov, missing unit tests | ⚪ |
+| # | Task | Why It's Blocking |
+|:-:|:-----|:-----------------|
+| 1 | **Fix scene writer prompt** — real LLM produces scenes with empty `value_object_change` and `future_action_possible_or_blocked`, causing the Greimas 5-question diagnostic to fail all 6 scenes | Pipeline accepts bad data → every downstream check fails |
+| 2 | **Wire the revision loop** — workflow 07 runs critique once, reports hard gate failure, then passes. Must iterate (critique → revision → re-critique) until all structural checks pass | No quality mechanism exists without this — the system can't improve its own output |
+| 3 | **Prompt templates for 14 remaining agents** — Character Simulator, Dialogue Specialist, World Researcher, Worldbuilder, Chapter Planner, Continuity Editor, Script Editor, Developmental/Line/Copy Editor, Proofreader, Revision Agent, Theme Specialist | Pipeline works but most agents are pass-through stubs that generate no meaningful data |
 
 ---
 
-## Pending (carry-over)
+## What the Pipeline Does Today
 
-| Status | Task | Notes |
-|:------:|:-----|:------|
-| ⚪ | **[TYPES-EXTRA]** Additional type maps from user (if any beyond types_maps.md) | Wait for user |
-| ⚪ | **Stories/_template update** | Must match new contract YAML schemas after types integration |
-| ⚪ | **Release package generation** | Blurb, metadata, BISAC tags, series bible update — workflow described but not implemented |
-| ⚪ | **Plagiarism/bias/legal check module** | Referenced in evaluation rubric but no agent/contract exists |
-
----
-
-## Recent Activity
-
-### May 31, 2026 — Scaffold Completed + Greimas Overhaul + Full Ontology Integration ✅
-
-**Status:** Specification phase complete. Ready for implementation.
-
-The narrative-engine repository was scaffolded from scratch in this session:
-
-| Phase | Description | Files |
-|:------|:------------|:------|
-| **Scaffold** | Initial directory tree (13 dirs, 50 files) with placeholder content | README, ROADMAP, docs/, research/, core/, contracts/, agents/, workflows/, templates/, stories/ |
-| **Greimas Upgrade** | Replaced placeholder Greimas content with full formulation: value-states (not physical items), canonical narrative schema (Manipulation → Competence → Performance → Sanction), action/state distinction (действие/състояние), 5-question scene diagnostic, 8 Fabula Coherence Engine checks | `core/greimas/*` (3 files), `core/story-logic/*` (2 files), `docs/theory-notes.md` |
-| **Ontology Expansion** | Integrated complete research from conceptual document: 10 new research files (theme ontology/LTO, BISAC genre taxonomy, character layers/FFM/Schwartz/RMT/attachment, motivation stack/SDT/Reiss, emotion/Plutchik, 7 conflict types, worldbuilding dimensions, evaluation rubric/hard+soft gate, cliché definition, discourse layer) | `research/*` (10 new), `contracts/*` (4 new: theme, conflict, discourse, chapter), `agents/*` (12 new) |
-| **Professional Role Stack** | Replaced simple agent list with full production pipeline: Showrunner → Script Editor → Theme Specialist → Structuralist → Character Simulator → Dialogue Specialist → World Researcher → Outline/Chapter Planners → Continuity Editor → Critic → Editorial Editors (developmental/line/copy/proof) → Revision Agent | `agents/*` (12 new, 8 updated) |
-| **Workflow Restructure** | Re-aligned 8 workflows (00-07) to the operating sequence from the research: brief/taxonomy → seed → structure → episodes → scenes → draft → editorial passes → critique/revision | `workflows/*` (8 files, 6 superseded originals removed) |
-| **User types_maps.md received** | 1130-line type map received at end of session (premise types, scene types, sequence types, stakes, endings, character taxonomies, conflict operations, world types, theme families, tone/style/voice maps, relationship archetypes, symbolism, selection logic, cliché/freshness, integrated Greimas+Propp contracts, full agent role definitions, LLM pipeline spec, story quality definition, master prompt structure) | `types_maps.md` (in repo root, not yet integrated) |
-
-### May 31, 2026 — Phase A: types_maps.md Integrated ✅
-
-**9 new research files:** `premise-types.md`, `scene-types.md`, `sequence-types.md`, `stakes-types.md`, `ending-types.md`, `tone-style-maps.md`, `relationship-archetypes.md`, `symbolism-motifs.md`, `story-definition.md`
-
-**6 updated research files:** `character-layers.md` (dramatic roles, Jungian, Enneagram), `motivation-stack.md` (desires, fears, wounds, needs), `conflict-types.md` (classical types, operations, quality levels), `worldbuilding-dimensions.md` (world types, spectrums, functions), `theme-ontology.md` (theme families, moral questions, expression channels), `genre-taxonomy.md` (genre promises, selection logic), `selection-logic.md` (matrix compatibility, rejection rules), `cliche-definition.md` (signals, generators, formula), `story-components.md` (plot structure systems)
-
-**4 contracts extended:** `story-contract.yaml` (premise_type, ending_type), `scene-contract.yaml` (scene_type), `episode-contract.yaml` (sequence_type, stakes_type), `conflict-contract.yaml` (classical_type, operations, quality_level)
-
-### May 31, 2026 — Phase E: Full pipeline integration test ✅
-
-**22 integration tests** covering all 8 workflows from seed premise to final draft, including contract accumulation, edge cases, and error paths. PipelineOrchestrator runs all 39 steps across 20 agents end-to-end. 149 tests total (127 unit + 22 integration).
-
-**Fixes discovered during integration:**
-- `CharacterArchitect._draft_protagonists` now sets `story.subject_id`, unblocking `showrunner.approve_premise`
-- `SceneWriter._render_prose` sets `conflict_load` on scenes, satisfying Fabula Coherence checks
-- `Critic._run_soft_gate` sets all 9 dimension scores, achieving composite > 5.0 threshold
-
-**Phase D complete:** Agent framework with 20 agent modules (Showrunner, Director, Structuralist, Theme Specialist, Character Architect, Character Simulator, Dialogue Specialist, World Researcher, Worldbuilder, Outline Planner, Chapter Planner, Scene Writer, Continuity Editor, Script Editor, Critic, Developmental Editor, Line Editor, Copy Editor, Proofreader, Revision Agent), contract store with history/versioning/locking, base agent class with lifecycle, LLM provider interface with mock stub, Director pipeline orchestrator, PipelineOrchestrator entry point — 127 tests passing.
-
-**Phase E complete:** Full pipeline integration test — 22 tests covering all 8 workflows from seed premise to final draft. Director dispatches 39 steps across 20 agents end-to-end. Fixes during integration: CharacterArchitect now sets story.subject_id, SceneWriter sets conflict_load on scenes, Critic sets all 9 soft gate dimension scores. 149 tests total.
-
-**Key decisions:**
-- Greimas sits above Propp in the pipeline: Greimas defines *why* (structural necessity); Propp defines *how* (functional morphology).
-- Characters are layered: function (Propp/Greimas) + personality (FFM) + values (Schwartz) + social mode (RMT) + attachment + motivation (SDT+Reiss) + emotion (Plutchik).
-- Evaluation is two-gate: hard gate (structural soundness) rejects; soft gate (novelty, genre fit, thematic clarity) ranks.
-- Cliché = high-frequency genre defaults without inversion, escalation, recombination, or thematic necessity.
-- The system simulates a professional publishing production line, not "one writer agent."
+1. ✅ Brief & taxonomy — story seeded, themes selected, genre set
+2. ✅ Seed → premise — actants extracted, protagonist drafted
+3. ✅ Fabula structure — 8 coherence checks pass, LLM builds fabula
+4. ✅ Episodes — LLM generates 4 episodes with real titles ("The Trap Revealed", "The Final Ascent")
+5. ❌ Scenes — LLM generates scenes but they fail Greimas diagnostic (missing value_object_change)
+6. ✅ Draft — assembled from scenes
+7. ✅ Editorial passes — all hardcoded stubs, always pass
+8. ❌ Critique — hard gate rejects scenes but pipeline continues, no iteration
 
 ---
 
 ## Architecture Decisions
 
-### Pipeline Order
-```
-00 Brief/Taxonomy → 01 Seed/Premise → 02 Structure → 03 Episodes → 04 Scenes → 05 Draft → 06 Editorial → 07 Critique
-```
-
-### Greimas/Propp Integration
-```
-Greimas layer defines structural necessity (actants, value-objects, canonical schema).
-Propp layer provides one possible functional morphology (sequence of 32 functions).
-A Propp function is only valid if it serves an active Greimasian narrative program.
-```
-
-### Actor/Actant Separation
-```
-A character is a psychological construct (personality, values, motivation, emotion, attachment).
-An actant is a structural position (Subject, Object, Sender, Receiver, Helper, Opponent).
-One character can shift actantial positions across narrative programs.
-One actant can be distributed across multiple characters, institutions, objects, or internal forces.
-```
-
-### Contract-Driven Data Flow
-```
-All agents communicate through typed YAML contracts.
-Contracts are the source of truth — not agent memory.
-New contracts added: theme, conflict, discourse, chapter.
-```
+- **Greimas above Propp**: Greimas defines *why* (structural necessity), Propp defines *how* (functional morphology)
+- **Professional publishing role stack**: Showrunner → editors → specialists → proofreader
+- **Two-gate evaluation**: hard gate (structural soundness), soft gate (9-dimension quality ranking)
+- **Cliché defined operationally**: high-frequency genre defaults without inversion, escalation, recombination, or thematic necessity
+- **Characters are layered**: function + personality (FFM) + values (Schwartz) + social mode (RMT) + attachment + motivation + emotion (Plutchik)
+- **All agent communication through typed YAML contracts** — the contract is the source of truth, not agent memory
+- **Every action must transform a state** (действие / състояние). No filler.
+- **LLM boots up as each agent** — it does not call an agent, it *is* the agent. Every `execute()` receives: role card → system prompt, upstream artifacts → context injection, output schema → contract type, pre-flight gate
+- **Pre-flight gate lives in the agent**, not the Director. The Director dispatches; the agent gates itself.
+- **Three-level execution split**: Big Picture (WF 00–03) → Chapter-by-Chapter (WF 04–05) → Revisit (WF 06–07)
+- **Agents fall back to hardcoded generation** when LLM returns no `contract_data` — prevents pipeline from breaking mid-flow
 
 ---
-
-**See [ROADMAP.md](ROADMAP.md)** for the full phased roadmap — Phases A–E framework is done, Phases F–J define the path to a working LLM-driven system.
-
-### Architecture Principle: LLM as Role-Booted Agent
-The LLM does not "call" an agent — it *boots up as* the agent. Each `execute()` receives:
-1. Role card → system prompt ("You are the Structuralist...")
-2. Upstream artifacts → context injection
-3. Output schema → contract type to produce
-4. Pre-flight gate → fails with "go back, missing [agent]'s output" if prerequisites absent
-
-### Three-Level Execution Split
-- **Big Picture** (WF 00–03): actantial model, narrative programs, episode architecture — the structural skeleton, decided once, revisited after each episode or on hard-gate failure
-- **Chapter-by-Chapter** (WF 04–05): per-chapter scenes, character simulation, discourse rendering — local execution informed by Big Picture
-- **Revisit** (WF 06–07): editorial passes and critique loop back to either level; loops until all gates pass
-
-### Known Design Debt
-- `ModalityState` single enum mixes states from all 4 modalities allowing invalid combos — split into per-modality enums deferred to avoid breaking contract YAML files
-- Propp function sequence validation and Todorov equilibrium validation are stubbed but not implemented
-- ContractStore singleton leaks state across tests — safe in serial execution, unsafe in parallel
-- GOLEM event model (goal→action→outcome→event→perception→internal element) referenced in Structuralist spec but not coded
 
 ## Quick Reference
 
-### Key Locations
+| Command | Description |
+|:--------|:------------|
+| `python scripts/demo.py` | Full pipeline with mock LLM |
+| `python scripts/demo.py --model qwen3-coder` | Full pipeline with real LLM |
+| `python scripts/demo.py --to scenes` | Stop after scenes checkpoint |
+| `pytest tests/ -q` | Run all 149 tests |
 
-| Area | Path | Notes |
-|:-----|:-----|:------|
-| Core models | `core/greimas/`, `core/propp/`, `core/story-logic/` | Structural narratology |
-| Contracts | `contracts/*.yaml` | 10 YAML schemas for all data flow |
-| Agents | `agents/*.md` | 20 role cards with responsibilities |
-| Workflows | `workflows/*.md` | 8 pipeline stages |
-| Research | `research/*.md` | 15 domain research files |
-| Docs | `docs/` | System overview, theory notes, glossary |
-| Templates | `templates/` | 6 YAML templates |
-| Python source | `src/` | 14 engine + evaluation modules + 22 agent/pipeline modules |
-| Tests | `tests/` | 127 tests across all modules |
+### Key Paths
 
-### Repository Growth
-
-| Metric | Value |
-|:-------|:------|
-| Total files (spec) | 81 |
-| Research files | 15 |
-| Agent role cards | 20 |
-| Contract schemas (YAML) | 10 |
-| Workflow stages | 8 |
-| Template files | 6 |
-| Core model files | 8 |
-| Python source files | 36 |
-| Python test files | 15 |
-| Lines of Python | ~5500 |
-
----
-
-## Usage Guide
-
-**When to update:**
-- After completing tasks → add to Recent Activity
-- Starting new work → add to Active Work
-- Architectural decisions → add to Architecture Decisions
-
-**Priority levels:**
-- 🔴 NOW — blocking, work on this first
-- 🟡 NEXT — queued after current work
-- ⚪ ON_DECK — available but not urgent
-
-**Scope labels for entries:**
-- S = Small (<50 lines, <1hr, single file)
-- M = Medium (2-5 files, <4hrs, cross-file change)
-- L = Large (5+ files, multi-day, new subsystem)
+| Area | Path |
+|:-----|:-----|
+| Agent modules | `src/agents/*.py` |
+| Prompt templates | `src/agents/prompts/*.md` |
+| LLM provider | `src/agents/llm.py` |
+| Director | `src/agents/director.py` |
+| ContractStore | `src/agents/store.py` |
+| Pydantic models | `src/contracts/models.py` |
+| Checkpoints | `src/pipeline/checkpoints.py` |
+| Pipeline orchestrator | `src/pipeline/orchestrator.py` |
+| Greimas engine | `src/engine/greimas/`, `src/engine/fabula/` |
+| Evaluation | `src/evaluation/` (HardGate, SoftGate, ClicheDetector) |
+| Demo script | `scripts/demo.py` |
+| ROADMAP | `ROADMAP.md` |
+| Contract YAML schemas | `contracts/*.yaml` |
+| Agent role cards | `agents/*.md` |

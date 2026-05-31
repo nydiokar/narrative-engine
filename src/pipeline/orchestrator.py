@@ -31,6 +31,7 @@ from src.agents.theme_specialist import ThemeSpecialist
 from src.agents.world_researcher import WorldResearcher
 from src.agents.worldbuilder import Worldbuilder
 from src.agents.store import ContractStore, get_store
+from src.contracts.models import Medium
 from src.engine.config import get_settings
 
 
@@ -71,11 +72,12 @@ class PipelineOrchestrator:
         agents: dict[str, BaseAgent] | None = None,
         store: ContractStore | None = None,
         logger: Logger | None = None,
+        medium: Medium = Medium.BOOK,
     ) -> None:
         self.store = store or get_store()
         self.logger = logger
         self.agents = agents or default_agent_registry(self.store, self.logger)
-        self.director = Director(self.agents, self.store, self.logger)
+        self.director = Director(self.agents, self.store, self.logger, medium=medium)
 
     def run(self) -> dict[str, list[Any]]:
         self._log("Pipeline started")

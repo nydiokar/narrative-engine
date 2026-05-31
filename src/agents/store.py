@@ -128,6 +128,13 @@ class ContractStore:
     def count(self) -> int:
         return len(self._contracts)
 
+    def delete_by_type(self, type_key: str) -> int:
+        """Delete all contracts of the given type. Returns count deleted."""
+        keys_to_delete = [k for k in self._contracts if k[0] == type_key]
+        for k in keys_to_delete:
+            del self._contracts[k]
+        return len(keys_to_delete)
+
     def clear(self) -> None:
         self._contracts.clear()
 

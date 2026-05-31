@@ -327,6 +327,17 @@ class Tense(str, Enum):
     FUTURE = "future"
 
 
+class Medium(str, Enum):
+    """The delivery medium — affects discourse rendering and workflow steps,
+    not the structural core (actants, fabula, character models, coherence)."""
+    BOOK = "book"
+    MOVIE = "movie"
+    ANIMATION = "animation"
+    GAME = "game"
+    SERIES = "series"
+    AUDIO_DRAMA = "audio_drama"
+
+
 class StoryStatus(str, Enum):
     SEED = "seed"
     BRIEF = "brief"
