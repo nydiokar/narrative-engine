@@ -1,6 +1,6 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-05-31 | **Status:** Phase B (Python scaffold) complete. Phase C (Greimas Engine) next.
+**Branch:** `main` | **Last Updated:** 2026-05-31 | **Status:** Phase C (Greimas Engine) complete. Phase D (Agent Framework) next.
 
 ---
 
@@ -10,8 +10,8 @@
 |:--:|:-----|:--------:|
 | INT-1 | ✅ **[TYPES-INTEGRATION]** types_maps.md integrated — 9 new research files, 6 updated, 4 contracts extended with concrete enums | 🟢 DONE |
 | INT-2 | ✅ **[ARCHITECTURE-PHASE-1]** Python project scaffold — `pyproject.toml`, 53 Pydantic models, YAML loader, config/logging, 11 tests | 🟢 DONE |
-| INT-3 | **[ARCHITECTURE-PHASE-2]** Implement core Greimas Fabula Coherence Engine — 8 diagnostic checks, 5-question scene diagnostic, action/state validation | 🔴 NOW |
-| INT-4 | **[ARCHITECTURE-PHASE-3]** Implement agent modules — Showrunner orchestration loop, contract read/write for each agent, LLM call stubs | 🟡 |
+| INT-3 | ✅ **[ARCHITECTURE-PHASE-2]** Greimas Fabula Coherence Engine — 8 checks, 5-question scene diagnostic, action/state validation, causality, no-filler, evaluation gates, 92 tests | 🟢 DONE |
+| INT-4 | **[ARCHITECTURE-PHASE-3]** Implement agent modules — Showrunner orchestration loop, contract read/write for each agent, LLM call stubs | 🔴 NOW |
 | INT-5 | **[ARCHITECTURE-PHASE-4]** Implement two-gate evaluation system (hard gate + soft gate), editorial pass pipeline, cliché detection | ⚪ |
 | INT-6 | **[ARCHITECTURE-PHASE-5]** Integration test: generate a complete story from seed to final draft through the full pipeline | ⚪ |
 | INT-7 | **[PIPELINE-IMPLEMENTATION]** Convert 8 workflow specs (00-07) into executable Python pipeline | ⚪ |
@@ -54,7 +54,7 @@ The narrative-engine repository was scaffolded from scratch in this session:
 
 **4 contracts extended:** `story-contract.yaml` (premise_type, ending_type), `scene-contract.yaml` (scene_type), `episode-contract.yaml` (sequence_type, stakes_type), `conflict-contract.yaml` (classical_type, operations, quality_level)
 
-**Phase B complete:** Python project scaffold with `pyproject.toml`, 53 Pydantic models (all contracts), YAML loader with validation, config/settings module, 11 passing tests (zero warnings).
+**Phase C complete:** Greimas Fabula Coherence Engine with 5-question scene diagnostic (`action_state.py`), canonical schema checker (`narrative_program.py`), modality rules (`modality.py`), 8-check coherence engine (`coherence.py`), causality graph (`causality.py`), no-filler enforcer (`no_filler.py`), hard-gate/soft-gate/cliché evaluation modules — 92 tests, all passing.
 
 **Key decisions:**
 - Greimas sits above Propp in the pipeline: Greimas defines *why* (structural necessity); Propp defines *how* (functional morphology).
@@ -109,8 +109,8 @@ New contracts added: theme, conflict, discourse, chapter.
 | Research | `research/*.md` | 15 domain research files |
 | Docs | `docs/` | System overview, theory notes, glossary |
 | Templates | `templates/` | 6 YAML templates |
-| Python source | `src/` | `models.py`, `loader.py`, `config.py` |
-| Tests | `tests/` | 11 smoke tests for all contract models |
+| Python source | `src/` | `models.py`, `loader.py`, `config.py`, `action_state.py`, `narrative_program.py`, `modality.py`, `coherence.py`, `causality.py`, `no_filler.py`, `hard_gate.py`, `soft_gate.py`, `cliche.py` |
+| Tests | `tests/` | 92 tests across all modules |
 
 ### Repository Growth
 
@@ -123,9 +123,9 @@ New contracts added: theme, conflict, discourse, chapter.
 | Workflow stages | 8 |
 | Template files | 6 |
 | Core model files | 8 |
-| Python source files | 7 |
-| Python test files | 1 |
-| Lines of Python | 1017 |
+| Python source files | 14 |
+| Python test files | 11 |
+| Lines of Python | ~3000 |
 
 ---
 
