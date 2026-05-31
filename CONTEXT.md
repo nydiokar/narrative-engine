@@ -12,9 +12,14 @@
 | INT-2 | ✅ **[ARCHITECTURE-PHASE-1]** Python project scaffold — `pyproject.toml`, 53 Pydantic models, YAML loader, config/logging, 11 tests | 🟢 DONE |
 | INT-3 | ✅ **[ARCHITECTURE-PHASE-2]** Greimas Fabula Coherence Engine — 8 checks, 5-question scene diagnostic, action/state validation, causality, no-filler, evaluation gates, 92 tests | 🟢 DONE |
 | INT-4 | ✅ **[ARCHITECTURE-PHASE-3]** Agent framework — 20 agent modules, contract store, base class, LLM stub, Director orchestrator, pipeline sequencer, 127 tests | 🟢 DONE |
-| INT-5 | **[ARCHITECTURE-PHASE-4]** Integration test: generate a complete story from seed to final draft through the full pipeline | 🔴 NOW |
-| INT-6 | **[ARCHITECTURE-PHASE-5]** Integration test: generate a complete story from seed to final draft through the full pipeline | ⚪ |
-| INT-7 | **[PIPELINE-IMPLEMENTATION]** Convert 8 workflow specs (00-07) into executable Python pipeline | ⚪ |
+| INT-5 | **[ARCHITECTURE-PHASE-4]** Integration test: generate a complete story from seed to final draft through the full pipeline | 🟢 DONE |
+| INT-6 | **[PIPELINE-IMPLEMENTATION]** Convert 8 workflow specs into executable Python pipeline | 🟢 DONE |
+| PHASE-F | **[DYNAMIC-AGENT-SYSTEM]** LLM as role-booted agent: prompt templates, context injection, pre-flight gates, structured output, real LLM provider | 🔴 NOW |
+| PHASE-G | **[BIG-PICTURE-ARCH]** Actantial planning, episode goals, conflict architecture, character arcs, revisit triggers | 🟡 NEXT |
+| PHASE-H | **[CHAPTER-WRITING]** Per-chapter scenes, character simulation, dialogue planning, discourse rendering | 🟡 NEXT |
+| PHASE-I | **[REVISION-LOOP]** Critique-driven iteration: hard gate rejection, soft gate improvement, editorial passes, final approval | 🟡 NEXT |
+| PHASE-J | **[HUMAN-INTERFACE]** Intake form, release package, legal check | 🟢 ON DECK |
+| STRETCH | Split ModalityState, Propp validation, GOLEM, Todorov, missing unit tests | ⚪ |
 
 ---
 
@@ -54,7 +59,18 @@ The narrative-engine repository was scaffolded from scratch in this session:
 
 **4 contracts extended:** `story-contract.yaml` (premise_type, ending_type), `scene-contract.yaml` (scene_type), `episode-contract.yaml` (sequence_type, stakes_type), `conflict-contract.yaml` (classical_type, operations, quality_level)
 
-**Phase D complete:** Agent framework with 20 agent modules (Showrunner, Director, Structuralist, Theme Specialist, Character Architect, Character Simulator, Dialogue Specialist, World Researcher, Worldbuilder, Outline Planner, Chapter Planner, Scene Writer, Continuity Editor, Script Editor, Critic, Developmental Editor, Line Editor, Copy Editor, Proofreader, Revision Agent), contract store with history/versioning/locking, base agent class with lifecycle, LLM provider interface with mock stub, Director pipeline orchestrator, PipelineOrchestrator entry point — 127 tests, all passing.
+### May 31, 2026 — Phase E: Full pipeline integration test ✅
+
+**22 integration tests** covering all 8 workflows from seed premise to final draft, including contract accumulation, edge cases, and error paths. PipelineOrchestrator runs all 39 steps across 20 agents end-to-end. 149 tests total (127 unit + 22 integration).
+
+**Fixes discovered during integration:**
+- `CharacterArchitect._draft_protagonists` now sets `story.subject_id`, unblocking `showrunner.approve_premise`
+- `SceneWriter._render_prose` sets `conflict_load` on scenes, satisfying Fabula Coherence checks
+- `Critic._run_soft_gate` sets all 9 dimension scores, achieving composite > 5.0 threshold
+
+**Phase D complete:** Agent framework with 20 agent modules (Showrunner, Director, Structuralist, Theme Specialist, Character Architect, Character Simulator, Dialogue Specialist, World Researcher, Worldbuilder, Outline Planner, Chapter Planner, Scene Writer, Continuity Editor, Script Editor, Critic, Developmental Editor, Line Editor, Copy Editor, Proofreader, Revision Agent), contract store with history/versioning/locking, base agent class with lifecycle, LLM provider interface with mock stub, Director pipeline orchestrator, PipelineOrchestrator entry point — 127 tests passing.
+
+**Phase E complete:** Full pipeline integration test — 22 tests covering all 8 workflows from seed premise to final draft. Director dispatches 39 steps across 20 agents end-to-end. Fixes during integration: CharacterArchitect now sets story.subject_id, SceneWriter sets conflict_load on scenes, Critic sets all 9 soft gate dimension scores. 149 tests total.
 
 **Key decisions:**
 - Greimas sits above Propp in the pipeline: Greimas defines *why* (structural necessity); Propp defines *how* (functional morphology).
@@ -95,6 +111,26 @@ New contracts added: theme, conflict, discourse, chapter.
 ```
 
 ---
+
+**See [ROADMAP.md](ROADMAP.md)** for the full phased roadmap — Phases A–E framework is done, Phases F–J define the path to a working LLM-driven system.
+
+### Architecture Principle: LLM as Role-Booted Agent
+The LLM does not "call" an agent — it *boots up as* the agent. Each `execute()` receives:
+1. Role card → system prompt ("You are the Structuralist...")
+2. Upstream artifacts → context injection
+3. Output schema → contract type to produce
+4. Pre-flight gate → fails with "go back, missing [agent]'s output" if prerequisites absent
+
+### Three-Level Execution Split
+- **Big Picture** (WF 00–03): actantial model, narrative programs, episode architecture — the structural skeleton, decided once, revisited after each episode or on hard-gate failure
+- **Chapter-by-Chapter** (WF 04–05): per-chapter scenes, character simulation, discourse rendering — local execution informed by Big Picture
+- **Revisit** (WF 06–07): editorial passes and critique loop back to either level; loops until all gates pass
+
+### Known Design Debt
+- `ModalityState` single enum mixes states from all 4 modalities allowing invalid combos — split into per-modality enums deferred to avoid breaking contract YAML files
+- Propp function sequence validation and Todorov equilibrium validation are stubbed but not implemented
+- ContractStore singleton leaks state across tests — safe in serial execution, unsafe in parallel
+- GOLEM event model (goal→action→outcome→event→perception→internal element) referenced in Structuralist spec but not coded
 
 ## Quick Reference
 
