@@ -22,6 +22,8 @@ class RevisionAgent(BaseAgent):
             return self._apply_copy_changes(context)
         if context.step_id == "apply_revisions":
             return self._apply_revisions(context)
+        if context.step_id == "apply_script_changes":
+            return self._apply_script_changes(context)
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _apply_structural_changes(self, context: AgentContext) -> AgentResult:
@@ -32,6 +34,9 @@ class RevisionAgent(BaseAgent):
 
     def _apply_copy_changes(self, context: AgentContext) -> AgentResult:
         return AgentResult(success=True, message="Copy edit changes applied")
+
+    def _apply_script_changes(self, context: AgentContext) -> AgentResult:
+        return AgentResult(success=True, message="Script edit changes applied")
 
     def _apply_revisions(self, context: AgentContext) -> AgentResult:
         critiques = self.list_contracts("critique")

@@ -14,6 +14,7 @@ AGENT_PROMPT_FILES: dict[str, str] = {
     "outline_planner": "outline_planner.md",
     "scene_writer": "scene_writer.md",
     "critic": "critic.md",
+    "script_editor": "script_editor.md",
 }
 
 _cache: dict[str, str] = {}
