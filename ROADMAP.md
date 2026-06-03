@@ -48,30 +48,68 @@ Dynamic Agent System — LLM as role-booted agent.
 
 ---
 
-## Critical Path — Next 3 Tasks
+## Phase G (Latest) — Prompt Templates for All Agents + Persistence
 
-These are what blocks producing a valid draft from a real LLM. Everything else is downstream.
-
-### 1. Fix Scene Writer Prompt
-Real LLM produces scenes that pass Pydantic schema validation but fail the Greimas 5-question diagnostic. Root cause: the prompt template doesn't adequately constrain `value_object_change` and `future_action_possible_or_blocked` fields. Fix with better exemplars, explicit field descriptions, and a validation example demonstrating the required format.
-
-### 2. Wire the Revision Loop
-Workflow 07 (critique-and-revision) currently runs once — hard gate reports failures but the pipeline accepts them and moves on. Fix: when Critic returns hard gate violations, the Revision Agent must receive them and iterate (re-enter at the appropriate level) until all structural checks pass. This is the core quality mechanism of the entire system.
-
-### 3. Prompt Templates for Remaining 14 Agents
-The remaining agents (Character Simulator, Dialogue Specialist, World Researcher, Worldbuilder, Chapter Planner, Continuity Editor, Script Editor, Developmental Editor, Line Editor, Copy Editor, Proofreader, Revision Agent, Theme Specialist, Showrunner-extra steps) are hardcoded stubs. They return success messages but don't call the LLM or generate meaningful contract data. Writing prompt templates makes the full publishing stack LLM-driven end-to-end.
+- [x] 12 new prompt templates written (Character Simulator, Dialogue Specialist, World Researcher, Worldbuilder, Chapter Planner, Continuity Editor, Developmental Editor, Line Editor, Copy Editor, Proofreader, Revision Agent, Theme Specialist)
+- [x] All 19 workflow-active agents now call the LLM through their prompt
+- [x] Scene Writer prompt enhanced: minimum 100 words of real content per scene
+- [x] ContractStore.save(path) / ContractStore.load(path) — full JSON serialization
+- [x] demo.py --save <path> / --load <path> flags
+- [x] 151 / 151 tests passing
 
 ---
 
-## Downstream (after critical path)
+## Phase H — Narrative Simulation Workbench (Next Major Feature)
+
+The goal: turn the pipeline from a linear generator into an **interactive creative lab** where you can explore, compare, freeze, and combine.
+
+### Core Capabilities
+
+| Capability | What It Means |
+|:-----------|:--------------|
+| **Fork at any checkpoint** | `--to premise --variants 5` generates 5 different structural approaches from the same premise |
+| **Vary creative parameters** | Per-variant: temperature, top_p, top_k, genre override, tone injection, seed prompt |
+| **Rank and compare** | Side-by-side table with hard gate + soft gate scores per variant |
+| **Cherry-pick** | Take variant A's premise, variant B's structure, variant C's episodes — merge into a single path |
+| **Freeze / lock** | Lock contracts you're happy with so subsequent passes don't overwrite them |
+| **Continue from any point** | Load a saved state, fork from it, run forward to a target checkpoint |
+
+### Why This Matters
+
+The current pipeline is deterministic once you pick a premise and model. A human writer explores 10+ structural approaches before committing. The workbench makes this possible:
+
+```
+# Example session
+$ python scripts/demo.py --model qwen3-coder --to premise --variants 3
+  # → sees 3 different actant configurations, picks the best
+
+$ python scripts/demo.py --load best_premise.json --to structure --variants 5 --vary genre
+  # → tries 5 genres on the same premise, ranks them
+
+$ python scripts/demo.py --load best_structure.json --to final
+  # → locks it, runs through full pipeline
+```
+
+### LLM Parameters Gap
+
+Currently `OpenAILLMProvider` only exposes `temperature` and `max_tokens`. To support creative variance we need:
+- [ ] `top_p` (nucleus sampling)
+- [ ] `top_k` (top-k sampling)
+- [ ] `frequency_penalty`
+- [ ] `presence_penalty`
+- [ ] Seed parameter (for reproducible variance)
+- [ ] Per-call parameter override (not just global defaults)
+
+---
+
+## Downstream (future)
 
 | Area | What |
 |:-----|:------|
-| Big Picture Planning | Actantial-level planning, episode goal setting, conflict architecture, character arc architecture |
-| Chapter Writing | Per-chapter scenes, character simulation, dialogue planning, discourse rendering + actual prose |
 | Quality & Iteration | Revisit triggers, editorial passes with real analysis, showrunner final approval |
 | Infrastructure | ModalityState split, Propp/Todorov/GOLEM models, save/load, CLI, test coverage |
 | Human Interface | Intake form, release package, legal/bias check |
+| Concept Branching | Multi-draft comparison, "generate 3 concepts" workflow variant |
 
 ---
 
