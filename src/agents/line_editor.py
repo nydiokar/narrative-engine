@@ -19,4 +19,9 @@ class LineEditor(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _refine_prose(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Line edit complete — prose refined")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Line edit complete — prose refined"),
+            errors=result.get("errors", []),
+        )

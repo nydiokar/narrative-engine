@@ -17,6 +17,10 @@ Mediums:
     --medium game        Interactive narrative
     --medium audio_drama Audio description + dialogue
 
+Save/Load:
+    --save <path>   Save pipeline state to JSON file after run
+    --load <path>   Load pipeline state from JSON file before run
+
 Environment variables for real LLM:
     LLM_BASE_URL    — API base URL (default: http://localhost:11434/v1)
     LLM_API_KEY     — API key (default: ollama)
@@ -444,6 +448,9 @@ def main():
     model_name = None
     medium = Medium.BOOK
 
+    save_path = None
+    load_path = None
+
     for i, arg in enumerate(args):
         if arg == "--to" and i + 1 < len(args):
             target_checkpoint = args[i + 1]
@@ -456,6 +463,10 @@ def main():
             model_name = args[i + 1]
         if arg == "--medium" and i + 1 < len(args):
             medium = Medium(args[i + 1])
+        if arg == "--save" and i + 1 < len(args):
+            save_path = args[i + 1]
+        if arg == "--load" and i + 1 < len(args):
+            load_path = args[i + 1]
 
     if target_checkpoint and target_checkpoint not in CHECKPOINT_ORDER:
         print(f"Unknown checkpoint '{target_checkpoint}'")
@@ -496,11 +507,25 @@ def main():
     print("SEED PREMISE:")
     print(f"  {premise[:120]}...\n")
 
+    # Load from saved state if requested
+    if load_path:
+        import os
+        if os.path.exists(load_path):
+            store.load(load_path)
+            print(f"\nLoaded pipeline state from {load_path}")
+        else:
+            print(f"\nLoad path {load_path} not found — starting fresh")
+
     # Run the pipeline
     agents = default_agent_registry(store=store)
     director = Director(agents, store=store, medium=medium)
 
     reports = run_to_checkpoint(director, target_checkpoint or "final", verbose=True)
+
+    # Save pipeline state if requested
+    if save_path:
+        store.save(save_path)
+        print(f"\nSaved pipeline state to {save_path}")
 
     # Final summary
     print(f"\n{'='*60}")

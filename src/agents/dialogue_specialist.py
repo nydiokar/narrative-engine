@@ -19,8 +19,10 @@ class DialogueSpecialist(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _plan_speech_acts(self, context: AgentContext) -> AgentResult:
+        result = self._call_llm_for_step(context)
         scenes = self.list_contracts("scene")
         return AgentResult(
-            success=True,
-            message=f"Speech acts planned for {len(scenes)} scenes",
+            success=result.get("success", True),
+            message=result.get("message", f"Speech acts planned for {len(scenes)} scenes"),
+            errors=result.get("errors", []),
         )

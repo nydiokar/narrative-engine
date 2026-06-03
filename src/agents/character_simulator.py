@@ -19,9 +19,11 @@ class CharacterSimulator(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _enact_episode(self, context: AgentContext) -> AgentResult:
+        result = self._call_llm_for_step(context)
         chars = self.list_contracts("character")
         return AgentResult(
-            success=True,
-            message=f"Simulated {len(chars)} characters through episode",
+            success=result.get("success", True),
+            message=result.get("message", f"Simulated {len(chars)} characters through episode"),
             artifacts=[str(c.id) for c in chars],
+            errors=result.get("errors", []),
         )

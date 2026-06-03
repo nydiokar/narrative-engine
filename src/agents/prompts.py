@@ -15,6 +15,18 @@ AGENT_PROMPT_FILES: dict[str, str] = {
     "scene_writer": "scene_writer.md",
     "critic": "critic.md",
     "script_editor": "script_editor.md",
+    "theme_specialist": "theme_specialist.md",
+    "world_researcher": "world_researcher.md",
+    "worldbuilder": "worldbuilder.md",
+    "chapter_planner": "chapter_planner.md",
+    "character_simulator": "character_simulator.md",
+    "dialogue_specialist": "dialogue_specialist.md",
+    "developmental_editor": "developmental_editor.md",
+    "line_editor": "line_editor.md",
+    "copy_editor": "copy_editor.md",
+    "proofreader": "proofreader.md",
+    "revision_agent": "revision_agent.md",
+    "continuity_editor": "continuity_editor.md",
 }
 
 _cache: dict[str, str] = {}

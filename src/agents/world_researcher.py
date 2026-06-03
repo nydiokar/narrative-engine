@@ -21,11 +21,17 @@ class WorldResearcher(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _set_world_axes(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="World axes defined")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "World axes defined"),
+            errors=result.get("errors", []),
+        )
 
     def _assign_settings(self, context: AgentContext) -> AgentResult:
-        episodes = self.list_contracts("episode")
+        result = self._call_llm_for_step(context)
         return AgentResult(
-            success=True,
-            message=f"Settings assigned to {len(episodes)} episodes",
+            success=result.get("success", True),
+            message=result.get("message", f"Settings assigned"),
+            errors=result.get("errors", []),
         )

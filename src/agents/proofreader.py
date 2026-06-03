@@ -19,4 +19,9 @@ class Proofreader(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _final_check(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Proofread complete — clearance certificate issued")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Proofread complete — clearance certificate issued"),
+            errors=result.get("errors", []),
+        )

@@ -135,6 +135,88 @@ class ContractStore:
             del self._contracts[k]
         return len(keys_to_delete)
 
+    def save(self, path: str) -> None:
+        """Serialize the store to a JSON file."""
+        import json
+        from datetime import datetime
+
+        def serialize_dt(obj: Any) -> Any:
+            if isinstance(obj, datetime):
+                return obj.isoformat()
+            if isinstance(obj, UUID):
+                return str(obj)
+            raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
+
+        data: dict[str, list[dict[str, Any]]] = {}
+        for (tk, cid), entry in self._contracts.items():
+            data.setdefault(tk, []).append({
+                "contract": entry.contract.model_dump(mode="json"),
+                "current_version": entry.current_version,
+                "history": [
+                    {
+                        "version": h.version,
+                        "timestamp": h.timestamp.isoformat(),
+                        "agent": h.agent,
+                        "action": h.action,
+                        "snapshot": h.snapshot,
+                    }
+                    for h in entry.history
+                ],
+                "locked": entry.locked,
+            })
+
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, default=serialize_dt)
+
+    def load(self, path: str) -> None:
+        """Deserialize the store from a JSON file, merging into existing state."""
+        import json
+        from datetime import datetime
+
+        from pydantic import BaseModel
+
+        from src.contracts.models import (
+            ChapterContract,
+            CharacterContract,
+            ConflictContract,
+            CritiqueContract,
+            DiscourseContract,
+            EpisodeContract,
+            ObjectOfValueContract,
+            SceneContract,
+            StoryContract,
+            ThemeContract,
+            WorldContract,
+        )
+
+        TYPE_MODEL_MAP: dict[str, type[BaseModel]] = {
+            "story": StoryContract,
+            "theme": ThemeContract,
+            "character": CharacterContract,
+            "object_of_value": ObjectOfValueContract,
+            "episode": EpisodeContract,
+            "chapter": ChapterContract,
+            "scene": SceneContract,
+            "conflict": ConflictContract,
+            "discourse": DiscourseContract,
+            "critique": CritiqueContract,
+            "world": WorldContract,
+        }
+
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        loaded = 0
+        for type_key, entries in data.items():
+            model_cls = TYPE_MODEL_MAP.get(type_key)
+            if not model_cls:
+                continue
+            for entry_data in entries:
+                contract_dict = entry_data["contract"]
+                contract = model_cls(**contract_dict)
+                self.put(type_key, contract, agent="system")
+                loaded += 1
+
     def clear(self) -> None:
         self._contracts.clear()
 

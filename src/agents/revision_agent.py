@@ -27,21 +27,50 @@ class RevisionAgent(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _apply_structural_changes(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Structural changes applied")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Structural changes applied"),
+            errors=result.get("errors", []),
+        )
 
     def _apply_line_changes(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Line edit changes applied")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Line edit changes applied"),
+            errors=result.get("errors", []),
+        )
 
     def _apply_copy_changes(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Copy edit changes applied")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Copy edit changes applied"),
+            errors=result.get("errors", []),
+        )
 
     def _apply_script_changes(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Script edit changes applied")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Script edit changes applied"),
+            errors=result.get("errors", []),
+        )
 
     def _apply_revisions(self, context: AgentContext) -> AgentResult:
+        result = self._call_llm_for_step(context)
         critiques = self.list_contracts("critique")
         if critiques:
             c = critiques[0]
             if getattr(c, "verdict", "") == "fail":
-                return AgentResult(success=False, message="Revisions needed — hard gate failures remain")
-        return AgentResult(success=True, message="All revisions applied")
+                return AgentResult(
+                    success=False,
+                    message=result.get("message", "Revisions needed — hard gate failures remain"),
+                    errors=result.get("errors", []),
+                )
+        return AgentResult(
+            success=True,
+            message=result.get("message", "All revisions applied"),
+            errors=result.get("errors", []),
+        )

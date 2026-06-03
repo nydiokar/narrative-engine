@@ -25,6 +25,20 @@ class ThemeSpecialist(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _select_themes(self, context: AgentContext) -> AgentResult:
+        result = self._call_llm_for_step(context)
+        contract_data = result.get("contract_data")
+        if contract_data:
+            try:
+                theme = ThemeContract(
+                    primary_themes=contract_data.get("primary_themes", [{"name": "freedom", "question": "What is the cost of freedom?"}]),
+                    secondary_themes=contract_data.get("secondary_themes", []),
+                    moral_tensions=contract_data.get("moral_tensions", []),
+                    symbolic_motifs=contract_data.get("symbolic_motifs", []),
+                )
+                tid = self.write_contract("theme", theme)
+                return AgentResult(success=True, message=result.get("message", "Themes selected"), artifacts=[tid])
+            except Exception:
+                self.log("warning", "LLM contract_data invalid for themes, using fallback")
         theme = ThemeContract(
             primary_themes=[{"name": "freedom", "question": "What is the cost of freedom?"}],
             moral_tensions=[{"themes": ["freedom", "security"], "conflict": "Freedom vs security"}],
@@ -33,17 +47,24 @@ class ThemeSpecialist(BaseAgent):
         return AgentResult(success=True, message="Themes selected", artifacts=[tid])
 
     def _select_genre(self, context: AgentContext) -> AgentResult:
+        result = self._call_llm_for_step(context)
         stories = self.list_contracts("story")
         if stories:
             story = stories[0]
+            contract_data = result.get("contract_data", {})
             genre = GenreSelection(
-                primary_bisac="FIC009000" if not getattr(story, "genre", None) else "FIC009000",
-                secondary_bisac=["FIC009020"],
-                subgenre_notes="Epic fantasy with mythic stakes",
+                primary_bisac=contract_data.get("primary_bisac", "FIC009000"),
+                secondary_bisac=contract_data.get("secondary_bisac", ["FIC009020"]),
+                subgenre_notes=contract_data.get("subgenre_notes", "Epic fantasy with mythic stakes"),
             )
             story.genre = genre
             self.write_contract("story", story)
-        return AgentResult(success=True, message="Genre selected")
+        return AgentResult(success=True, message=result.get("message", "Genre selected"))
 
     def _validate_thematic_fit(self, context: AgentContext) -> AgentResult:
-        return AgentResult(success=True, message="Themes validated against fabula")
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", True),
+            message=result.get("message", "Themes validated against fabula"),
+            errors=result.get("errors", []),
+        )

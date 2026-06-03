@@ -58,21 +58,40 @@ Below is the exact shape of one scene in contracts_data:
 - value_object_change: a compound like "fear_to_courage" proving state transformation. NOT "none", "unchanged", or empty.
 - future_action_possible_or_blocked: what narrative door opens or closes (non-empty string)
 
-## Content Format by Medium
+## Content Format by Medium — CRITICAL
 
 The target medium is: {medium}
 
-For "book": Narrative prose with POV and interiority.
+IMPORTANT: The "content" field must be READABLE and SUBSTANTIVE. Minimum 100 words per scene. No summaries. No bullet points. No meta commentary. Write the actual content.
 
-For "animation": Visual descriptions with blocking, dialogue, camera suggestions, motion notes. All in the content string. Example: 'CLOSE UP on Maya as she pulls the spray can. She hesitates. PAN to the wall. She sprays a single line of glowing paint that shimmers and pulses. WIDE SHOT of the alley as the paint ignites with color. CUT TO: The Emotion Bureau's console lighting up with alarms.'
+### For "book":
+Full narrative prose with POV and interiority. Write paragraph(s) of actual story text. Include sensory detail, action, dialogue, and internal state. The content should read like a page from a novel.
+- Minimum 100 words, ideally 150-300 words per scene
+- Use the established POV (e.g., third limited)
+- Include at least one line of dialogue per scene (unless solo)
+- Example (NOT a summary): '"The rain hadn't stopped for three days. Kael pulled his collar up and stepped into the alley, the cobblestones slick under his boots. A figure waited at the far end — hooded, still. "You're late," the figure said. Kael's hand drifted to his belt knife. "I'm exactly on time. You're the one who's early." The figure laughed, a dry sound like gravel. "Always the poet. Come on, then. She's waiting." And then the figure turned and vanished into a doorway that Kael could have sworn wasn't there a moment ago.'"
 
-For "movie": Screenplay action lines and dialogue. Character names in caps before dialogue.
+### For "animation":
+Visual descriptions with blocking, dialogue, camera suggestions, motion notes. Write in storyboard-narrative style. Include character action and spoken lines.
+- Camera cues: CLOSE UP, WIDE SHOT, PAN TO, CUT TO, etc.
+- Character blocking and key poses
+- Dialogue with character names
+- Action descriptions emphasize motion and timing
 
-For "series": Teleplay-style with act awareness and scene headings.
+### For "movie":
+Screenplay action lines and dialogue. Character names in caps before dialogue. Present tense, visual descriptions only (no interiority).
+- Slugline: INT./EXT. LOCATION - TIME
+- Action lines describe what the camera sees
+- Character cues in CAPS before dialogue
 
-For "game": Environmental description and action cues.
+### For "series":
+Teleplay-style with act awareness and scene headings. Shorter scenes. Dialogue-driven with quick exchanges.
 
-For "audio_drama": Sound-rich description with SFX and dialogue.
+### For "game":
+Environmental description and action cues. Include what the player sees, hears, and can interact with.
+
+### For "audio_drama":
+Sound-rich description with SFX cues and dialogue. Describe what the listener hears.
 
 ## Steps
 
