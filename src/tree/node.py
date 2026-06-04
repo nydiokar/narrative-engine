@@ -157,6 +157,71 @@ class TreeStore:
         root_str = data.get("root_id")
         self._root_id = UUID(root_str) if root_str else None
 
+    def prune(self, node_id: UUID) -> int:
+        """Remove a node and all its descendants from the tree.
+
+        Returns the total number of nodes removed.
+        """
+        node = self.get(node_id)
+        if not node:
+            return 0
+
+        # Collect all descendant IDs via BFS
+        to_delete: set[UUID] = {node_id}
+        queue = list(node.children)
+        while queue:
+            current = self.get(queue.pop(0))
+            if current:
+                to_delete.add(current.id)
+                queue.extend(current.children)
+
+        # Remove from parent's children list
+        if node.parent_id:
+            parent = self.get(node.parent_id)
+            if parent:
+                parent.children = [cid for cid in parent.children if cid != node_id]
+
+        # Delete all collected nodes
+        for nid in to_delete:
+            self._nodes.pop(nid, None)
+
+        # If root was pruned, clear the root
+        if node_id == self._root_id:
+            self._root_id = None
+
+        return len(to_delete)
+
+    def print_tree(self, node_id: UUID | None = None, prefix: str = "", is_last: bool = True) -> None:
+        """Print an ASCII tree visualization starting from the given node.
+
+        If node_id is None, starts from the root.
+        Uses ASCII characters for cross-platform compatibility.
+        """
+        if node_id is None:
+            node = self.root
+        else:
+            node = self.get(node_id)
+
+        if not node:
+            print("(empty tree)")
+            return
+
+        # Print current node
+        connector = "+-- " if is_last else "|-- "
+        active_marker = " [active]" if node.active else ""
+        label_part = f"({node.label})" if node.label else f"({str(node.id)[:8]}...)"
+        depth_part = f" d={node.depth}" if node.depth > 0 else ""
+        checkpoint_part = f" @{node.checkpoint}" if node.checkpoint else ""
+        print(f"{prefix}{connector}{label_part}{checkpoint_part}{depth_part}{active_marker}")
+
+        # Print children
+        if node.children:
+            child_prefix = prefix + ("    " if is_last else "|   ")
+            for i, cid in enumerate(node.children):
+                c = self.get(cid)
+                if c:
+                    self.print_tree(c.id, child_prefix, i == len(node.children) - 1)
+
     def size(self) -> int:
         return len(self._nodes)
 

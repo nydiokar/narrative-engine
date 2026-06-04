@@ -253,6 +253,20 @@ class TreeExecutor:
             current_active.active = False
         node.active = True
 
+    def prune(self, node: TreeNode) -> int:
+        """Remove a node and its entire subtree from the tree.
+
+        If the active node is removed, the nearest ancestor becomes
+        the new active path. Returns the count of removed nodes.
+        """
+        removed = self.tree.prune(node.id)
+        # If active was in the pruned subtree, promote nearest ancestor
+        if self.tree.get_active() is None:
+            ancestor = self.tree.get(node.parent_id) if node.parent_id else self.tree.root
+            if ancestor:
+                ancestor.active = True
+        return removed
+
     def _apply_variant(
         self,
         store: ContractStore,

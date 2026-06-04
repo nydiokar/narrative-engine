@@ -5,8 +5,11 @@ Commands:
     branch      Create N variant children from a node
     compare     Compare siblings side-by-side
     promote     Mark a node as active path
-    lock        Lock contract types so workflows skip them
-    unlock      Unlock contract types
+    prune       Remove a node and all its descendants from the tree
+    show        Display the tree as ASCII art
+    set         Set contract fields and optionally lock them
+    lock        Lock contract types/fields so workflows skip/respect them
+    unlock      Unlock contract types/fields
 
 Global flags:
     --model TEXT       LLM model name (implies real LLM)
@@ -14,15 +17,19 @@ Global flags:
     --premise TEXT     Custom premise string
     --save PATH        Save pipeline state after run
     --load PATH        Load pipeline state before run
+    --set KEY=VALUE    Set a contract field (e.g. --set story.premise="New premise")
+    --lock TYPE[.FIELD]  Lock a contract type or specific field
 
 Per-command flags:
-    run [--to CHECKPOINT]
-    branch [--from CHECKPOINT] [--vary FIELD] [--values LIST]
-           [--to CHECKPOINT] [--tree-load PATH] [--tree-save PATH]
+    run [--to CHECKPOINT] [--set KEY=VALUE] [--lock TYPE[.FIELD]]
+    branch [--from CHECKPOINT] [--vary FIELD] [--values LIST] [--set KEY=VALUE]
+           [--to CHECKPOINT] [--tree-load PATH] [--tree-save PATH] [--lock TYPE[.FIELD]]
     compare [--tree-load PATH] --labels LIST
     promote [--tree-load PATH] [--tree-save PATH] LABEL
-    lock TYPE [TYPE ...]
-    unlock TYPE [TYPE ...]
+    prune LABEL --tree-load PATH [--tree-save PATH]
+    set TYPE.FIELD=VALUE [TYPE.FIELD=VALUE ...] [--lock] [--load PATH] [--save PATH]
+    lock TYPE[.FIELD] [TYPE[.FIELD] ...]
+    unlock TYPE[.FIELD] [TYPE[.FIELD] ...]
 
 Checkpoints: brief, premise, structure, episodes, scenes, draft, editorial, final
 """
@@ -81,8 +88,12 @@ def _print_store(store):
         for c in contracts:
             d = c.model_dump(mode="json") if hasattr(c, "model_dump") else {}
             title = d.get("title") or d.get("name") or str(d.get("id", "?"))[:8]
+            cid = str(c.id)
             locked = " [LOCKED]" if store.is_type_locked(type_key) else ""
-            print(f"    [{type_key}] {title}{locked}")
+            # Show field-level locks (type-level)
+            field_locks = store._field_locks.get(type_key, set())
+            field_lock_info = f" fields={{{','.join(sorted(field_locks))}}}" if field_locks else ""
+            print(f"    [{type_key}] {title}{locked}{field_lock_info}")
             if type_key == "story":
                 p = d.get("premise", "")
                 print(f"      premise: {p[:60] + '...' if len(p) > 60 else p}")
@@ -100,6 +111,51 @@ def _print_store(store):
                     print(f"      diagnostic: {'PASS' if diag.get('diagnostic_pass') else 'FAIL'}")
 
 
+def _parse_lock_arg(arg: str) -> tuple[str, str | None]:
+    """Parse a lock argument into (type_key, field_path_or_None).
+
+    >>> _parse_lock_arg("story")
+    ('story', None)
+    >>> _parse_lock_arg("story.genre")
+    ('story', 'genre')
+    """
+    if "." in arg:
+        parts = arg.split(".", 1)
+        return parts[0], parts[1]
+    return arg, None
+
+
+def _apply_set_flags(store: Any, set_args: list[str]) -> None:
+    """Apply --set key=value flags to the contract store.
+
+    Format: type.field.path=value
+    Example: story.genre.primary_bisac=FIC002000
+    """
+    for set_arg in set_args:
+        if "=" not in set_arg:
+            print(f"  Warning: --set '{set_arg}' has no '=' sign, skipping")
+            continue
+        field_spec, raw_value = set_arg.split("=", 1)
+        dot_idx = field_spec.find(".")
+        if dot_idx == -1:
+            print(f"  Warning: --set '{field_spec}' needs type.field format, skipping")
+            continue
+        type_key = field_spec[:dot_idx]
+        field_path = field_spec[dot_idx + 1:]
+        contracts = store.list_by_type(type_key)
+        if not contracts:
+            print(f"  Warning: no {type_key} contracts to set '{field_path}' on")
+            continue
+        for contract in contracts:
+            obj = contract
+            parts = field_path.split(".")
+            for part in parts[:-1]:
+                obj = getattr(obj, part)
+            setattr(obj, parts[-1], raw_value)
+            store.put(type_key, contract, agent="cli_set")
+        print(f"  Set {type_key}.{field_path} = {raw_value} ({len(contracts)} contract(s))")
+
+
 def cmd_run(args: list[str]):
     """python -m src run [--to CHECKPOINT] [--model NAME] [--premise TEXT] [--save PATH] [--load PATH] [--lock TYPE]"""
     target = None
@@ -110,6 +166,8 @@ def cmd_run(args: list[str]):
     save_path = None
     load_path = None
     lock_types: list[str] = []
+
+    set_args: list[str] = []
 
     for i, arg in enumerate(args):
         if arg == "--to" and i + 1 < len(args):
@@ -127,6 +185,8 @@ def cmd_run(args: list[str]):
             load_path = args[i + 1]
         elif arg == "--lock" and i + 1 < len(args):
             lock_types = [t.strip() for t in args[i + 1].split(",")]
+        elif arg == "--set" and i + 1 < len(args):
+            set_args.append(args[i + 1])
 
     if target and target not in CHECKPOINT_ORDER:
         print(f"Unknown checkpoint '{target}'")
@@ -154,11 +214,21 @@ def cmd_run(args: list[str]):
         store.put("story", story)
         print(f"\nSeeded story: {story.title}")
 
-    # Apply locks from --lock flag
+    # Apply --set flags BEFORE locks so set-then-lock works
+    if set_args:
+        _apply_set_flags(store, set_args)
+
+    # Apply locks from --lock flag (support field-level locking)
     for t in lock_types:
-        n = store.lock_all(t)
-        if n > 0:
-            print(f"  Locked {n} {t} contract(s)")
+        type_key, field_path = _parse_lock_arg(t)
+        if field_path:
+            n = store.lock_field_all(type_key, field_path)
+            if n > 0:
+                print(f"  Locked {type_key}.{field_path} on {n} contract(s)")
+        else:
+            n = store.lock_all(type_key)
+            if n > 0:
+                print(f"  Locked {n} {type_key} contract(s)")
 
     agents = default_agent_registry(store=store)
     director = Director(agents, store=store, medium=medium)
@@ -196,6 +266,8 @@ def cmd_branch(args: list[str]):
     tree_save_path = None
     lock_types: list[str] = []
 
+    set_args: list[str] = []
+
     for i, arg in enumerate(args):
         if arg == "--from" and i + 1 < len(args):
             branch_from = args[i + 1]
@@ -218,6 +290,8 @@ def cmd_branch(args: list[str]):
             tree_save_path = args[i + 1]
         elif arg == "--lock" and i + 1 < len(args):
             lock_types = [t.strip() for t in args[i + 1].split(",")]
+        elif arg == "--set" and i + 1 < len(args):
+            set_args.append(args[i + 1])
 
     _setup_llm(use_real_llm, model_name)
     agents = default_agent_registry(store=get_store())
@@ -239,12 +313,24 @@ def cmd_branch(args: list[str]):
         tree.root = root
         print(f"Created root from current store")
 
-    # Apply locks from --lock flag
+    # Apply --set flags BEFORE locks so set-then-lock works
+    if set_args:
+        store_ref = get_store()
+        _apply_set_flags(store_ref, set_args)
+
+    # Apply locks from --lock flag (support field-level locking)
     if lock_types:
         store = get_store()
         for t in lock_types:
-            n = store.lock_all(t)
-            print(f"  Locked {n} {t} contract(s)")
+            type_key, field_path = _parse_lock_arg(t)
+            if field_path:
+                n = store.lock_field_all(type_key, field_path)
+                if n > 0:
+                    print(f"  Locked {type_key}.{field_path} on {n} contract(s)")
+            else:
+                n = store.lock_all(type_key)
+                if n > 0:
+                    print(f"  Locked {n} {type_key} contract(s)")
 
     if not values_str:
         print("--values is required. Example: --values fantasy,scifi,horror")
@@ -388,15 +474,16 @@ def _parse_keyword_args(args: list[str]) -> tuple[list[str], dict[str, str]]:
 
 
 def cmd_lock(args: list[str]):
-    """python -m src lock TYPE [TYPE ...] [--load PATH] [--save PATH]"""
+    """python -m src lock TYPE[.FIELD] [TYPE[.FIELD] ...] [--load PATH] [--save PATH]"""
     positional, kwargs = _parse_keyword_args(args)
-    types = positional
+    specs = positional
     load_path = kwargs.get("load")
     save_path = kwargs.get("save")
 
-    if not types:
-        print("Usage: python -m src lock story character [--load PATH]")
+    if not specs:
+        print("Usage: python -m src lock story character story.genre [--load PATH]")
         print("Available types: story, theme, character, world, episode, chapter, scene, discourse, critique")
+        print("Dotted paths (e.g. story.genre) lock a field on all contracts of that type.")
         sys.exit(1)
 
     reset_store()
@@ -405,9 +492,14 @@ def cmd_lock(args: list[str]):
         store.load(load_path)
         print(f"Loaded from {load_path}")
 
-    for t in types:
-        n = store.lock_all(t)
-        print(f"  Locked {n} {t} contract(s)")
+    for spec in specs:
+        type_key, field_path = _parse_lock_arg(spec)
+        if field_path:
+            n = store.lock_field_all(type_key, field_path)
+            print(f"  Locked {type_key}.{field_path} on {n} contract(s)")
+        else:
+            n = store.lock_all(type_key)
+            print(f"  Locked {n} {type_key} contract(s)")
 
     if save_path:
         store.save(save_path)
@@ -415,14 +507,14 @@ def cmd_lock(args: list[str]):
 
 
 def cmd_unlock(args: list[str]):
-    """python -m src unlock TYPE [TYPE ...] [--load PATH] [--save PATH]"""
+    """python -m src unlock TYPE[.FIELD] [TYPE[.FIELD] ...] [--load PATH] [--save PATH]"""
     positional, kwargs = _parse_keyword_args(args)
-    types = positional
+    specs = positional
     load_path = kwargs.get("load")
     save_path = kwargs.get("save")
 
-    if not types:
-        print("Usage: python -m src unlock story character")
+    if not specs:
+        print("Usage: python -m src unlock story character story.genre")
         sys.exit(1)
 
     reset_store()
@@ -431,13 +523,125 @@ def cmd_unlock(args: list[str]):
         store.load(load_path)
         print(f"Loaded from {load_path}")
 
-    for t in types:
-        n = store.unlock_all(t)
-        print(f"  Unlocked {n} {t} contract(s)")
+    for spec in specs:
+        type_key, field_path = _parse_lock_arg(spec)
+        if field_path:
+            n = store.unlock_field_all(type_key, field_path)
+            print(f"  Unlocked {type_key}.{field_path} on {n} contract(s)")
+        else:
+            n = store.unlock_all(type_key)
+            print(f"  Unlocked {n} {type_key} contract(s)")
 
     if save_path:
         store.save(save_path)
         print(f"Saved to {save_path}")
+
+
+def cmd_prune(args: list[str]):
+    """python -m src prune LABEL --tree-load PATH [--tree-save PATH]"""
+    tree_load_path = None
+    tree_save_path = None
+    label = None
+
+    for i, arg in enumerate(args):
+        if arg == "--tree-load" and i + 1 < len(args):
+            tree_load_path = args[i + 1]
+        elif arg == "--tree-save" and i + 1 < len(args):
+            tree_save_path = args[i + 1]
+        elif not arg.startswith("--"):
+            label = arg
+
+    if not label:
+        print("Usage: python -m src prune LABEL --tree-load PATH [--tree-save PATH]")
+        sys.exit(1)
+
+    if not tree_load_path or not os.path.exists(tree_load_path):
+        print("--tree-load PATH is required")
+        sys.exit(1)
+
+    tree = TreeStore()
+    tree.load(tree_load_path)
+    node = tree.get_by_label(label)
+    if not node:
+        print(f"Node '{label}' not found")
+        sys.exit(1)
+
+    executor = TreeExecutor(tree, {})
+    count = executor.prune(node)
+    print(f"Pruned '{label}' and {count - 1} descendant(s) ({count} total)")
+
+    if tree_save_path:
+        tree.save(tree_save_path)
+        print(f"Saved tree ({tree.size()} nodes) to {tree_save_path}")
+
+    tree.print_tree()
+
+
+def cmd_show(args: list[str]):
+    """python -m src show [--tree-load PATH]"""
+    tree_load_path = None
+    for i, arg in enumerate(args):
+        if arg == "--tree-load" and i + 1 < len(args):
+            tree_load_path = args[i + 1]
+
+    tree = TreeStore()
+    if tree_load_path and os.path.exists(tree_load_path):
+        tree.load(tree_load_path)
+        print(f"Loaded tree ({tree.size()} nodes) from {tree_load_path}")
+    else:
+        print("No tree loaded — use --tree-load")
+        sys.exit(1)
+
+    tree.print_tree()
+
+
+def cmd_set(args: list[str]):
+    """python -m src set TYPE.FIELD=VALUE [TYPE.FIELD=VALUE ...] [--lock [--field]] [--load PATH] [--save PATH]"""
+    lock_flag = False
+    load_path = None
+    save_path = None
+    specs: list[str] = []
+
+    for i, arg in enumerate(args):
+        if arg == "--lock" and i + 1 < len(args):
+            lock_flag_str = args[i + 1]
+            lock_flag = lock_flag_str.lower() in ("true", "1", "yes")
+        elif arg == "--load" and i + 1 < len(args):
+            load_path = args[i + 1]
+        elif arg == "--save" and i + 1 < len(args):
+            save_path = args[i + 1]
+        elif "=" in arg and not arg.startswith("--"):
+            specs.append(arg)
+
+    if not specs:
+        print("Usage: python -m src set story.genre.primary_bisac=FIC002000 [--lock true] [--load PATH] [--save PATH]")
+        sys.exit(1)
+
+    reset_store()
+    store = get_store()
+    if load_path and os.path.exists(load_path):
+        store.load(load_path)
+        print(f"Loaded from {load_path}")
+
+    _apply_set_flags(store, specs)
+
+    if lock_flag:
+        for spec in specs:
+            field_spec = spec.split("=", 1)[0]
+            dot_idx = field_spec.find(".")
+            if dot_idx == -1:
+                continue
+            type_key = field_spec[:dot_idx]
+            field_path = field_spec[dot_idx + 1:]
+            n = store.lock_field_all(type_key, field_path)
+            if n > 0:
+                print(f"  Locked {type_key}.{field_path} on {n} contract(s)")
+
+    if save_path:
+        store.save(save_path)
+        print(f"Saved to {save_path}")
+
+    _print_store(store)
 
 
 COMMANDS = {
@@ -445,6 +649,9 @@ COMMANDS = {
     "branch": cmd_branch,
     "compare": cmd_compare,
     "promote": cmd_promote,
+    "prune": cmd_prune,
+    "show": cmd_show,
+    "set": cmd_set,
     "lock": cmd_lock,
     "unlock": cmd_unlock,
 }
