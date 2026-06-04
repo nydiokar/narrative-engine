@@ -461,6 +461,7 @@ def _run_tree_mode(
     tree_load_path = None
     tree_save_path = None
     branch_from = "premise"
+    branch_to = "final"
     vary_field = "genre"
     values_str = None
     labels_str = None
@@ -472,6 +473,8 @@ def _run_tree_mode(
             tree_load_path = args[i + 1]
         if arg == "--tree-save" and i + 1 < len(args):
             tree_save_path = args[i + 1]
+        if arg == "--to" and i + 1 < len(args):
+            branch_to = args[i + 1]
         if arg == "--from" and i + 1 < len(args):
             branch_from = args[i + 1]
         if arg == "--vary" and i + 1 < len(args):
@@ -574,6 +577,7 @@ def _run_tree_mode(
             values=values,
             medium=medium,
             labels=labels_list,
+            target_checkpoint=branch_to,
         )
 
         executor = TreeExecutor(tree, agents)
