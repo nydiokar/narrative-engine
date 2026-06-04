@@ -492,23 +492,27 @@ def _run_tree_mode(
         print(f"\nLoaded tree from {tree_load_path}")
         print(f"  Nodes: {tree.size()}")
     else:
-        # Create root from current store state
+        # Create root from current store state — only seed contracts
         store = get_store()
         story_contracts = store.list_by_type("story")
         if not story_contracts:
             print("No story in store. Run pipeline to a checkpoint first.")
             sys.exit(1)
 
+        # Root snapshot = seed only (story contract, no pipeline artifacts)
+        full_snapshot = store.snapshot()
+        seed_keys = {"story"}
+        seed_snapshot = {k: v for k, v in full_snapshot.items() if k in seed_keys}
+
         root = TreeNode(
             label="root",
-            checkpoint=branch_from,
-            store_snapshot=store.snapshot(),
+            checkpoint="",
+            store_snapshot=seed_snapshot,
             active=True,
         )
         tree.root = root
-        print(f"\nCreated root node from current store state")
-        print(f"  Checkpoint: {branch_from}")
-        print(f"  Contracts:  {store.count()}")
+        print(f"\nCreated root node (seed state: {len(seed_snapshot.get('story', []))} story)")
+        print(f"  Branch from: {branch_from}")
 
     # Handle --compare
     if compare_labels:
@@ -565,7 +569,7 @@ def _run_tree_mode(
         print(f"{'#'*60}\n")
 
         config = BranchConfig(
-            checkpoint=parent.checkpoint,
+            checkpoint=branch_from,
             vary_field=vary_field,
             values=values,
             medium=medium,

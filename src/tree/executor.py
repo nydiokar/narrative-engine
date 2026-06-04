@@ -1,8 +1,8 @@
 """Tree executor — branch, compare, promote operations.
 
-Wraps the pipeline Director in tree-aware operations. Each branch creates
-N children by running the pipeline from a parent checkpoint forward with
-different variant parameters, then saving the resulting ContractStore state.
+Each branch creates N children by reconstructing the full parameter path
+from root to parent, applying all variant params, and running the pipeline
+from scratch. This avoids stale-contract issues in multi-depth trees.
 """
 
 from __future__ import annotations
@@ -23,25 +23,48 @@ from src.pipeline.checkpoints import (
 from src.tree.node import TreeNode, TreeStore
 
 
+# Mapping: vary_field → checkpoint to re-run from
+_VARY_FROM_CHECKPOINT: dict[str, str] = {
+    "genre": "brief",
+    "tone": "brief",
+    "theme": "brief",
+    "premise": "premise",
+    "world": "structure",
+    "character": "episodes",
+    "conflict": "episodes",
+    "seed": "brief",
+}
+
+
 @dataclass
 class BranchConfig:
     """Configuration for a branch operation.
 
     Attributes:
-        checkpoint: Which pipeline checkpoint to branch from.
-            Must be one of CHECKPOINT_ORDER.
+        checkpoint: Which pipeline checkpoint to branch from
+            ("brief", "premise", "structure", "episodes", etc).
+            If empty, auto-detected from vary_field.
         vary_field: What to vary between variants
-            ("genre", "seed", "premise", "tone").
+            ("genre", "seed", "premise", "tone", "world", "character").
         values: List of values to try (one per variant).
         medium: Output medium for the pipeline.
         labels: Optional human-readable labels (one per value).
             Auto-generated from values if not provided.
+        target_checkpoint: Where to stop running ("final" by default).
     """
-    checkpoint: str
+    checkpoint: str = ""
     vary_field: str = "genre"
     values: list[str] = None
     medium: Medium = Medium.BOOK
     labels: list[str] = None
+    target_checkpoint: str = "final"
+
+    @property
+    def effective_checkpoint(self) -> str:
+        """Return the resolved checkpoint, auto-detected from vary_field if not set."""
+        if self.checkpoint:
+            return self.checkpoint
+        return _VARY_FROM_CHECKPOINT.get(self.vary_field, "brief")
 
 
 class TreeExecutor:
@@ -64,6 +87,30 @@ class TreeExecutor:
         self.agents = agent_registry
         self.logger = logger
 
+    def _collect_params_to_root(self, node: TreeNode) -> dict[str, Any]:
+        """Walk from node up to root, collecting all variant_params.
+
+        Earlier params (closer to root) are overridden by later ones
+        (closer to the node), which is the correct semantics.
+        """
+        params: dict[str, Any] = {}
+        current = node
+        while current:
+            params.update(current.variant_params)
+            current = self.tree.get(current.parent_id) if current.parent_id else None
+        return params
+
+    def _find_root_seed(self, node: TreeNode) -> TreeNode:
+        """Walk up to the root node."""
+        current = node
+        root = self.tree.root
+        while current.parent_id:
+            parent = self.tree.get(current.parent_id)
+            if not parent:
+                break
+            current = parent
+        return root or current
+
     def branch(
         self,
         parent: TreeNode,
@@ -71,13 +118,12 @@ class TreeExecutor:
     ) -> list[TreeNode]:
         """Create N children from a parent by varying parameters.
 
-        For each value in config.values:
-        1. Restore parent's store snapshot into a fresh store
-        2. Apply the variant parameter to the store contracts
-        3. Create a Director and run from parent's checkpoint forward
-        4. Snapshot the result into a new TreeNode
-
-        Returns the list of newly created child nodes.
+        Strategy: for each variant value:
+        1. Go up to the root and collect ALL params (ancestor path)
+        2. Restore the root's store (which is the seed state)
+        3. Apply ancestor params + the new variant param
+        4. Run the full pipeline from config.checkpoint forward
+        5. Snapshot into a child TreeNode
         """
         if config.values is None:
             config.values = ["default"]
@@ -85,29 +131,30 @@ class TreeExecutor:
         if len(labels) != len(config.values):
             labels = [str(v) for v in config.values]
 
-        # Determine which workflow to start from
-        parent_checkpoint = parent.checkpoint or ""
-        parent_idx = CHECKPOINT_ORDER.index(parent_checkpoint) if parent_checkpoint in CHECKPOINT_ORDER else -1
+        # Collect all params from the parent path
+        inherited_params = self._collect_params_to_root(parent)
 
-        # Workflows to run from this point forward
-        target_checkpoint = "final"
-        start_idx = parent_idx + 1 if parent_idx >= 0 else 0
-        end_idx = CHECKPOINT_ORDER.index(target_checkpoint) if target_checkpoint in CHECKPOINT_ORDER else len(CHECKPOINT_ORDER) - 1
+        # Find root node with the seed store
+        root = self._find_root_seed(parent)
+        if not root or not root.store_snapshot:
+            msg = "Cannot branch: root node has no store snapshot"
+            raise RuntimeError(msg)
 
         children: list[TreeNode] = []
 
         for i, value in enumerate(config.values):
             label = labels[i] if i < len(labels) else str(value)
 
-            # Fresh store for this variant
+            # Fresh store from root seed
             reset_store()
             store = get_store()
+            store.restore(root.store_snapshot)
 
-            # Restore parent state
-            store.restore(parent.store_snapshot)
-
-            # Apply variant parameter
-            self._apply_variant(store, config.vary_field, value, label)
+            # Apply ALL params: inherited + new variant
+            all_params = dict(inherited_params)
+            all_params[config.vary_field] = value
+            for field, val in all_params.items():
+                self._apply_variant(store, field, val, label)
 
             # Build director and run
             director = Director(
@@ -116,22 +163,26 @@ class TreeExecutor:
                 medium=config.medium,
             )
 
-            # Run workflows from parent's checkpoint forward
-            self._run_from_checkpoint(director, parent_checkpoint, target_checkpoint)
+            # Run pipeline from the resolved checkpoint forward
+            self._run_from_checkpoint(
+                director,
+                config.effective_checkpoint,
+                config.target_checkpoint,
+            )
 
             # Snapshot result
             child_snapshot = store.snapshot()
 
-            # Extract scores from critique contracts
+            # Extract scores
             scores = self._extract_scores(store)
 
             child = TreeNode(
                 id=uuid4(),
                 parent_id=parent.id,
                 depth=parent.depth + 1,
-                checkpoint=target_checkpoint,
+                checkpoint=config.target_checkpoint,
                 label=label,
-                variant_params={config.vary_field: value, **parent.variant_params},
+                variant_params={config.vary_field: value, **inherited_params},
                 store_snapshot=child_snapshot,
                 scores=scores,
                 active=False,
@@ -161,7 +212,6 @@ class TreeExecutor:
                 "scores": node.scores,
             }
 
-            # Extract key contracts
             stories = store.list_by_type("story")
             if stories:
                 s = stories[0]
@@ -193,15 +243,11 @@ class TreeExecutor:
 
             summaries.append(summary)
 
-        # Print comparison table
         self._print_comparison(summaries)
         return summaries
 
     def promote(self, node: TreeNode) -> None:
-        """Mark a node as the active path.
-
-        Deactivates all other nodes and marks this one active.
-        """
+        """Mark a node as the active path."""
         current_active = self.tree.get_active()
         if current_active:
             current_active.active = False
@@ -240,8 +286,6 @@ class TreeExecutor:
                 if hasattr(theme, "tone"):
                     theme.tone = value
                     store.put("theme", theme, agent="tree_branch")
-        elif vary_field == "seed":
-            pass
 
     def _run_from_checkpoint(
         self,
@@ -249,11 +293,20 @@ class TreeExecutor:
         from_checkpoint: str,
         to_checkpoint: str,
     ) -> None:
-        """Run pipeline workflows from one checkpoint to another."""
-        start_idx = CHECKPOINT_ORDER.index(from_checkpoint) if from_checkpoint in CHECKPOINT_ORDER else -1
-        end_idx = CHECKPOINT_ORDER.index(to_checkpoint) if to_checkpoint in CHECKPOINT_ORDER else len(CHECKPOINT_ORDER) - 1
+        """Run pipeline workflows from one checkpoint to another.
 
-        for idx in range(start_idx + 1, end_idx + 1):
+        Runs from ``from_checkpoint`` (inclusive) through ``to_checkpoint``.
+        If from_checkpoint is empty ("seed"), runs from the beginning.
+        """
+        start_idx = 0
+        if from_checkpoint in CHECKPOINT_ORDER:
+            start_idx = CHECKPOINT_ORDER.index(from_checkpoint)
+
+        end_idx = len(CHECKPOINT_ORDER) - 1
+        if to_checkpoint in CHECKPOINT_ORDER:
+            end_idx = CHECKPOINT_ORDER.index(to_checkpoint)
+
+        for idx in range(start_idx, end_idx + 1):
             ck_name = CHECKPOINT_ORDER[idx]
             wid = WORKFLOW_FOR_CHECKPOINT.get(ck_name)
             if wid and wid in director.registry:
@@ -283,7 +336,9 @@ class TreeExecutor:
             print(f"    Checkpoint:   {s['checkpoint']}")
             print(f"    Params:       {s['variant_params']}")
             print(f"    Title:        {s.get('title', '?')}")
-            print(f"    Genre:        {s.get('genre', '?')}")
+            genre = s.get("genre", "")
+            if genre:
+                print(f"    Genre:        {genre}")
             premise = s.get("premise", "")
             if premise:
                 print(f"    Premise:      {premise}")
