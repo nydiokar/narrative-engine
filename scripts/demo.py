@@ -21,6 +21,17 @@ Save/Load:
     --save <path>   Save pipeline state to JSON file after run
     --load <path>   Load pipeline state from JSON file before run
 
+Tree / Branching (narrative workbench):
+    --branch                    Enter branching mode
+    --from <checkpoint>         Checkpoint to branch from (default: premise)
+    --vary <field>              What to vary: genre, premise, tone, seed
+    --values <list>             Comma-separated values to try
+    --labels <list>             Optional labels (default: same as values)
+    --compare <labels>          Compare siblings by label (comma-separated)
+    --promote <label>           Mark a branch as active
+    --tree-save <path>          Save tree state to file
+    --tree-load <path>          Load tree state from file
+
 Environment variables for real LLM:
     LLM_BASE_URL    — API base URL (default: http://localhost:11434/v1)
     LLM_API_KEY     — API key (default: ollama)
@@ -44,6 +55,8 @@ from src.agents.store import get_store, reset_store
 from src.contracts.models import Medium, StoryContract
 from src.pipeline.checkpoints import CHECKPOINT_ORDER, run_to_checkpoint
 from src.pipeline.orchestrator import default_agent_registry
+from src.tree.executor import BranchConfig, TreeExecutor
+from src.tree.node import TreeNode, TreeStore
 
 
 PREMISE = (
@@ -435,6 +448,153 @@ def print_store_state(store):
                 print(f"      summary: {(d.get('summary', '') or '')[:80]}")
 
 
+def _run_tree_mode(
+    agents,
+    medium: Medium,
+):
+    """Execute tree operations: branch, compare, promote."""
+    import os
+
+    args = sys.argv[1:]
+
+    # Parse tree-specific args
+    tree_load_path = None
+    tree_save_path = None
+    branch_from = "premise"
+    vary_field = "genre"
+    values_str = None
+    labels_str = None
+    compare_labels = None
+    promote_label = None
+
+    for i, arg in enumerate(args):
+        if arg == "--tree-load" and i + 1 < len(args):
+            tree_load_path = args[i + 1]
+        if arg == "--tree-save" and i + 1 < len(args):
+            tree_save_path = args[i + 1]
+        if arg == "--from" and i + 1 < len(args):
+            branch_from = args[i + 1]
+        if arg == "--vary" and i + 1 < len(args):
+            vary_field = args[i + 1]
+        if arg == "--values" and i + 1 < len(args):
+            values_str = args[i + 1]
+        if arg == "--labels" and i + 1 < len(args):
+            labels_str = args[i + 1]
+        if arg == "--compare" and i + 1 < len(args):
+            compare_labels = args[i + 1]
+        if arg == "--promote" and i + 1 < len(args):
+            promote_label = args[i + 1]
+
+    # Load or create tree
+    tree = TreeStore()
+    if tree_load_path and os.path.exists(tree_load_path):
+        tree.load(tree_load_path)
+        print(f"\nLoaded tree from {tree_load_path}")
+        print(f"  Nodes: {tree.size()}")
+    else:
+        # Create root from current store state
+        store = get_store()
+        story_contracts = store.list_by_type("story")
+        if not story_contracts:
+            print("No story in store. Run pipeline to a checkpoint first.")
+            sys.exit(1)
+
+        root = TreeNode(
+            label="root",
+            checkpoint=branch_from,
+            store_snapshot=store.snapshot(),
+            active=True,
+        )
+        tree.root = root
+        print(f"\nCreated root node from current store state")
+        print(f"  Checkpoint: {branch_from}")
+        print(f"  Contracts:  {store.count()}")
+
+    # Handle --compare
+    if compare_labels:
+        labels = [l.strip() for l in compare_labels.split(",")]
+        nodes = []
+        for label in labels:
+            node = tree.get_by_label(label)
+            if node:
+                nodes.append(node)
+            else:
+                print(f"  Node '{label}' not found in tree")
+        if nodes:
+            executor = TreeExecutor(tree, agents)
+            executor.compare(nodes)
+        return
+
+    # Handle --promote
+    if promote_label:
+        node = tree.get_by_label(promote_label)
+        if node:
+            executor = TreeExecutor(tree, agents)
+            executor.promote(node)
+            print(f"\nPromoted '{promote_label}' to active path")
+            active = tree.get_active()
+            print(f"  Active: {active.label if active else 'none'}")
+            print(f"  Path to root:")
+            for p in tree.path_to_root(node.id):
+                print(f"    [{p.label}] {p.checkpoint} {p.variant_params}")
+        else:
+            print(f"  Node '{promote_label}' not found")
+        if tree_save_path:
+            tree.save(tree_save_path)
+            print(f"Saved tree to {tree_save_path}")
+        return
+
+    # Handle --branch
+    if values_str:
+        values = [v.strip() for v in values_str.split(",")]
+        labels_list = None
+        if labels_str:
+            labels_list = [l.strip() for l in labels_str.split(",")]
+
+        # Get parent node
+        active = tree.get_active()
+        parent = active or tree.root
+        if not parent:
+            print("No parent node found")
+            sys.exit(1)
+
+        print(f"\n{'#'*60}")
+        print(f"#  BRANCHING FROM: [{parent.label}] @ {parent.checkpoint}")
+        print(f"#  Vary: {vary_field}")
+        print(f"#  Values: {values}")
+        print(f"{'#'*60}\n")
+
+        config = BranchConfig(
+            checkpoint=parent.checkpoint,
+            vary_field=vary_field,
+            values=values,
+            medium=medium,
+            labels=labels_list,
+        )
+
+        executor = TreeExecutor(tree, agents)
+        children = executor.branch(parent, config)
+
+        print(f"\nCreated {len(children)} child variants:")
+        for child in children:
+            score_str = ""
+            if child.scores.get("verdict"):
+                score_str = f" [verdict: {child.scores['verdict']}]"
+            print(f"  [{child.label}] depth={child.depth}{score_str}")
+
+        # Deactivate parent, activate first child
+        executor.promote(children[0])
+        print(f"\nPromoted '{children[0].label}' as active path")
+
+    else:
+        print("No --values specified for branching. Use --values genre1,genre2,...")
+        print("Or use --compare or --promote for tree operations.")
+
+    if tree_save_path:
+        tree.save(tree_save_path)
+        print(f"Saved tree ({tree.size()} nodes) to {tree_save_path}")
+
+
 def main():
     try:
         sys.stdout.reconfigure(encoding='utf-8')
@@ -450,6 +610,7 @@ def main():
 
     save_path = None
     load_path = None
+    tree_mode = False
 
     for i, arg in enumerate(args):
         if arg == "--to" and i + 1 < len(args):
@@ -467,6 +628,12 @@ def main():
             save_path = args[i + 1]
         if arg == "--load" and i + 1 < len(args):
             load_path = args[i + 1]
+        if arg == "--branch":
+            tree_mode = True
+        if arg == "--compare":
+            tree_mode = True
+        if arg == "--promote":
+            tree_mode = True
 
     if target_checkpoint and target_checkpoint not in CHECKPOINT_ORDER:
         print(f"Unknown checkpoint '{target_checkpoint}'")
@@ -489,17 +656,33 @@ def main():
             mock_llm.add_rule(trigger, response)
         set_llm(mock_llm)
 
-    # Seed the story
-    story = StoryContract(
-        title="The Crystal Key",
-        premise=premise,
-        logline="A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
-    )
-    store.put("story", story)
+    # Load from saved state if requested (must be before tree mode check)
+    if load_path:
+        import os
+        if os.path.exists(load_path):
+            store.load(load_path)
+            print(f"\nLoaded pipeline state from {load_path}")
+
+    # Build agent registry once (shared across pipeline + tree)
+    agents = default_agent_registry(store=store)
+
+    # Tree mode short-circuits the pipeline run
+    if tree_mode:
+        _run_tree_mode(agents, medium=medium)
+        return
+
+    # Seed the story (only if not loaded from save)
+    if not load_path:
+        story = StoryContract(
+            title="The Crystal Key",
+            premise=premise,
+            logline="A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+        )
+        store.put("story", story)
 
     print(f"\n{'#'*60}")
     print(f"#  NARRATIVE ENGINE — PIPELINE DEMO")
-    print(f"#  Story: {story.title} ({medium.value})")
+    print(f"#  Story: The Crystal Key ({medium.value})")
     target_str = f" -> to '{target_checkpoint}'" if target_checkpoint else " -> full pipeline"
     print(f"#{target_str}")
     print(f"{'#'*60}\n")
@@ -507,17 +690,7 @@ def main():
     print("SEED PREMISE:")
     print(f"  {premise[:120]}...\n")
 
-    # Load from saved state if requested
-    if load_path:
-        import os
-        if os.path.exists(load_path):
-            store.load(load_path)
-            print(f"\nLoaded pipeline state from {load_path}")
-        else:
-            print(f"\nLoad path {load_path} not found — starting fresh")
-
     # Run the pipeline
-    agents = default_agent_registry(store=store)
     director = Director(agents, store=store, medium=medium)
 
     reports = run_to_checkpoint(director, target_checkpoint or "final", verbose=True)

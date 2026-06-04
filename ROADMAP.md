@@ -15,7 +15,6 @@ The Narrative Engine is a **structured but not closed** system. The LLM boots up
 BIG PICTURE (WF 00–03)
   Actantial model, narrative programs, episode architecture,
   conflict arcs, character arcs — the structural skeleton.
-  Decided once, revisited after each episode or on hard-gate failure.
 
 CHAPTER-BY-CHAPTER (WF 04–05)
   Per-chapter scenes, emotional arcs, discourse rendering —
@@ -23,7 +22,6 @@ CHAPTER-BY-CHAPTER (WF 04–05)
 
 REVISIT (WF 06–07)
   Editorial passes and critique. Loops until gates pass.
-  Can send back to Big Picture (structural) or Chapter-by-Chapter (prose/continuity).
 ```
 
 ---
@@ -48,7 +46,7 @@ Dynamic Agent System — LLM as role-booted agent.
 
 ---
 
-## Phase G (Latest) — Prompt Templates for All Agents + Persistence
+## Phase G ✅ (Done)
 
 - [x] 12 new prompt templates written (Character Simulator, Dialogue Specialist, World Researcher, Worldbuilder, Chapter Planner, Continuity Editor, Developmental Editor, Line Editor, Copy Editor, Proofreader, Revision Agent, Theme Specialist)
 - [x] All 19 workflow-active agents now call the LLM through their prompt
@@ -59,46 +57,79 @@ Dynamic Agent System — LLM as role-booted agent.
 
 ---
 
-## Phase H — Narrative Simulation Workbench (Next Major Feature)
+## Phase H — Tree-Based Narrative Workbench (In Progress)
 
-The goal: turn the pipeline from a linear generator into an **interactive creative lab** where you can explore, compare, freeze, and combine.
+**Core insight**: The current pipeline is a **ladder** — climb from 00 to 07, one path. A writer needs a **tree** — branch at any node, compare siblings, freeze what works, keep branching.
 
-### Core Capabilities
+### Concepts
 
-| Capability | What It Means |
-|:-----------|:--------------|
-| **Fork at any checkpoint** | `--to premise --variants 5` generates 5 different structural approaches from the same premise |
-| **Vary creative parameters** | Per-variant: temperature, top_p, top_k, genre override, tone injection, seed prompt |
-| **Rank and compare** | Side-by-side table with hard gate + soft gate scores per variant |
-| **Cherry-pick** | Take variant A's premise, variant B's structure, variant C's episodes — merge into a single path |
-| **Freeze / lock** | Lock contracts you're happy with so subsequent passes don't overwrite them |
-| **Continue from any point** | Load a saved state, fork from it, run forward to a target checkpoint |
+| Term | Meaning | In Code |
+|------|---------|---------|
+| **Parent** | A frozen state you branch from | A `ContractStore` snapshot + metadata |
+| **Sibling** | Variants at the same depth | Children of the same parent |
+| **Child** | A sibling's downstream expansion | A node deeper in the tree |
+| **Branch** | Fork a parent into N variants | `branch(node, vary=..., values=...)` |
+| **Promote** | Make a child the active path | `promote(node)` |
+| **Compare** | View siblings side-by-side | `compare(nodes)` |
+| **Prune** | Delete unwanted branches | `prune(node)` |
 
-### Why This Matters
+### Pipeline Stages as Branch Points
 
-The current pipeline is deterministic once you pick a premise and model. A human writer explores 10+ structural approaches before committing. The workbench makes this possible:
+| Depth | What You Vary | Pipeline Stage |
+|-------|--------------|----------------|
+| 0 | **Genre, theme, tone** | WF 00–01 (brief + premise) |
+| 1 | **World architecture** | WF 02 (structure) |
+| 2 | **Heroes, villains, conflicts** | WF 03 (episodes) |
+| 3 | **Scene sequences** | WF 04 (scenes) |
+| 4 | **Draft style** | WF 05–07 (draft + editorial) |
+
+### Implementation Steps
+
+#### Step 1 — Tree Node + Store Snapshot ✅
+- [x] `src/tree/node.py` — `TreeNode` dataclass (id, parent_id, variant_params, store_snapshot, scores, children)
+- [x] `ContractStore.snapshot()/restore()` — freeze/restore full store state
+- [x] `ContractStore` variant_id namespace — siblings don't overwrite
+
+#### Step 2 — Branch Executor ✅
+- [x] `src/tree/executor.py` — `branch()` takes a node + vary config, runs N pipeline instances
+- [x] Each variant clones the parent store, varies the specified parameter, runs from branch point
+- [x] Returns N child nodes with their own stores
+
+#### Step 3 — Compare + Promote
+- [ ] `compare(nodes)` — side-by-side table: genre, world axes, protagonist, antagonist, soft gate score
+- [ ] `promote(node)` — mark child as active path, continue branching from there
+- [ ] `prune(node)` — delete a branch subtree
+
+#### Step 4 — Interactive CLI
+- [ ] `demo.py --branch` mode — interactive branching commands
+- [ ] `demo.py --tree <path>` — load/save entire tree structure
+- [ ] Tree visualization (ASCII or simple text)
+
+#### Step 5 — LLM Parameter Variance
+- [ ] Expose `seed`, `top_p`, `top_k`, `frequency_penalty`, `presence_penalty` in `LLMProvider.generate()`
+- [ ] Per-call parameter override from variant config
+- [ ] `--vary temperature` flag for creative variance
+
+### Example Session
 
 ```
-# Example session
-$ python scripts/demo.py --model qwen3-coder --to premise --variants 3
-  # → sees 3 different actant configurations, picks the best
+# Start with a premise
+$ python scripts/demo.py --to premise --save trunk.json
 
-$ python scripts/demo.py --load best_premise.json --to structure --variants 5 --vary genre
-  # → tries 5 genres on the same premise, ranks them
+# Branch 3 genres from the same premise
+$ python scripts/demo.py --branch --from premise \
+    --vary genre --values "fantasy,scifi,horror"
 
-$ python scripts/demo.py --load best_structure.json --to final
-  # → locks it, runs through full pipeline
+# Compare them side-by-side
+$ python scripts/demo.py --compare
+
+# Branch world architectures from the best genre
+$ python scripts/demo.py --branch --node fantasy \
+    --vary world --values 3
+
+# Promote the best branch and continue to scenes
+$ python scripts/demo.py --promote world-2 --to scenes
 ```
-
-### LLM Parameters Gap
-
-Currently `OpenAILLMProvider` only exposes `temperature` and `max_tokens`. To support creative variance we need:
-- [ ] `top_p` (nucleus sampling)
-- [ ] `top_k` (top-k sampling)
-- [ ] `frequency_penalty`
-- [ ] `presence_penalty`
-- [ ] Seed parameter (for reproducible variance)
-- [ ] Per-call parameter override (not just global defaults)
 
 ---
 
@@ -109,7 +140,6 @@ Currently `OpenAILLMProvider` only exposes `temperature` and `max_tokens`. To su
 | Quality & Iteration | Revisit triggers, editorial passes with real analysis, showrunner final approval |
 | Infrastructure | ModalityState split, Propp/Todorov/GOLEM models, save/load, CLI, test coverage |
 | Human Interface | Intake form, release package, legal/bias check |
-| Concept Branching | Multi-draft comparison, "generate 3 concepts" workflow variant |
 
 ---
 
