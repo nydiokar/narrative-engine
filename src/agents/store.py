@@ -60,8 +60,9 @@ class ContractStore:
         if key in self._contracts:
             entry = self._contracts[key]
             if entry.locked:
-                msg = f"Contract {type_key}/{cid} is locked"
-                raise RuntimeError(msg)
+                # Locked contract: silently preserve existing value
+                # The LLM output is discarded; the frozen decision stands
+                return cid
             entry.current_version += 1
             entry.history.append(VersionRecord(
                 version=entry.current_version,
@@ -124,6 +125,37 @@ class ContractStore:
         entry = self._contracts.get(key)
         if entry:
             entry.locked = False
+
+    def lock_all(self, type_key: str) -> int:
+        """Lock all contracts of a given type. Returns count locked."""
+        locked = 0
+        for (tk, cid), entry in self._contracts.items():
+            if tk == type_key and not entry.locked:
+                entry.locked = True
+                locked += 1
+        return locked
+
+    def unlock_all(self, type_key: str) -> int:
+        """Unlock all contracts of a given type. Returns count unlocked."""
+        unlocked = 0
+        for (tk, _), entry in self._contracts.items():
+            if tk == type_key and entry.locked:
+                entry.locked = False
+                unlocked += 1
+        return unlocked
+
+    def is_type_locked(self, type_key: str) -> bool:
+        """Check if ALL contracts of a given type are locked.
+
+        Returns False if no contracts exist or any is unlocked.
+        """
+        has_any = False
+        for (tk, _), entry in self._contracts.items():
+            if tk == type_key:
+                has_any = True
+                if not entry.locked:
+                    return False
+        return has_any  # True only if at least one exists and all are locked
 
     def count(self) -> int:
         return len(self._contracts)
@@ -214,7 +246,10 @@ class ContractStore:
             for entry_data in entries:
                 contract_dict = entry_data["contract"]
                 contract = model_cls(**contract_dict)
-                self.put(type_key, contract, agent="system")
+                cid = self.put(type_key, contract, agent="system")
+                # Restore lock state
+                if entry_data.get("locked", False):
+                    self.lock(type_key, cid)
                 loaded += 1
 
     def snapshot(self) -> dict[str, list[dict[str, Any]]]:

@@ -52,9 +52,14 @@ class TestContractStore:
         story = StoryContract(title="Locked", premise="Test")
         cid = store.put("story", story)
         store.lock("story", cid)
-        story.title = "Changed"
-        with pytest.raises(RuntimeError, match="locked"):
-            store.put("story", story)
+        # Create a separate contract with the same UUID to simulate LLM output
+        import copy
+        changed = copy.deepcopy(story)
+        changed.title = "Changed"
+        returned_cid = store.put("story", changed)
+        retrieved = store.get("story", cid)
+        assert retrieved.title == "Locked"  # unchanged
+        assert returned_cid == cid
 
     def test_unlock_allows_update(self):
         store = get_store()

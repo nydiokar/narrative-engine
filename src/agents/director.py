@@ -187,6 +187,19 @@ _ALL_WORKFLOW_IDS = ["00-brief-and-taxonomy", "01-seed-to-premise",
                       "04-episodes-to-scenes", "05-scenes-to-draft",
                       "06-editorial-passes", "07-critique-and-revision"]
 
+# Contract types produced by each workflow. Used for skip-locked logic:
+# if all output types exist and are locked, the workflow is skipped.
+WORKFLOW_OUTPUT_TYPES: dict[str, set[str]] = {
+    "00-brief-and-taxonomy": {"story", "theme", "character", "world"},
+    "01-seed-to-premise": {"character", "object_of_value"},
+    "02-premise-to-structure": {"world"},
+    "03-structure-to-episodes": {"episode", "chapter"},
+    "04-episodes-to-scenes": {"scene"},
+    "05-scenes-to-draft": {"discourse"},
+    "06-editorial-passes": set(),
+    "07-critique-and-revision": {"critique"},
+}
+
 
 def get_registry(medium: Medium = Medium.BOOK) -> dict[str, list[WorkflowStep]]:
     """Return the merged workflow registry for the given medium.
@@ -225,11 +238,32 @@ class Director:
         if self.logger:
             self.logger.info(message)
 
-    def run_workflow(self, workflow_id: str) -> list[AgentResult]:
+    def run_workflow(self, workflow_id: str, force: bool = False) -> list[AgentResult]:
+        """Run a workflow, skipping if all output types are locked.
+
+        Args:
+            workflow_id: The workflow to run.
+            force: If True, run even if outputs are locked.
+        """
         steps = self.registry.get(workflow_id)
         if not steps:
             msg = f"Unknown workflow: {workflow_id}"
             raise ValueError(msg)
+
+        # Skip-locked check: if all EXISTING output types are locked, skip
+        if not force:
+            skip_types = WORKFLOW_OUTPUT_TYPES.get(workflow_id, set())
+            existing_locked = [
+                t for t in skip_types
+                if len(self.store.list_by_type(t)) > 0 and self.store.is_type_locked(t)
+            ]
+            existing_all = [
+                t for t in skip_types if len(self.store.list_by_type(t)) > 0
+            ]
+            # Skip if every existing type is locked
+            if existing_all and len(existing_locked) == len(existing_all):
+                self.log(f"Skipping {workflow_id}: output contracts locked")
+                return [AgentResult(success=True, message="SKIPPED (locked)")]
 
         self.log(f"Starting workflow: {workflow_id}")
         results: list[AgentResult] = []
