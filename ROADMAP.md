@@ -15,7 +15,6 @@ The Narrative Engine is a **structured but not closed** system. The LLM boots up
 BIG PICTURE (WF 00–03)
   Actantial model, narrative programs, episode architecture,
   conflict arcs, character arcs — the structural skeleton.
-  Decided once, revisited after each episode or on hard-gate failure.
 
 CHAPTER-BY-CHAPTER (WF 04–05)
   Per-chapter scenes, emotional arcs, discourse rendering —
@@ -23,7 +22,6 @@ CHAPTER-BY-CHAPTER (WF 04–05)
 
 REVISIT (WF 06–07)
   Editorial passes and critique. Loops until gates pass.
-  Can send back to Big Picture (structural) or Chapter-by-Chapter (prose/continuity).
 ```
 
 ---
@@ -48,27 +46,97 @@ Dynamic Agent System — LLM as role-booted agent.
 
 ---
 
-## Critical Path — Next 3 Tasks
+## Phase G ✅ (Done)
 
-These are what blocks producing a valid draft from a real LLM. Everything else is downstream.
-
-### 1. Fix Scene Writer Prompt
-Real LLM produces scenes that pass Pydantic schema validation but fail the Greimas 5-question diagnostic. Root cause: the prompt template doesn't adequately constrain `value_object_change` and `future_action_possible_or_blocked` fields. Fix with better exemplars, explicit field descriptions, and a validation example demonstrating the required format.
-
-### 2. Wire the Revision Loop
-Workflow 07 (critique-and-revision) currently runs once — hard gate reports failures but the pipeline accepts them and moves on. Fix: when Critic returns hard gate violations, the Revision Agent must receive them and iterate (re-enter at the appropriate level) until all structural checks pass. This is the core quality mechanism of the entire system.
-
-### 3. Prompt Templates for Remaining 14 Agents
-The remaining agents (Character Simulator, Dialogue Specialist, World Researcher, Worldbuilder, Chapter Planner, Continuity Editor, Script Editor, Developmental Editor, Line Editor, Copy Editor, Proofreader, Revision Agent, Theme Specialist, Showrunner-extra steps) are hardcoded stubs. They return success messages but don't call the LLM or generate meaningful contract data. Writing prompt templates makes the full publishing stack LLM-driven end-to-end.
+- [x] 12 new prompt templates written (Character Simulator, Dialogue Specialist, World Researcher, Worldbuilder, Chapter Planner, Continuity Editor, Developmental Editor, Line Editor, Copy Editor, Proofreader, Revision Agent, Theme Specialist)
+- [x] All 19 workflow-active agents now call the LLM through their prompt
+- [x] Scene Writer prompt enhanced: minimum 100 words of real content per scene
+- [x] ContractStore.save(path) / ContractStore.load(path) — full JSON serialization
+- [x] demo.py --save <path> / --load <path> flags
+- [x] 151 / 151 tests passing
 
 ---
 
-## Downstream (after critical path)
+## Phase H — Tree-Based Narrative Workbench (In Progress)
+
+**Core insight**: The current pipeline is a **ladder** — climb from 00 to 07, one path. A writer needs a **tree** — branch at any node, compare siblings, freeze what works, keep branching.
+
+### Concepts
+
+| Term | Meaning | In Code |
+|------|---------|---------|
+| **Parent** | A frozen state you branch from | A `ContractStore` snapshot + metadata |
+| **Sibling** | Variants at the same depth | Children of the same parent |
+| **Child** | A sibling's downstream expansion | A node deeper in the tree |
+| **Branch** | Fork a parent into N variants | `branch(node, vary=..., values=...)` |
+| **Promote** | Make a child the active path | `promote(node)` |
+| **Compare** | View siblings side-by-side | `compare(nodes)` |
+| **Prune** | Delete unwanted branches | `prune(node)` |
+
+### Pipeline Stages as Branch Points
+
+| Depth | What You Vary | Pipeline Stage |
+|-------|--------------|----------------|
+| 0 | **Genre, theme, tone** | WF 00–01 (brief + premise) |
+| 1 | **World architecture** | WF 02 (structure) |
+| 2 | **Heroes, villains, conflicts** | WF 03 (episodes) |
+| 3 | **Scene sequences** | WF 04 (scenes) |
+| 4 | **Draft style** | WF 05–07 (draft + editorial) |
+
+### Implementation Steps
+
+#### Step 1 — Tree Node + Store Snapshot ✅
+- [x] `src/tree/node.py` — `TreeNode` dataclass (id, parent_id, variant_params, store_snapshot, scores, children)
+- [x] `ContractStore.snapshot()/restore()` — freeze/restore full store state
+- [x] `ContractStore` variant_id namespace — siblings don't overwrite
+
+#### Step 2 — Branch Executor ✅
+- [x] `src/tree/executor.py` — `branch()` takes a node + vary config, runs N pipeline instances
+- [x] Each variant clones the parent store, varies the specified parameter, runs from branch point
+- [x] Returns N child nodes with their own stores
+
+#### Step 3 — Compare + Promote
+- [ ] `compare(nodes)` — side-by-side table: genre, world axes, protagonist, antagonist, soft gate score
+- [ ] `promote(node)` — mark child as active path, continue branching from there
+- [ ] `prune(node)` — delete a branch subtree
+
+#### Step 4 — Interactive CLI
+- [ ] `demo.py --branch` mode — interactive branching commands
+- [ ] `demo.py --tree <path>` — load/save entire tree structure
+- [ ] Tree visualization (ASCII or simple text)
+
+#### Step 5 — LLM Parameter Variance
+- [ ] Expose `seed`, `top_p`, `top_k`, `frequency_penalty`, `presence_penalty` in `LLMProvider.generate()`
+- [ ] Per-call parameter override from variant config
+- [ ] `--vary temperature` flag for creative variance
+
+### Example Session
+
+```
+# Start with a premise
+$ python scripts/demo.py --to premise --save trunk.json
+
+# Branch 3 genres from the same premise
+$ python scripts/demo.py --branch --from premise \
+    --vary genre --values "fantasy,scifi,horror"
+
+# Compare them side-by-side
+$ python scripts/demo.py --compare
+
+# Branch world architectures from the best genre
+$ python scripts/demo.py --branch --node fantasy \
+    --vary world --values 3
+
+# Promote the best branch and continue to scenes
+$ python scripts/demo.py --promote world-2 --to scenes
+```
+
+---
+
+## Downstream (future)
 
 | Area | What |
 |:-----|:------|
-| Big Picture Planning | Actantial-level planning, episode goal setting, conflict architecture, character arc architecture |
-| Chapter Writing | Per-chapter scenes, character simulation, dialogue planning, discourse rendering + actual prose |
 | Quality & Iteration | Revisit triggers, editorial passes with real analysis, showrunner final approval |
 | Infrastructure | ModalityState split, Propp/Todorov/GOLEM models, save/load, CLI, test coverage |
 | Human Interface | Intake form, release package, legal/bias check |

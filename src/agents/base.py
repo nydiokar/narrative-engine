@@ -154,7 +154,8 @@ class BaseAgent(ABC):
         )
 
         try:
-            return parse_json_output(response.content)
+            parsed = parse_json_output(response.content)
+            return parsed
         except Exception:
             self.log("warning", f"Failed to parse LLM output as JSON, using defaults")
             return {

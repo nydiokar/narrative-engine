@@ -20,6 +20,32 @@ class ChapterPlanner(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _divide_episodes(self, context: AgentContext) -> AgentResult:
+        result = self._call_llm_for_step(context)
+        contracts_data = result.get("contracts_data")
+        if contracts_data:
+            artifacts = []
+            for ch_data in contracts_data:
+                try:
+                    ch = ChapterContract(
+                        episode_id=ch_data.get("episode_id"),
+                        sequence_number=ch_data.get("sequence_number", 0),
+                        title=ch_data.get("title", f"Chapter {ch_data.get('sequence_number', 0) + 1}"),
+                        summary=ch_data.get("summary", ""),
+                        chapter_arc_opening=ch_data.get("chapter_arc_opening", ""),
+                        chapter_arc_closing=ch_data.get("chapter_arc_closing", ""),
+                        primary_conflict_type=ch_data.get("primary_conflict_type", "interpersonal"),
+                        word_count_target=ch_data.get("word_count_target", 2500),
+                    )
+                    cid = self.write_contract("chapter", ch)
+                    artifacts.append(cid)
+                except Exception:
+                    self.log("warning", "Invalid chapter from LLM, skipping")
+            if artifacts:
+                return AgentResult(
+                    success=True,
+                    message=f"Created {len(artifacts)} chapters from LLM",
+                    artifacts=artifacts,
+                )
         episodes = self.list_contracts("episode")
         artifacts = []
         for ep in episodes:

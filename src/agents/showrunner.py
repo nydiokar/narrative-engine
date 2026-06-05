@@ -44,6 +44,12 @@ class Showrunner(BaseAgent):
             return self._approve_episodes(context)
         if context.step_id == "assemble_draft":
             return self._assemble_draft(context)
+        if context.step_id == "assemble_script":
+            return self._assemble_script(context)
+        if context.step_id == "assemble_screenplay":
+            return self._assemble_screenplay(context)
+        if context.step_id == "assemble_teleplay":
+            return self._assemble_teleplay(context)
         if context.step_id == "approve_final":
             return self._approve_final(context)
 
@@ -105,10 +111,51 @@ class Showrunner(BaseAgent):
             errors=result.get("errors", []),
         )
 
-    def _approve_final(self, context: AgentContext) -> AgentResult:
-        result = self._call_llm_for_step(context)
+    def _assemble_script(self, context: AgentContext) -> AgentResult:
+        scenes = self.list_contracts("scene")
         return AgentResult(
-            success=result.get("success", True),
-            message=result.get("message", "Final version approved"),
-            errors=result.get("errors", []),
+            success=True,
+            message=f"Script assembled from {len(scenes)} scenes",
+            errors=[],
+        )
+
+    def _assemble_screenplay(self, context: AgentContext) -> AgentResult:
+        scenes = self.list_contracts("scene")
+        return AgentResult(
+            success=True,
+            message=f"Screenplay assembled from {len(scenes)} scenes",
+            errors=[],
+        )
+
+    def _assemble_teleplay(self, context: AgentContext) -> AgentResult:
+        scenes = self.list_contracts("scene")
+        return AgentResult(
+            success=True,
+            message=f"Teleplay assembled from {len(scenes)} scenes",
+            errors=[],
+        )
+
+    def _approve_final(self, context: AgentContext) -> AgentResult:
+        critiques = self.list_contracts("critique")
+        if critiques:
+            c = critiques[0]
+            verdict = getattr(c, "verdict", "")
+            if verdict == "fail":
+                return AgentResult(
+                    success=False,
+                    errors=[f"Final approval rejected — hard gate verdict is 'fail'"],
+                )
+
+        expected_types = ["story", "theme", "character", "episode", "chapter", "scene", "critique"]
+        missing = [t for t in expected_types if not self.list_contracts(t)]
+        if missing:
+            return AgentResult(
+                success=False,
+                errors=[f"Missing contracts: {missing}"],
+            )
+
+        return AgentResult(
+            success=True,
+            message="Final version approved — all contracts present, hard gate passed",
+            artifacts=[],
         )

@@ -1,31 +1,67 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-05-31 | **Status:** Phase F complete (6 prompt templates, pre-flight gates, real LLM working). Pipeline runs end-to-end with real LLM (qwen3-coder via Ollama) but scenes fail Greimas diagnostic and hard gate rejects without iterating. 149 tests passing.
-
-**Critical path:** 3 tasks remain before the system can produce a valid draft from a real LLM.
+**Branch:** `main` | **Last Updated:** 2026-06-04 | **Status:** Phase H in progress — tree-based narrative workbench.
 
 ---
 
-## Critical Path — What Must Be Done
+## What We're Building
 
-| # | Task | Why It's Blocking |
-|:-:|:-----|:-----------------|
-| 1 | **Fix scene writer prompt** — real LLM produces scenes with empty `value_object_change` and `future_action_possible_or_blocked`, causing the Greimas 5-question diagnostic to fail all 6 scenes | Pipeline accepts bad data → every downstream check fails |
-| 2 | **Wire the revision loop** — workflow 07 runs critique once, reports hard gate failure, then passes. Must iterate (critique → revision → re-critique) until all structural checks pass | No quality mechanism exists without this — the system can't improve its own output |
-| 3 | **Prompt templates for 14 remaining agents** — Character Simulator, Dialogue Specialist, World Researcher, Worldbuilder, Chapter Planner, Continuity Editor, Script Editor, Developmental/Line/Copy Editor, Proofreader, Revision Agent, Theme Specialist | Pipeline works but most agents are pass-through stubs that generate no meaningful data |
+A **creative sandbox for story building** — not an assembly line. You freeze what you like, vary one thing, regenerate downstream, compare. Like a 3D interior design tool for narrative: build the room skeleton, then swap the couch, change the wall color, move the lamp, see how each version looks.
+
+The pipeline stages (00–07) are **depth levels** in a tree. Each level is a creative decision point where you can branch into variants.
+
+### Tree Concepts
+
+| Term | Meaning |
+|------|---------|
+| **Parent** | A frozen state you branch from (a ContractStore snapshot) |
+| **Sibling** | Variants at the same depth (same parent, different params) |
+| **Child** | A sibling's downstream expansion (deeper in the tree) |
+| **Branch** | Fork a parent into N variants with different parameters |
+| **Promote** | Mark one child as the active path to continue from |
+| **Compare** | View siblings side-by-side (genre, world, protagonist, scores) |
+| **Prune** | Delete unwanted branches |
+
+### Pipeline Stages as Branch Points
+
+| Depth | What You Vary | Pipeline Stage |
+|-------|--------------|----------------|
+| 0 | Genre, theme, tone | WF 00–01 (brief + premise) |
+| 1 | World architecture | WF 02 (structure) |
+| 2 | Heroes, villains, conflicts | WF 03 (episodes) |
+| 3 | Scene sequences | WF 04 (scenes) |
+| 4 | Draft style | WF 05–07 (draft + editorial) |
 
 ---
 
-## What the Pipeline Does Today
+## Current Status
 
-1. ✅ Brief & taxonomy — story seeded, themes selected, genre set
-2. ✅ Seed → premise — actants extracted, protagonist drafted
-3. ✅ Fabula structure — 8 coherence checks pass, LLM builds fabula
-4. ✅ Episodes — LLM generates 4 episodes with real titles ("The Trap Revealed", "The Final Ascent")
-5. ❌ Scenes — LLM generates scenes but they fail Greimas diagnostic (missing value_object_change)
-6. ✅ Draft — assembled from scenes
-7. ✅ Editorial passes — all hardcoded stubs, always pass
-8. ❌ Critique — hard gate rejects scenes but pipeline continues, no iteration
+- **Pipeline (linear path)**: Full 8-workflow pipeline runs clean end-to-end with real LLM — all steps succeed, all checkpoints pass. 151 tests passing.
+- **Tree layer**: Node model + ContractStore snapshot/restore done. Branch executor, compare, promote, CLI in progress.
+
+### Critical Path — Phase H
+
+| # | Task | Status |
+|:-:|:-----|:-------|
+| 1 | `TreeNode` model + store snapshot/restore | ✅ Done |
+| 2 | Branch executor — run N variants from any node | 🚧 In progress |
+| 3 | Compare — side-by-side contract viewer | ⬜ Pending |
+| 4 | Promote/prune — navigate the tree | ⬜ Pending |
+| 5 | Interactive CLI — demo.py branch commands | ⬜ Pending |
+| 6 | LLM parameter variance (seed, top_p, etc.) | ⬜ Pending |
+
+---
+
+## What the Pipeline Does Today (with Real LLM)
+
+1. ✅ **00-brief-and-taxonomy** — LLM selects themes, genre, world axes, character layers; Showrunner approves
+2. ✅ **01-seed-to-premise** — LLM extracts actants, selects backbone grammar, drafts protagonist, approves
+3. ✅ **02-premise-to-structure** — LLM builds fabula, checks constraints, validates theme fit
+4. ✅ **03-structure-to-episodes** — LLM segments into 4 episodes, 12 chapters, refines arcs, assigns settings
+5. ✅ **04-episodes-to-scenes** — LLM generates 24 scenes, all pass Greimas diagnostic; continuity verified
+6. ✅ **05-scenes-to-draft** — Scenes finalized, continuity checked, draft/script/screenplay assembled
+7. ✅ **06-editorial-passes** — Developmental evaluation, structural/script changes applied, continuity check
+8. ✅ **07-critique-and-revision** — Hard gate PASS, soft gate PASS, cliché detection, final approval
 
 ---
 
@@ -42,6 +78,9 @@
 - **Pre-flight gate lives in the agent**, not the Director. The Director dispatches; the agent gates itself.
 - **Three-level execution split**: Big Picture (WF 00–03) → Chapter-by-Chapter (WF 04–05) → Revisit (WF 06–07)
 - **Agents fall back to hardcoded generation** when LLM returns no `contract_data` — prevents pipeline from breaking mid-flow
+- **Deterministic administrative steps**: `approve_final`, `assemble_*`, `refine_script` use structure validation instead of LLM calls for reliability
+- **Medium-agnostic**: narrative core (Greimas, Propp, fabula, actants, character models, coherence) stays universal. Medium is a pipeline runtime parameter, not a story contract field.
+- **Tree over ladder**: Instead of one linear path, the system is a tree. Branch at any depth, compare siblings, freeze + continue. The pipeline stages are depth levels, not sequential checkpoints.
 
 ---
 
@@ -50,9 +89,9 @@
 | Command | Description |
 |:--------|:------------|
 | `python scripts/demo.py` | Full pipeline with mock LLM |
-| `python scripts/demo.py --model qwen3-coder` | Full pipeline with real LLM |
+| `python scripts/demo.py --model qwen3-coder --medium animation` | Real LLM, animation workflow |
 | `python scripts/demo.py --to scenes` | Stop after scenes checkpoint |
-| `pytest tests/ -q` | Run all 149 tests |
+| `pytest tests/ -q` | Run all 151 tests |
 
 ### Key Paths
 
@@ -63,6 +102,7 @@
 | LLM provider | `src/agents/llm.py` |
 | Director | `src/agents/director.py` |
 | ContractStore | `src/agents/store.py` |
+| **Tree layer** | `src/tree/` |
 | Pydantic models | `src/contracts/models.py` |
 | Checkpoints | `src/pipeline/checkpoints.py` |
 | Pipeline orchestrator | `src/pipeline/orchestrator.py` |

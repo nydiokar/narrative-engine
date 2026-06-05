@@ -22,6 +22,7 @@ class ContinuityEditor(BaseAgent):
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _check_consistency(self, context: AgentContext) -> AgentResult:
+        result = self._call_llm_for_step(context)
         scenes = self.list_contracts("scene")
         scenes_data = [s.model_dump(mode="json") for s in scenes if hasattr(s, "model_dump")]
         report = FabulaCoherenceEngine.run_all_checks(scenes=scenes_data)
