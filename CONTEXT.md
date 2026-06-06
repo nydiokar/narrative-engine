@@ -1,6 +1,6 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-06-04 | **Status:** Phase H in progress — tree-based narrative workbench.
+**Branch:** `main` | **Last Updated:** 2026-06-07 | **Status:** Phase H — tree-based narrative workbench; canonical CLI live.
 
 ---
 
@@ -36,19 +36,19 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 
 ## Current Status
 
-- **Pipeline (linear path)**: Full 8-workflow pipeline runs clean end-to-end with real LLM — all steps succeed, all checkpoints pass. 151 tests passing.
-- **Tree layer**: Node model + ContractStore snapshot/restore done. Branch executor, compare, promote, CLI in progress.
+- **Pipeline (linear path)**: Full 8-workflow pipeline runs clean end-to-end with real LLM — all steps succeed, all checkpoints pass. **209 tests passing**.
+- **Tree layer**: All core operations implemented. Canonical CLI (`python -m src`) has `run`, `branch`, `compare`, `promote`, `prune`, `show`, `set`, `lock`, `unlock` commands.
 
 ### Critical Path — Phase H
 
 | # | Task | Status |
 |:-:|:-----|:-------|
 | 1 | `TreeNode` model + store snapshot/restore | ✅ Done |
-| 2 | Branch executor — run N variants from any node | 🚧 In progress |
-| 3 | Compare — side-by-side contract viewer | ⬜ Pending |
-| 4 | Promote/prune — navigate the tree | ⬜ Pending |
-| 5 | Interactive CLI — demo.py branch commands | ⬜ Pending |
-| 6 | LLM parameter variance (seed, top_p, etc.) | ⬜ Pending |
+| 2 | Branch executor — run N variants from any node | ✅ Done |
+| 3 | Compare — side-by-side contract viewer | ✅ Done |
+| 4 | Promote/prune — navigate the tree | ✅ Done |
+| 5 | Canonical CLI — `python -m src branch/compare/promote/prune/show` | ✅ Done |
+| 6 | LLM parameter variance (seed, top_p, etc.) | ⬜ Deferred |
 
 ---
 
@@ -88,27 +88,33 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 
 | Command | Description |
 |:--------|:------------|
-| `python scripts/demo.py` | Full pipeline with mock LLM |
-| `python scripts/demo.py --model qwen3-coder --medium animation` | Real LLM, animation workflow |
-| `python scripts/demo.py --to scenes` | Stop after scenes checkpoint |
-| `pytest tests/ -q` | Run all 151 tests |
+| `python -m src run --to premise` | Run pipeline with mock LLM to premise |
+| `python -m src branch --vary genre --values fantasy,scifi` | Branch 2 genre variants |
+| `python -m src compare --labels fantasy,scifi --tree-load tree.json` | Compare siblings |
+| `python -m src promote fantasy --tree-load tree.json --tree-save tree.json` | Promote a branch |
+| `python -m src show --tree-load tree.json` | ASCII tree visualization |
+| `python -m src set story.genre.primary_bisac=FIC002000` | Set a contract field |
+| `python -m src lock story.genre` | Lock a field |
+| `pytest tests/ -q` | Run all 209 tests |
 
 ### Key Paths
 
 | Area | Path |
 |:-----|:-----|
+| **Canonical CLI** | `src/cli.py` + `src/__main__.py` → `python -m src` |
 | Agent modules | `src/agents/*.py` |
 | Prompt templates | `src/agents/prompts/*.md` |
 | LLM provider | `src/agents/llm.py` |
 | Director | `src/agents/director.py` |
 | ContractStore | `src/agents/store.py` |
-| **Tree layer** | `src/tree/` |
+| **Tree layer** | `src/tree/` (executor.py, node.py) |
 | Pydantic models | `src/contracts/models.py` |
 | Checkpoints | `src/pipeline/checkpoints.py` |
 | Pipeline orchestrator | `src/pipeline/orchestrator.py` |
 | Greimas engine | `src/engine/greimas/`, `src/engine/fabula/` |
 | Evaluation | `src/evaluation/` (HardGate, SoftGate, ClicheDetector) |
-| Demo script | `scripts/demo.py` |
+| Legacy demo | `scripts/demo.py` (use `python -m src` instead) |
+| Agent notes | `AGENTS.md` |
 | ROADMAP | `ROADMAP.md` |
 | Contract YAML schemas | `contracts/*.yaml` |
 | Agent role cards | `agents/*.md` |
