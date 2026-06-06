@@ -451,17 +451,18 @@ def print_store_state(store):
 def _run_tree_mode(
     agents,
     medium: Medium,
+    target_checkpoint: str | None = None,
 ):
     """Execute tree operations: branch, compare, promote."""
     import os
 
     args = sys.argv[1:]
 
-    # Parse tree-specific args
+    # Parse tree-specific args (--to already parsed in main())
     tree_load_path = None
     tree_save_path = None
     branch_from = "premise"
-    branch_to = "final"
+    branch_to = target_checkpoint or "final"
     vary_field = "genre"
     values_str = None
     labels_str = None
@@ -473,8 +474,6 @@ def _run_tree_mode(
             tree_load_path = args[i + 1]
         if arg == "--tree-save" and i + 1 < len(args):
             tree_save_path = args[i + 1]
-        if arg == "--to" and i + 1 < len(args):
-            branch_to = args[i + 1]
         if arg == "--from" and i + 1 < len(args):
             branch_from = args[i + 1]
         if arg == "--vary" and i + 1 < len(args):
@@ -505,7 +504,9 @@ def _run_tree_mode(
         # Root snapshot = seed only (story contract, no pipeline artifacts)
         full_snapshot = store.snapshot()
         seed_keys = {"story"}
-        seed_snapshot = {k: v for k, v in full_snapshot.items() if k in seed_keys}
+        contracts_data = full_snapshot.get("contracts", {})
+        seed_contracts = {k: v for k, v in contracts_data.items() if k in seed_keys}
+        seed_snapshot = {"contracts": seed_contracts, "field_locks": {}}
 
         root = TreeNode(
             label="root",
@@ -514,7 +515,8 @@ def _run_tree_mode(
             active=True,
         )
         tree.root = root
-        print(f"\nCreated root node (seed state: {len(seed_snapshot.get('story', []))} story)")
+        seed_count = len(seed_snapshot.get("contracts", {}).get("story", []))
+        print(f"\nCreated root node (seed state: {seed_count} story)")
         print(f"  Branch from: {branch_from}")
 
     # Handle --compare
@@ -676,7 +678,7 @@ def main():
 
     # Tree mode short-circuits the pipeline run
     if tree_mode:
-        _run_tree_mode(agents, medium=medium)
+        _run_tree_mode(agents, medium=medium, target_checkpoint=target_checkpoint)
         return
 
     # Seed the story (only if not loaded from save)

@@ -14,7 +14,7 @@ from uuid import UUID, uuid4
 
 from src.agents.director import Director, _ALL_WORKFLOW_IDS
 from src.agents.store import ContractStore, get_store, reset_store
-from src.contracts.models import Medium, StoryContract
+from src.contracts.models import ConflictType, Medium, StoryContract
 from src.pipeline.checkpoints import (
     CHECKPOINT_ORDER,
     WORKFLOW_FOR_CHECKPOINT,
@@ -26,13 +26,11 @@ from src.tree.node import TreeNode, TreeStore
 # Mapping: vary_field → checkpoint to re-run from
 _VARY_FROM_CHECKPOINT: dict[str, str] = {
     "genre": "brief",
-    "tone": "brief",
-    "theme": "brief",
     "premise": "premise",
     "world": "structure",
     "character": "episodes",
     "conflict": "episodes",
-    "seed": "brief",
+    "seed": "brief",       # reserved — tied to LLM param variance (not yet implemented)
 }
 
 
@@ -88,16 +86,21 @@ class TreeExecutor:
         self.logger = logger
 
     def _collect_params_to_root(self, node: TreeNode) -> dict[str, Any]:
-        """Walk from node up to root, collecting all variant_params.
+        """Walk from root to node, collecting all variant_params.
 
-        Earlier params (closer to root) are overridden by later ones
-        (closer to the node), which is the correct semantics.
+        Params closer to the node override those closer to root,
+        so children can override parent choices.
         """
-        params: dict[str, Any] = {}
+        path: list[TreeNode] = []
         current = node
         while current:
-            params.update(current.variant_params)
+            path.append(current)
             current = self.tree.get(current.parent_id) if current.parent_id else None
+        path.reverse()
+
+        params: dict[str, Any] = {}
+        for n in path:
+            params.update(n.variant_params)
         return params
 
     def _find_root_seed(self, node: TreeNode) -> TreeNode:
@@ -232,7 +235,7 @@ class TreeExecutor:
                 w = worlds[0]
                 wd = w.model_dump(mode="json") if hasattr(w, "model_dump") else {}
                 summary["world_name"] = wd.get("name", "?")
-                summary["world_axes"] = wd.get("axes", [])
+                summary["world_dimensions"] = [d.get("axis", "") for d in wd.get("dimensions", []) if isinstance(d, dict)]
 
             critiques = store.list_by_type("critique")
             if critiques:
@@ -287,19 +290,138 @@ class TreeExecutor:
             stories = store.list_by_type("story")
             if stories:
                 story = stories[0]
+                changed = False
                 if hasattr(story, "premise"):
                     story.premise = value
-                    store.put("story", story, agent="tree_branch")
+                    changed = True
                 if hasattr(story, "title") and label:
                     story.title = label
+                    changed = True
+                if changed:
                     store.put("story", story, agent="tree_branch")
-        elif vary_field == "tone":
-            themes = store.list_by_type("theme")
-            if themes:
-                theme = themes[0]
-                if hasattr(theme, "tone"):
-                    theme.tone = value
-                    store.put("theme", theme, agent="tree_branch")
+        elif vary_field == "world":
+            worlds = store.list_by_type("world")
+            if worlds:
+                world = worlds[0]
+                world.name = label or value
+                world.description = f"World variant: {value}"
+                store.put("world", world, agent="tree_branch")
+        elif vary_field == "character":
+            characters = store.list_by_type("character")
+            if characters:
+                char = characters[0]
+                self._apply_character_variant(char, value, label)
+                store.put("character", char, agent="tree_branch")
+        elif vary_field == "conflict":
+            episodes = store.list_by_type("episode")
+            if not episodes:
+                return
+            conflict_value = ConflictType.INTERPERSONAL
+            try:
+                conflict_value = ConflictType(value.lower())
+            except ValueError:
+                pass
+            for ep in episodes:
+                ep.dominant_conflict = conflict_value
+                store.put("episode", ep, agent="tree_branch")
+
+    def _apply_character_variant(
+        self,
+        char: Any,
+        value: str,
+        label: str,
+    ) -> None:
+        """Apply a character archetype variant to the protagonist."""
+        archetypes: dict[str, dict] = {
+            "heroic": {
+                "personality": {"openness": 7, "conscientiousness": 8, "extraversion": 6, "agreeableness": 7, "neuroticism": 3},
+                "core_desires": ["justice", "protection"],
+                "core_fears": ["failure", "cowardice"],
+                "wound_types": ["loss", "injustice"],
+                "need_types": ["purpose", "belonging"],
+                "social_mode_default": "equality_matching",
+                "attachment_pattern": "secure",
+            },
+            "reluctant": {
+                "personality": {"openness": 5, "conscientiousness": 6, "extraversion": 3, "agreeableness": 5, "neuroticism": 7},
+                "core_desires": ["peace", "normalcy"],
+                "core_fears": ["responsibility", "loss"],
+                "wound_types": ["betrayal", "failure"],
+                "need_types": ["acceptance", "safety"],
+                "social_mode_default": "market_pricing",
+                "attachment_pattern": "fearful_avoidant",
+            },
+            "tragic": {
+                "personality": {"openness": 8, "conscientiousness": 4, "extraversion": 2, "agreeableness": 4, "neuroticism": 9},
+                "core_desires": ["redemption", "meaning"],
+                "core_fears": ["repeating mistakes", "condemnation"],
+                "wound_types": ["betrayal_self", "failure"],
+                "need_types": ["atonement", "connection"],
+                "social_mode_default": "authority_ranking",
+                "attachment_pattern": "fearful_avoidant",
+            },
+            "antihero": {
+                "personality": {"openness": 6, "conscientiousness": 3, "extraversion": 3, "agreeableness": 3, "neuroticism": 7},
+                "core_desires": ["control", "survival"],
+                "core_fears": ["vulnerability", "betrayal"],
+                "wound_types": ["betrayal", "injustice"],
+                "need_types": ["autonomy", "respect"],
+                "social_mode_default": "market_pricing",
+                "attachment_pattern": "dismissive_avoidant",
+            },
+            "mentor": {
+                "personality": {"openness": 8, "conscientiousness": 7, "extraversion": 4, "agreeableness": 8, "neuroticism": 2},
+                "core_desires": ["knowledge", "legacy"],
+                "core_fears": ["obsolescence", "failing to teach"],
+                "wound_types": ["loss", "regret"],
+                "need_types": ["purpose", "generativity"],
+                "social_mode_default": "authority_ranking",
+                "attachment_pattern": "secure",
+            },
+            "trickster": {
+                "personality": {"openness": 9, "conscientiousness": 3, "extraversion": 8, "agreeableness": 6, "neuroticism": 3},
+                "core_desires": ["freedom", "chaos"],
+                "core_fears": ["entrapment", "predictability"],
+                "wound_types": ["boredom", "constraint"],
+                "need_types": ["stimulation", "expression"],
+                "social_mode_default": "equality_matching",
+                "attachment_pattern": "dismissive_avoidant",
+            },
+        }
+
+        archetype = archetypes.get(value)
+        if archetype is None:
+            char.name = label or value
+            char.description = f"Character variant: {value}"
+            return
+
+        char.name = label or value
+        char.description = f"{value.capitalize()} archetype protagonist"
+
+        if hasattr(char, "personality") and char.personality:
+            for trait, score in archetype.get("personality", {}).items():
+                setattr(char.personality, trait, score)
+
+        if "core_desires" in archetype:
+            char.core_desires = list(archetype["core_desires"])
+        if "core_fears" in archetype:
+            char.core_fears = list(archetype["core_fears"])
+        if "wound_types" in archetype:
+            char.wound_types = list(archetype["wound_types"])
+        if "need_types" in archetype:
+            char.need_types = list(archetype["need_types"])
+        if "social_mode_default" in archetype:
+            from src.contracts.models import RelationalModel
+            try:
+                char.social_mode_default = RelationalModel(archetype["social_mode_default"])
+            except ValueError:
+                pass
+        if "attachment_pattern" in archetype:
+            from src.contracts.models import AttachmentPattern
+            try:
+                char.attachment_pattern = AttachmentPattern(archetype["attachment_pattern"])
+            except ValueError:
+                pass
 
     def _run_from_checkpoint(
         self,
@@ -359,8 +481,8 @@ class TreeExecutor:
             print(f"    Protagonist:  {s.get('protagonist', '?')}")
             if s.get("world_name"):
                 print(f"    World:         {s['world_name']}")
-            if s.get("world_axes"):
-                print(f"    World axes:    {', '.join(str(a) for a in s['world_axes'])}")
+            if s.get("world_dimensions"):
+                print(f"    World axes:    {', '.join(str(a) for a in s['world_dimensions'])}")
             if s.get("scores"):
                 score_str = ", ".join(f"{k}={v}" for k, v in s["scores"].items())
                 print(f"    Scores:        {score_str}")
