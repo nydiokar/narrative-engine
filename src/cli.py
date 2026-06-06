@@ -298,8 +298,24 @@ def cmd_branch(args: list[str]):
 
     tree = TreeStore()
     if tree_load_path and os.path.exists(tree_load_path):
-        tree.load(tree_load_path)
-        print(f"Loaded tree from {tree_load_path} ({tree.size()} nodes)")
+        # Detect format: tree file (has "nodes") or store file (has "contracts")
+        import json as _json
+        with open(tree_load_path) as _f:
+            _header = _json.load(_f)
+        if "nodes" in _header:
+            tree.load(tree_load_path)
+            print(f"Loaded tree from {tree_load_path} ({tree.size()} nodes)")
+        else:
+            # Store file — create root from its snapshot
+            from src.agents.store import reset_store as _rs, get_store as _gs
+            _rs()
+            _store = _gs()
+            _store.restore(_header)
+            _snap = _store.snapshot()
+            _cd = _snap.get("contracts", {})
+            _seed = {"contracts": {k: v for k, v in _cd.items() if k in {"story"}}, "field_locks": {}}
+            tree.root = TreeNode(label="root", checkpoint="", store_snapshot=_seed, active=True)
+            print(f"Created root from store file {tree_load_path}")
     else:
         store = get_store()
         story_contracts = store.list_by_type("story")
@@ -308,7 +324,9 @@ def cmd_branch(args: list[str]):
             sys.exit(1)
 
         full_snapshot = store.snapshot()
-        seed_snapshot = {k: v for k, v in full_snapshot.items() if k in {"story"}}
+        contracts_data = full_snapshot.get("contracts", {})
+        seed_contracts = {k: v for k, v in contracts_data.items() if k in {"story"}}
+        seed_snapshot = {"contracts": seed_contracts, "field_locks": {}}
         root = TreeNode(label="root", checkpoint="", store_snapshot=seed_snapshot, active=True)
         tree.root = root
         print(f"Created root from current store")
@@ -415,14 +433,23 @@ def cmd_promote(args: list[str]):
     tree_load_path = None
     tree_save_path = None
     label = None
+    consumed: set[int] = set()
 
     for i, arg in enumerate(args):
         if arg == "--tree-load" and i + 1 < len(args):
             tree_load_path = args[i + 1]
+            consumed.update({i, i + 1})
         elif arg == "--tree-save" and i + 1 < len(args):
             tree_save_path = args[i + 1]
-        elif not arg.startswith("--"):
+            consumed.update({i, i + 1})
+
+    # First non-flag arg is the label
+    for i, arg in enumerate(args):
+        if i in consumed:
+            continue
+        if not arg.startswith("--"):
             label = arg
+            break
 
     if not label:
         print("Usage: python -m src promote LABEL [--tree-load PATH]")
@@ -542,14 +569,22 @@ def cmd_prune(args: list[str]):
     tree_load_path = None
     tree_save_path = None
     label = None
+    consumed: set[int] = set()
 
     for i, arg in enumerate(args):
         if arg == "--tree-load" and i + 1 < len(args):
             tree_load_path = args[i + 1]
+            consumed.update({i, i + 1})
         elif arg == "--tree-save" and i + 1 < len(args):
             tree_save_path = args[i + 1]
-        elif not arg.startswith("--"):
+            consumed.update({i, i + 1})
+
+    for i, arg in enumerate(args):
+        if i in consumed:
+            continue
+        if not arg.startswith("--"):
             label = arg
+            break
 
     if not label:
         print("Usage: python -m src prune LABEL --tree-load PATH [--tree-save PATH]")

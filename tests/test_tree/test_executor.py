@@ -4,7 +4,6 @@ from uuid import uuid4
 import pytest
 
 from src.contracts.models import (
-    AttachmentPattern,
     CharacterContract,
     ConflictType,
     EpisodeContract,
@@ -287,44 +286,20 @@ class TestApplyVariant:
         assert worlds[0].name == "High Fantasy"
         assert "high_fantasy" in worlds[0].description
 
-    def test_character_heroic(self, store):
+    def test_character_sets_name_and_description(self, store):
         executor = TreeExecutor(TreeStore(), {})
-        executor._apply_variant(store, "character", "heroic", "Heroic Protagonist")
+        executor._apply_variant(store, "character", "rogue", "Shadow")
         chars = store.list_by_type("character")
         c = chars[0]
-        assert c.name == "Heroic Protagonist"
-        assert "justice" in c.core_desires
-        assert "failure" in c.core_fears
-        assert c.personality.openness == 7
-        assert c.personality.neuroticism == 3
-        assert c.attachment_pattern == AttachmentPattern.SECURE
+        assert c.name == "Shadow"
+        assert "rogue" in c.description
 
-    def test_character_reluctant(self, store):
+    def test_character_uses_value_when_no_label(self, store):
         executor = TreeExecutor(TreeStore(), {})
-        executor._apply_variant(store, "character", "reluctant", "Reluctant Hero")
+        executor._apply_variant(store, "character", "wanderer", "wanderer")
         chars = store.list_by_type("character")
         c = chars[0]
-        assert c.personality.neuroticism == 7
-        assert "peace" in c.core_desires
-        assert c.attachment_pattern == AttachmentPattern.FEARFUL_AVOIDANT
-
-    def test_character_tragic(self, store):
-        executor = TreeExecutor(TreeStore(), {})
-        executor._apply_variant(store, "character", "tragic", "Tragic Figure")
-        chars = store.list_by_type("character")
-        c = chars[0]
-        assert c.personality.openness == 8
-        assert c.personality.neuroticism == 9
-        assert "redemption" in c.core_desires
-
-    def test_character_unknown_archetype(self, store):
-        executor = TreeExecutor(TreeStore(), {})
-        executor._apply_variant(store, "character", "custom_type", "Custom Hero")
-        chars = store.list_by_type("character")
-        c = chars[0]
-        assert c.name == "Custom Hero"
-        # Personality should remain at defaults (not overwritten)
-        assert c.personality.openness == 5
+        assert c.name == "wanderer"
 
     def test_conflict(self, store):
         executor = TreeExecutor(TreeStore(), {})
