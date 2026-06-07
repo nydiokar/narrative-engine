@@ -26,7 +26,7 @@ from src.agents.prompts import (
     render_system_prompt,
     render_user_prompt,
 )
-from src.agents.store import ContractStore, get_store
+from src.agents.store import ContractStore
 
 
 @dataclass
@@ -57,7 +57,7 @@ class BaseAgent(ABC):
         logger: Logger | None = None,
     ) -> None:
         self.role = role
-        self.store = store or get_store()
+        self.store = store or ContractStore()
         self.llm = llm or get_llm()
         self.logger = logger
 

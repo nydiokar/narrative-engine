@@ -15,7 +15,7 @@ from logging import Logger
 from typing import Any
 
 from src.agents.base import AgentContext, AgentResult
-from src.agents.store import ContractStore, get_store
+from src.agents.store import ContractStore
 from src.contracts.models import Medium
 
 
@@ -228,7 +228,7 @@ class Director:
         medium: Medium = Medium.BOOK,
     ) -> None:
         self.agents = agents
-        self.store = store or get_store()
+        self.store = store or ContractStore()
         self.logger = logger
         self.medium = medium
         self.registry: dict[str, list[WorkflowStep]] = get_registry(medium)

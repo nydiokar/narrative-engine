@@ -3,7 +3,7 @@
 import pytest
 
 from src.agents.base import AgentContext, AgentResult, BaseAgent
-from src.agents.store import ContractStore, get_store, reset_store
+from src.agents.store import ContractStore, reset_store
 from src.contracts.models import StoryContract
 
 
@@ -63,7 +63,13 @@ class TestBaseAgent:
         agent.teardown()
         assert agent.teardown_called is True
 
-    def test_default_store_is_singleton(self):
+    def test_default_store_is_isolated(self):
         agent1 = ConcreteAgent()
         agent2 = ConcreteAgent()
+        assert agent1.store is not agent2.store
+
+    def test_explicit_store_is_shared(self):
+        store = ContractStore()
+        agent1 = ConcreteAgent(store=store)
+        agent2 = ConcreteAgent(store=store)
         assert agent1.store is agent2.store

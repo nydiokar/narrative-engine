@@ -15,7 +15,7 @@ from src.agents.scene_writer import SceneWriter
 from src.agents.showrunner import Showrunner
 from src.agents.structuralist import Structuralist
 from src.agents.theme_specialist import ThemeSpecialist
-from src.agents.store import reset_store
+from src.agents.store import ContractStore, reset_store
 from src.contracts.models import CharacterContract, ConflictLoad, EpisodeContract, Intensity, SceneContract, StoryContract
 from src.engine.config import get_settings
 
@@ -51,13 +51,13 @@ class TestIndividualAgents:
         assert len(result.artifacts) == 3
 
     def test_chapter_planner_creates_chapters(self):
-        planner = OutlinePlanner()
-        store = planner.store
+        store = ContractStore()
+        planner = OutlinePlanner(store=store)
         store.put("story", StoryContract(title="Test", premise="A test premise"))
         store.put("character", CharacterContract(name="Hero", description="Main character"))
         planner.execute(AgentContext(workflow_id="03", step_id="segment_fabula"))
 
-        cp = ChapterPlanner()
+        cp = ChapterPlanner(store=store)
         ctx = AgentContext(workflow_id="03", step_id="divide_episodes")
         result = cp.execute(ctx)
         assert result.success is True
