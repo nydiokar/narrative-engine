@@ -17,7 +17,7 @@ AGENT_PROMPT_FILES: dict[str, str] = {
     "script_editor": "script_editor.md",
     "theme_specialist": "theme_specialist.md",
     "world_researcher": "world_researcher.md",
-    "worldbuilder": "worldbuilder.md",
+
     "chapter_planner": "chapter_planner.md",
     "character_simulator": "character_simulator.md",
     "dialogue_specialist": "dialogue_specialist.md",

@@ -181,11 +181,8 @@ _MEDIUM_REGISTRIES: dict[Medium, dict[str, list[WorkflowStep]]] = {
 _MEDIUM_REGISTRIES.setdefault(Medium.GAME, _ANIMATION_WORKFLOWS)
 _MEDIUM_REGISTRIES.setdefault(Medium.AUDIO_DRAMA, _ANIMATION_WORKFLOWS)
 
-# All workflow IDs sorted (for run_full_pipeline ordering)
-_ALL_WORKFLOW_IDS = ["00-brief-and-taxonomy", "01-seed-to-premise",
-                      "02-premise-to-structure", "03-structure-to-episodes",
-                      "04-episodes-to-scenes", "05-scenes-to-draft",
-                      "06-editorial-passes", "07-critique-and-revision"]
+# All workflow IDs derived from shared + book registry (mediums share the same IDs)
+_ALL_WORKFLOW_IDS = sorted(set(_SHARED_WORKFLOWS) | set(_BOOK_WORKFLOWS))
 
 # Contract types produced by each workflow. Used for skip-locked logic:
 # if all output types exist and are locked, the workflow is skipped.
