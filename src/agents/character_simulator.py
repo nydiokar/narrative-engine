@@ -22,7 +22,7 @@ class CharacterSimulator(BaseAgent):
         result = self._call_llm_for_step(context)
         chars = self.list_contracts("character")
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", f"Simulated {len(chars)} characters through episode"),
             artifacts=[str(c.id) for c in chars],
             errors=result.get("errors", []),

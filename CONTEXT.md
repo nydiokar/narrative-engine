@@ -1,6 +1,6 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-06-07 | **Status:** Phase H — tree-based narrative workbench; canonical CLI live.
+**Branch:** `main` | **Last Updated:** 2026-06-07 | **Status:** Phase I — editorial/revision real-LLM wiring complete; Phase H tree workbench live.
 
 ---
 
@@ -37,6 +37,7 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 ## Current Status
 
 - **Pipeline (linear path)**: Full 8-workflow pipeline runs clean end-to-end with real LLM — all steps succeed, all checkpoints pass. **209 tests passing**.
+- **Editorial/Revision**: Soft gate and cliché detection now call the real LLM for evaluation scores. Revision agent applies real contract modifications. Revision loop uses targeted editorial passes (N-1) before full regeneration instead of nuke-and-regenerate.
 - **Tree layer**: All core operations implemented. Canonical CLI (`python -m src`) has `run`, `branch`, `compare`, `promote`, `prune`, `show`, `set`, `lock`, `unlock` commands.
 
 ### Critical Path — Phase H
@@ -57,11 +58,11 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 1. ✅ **00-brief-and-taxonomy** — LLM selects themes, genre, world axes, character layers; Showrunner approves
 2. ✅ **01-seed-to-premise** — LLM extracts actants, selects backbone grammar, drafts protagonist, approves
 3. ✅ **02-premise-to-structure** — LLM builds fabula, checks constraints, validates theme fit
-4. ✅ **03-structure-to-episodes** — LLM segments into 4 episodes, 12 chapters, refines arcs, assigns settings
-5. ✅ **04-episodes-to-scenes** — LLM generates 24 scenes, all pass Greimas diagnostic; continuity verified
-6. ✅ **05-scenes-to-draft** — Scenes finalized, continuity checked, draft/script/screenplay assembled
-7. ✅ **06-editorial-passes** — Developmental evaluation, structural/script changes applied, continuity check
-8. ✅ **07-critique-and-revision** — Hard gate PASS, soft gate PASS, cliché detection, final approval
+4. ✅ **03-structure-to-episodes** — LLM segments into 3 episodes, 9 chapters, refines arcs, assigns settings
+5. ✅ **04-episodes-to-scenes** — LLM generates 2+ scenes per episode, all pass Greimas diagnostic; continuity verified
+6. ✅ **05-scenes-to-draft** — Scenes finalized, continuity checked, draft assembled
+7. ✅ **06-editorial-passes** — Developmental, structural, line, copy, proofread passes; revision agent applies LLM-generated changes to contracts
+8. ✅ **07-critique-and-revision** — Hard gate (structural), soft gate (LLM-evaluated 9-dimension scores, fallback to neutral 5s), cliché detection (LLM-signaled, fallback to empty), revision loop (N-1 targeted editorial passes, then full regeneration)
 
 ---
 
@@ -77,7 +78,12 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 - **LLM boots up as each agent** — it does not call an agent, it *is* the agent. Every `execute()` receives: role card → system prompt, upstream artifacts → context injection, output schema → contract type, pre-flight gate
 - **Pre-flight gate lives in the agent**, not the Director. The Director dispatches; the agent gates itself.
 - **Three-level execution split**: Big Picture (WF 00–03) → Chapter-by-Chapter (WF 04–05) → Revisit (WF 06–07)
-- **Agents fall back to hardcoded generation** when LLM returns no `contract_data` — prevents pipeline from breaking mid-flow
+- **Agents fall back to safe defaults** when LLM returns no `contract_data` — prevents pipeline from breaking mid-flow
+- **LLM parse failure returns `success: False`**: `_call_llm_for_step` no longer silently returns `success: True` on parse errors; pure-LLM relay agents default to `result.get("success", False)` 
+- **Revision agent applies real changes**: `_apply_changes_from_result()` parses LLM output for `type`/`contract_id`/`field`/`new_value` tuples and modifies contracts directly via `setattr` + `write_contract` — no more decorative edit messages
+- **Soft gate uses real LLM**: 9-dimension quality scores from LLM, falls back to neutral 5s per dimension when LLM fails or returns no scores
+- **Cliché detection uses real LLM**: `cliche_signals` array from LLM, falls back to empty detection when LLM fails
+- **Revision loop is targeted**: N-1 attempts run 06-editorial-passes + 07-critique-and-revision; full scene regeneration only on the last attempt — avoids nuke-and-regenerate
 - **Deterministic administrative steps**: `approve_final`, `assemble_*`, `refine_script` use structure validation instead of LLM calls for reliability
 - **Medium-agnostic**: narrative core (Greimas, Propp, fabula, actants, character models, coherence) stays universal. Medium is a pipeline runtime parameter, not a story contract field.
 - **Tree over ladder**: Instead of one linear path, the system is a tree. Branch at any depth, compare siblings, freeze + continue. The pipeline stages are depth levels, not sequential checkpoints.

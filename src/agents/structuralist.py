@@ -53,7 +53,7 @@ class Structuralist(BaseAgent):
             self.write_contract("story", story)
 
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False) if not result.get("contract_data") else True,
             message=result.get("message", "Premise analyzed"),
             errors=result.get("errors", []),
         )
@@ -61,7 +61,7 @@ class Structuralist(BaseAgent):
     def _select_backbone(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", "Backbone grammar selected"),
             errors=result.get("errors", []),
         )
@@ -69,7 +69,7 @@ class Structuralist(BaseAgent):
     def _build_fabula(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", "Fabula constructed"),
             errors=result.get("errors", []),
         )

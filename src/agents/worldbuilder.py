@@ -23,7 +23,7 @@ class Worldbuilder(BaseAgent):
     def _build_world(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", "World configuration ready"),
             errors=result.get("errors", []),
         )
@@ -31,7 +31,7 @@ class Worldbuilder(BaseAgent):
     def _validate_consistency(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", "World consistency validated"),
             errors=result.get("errors", []),
         )

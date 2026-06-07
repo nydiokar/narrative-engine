@@ -24,12 +24,12 @@ class DevelopmentalEditor(BaseAgent):
         if stories:
             title = getattr(stories[0], "title", "untitled")
             return AgentResult(
-                success=result.get("success", True),
+                success=result.get("success", False),
                 message=result.get("message", f"Developmental edit complete for '{title}' — structural recommendations issued"),
                 errors=result.get("errors", []),
             )
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", "Developmental edit complete"),
             errors=result.get("errors", []),
         )

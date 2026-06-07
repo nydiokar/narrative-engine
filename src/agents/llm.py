@@ -120,7 +120,7 @@ class MockResponseRule:
 class MockLLMProvider(LLMProvider):
     """Stub LLM for testing. Returns canned responses by trigger matching."""
 
-    def __init__(self, fallback: str = "Mock LLM response.") -> None:
+    def __init__(self, fallback: str = '{"success": true, "message": "Mock response", "errors": [], "artifacts": []}') -> None:
         self.rules: list[MockResponseRule] = []
         self.call_log: list[dict[str, Any]] = []
         self.fallback = fallback
@@ -142,9 +142,16 @@ class MockLLMProvider(LLMProvider):
             "max_tokens": max_tokens,
         })
 
+        combined = user_prompt + "\n" + system_prompt
         for rule in self.rules:
-            if rule.trigger in user_prompt or rule.trigger in system_prompt:
+            if rule.trigger in combined:
                 return LLMResponse(content=rule.response, tokens_used=len(rule.response))
+
+            # Also try matching agent.step against Current step / Agent lines
+            if "." in rule.trigger:
+                agent_part, step_part = rule.trigger.split(".", 1)
+                if f"Agent: {agent_part}" in user_prompt and f"step: {step_part}" in user_prompt:
+                    return LLMResponse(content=rule.response, tokens_used=len(rule.response))
 
         return LLMResponse(content=self.fallback, tokens_used=len(self.fallback))
 

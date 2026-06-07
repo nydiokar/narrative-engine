@@ -139,23 +139,32 @@ def run_to_checkpoint(
                     artifact_info = f" ({len(r.artifacts)} artifacts)" if r.artifacts else ""
                     print(f"  OK: {r.message}{artifact_info}")
 
-        # Revision loop: if hard gate failed, re-enter at scene level
+        # Revision loop: if hard gate failed, try targeted revision before regenerating
         if wid == "07-critique-and-revision" and _hard_gate_failed(director, wid):
             for attempt in range(1, REVISION_MAX_ATTEMPTS + 1):
-                if verbose:
-                    print(f"\n  --- Revision attempt {attempt}/{REVISION_MAX_ATTEMPTS} ---")
+                is_last_attempt = attempt == REVISION_MAX_ATTEMPTS
 
-                # Clear old scenes so regeneration starts fresh
-                deleted = director.store.delete_by_type("scene")
-                if verbose:
-                    print(f"  Removed {deleted} old scene(s)")
+                if is_last_attempt:
+                    # Last resort: full regeneration
+                    if verbose:
+                        print(f"\n  --- Regeneration attempt {attempt}/{REVISION_MAX_ATTEMPTS} ---")
+                    deleted = director.store.delete_by_type("scene")
+                    if verbose:
+                        print(f"  Removed {deleted} old scene(s)")
+                    redo_workflows = [
+                        ("04-episodes-to-scenes", "Scenes rewritten"),
+                        ("05-scenes-to-draft", "Draft reassembled"),
+                        ("07-critique-and-revision", "Gates rechecked"),
+                    ]
+                else:
+                    # Targeted revision: apply editorial changes, then re-check
+                    if verbose:
+                        print(f"\n  --- Targeted revision attempt {attempt}/{REVISION_MAX_ATTEMPTS} ---")
+                    redo_workflows = [
+                        ("06-editorial-passes", "Editorial passes reapplied"),
+                        ("07-critique-and-revision", "Gates rechecked"),
+                    ]
 
-                # Re-run scene generation, draft, and critique
-                redo_workflows = [
-                    ("04-episodes-to-scenes", "Scenes rewritten"),
-                    ("05-scenes-to-draft", "Draft reassembled"),
-                    ("07-critique-and-revision", "Gates rechecked"),
-                ]
                 for redo_wid, redo_desc in redo_workflows:
                     if verbose:
                         print(f"\n  REDO: {redo_wid} ({redo_desc})")

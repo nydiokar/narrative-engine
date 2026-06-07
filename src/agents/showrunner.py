@@ -90,7 +90,7 @@ class Showrunner(BaseAgent):
     def _approve_structure(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", "Structure approved"),
             errors=result.get("errors", []),
         )
@@ -98,7 +98,7 @@ class Showrunner(BaseAgent):
     def _approve_episodes(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", "Episode structure approved"),
             errors=result.get("errors", []),
         )
@@ -106,7 +106,7 @@ class Showrunner(BaseAgent):
     def _assemble_draft(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", "Draft assembled"),
             errors=result.get("errors", []),
         )

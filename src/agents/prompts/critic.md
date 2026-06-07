@@ -56,4 +56,10 @@ Return a JSON object with:
 - `message`: gate result summary
 - `errors`: array of violation strings (empty if pass)
 - `artifacts`: array of critique contract IDs
-- `contract_data`: YAML representation of the CritiqueContract (for run_hard_gate)
+- `contract_data`: object (format depends on step):
+  - For `run_soft_gate`:
+    - `dimension_scores`: object with dimension_name as key and integer score 1-10 as value
+    - `dimension_notes`: object with dimension_name as key and brief justification string as value
+  - For `run_hard_gate`: YAML representation of the CritiqueContract
+  - For `run_greimas_diagnostics`:
+    - `cliche_signals`: array of {{name: string, severity: 1-3}} for detected clichés

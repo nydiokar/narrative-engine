@@ -133,13 +133,31 @@ $ python scripts/demo.py --promote world-2 --to scenes
 
 ---
 
+---
+
+## Phase I — Editorial & Revision Real-LLM Wiring ✅ (Done)
+
+- [x] Fix silent-success bug in `BaseAgent._call_llm_for_step` — LLM parse failure returns `success: False` with error message
+- [x] All agent `result.get("success", True)` defaults changed to `False` for pure-LLM relay agents
+- [x] Soft Gate calls real LLM for `dimension_scores` + `dimension_notes`; falls back to mid-range (5) neutral scores
+- [x] Cliché detection calls real LLM for `cliche_signals` array; falls back to empty signals
+- [x] Revision Agent applies real contract modifications via `_apply_changes_from_result()` (parses `type`/`contract_id`/`field`/`new_value` from LLM output)
+- [x] Revision loop in checkpoints.py: targeted editorial passes (06 + 07) for N-1 attempts; full scene regeneration only on last attempt
+- [x] MockLLMProvider: valid JSON default fallback, `agent.step` trigger matching by separate `Agent:` / `step:` lines
+- [x] `critic.md` prompt specifies structured output for `dimension_scores`, `dimension_notes`, `cliche_signals`
+- [x] Adversarial review: non-numeric severity/dimension score crash fixed, `setattr` field existence guard added
+- [x] All 209 tests passing, demo pipeline end-to-end
+
+---
+
 ## Downstream (future)
 
 | Area | What |
 |:-----|:------|
-| Quality & Iteration | Revisit triggers, editorial passes with real analysis, showrunner final approval |
+| Quality & Iteration | Revisit triggers, showrunner final approval, editorial pass depth tuning |
 | Infrastructure | ModalityState split, Propp/Todorov/GOLEM models, save/load, CLI, test coverage |
 | Human Interface | Intake form, release package, legal/bias check |
+| LLM Parameters | Expose `seed`, `top_p`, `top_k`, `frequency_penalty`, `presence_penalty` for creative variance |
 
 ---
 

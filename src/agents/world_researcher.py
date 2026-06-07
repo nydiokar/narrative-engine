@@ -23,7 +23,7 @@ class WorldResearcher(BaseAgent):
     def _set_world_axes(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", "World axes defined"),
             errors=result.get("errors", []),
         )
@@ -31,7 +31,7 @@ class WorldResearcher(BaseAgent):
     def _assign_settings(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", f"Settings assigned"),
             errors=result.get("errors", []),
         )

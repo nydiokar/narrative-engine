@@ -66,15 +66,38 @@ class Critic(BaseAgent):
 
     def _run_soft_gate(self, context: AgentContext) -> AgentResult:
         gate = SoftGate(threshold=5.0)
-        gate.set_score("genre_fit", 7)
-        gate.set_score("thematic_clarity", 6)
-        gate.set_score("conflict_density", 6)
-        gate.set_score("relationship_tension", 5)
-        gate.set_score("scene_level_purpose", 8)
-        gate.set_score("suspense_curiosity_surprise", 6)
-        gate.set_score("emotional_transport", 6)
-        gate.set_score("novelty", 5)
-        gate.set_score("prose_distinctiveness", 5)
+
+        llm_result = self._call_llm_for_step(context)
+        scores_obtained = False
+        if llm_result.get("success", False):
+            contract_data = llm_result.get("contract_data", {}) or {}
+            if isinstance(contract_data, dict):
+                dimension_scores = contract_data.get("dimension_scores", {})
+                if isinstance(dimension_scores, dict) and dimension_scores:
+                    dimension_notes = contract_data.get("dimension_notes", {}) or {}
+                    for dim_name, score in dimension_scores.items():
+                        try:
+                            numeric_score = int(score) if not isinstance(score, int) else score
+                            if 0 <= numeric_score <= 10:
+                                note = dimension_notes.get(dim_name, "") if isinstance(dimension_notes, dict) else ""
+                                gate.set_score(dim_name, numeric_score, notes=str(note))
+                                scores_obtained = True
+                            else:
+                                self.log("warning", f"Soft gate score for '{dim_name}' out of range: {score}")
+                        except (ValueError, TypeError):
+                            self.log("warning", f"Soft gate non-numeric score for '{dim_name}': {score}")
+        if not scores_obtained:
+            self.log("warning", "Soft gate LLM returned no scores — using fallback mid-range")
+            gate.set_score("genre_fit", 5)
+            gate.set_score("thematic_clarity", 5)
+            gate.set_score("conflict_density", 5)
+            gate.set_score("relationship_tension", 5)
+            gate.set_score("scene_level_purpose", 5)
+            gate.set_score("suspense_curiosity_surprise", 5)
+            gate.set_score("emotional_transport", 5)
+            gate.set_score("novelty", 5)
+            gate.set_score("prose_distinctiveness", 5)
+
         s_result = gate.evaluate()
 
         critique_list = self.list_contracts("critique")
@@ -93,7 +116,30 @@ class Critic(BaseAgent):
         )
 
     def _run_greimas_diagnostics(self, context: AgentContext) -> AgentResult:
-        cliche_result = ClicheDetector.detect(explicit_signals=[])
+        explicit_signals: list[tuple[str, int]] = []
+
+        llm_result = self._call_llm_for_step(context)
+        if llm_result.get("success", False):
+            contract_data = llm_result.get("contract_data", {}) or {}
+            if isinstance(contract_data, dict):
+                cliche_signals = contract_data.get("cliche_signals", [])
+                if isinstance(cliche_signals, list):
+                    for signal in cliche_signals:
+                        if isinstance(signal, dict):
+                            name = signal.get("name", "")
+                            raw_severity = signal.get("severity", 1)
+                            severity = 1
+                            try:
+                                severity = int(raw_severity)
+                                severity = max(1, min(3, severity))
+                            except (ValueError, TypeError):
+                                self.log("warning", f"Non-numeric cliché severity '{raw_severity}' for '{name}', using 1")
+                            if name:
+                                explicit_signals.append((name, severity))
+        else:
+            self.log("warning", "Greimas diagnostics LLM call failed — no cliché signals")
+
+        cliche_result = ClicheDetector.detect(explicit_signals=explicit_signals if explicit_signals else None)
         score = cliche_result.cliche_score
         return AgentResult(
             success=True,

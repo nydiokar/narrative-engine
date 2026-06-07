@@ -90,7 +90,7 @@ class CharacterArchitect(BaseAgent):
     def _refine_arcs(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", "Character arcs refined"),
             errors=result.get("errors", []),
         )

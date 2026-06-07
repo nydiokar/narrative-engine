@@ -22,7 +22,7 @@ class DialogueSpecialist(BaseAgent):
         result = self._call_llm_for_step(context)
         scenes = self.list_contracts("scene")
         return AgentResult(
-            success=result.get("success", True),
+            success=result.get("success", False),
             message=result.get("message", f"Speech acts planned for {len(scenes)} scenes"),
             errors=result.get("errors", []),
         )

@@ -156,11 +156,11 @@ class BaseAgent(ABC):
         try:
             parsed = parse_json_output(response.content)
             return parsed
-        except Exception:
-            self.log("warning", f"Failed to parse LLM output as JSON, using defaults")
+        except Exception as e:
+            self.log("warning", f"Failed to parse LLM output as JSON: {e}")
             return {
-                "success": True,
-                "message": f"Step '{context.step_id}' completed",
-                "errors": [],
+                "success": False,
+                "message": f"Failed to parse LLM output for step '{context.step_id}'",
+                "errors": [f"JSON parse error: {e}"],
                 "artifacts": [],
             }

@@ -276,6 +276,9 @@ MOCK_RESPONSES: dict[str, str] = {
         "success": True,
         "message": "Structural changes applied successfully.",
         "errors": [],
+        "contract_data": {
+            "changes": [{"type": "scene", "contract_id": "00000000-0000-0000-0000-000000000001", "field": "status", "new_value": "revised"}]
+        },
     }),
     "line_editor.refine_prose": json.dumps({
         "success": True,
@@ -286,6 +289,9 @@ MOCK_RESPONSES: dict[str, str] = {
         "success": True,
         "message": "Line edit changes applied.",
         "errors": [],
+        "contract_data": {
+            "changes": [{"type": "scene", "contract_id": "00000000-0000-0000-0000-000000000001", "field": "content", "new_value": "Elara traced faded runes in the dust, the archivist\u2019s voice a whisper in her mind. The first fragment lay in the Sunken Cathedral, guarded by memories she had helped create."}]
+        },
     }),
     "copy_editor.check_consistency": json.dumps({
         "success": True,
@@ -296,6 +302,9 @@ MOCK_RESPONSES: dict[str, str] = {
         "success": True,
         "message": "Copy edit changes applied.",
         "errors": [],
+        "contract_data": {
+            "changes": []
+        },
     }),
     "proofreader.final_check": json.dumps({
         "success": True,
@@ -311,16 +320,37 @@ MOCK_RESPONSES: dict[str, str] = {
         "success": True,
         "message": "Soft gate: PASS (6.8/5.0) — quality threshold cleared.",
         "errors": [],
+        "contract_data": {
+            "dimension_scores": {
+                "genre_fit": 7, "thematic_clarity": 6, "conflict_density": 6,
+                "relationship_tension": 5, "scene_level_purpose": 8, "suspense_curiosity_surprise": 6,
+                "emotional_transport": 6, "novelty": 5, "prose_distinctiveness": 5
+            },
+            "dimension_notes": {
+                "genre_fit": "Strong genre delivery with clear fantasy tropes",
+                "thematic_clarity": "Redemption theme is well-instantiated",
+                "scene_level_purpose": "All scenes pass Greimas 5-question diagnostic"
+            }
+        },
     }),
     "critic.run_greimas_diagnostics": json.dumps({
         "success": True,
         "message": "Greimas diagnostics complete. Cliché score: 2/14 — low cliché risk.",
         "errors": [],
+        "contract_data": {
+            "cliche_signals": [
+                {"name": "default_genre_setting", "severity": 1},
+                {"name": "mentor_dies_only_to_motivate", "severity": 1}
+            ]
+        },
     }),
     "revision_agent.apply_revisions": json.dumps({
         "success": True,
         "message": "All revisions applied — no remaining hard gate failures.",
         "errors": [],
+        "contract_data": {
+            "changes": []
+        },
     }),
     "showrunner.approve_final": json.dumps({
         "success": True,
