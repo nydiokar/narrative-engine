@@ -29,7 +29,6 @@ from src.agents.showrunner import Showrunner
 from src.agents.structuralist import Structuralist
 from src.agents.theme_specialist import ThemeSpecialist
 from src.agents.world_researcher import WorldResearcher
-from src.agents.worldbuilder import Worldbuilder
 from src.agents.store import ContractStore, get_store
 from src.contracts.models import Medium
 from src.engine.config import get_settings
@@ -39,7 +38,7 @@ def default_agent_registry(
     store: ContractStore | None = None,
     logger: Logger | None = None,
 ) -> dict[str, BaseAgent]:
-    """Create the full 20-agent registry with default instances."""
+    """Create the full 19-agent registry with default instances."""
     common = {"store": store, "logger": logger}
     return {
         "showrunner": Showrunner(**common),
@@ -50,7 +49,6 @@ def default_agent_registry(
         "character_simulator": CharacterSimulator(**common),
         "dialogue_specialist": DialogueSpecialist(**common),
         "world_researcher": WorldResearcher(**common),
-        "worldbuilder": Worldbuilder(**common),
         "outline_planner": OutlinePlanner(**common),
         "chapter_planner": ChapterPlanner(**common),
         "scene_writer": SceneWriter(**common),

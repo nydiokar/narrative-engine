@@ -190,7 +190,6 @@ class TestFullPipeline:
         from src.agents.character_simulator import CharacterSimulator
         from src.agents.dialogue_specialist import DialogueSpecialist
         from src.agents.world_researcher import WorldResearcher
-        from src.agents.worldbuilder import Worldbuilder
         from src.agents.outline_planner import OutlinePlanner
         from src.agents.chapter_planner import ChapterPlanner
         from src.agents.scene_writer import SceneWriter
@@ -209,7 +208,6 @@ class TestFullPipeline:
         assert CharacterSimulator
         assert DialogueSpecialist
         assert WorldResearcher
-        assert Worldbuilder
         assert OutlinePlanner
         assert ChapterPlanner
         assert SceneWriter
@@ -223,7 +221,7 @@ class TestFullPipeline:
 
     def test_default_agent_registry_creates_all_agents(self):
         agents = default_agent_registry()
-        assert len(agents) == 19  # 20 agents minus Director (not in registry)
+        assert len(agents) == 18  # 19 agents minus worldbuilder (removed, never dispatched)
         assert "showrunner" in agents
         assert "critic" in agents
         assert "revision_agent" in agents
@@ -275,7 +273,7 @@ class TestPipelineOrchestratorInit:
     def test_orchestrator_default_init(self):
         orch = PipelineOrchestrator()
         assert orch.store is not None
-        assert len(orch.agents) == 19
+        assert len(orch.agents) == 18
         assert orch.director is not None
 
     def test_orchestrator_with_custom_store(self):
