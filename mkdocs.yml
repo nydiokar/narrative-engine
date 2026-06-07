@@ -1,0 +1,105 @@
+site_name: Narrative Engine
+site_description: Theory-first narrative generation engine with formal narratological validation
+repo_url: https://github.com/anomalyco/narrative-engine
+docs_dir: docs
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: deep purple
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.expand
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: true
+            show_root_heading: true
+            show_category_heading: true
+            docstring_style: google
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Usage: usage.md
+    - Agents Overview: agents-overview.md
+  - System:
+    - System Overview: system-overview.md
+    - Pipeline Map: pipeline-map.md
+    - Operating Principles: operating-principles.md
+    - Types & Maps: types-maps.md
+  - Theory:
+    - Theory Notes: theory-notes.md
+    - Glossary: glossary.md
+  - Workflows:
+    - Overview: workflows/index.md
+    - "00 — Brief & Taxonomy": workflows/00-brief-and-taxonomy.md
+    - "01 — Seed to Premise": workflows/01-seed-to-premise.md
+    - "02 — Premise to Structure": workflows/02-premise-to-structure.md
+    - "03 — Structure to Episodes": workflows/03-structure-to-episodes.md
+    - "04 — Episodes to Scenes": workflows/04-episodes-to-scenes.md
+    - "05 — Scenes to Draft": workflows/05-scenes-to-draft.md
+    - "06 — Editorial Passes": workflows/06-editorial-passes.md
+    - "07 — Critique & Revision": workflows/07-critique-and-revision.md
+  - Research:
+    - Foundations:
+      - Story Definition: research/story-definition.md
+      - Story Components: research/story-components.md
+    - Structure:
+      - Premise Types: research/premise-types.md
+      - Scene Types: research/scene-types.md
+      - Sequence Types: research/sequence-types.md
+      - Ending Types: research/ending-types.md
+    - Characters:
+      - Character Layers: research/character-layers.md
+      - Motivation Stack: research/motivation-stack.md
+      - Relationship Archetypes: research/relationship-archetypes.md
+      - Staff Roles: research/staff-roles.md
+    - World:
+      - Worldbuilding Dimensions: research/worldbuilding-dimensions.md
+    - Genre & Theme:
+      - Genre Taxonomy: research/genre-taxonomy.md
+      - Theme Ontology: research/theme-ontology.md
+      - Genre Map: research/genre-map.md
+      - Taxonomies: research/taxonomies.md
+    - Conflict & Stakes:
+      - Conflict Types: research/conflict-types.md
+      - Stakes Types: research/stakes-types.md
+    - Emotion & Tone:
+      - Emotion Model: research/emotion-model.md
+      - Tone & Style: research/tone-style-maps.md
+    - Discourse & Evaluation:
+      - Discourse Layer: research/discourse-layer.md
+      - Evaluation Rubric: research/evaluation-rubric.md
+      - Quality Principles: research/quality-principles.md
+    - Misc:
+      - Cliché Detection: research/cliche-definition.md
+      - Symbolism & Motifs: research/symbolism-motifs.md
+      - Selection Logic: research/selection-logic.md
+  - API Reference:
+    - Contracts: api/contracts.md
+    - Agents: api/agents.md
+    - Engine: api/engine.md
+    - Pipeline: api/pipeline.md
+    - Evaluation: api/evaluation.md
+  - Roadmap: roadmap.md
