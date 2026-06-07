@@ -38,7 +38,7 @@ def default_agent_registry(
     store: ContractStore | None = None,
     logger: Logger | None = None,
 ) -> dict[str, BaseAgent]:
-    """Create the full 19-agent registry with default instances."""
+    """Create the full 18-agent registry with default instances."""
     common = {"store": store, "logger": logger}
     return {
         "showrunner": Showrunner(**common),

@@ -132,11 +132,10 @@
 
 | # | Issue | Location | Impact |
 |---|-------|----------|--------|
-| 1 | **Hard Gate receives `events=[]`** | `src/agents/critic.py:47` — `gate.evaluate(scenes=scenes_data, events=[])` | Checks 1,2,3,5,7,8 never validate — only 4 checks (stakes, conflict, Propp, Todorov) actually run |
-| 2 | **Worldbuilder registered, never dispatched** | `src/pipeline/orchestrator.py:53` vs `src/agents/director.py` — no workflow step calls `worldbuilder` | Dead registration — LLM capacity allocated but never used. World researcher handles world creation instead |
-| 3 | **`src/contracts/loader.py` — YAML loader** | Never imported by any active pipeline code | Dead code — YAML contract loading is wired but called by nothing |
-| 4 | **`agents/*.md` (20 files, top-level)** | Root `agents/` directory | Orphaned copies — active prompts live in `src/agents/prompts/*.md` |
-| 5 | **3 episodes hardcoded** | `src/agents/outline_planner.py` | Episode count not configurable through CLI or contract |
-| 6 | **ContractStore singleton** | `src/agents/store.py:478-491` — `_store` module global | Leaks state across parallel test runs — safe in serial only |
-| 7 | **Revision loop FAIL SILENTLY** | `src/pipeline/checkpoints.py:187-189` — `else: pass` | After 3 failed revision attempts, pipeline continues instead of raising |
-| 8 | **MockLLMProvider brittle matching** | `src/agents/llm.py` — string-based trigger→response matching | Tests break easily when prompt text changes |
+| 1 | **`src/contracts/loader.py` — YAML loader** | Never imported by any active pipeline code | Dead code — YAML contract loading is wired but called by nothing |
+| 2 | **`agents/*.md` (20 files, top-level)** | Root `agents/` directory | Orphaned copies — active prompts live in `src/agents/prompts/*.md` |
+| 3 | **Episode count hardcoded in fallback** | `src/agents/outline_planner.py` — `_fallback_episodes()` | 4 episodes with fixed Greimas phase mapping. Not configurable through CLI or contract |
+| 4 | **Revision loop raises after max retries** | `src/pipeline/checkpoints.py:187-189` | Raises RuntimeError after 3 failed revision attempts. Previously silent |
+| 5 | **MockLLMProvider brittle matching** | `src/agents/llm.py` — string-based trigger→response matching | Tests break easily when prompt text changes |
+| 6 | **Book editorial has 7 steps, script mediums 5** | `src/agents/director.py` lines 83-91 vs 111-117 | Scripts lack line/copy/proofreading passes |
+| 7 | **`_ALL_WORKFLOW_IDS` is hardcoded copy** | `src/agents/director.py:185-188` | Adding a workflow to a registry dict without updating this list silently skips it in full pipeline |

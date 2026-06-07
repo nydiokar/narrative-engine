@@ -90,6 +90,7 @@ class OutlinePlanner(BaseAgent):
             CanonicalPhase.MANIPULATION,
             CanonicalPhase.COMPETENCE,
             CanonicalPhase.PERFORMANCE,
+            CanonicalPhase.SANCTION,
         ]
         fallback = []
         for i, phase in enumerate(fallback_phases):
@@ -113,9 +114,3 @@ class OutlinePlanner(BaseAgent):
                 },
             })
         return fallback
-
-        return AgentResult(
-            success=True,
-            message=f"Fabula segmented into {len(artifacts)} episodes",
-            artifacts=artifacts,
-        )

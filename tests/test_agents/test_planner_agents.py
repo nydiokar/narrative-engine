@@ -48,7 +48,7 @@ class TestOutlinePlanner:
         result = agent.execute(ctx)
         assert result.success is True
         episodes = agent.list_contracts("episode")
-        assert len(episodes) == 3
+        assert len(episodes) == 4
 
     def test_segment_fabula_missing_prerequisites(self):
         agent = OutlinePlanner()

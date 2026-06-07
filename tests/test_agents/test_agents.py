@@ -48,7 +48,7 @@ class TestIndividualAgents:
         ctx = AgentContext(workflow_id="03", step_id="segment_fabula")
         result = planner.execute(ctx)
         assert result.success is True
-        assert len(result.artifacts) == 3
+        assert len(result.artifacts) == 4
 
     def test_chapter_planner_creates_chapters(self):
         store = ContractStore()
@@ -62,7 +62,7 @@ class TestIndividualAgents:
         result = cp.execute(ctx)
         assert result.success is True
         chapters = cp.list_contracts("chapter")
-        assert len(chapters) == 9  # 3 episodes * 3 chapters
+        assert len(chapters) == 12  # 4 episodes * 3 chapters
 
     def test_scene_writer_renders_prose(self):
         sw = SceneWriter()
@@ -78,7 +78,7 @@ class TestIndividualAgents:
         result = sw.execute(ctx)
         assert result.success is True
         scenes = sw.list_contracts("scene")
-        assert len(scenes) == 18  # 9 chapters * 2 scenes
+        assert len(scenes) == 24  # 12 chapters * 2 scenes
 
     def test_structuralist_checks_empty(self):
         s = Structuralist()

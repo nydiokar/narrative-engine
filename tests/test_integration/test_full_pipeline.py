@@ -47,9 +47,9 @@ class TestFullPipeline:
 
         story = all_items["story"][0]
         assert story.status == "seed"
-        assert len(all_items["episode"]) == 3
-        assert len(all_items["chapter"]) == 9
-        assert len(all_items["scene"]) == 18
+        assert len(all_items["episode"]) == 4
+        assert len(all_items["chapter"]) == 12
+        assert len(all_items["scene"]) == 24
 
     def test_pipeline_updates_story_genre(self):
         self._seed_story()
@@ -112,8 +112,8 @@ class TestFullPipeline:
             assert all(r.success for r in results), f"Workflow {wid} failed"
 
         store = get_store()
-        assert len(store.list_by_type("episode")) == 3
-        assert len(store.list_by_type("chapter")) == 9
+        assert len(store.list_by_type("episode")) == 4
+        assert len(store.list_by_type("chapter")) == 12
 
     def test_workflow_04_episodes_to_scenes(self):
         self._seed_story()
@@ -123,7 +123,7 @@ class TestFullPipeline:
             assert all(r.success for r in results), f"Workflow {wid} failed"
 
         store = get_store()
-        assert len(store.list_by_type("scene")) == 18
+        assert len(store.list_by_type("scene")) == 24
 
     def test_workflow_06_editorial_passes(self):
         self._seed_story()
@@ -221,7 +221,7 @@ class TestFullPipeline:
 
     def test_default_agent_registry_creates_all_agents(self):
         agents = default_agent_registry()
-        assert len(agents) == 18  # 19 agents minus worldbuilder (removed, never dispatched)
+        assert len(agents) == 18  # 18 agents in the registry
         assert "showrunner" in agents
         assert "critic" in agents
         assert "revision_agent" in agents

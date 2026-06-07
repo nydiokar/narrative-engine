@@ -185,8 +185,10 @@ def run_to_checkpoint(
                         print(f"  Hard gate passed after revision attempt {attempt}")
                     break
             else:
+                msg = f"Hard gate still failing after {REVISION_MAX_ATTEMPTS} revision attempts"
                 if verbose:
-                    print(f"  Hard gate still failing after {REVISION_MAX_ATTEMPTS} revision attempts")
+                    print(f"  {msg}")
+                raise RuntimeError(msg)
 
         report = verify_checkpoint(director.store, name)
         reports.append(report)
