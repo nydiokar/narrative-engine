@@ -19,7 +19,7 @@ class Critic(BaseAgent):
 
     def get_prerequisites(self, step_id: str) -> list[str]:
         if step_id in ("run_hard_gate", "run_soft_gate", "run_greimas_diagnostics"):
-            return ["scene", "story"]
+            return ["scene", "story", "episode", "character"]
         return ["scene"]
 
     def execute(self, context: AgentContext) -> AgentResult:
@@ -41,10 +41,50 @@ class Critic(BaseAgent):
     def _run_hard_gate(self, context: AgentContext) -> AgentResult:
         scenes = self.list_contracts("scene")
         scenes_data = [s.model_dump(mode="json") for s in scenes if hasattr(s, "model_dump")]
+        episodes = self.list_contracts("episode")
+        episodes_data = [e.model_dump(mode="json") for e in episodes if hasattr(e, "model_dump")]
+        characters = self.list_contracts("character")
+        characters_data = [c.model_dump(mode="json") for c in characters if hasattr(c, "model_dump")]
         story_list = self.list_contracts("story")
 
+        # Build event dicts from scene greimas diagnostics so all 10
+        # coherence checks run on real data instead of empty input.
+        events_data: list[dict[str, Any]] = []
+        for i, scene in enumerate(scenes_data):
+            diag = scene.get("greimas_diagnostic", {})
+            if not diag:
+                continue
+            preds: list[str] = []
+            if i > 0:
+                prev_id = scenes_data[i - 1].get("id", "")
+                if prev_id:
+                    preds.append(str(prev_id))
+            chars_present = scene.get("characters_present", [])
+            actant = ""
+            if chars_present and isinstance(chars_present, list):
+                first = chars_present[0]
+                actant = str(first.get("id", first.get("name", "")))
+            events_data.append({
+                "id": str(scene.get("id", "")),
+                "actant": actant,
+                "action": diag.get("action_occurs", ""),
+                "state_before": diag.get("state_before", ""),
+                "state_after": diag.get("state_after", ""),
+                "value_object_change": diag.get("value_object_change", "none"),
+                "modality_changes": scene.get("modality_changes", []),
+                "unlocks": diag.get("future_action_possible_or_blocked", ""),
+                "blocks": "",
+                "causal_predecessors": preds,
+                "world_rule_violations": [],
+            })
+
         gate = HardGate()
-        result = gate.evaluate(scenes=scenes_data, events=[])
+        result = gate.evaluate(
+            scenes=scenes_data,
+            events=events_data,
+            characters=characters_data,
+            episodes=episodes_data,
+        )
 
         critique = CritiqueContract(
             target_id=getattr(story_list[0], "id", None) if story_list else None,

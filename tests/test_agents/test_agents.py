@@ -16,7 +16,7 @@ from src.agents.showrunner import Showrunner
 from src.agents.structuralist import Structuralist
 from src.agents.theme_specialist import ThemeSpecialist
 from src.agents.store import reset_store
-from src.contracts.models import CharacterContract, ConflictLoad, Intensity, SceneContract, StoryContract
+from src.contracts.models import CharacterContract, ConflictLoad, EpisodeContract, Intensity, SceneContract, StoryContract
 from src.engine.config import get_settings
 
 
@@ -101,6 +101,8 @@ class TestIndividualAgents:
         c = Critic()
         store = c.store
         store.put("story", StoryContract(title="Test", premise="A test premise"))
+        store.put("character", CharacterContract(name="Hero"))
+        store.put("episode", EpisodeContract(title="E1"))
         sc = SceneContract(setting_location="test", chapter_id=uuid4())
         sc.greimas_diagnostic.value_object_change = "transferred"
         sc.conflict_load = ConflictLoad(
