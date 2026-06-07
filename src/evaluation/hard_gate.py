@@ -32,12 +32,14 @@ class HardGate:
         scenes: list[dict[str, Any]] | None = None,
         characters: list[dict[str, Any]] | None = None,
         world_rules: list[str] | None = None,
+        episodes: list[dict[str, Any]] | None = None,
     ) -> HardGateResult:
         report = FabulaCoherenceEngine.run_all_checks(
             events=events,
             scenes=scenes,
             characters=characters,
             world_rules=world_rules,
+            episodes=episodes,
         )
 
         failure_reasons: list[str] = []

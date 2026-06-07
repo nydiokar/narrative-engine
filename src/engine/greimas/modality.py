@@ -7,15 +7,22 @@ and combination rules.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Union
 
-from src.contracts.models import ModalityState, ModalityType
+from src.contracts.models import (
+    BeingAbleState,
+    HavingToState,
+    KnowingState,
+    ModalityState,
+    ModalityType,
+    WantingState,
+)
 
 
 @dataclass
 class ModalityCheckResult:
     modality: ModalityType
-    state: ModalityState
+    state: Any
     is_valid: bool = True
     issues: list[str] = field(default_factory=list)
 
@@ -39,14 +46,20 @@ class ModalityValidator:
 
     @staticmethod
     def can_execute_action(
-        wanting: ModalityState,
-        being_able: ModalityState,
-        having_to: ModalityState,
+        wanting: WantingState | str,
+        being_able: BeingAbleState | str,
+        having_to: HavingToState | str,
     ) -> tuple[bool, str]:
         """Rule 1: Actant can act if wanting AND (being_able OR having_to)."""
-        wants = wanting == ModalityState.DESIRES
-        able = being_able == ModalityState.ABLE
-        obligated = having_to == ModalityState.OBLIGATED
+        if isinstance(wanting, str):
+            wanting = WantingState(wanting)
+        if isinstance(being_able, str):
+            being_able = BeingAbleState(being_able)
+        if isinstance(having_to, str):
+            having_to = HavingToState(having_to)
+        wants = wanting == WantingState.DESIRES
+        able = being_able == BeingAbleState.ABLE
+        obligated = having_to == HavingToState.OBLIGATED
 
         if not wants:
             return False, "Actant does not want to act (wanting != DESIRES)"
@@ -61,8 +74,8 @@ class ModalityValidator:
 
     @staticmethod
     def has_tension(
-        wanting: ModalityState,
-        having_to: ModalityState,
+        wanting: WantingState | str,
+        having_to: HavingToState | str,
     ) -> bool:
         """Rule 3: Conflicting modalities generate narrative tension.
 
@@ -72,28 +85,32 @@ class ModalityValidator:
         - Does not want to act but is forced (coerced)
         - Indifferent but obligated (reluctant duty)
         """
+        if isinstance(wanting, str):
+            wanting = WantingState(wanting)
+        if isinstance(having_to, str):
+            having_to = HavingToState(having_to)
         return (
-            (wanting == ModalityState.DESIRES and having_to != ModalityState.OBLIGATED)
-            or (wanting == ModalityState.REJECTS and having_to == ModalityState.OBLIGATED)
-            or (wanting == ModalityState.INDIFFERENT and having_to == ModalityState.OBLIGATED)
+            (wanting == WantingState.DESIRES and having_to != HavingToState.OBLIGATED)
+            or (wanting == WantingState.REJECTS and having_to == HavingToState.OBLIGATED)
+            or (wanting == WantingState.INDIFFERENT and having_to == HavingToState.OBLIGATED)
         )
 
     @staticmethod
     def check_modality_set(
         actant_id: str,
-        wanting: ModalityState | str,
-        knowing: ModalityState | str,
-        being_able: ModalityState | str,
-        having_to: ModalityState | str,
+        wanting: WantingState | str,
+        knowing: KnowingState | str,
+        being_able: BeingAbleState | str,
+        having_to: HavingToState | str,
     ) -> ModalityConsistencyResult:
         if isinstance(wanting, str):
-            wanting = ModalityState(wanting)
+            wanting = WantingState(wanting)
         if isinstance(knowing, str):
-            knowing = ModalityState(knowing)
+            knowing = KnowingState(knowing)
         if isinstance(being_able, str):
-            being_able = ModalityState(being_able)
+            being_able = BeingAbleState(being_able)
         if isinstance(having_to, str):
-            having_to = ModalityState(having_to)
+            having_to = HavingToState(having_to)
 
         results: list[ModalityCheckResult] = []
         global_issues: list[str] = []
@@ -123,7 +140,7 @@ class ModalityValidator:
             )
 
         # Knowing quality modifier
-        if knowing == ModalityState.IGNORANT and can_act:
+        if knowing == KnowingState.IGNORANT and can_act:
             global_issues.append(
                 f"{actant_id} can act but is IGNORANT — action quality may be impaired"
             )

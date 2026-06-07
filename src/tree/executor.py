@@ -30,7 +30,6 @@ _VARY_FROM_CHECKPOINT: dict[str, str] = {
     "world": "structure",
     "character": "episodes",
     "conflict": "episodes",
-    "seed": "brief",       # reserved — tied to LLM param variance (not yet implemented)
 }
 
 
@@ -43,7 +42,7 @@ class BranchConfig:
             ("brief", "premise", "structure", "episodes", etc).
             If empty, auto-detected from vary_field.
         vary_field: What to vary between variants
-            ("genre", "seed", "premise", "tone", "world", "character").
+            ("genre", "premise", "world", "character", "conflict").
         values: List of values to try (one per variant).
         medium: Output medium for the pipeline.
         labels: Optional human-readable labels (one per value).

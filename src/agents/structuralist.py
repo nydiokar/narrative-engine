@@ -77,7 +77,9 @@ class Structuralist(BaseAgent):
     def _check_constraints(self, context: AgentContext) -> AgentResult:
         scenes = self.list_contracts("scene")
         scenes_data = [s.model_dump(mode="json") for s in scenes if hasattr(s, "model_dump")]
-        report = FabulaCoherenceEngine.run_all_checks(events=[], scenes=scenes_data)
+        episodes = self.list_contracts("episode")
+        episodes_data = [e.model_dump(mode="json") for e in episodes if hasattr(e, "model_dump")]
+        report = FabulaCoherenceEngine.run_all_checks(events=[], scenes=scenes_data, episodes=episodes_data)
         if report.passed:
             return AgentResult(success=True, message="All fabula constraints satisfied")
         return AgentResult(

@@ -1,4 +1,4 @@
-"""Tests for the Fabula Coherence Engine (8 checks)."""
+"""Tests for the Fabula Coherence Engine (10 checks)."""
 
 import pytest
 
@@ -36,11 +36,17 @@ class TestFabulaCoherenceEngine:
             {"id": "hero", "core_desires": ["freedom"], "core_fears": ["captivity"]}
         ]
 
+        episodes = [
+            {
+                "title": "Ep1", "sequence_number": 0,
+                "propp_functions": ["villainy", "struggle", "victory", "liquidation"],
+            }
+        ]
         report = FabulaCoherenceEngine.run_all_checks(
-            events=events, scenes=scenes, characters=characters
+            events=events, scenes=scenes, characters=characters, episodes=episodes
         )
         assert report.passed is True
-        assert len(report.checks) == 8
+        assert len(report.checks) == 10
 
     def test_causal_soundness_fails_orphan(self):
         events = [
@@ -120,10 +126,10 @@ class TestFabulaCoherenceEngine:
 
     def test_empty_events_no_crash(self):
         report = FabulaCoherenceEngine.run_all_checks()
-        assert len(report.checks) == 8
+        assert len(report.checks) == 10
         # causal_soundness on empty list should pass
         assert report.checks[0].passed is True
 
     def test_summary_format(self):
-        report = FabulaCoherenceEngine.run_all_checks(events=[], scenes=[])
+        report = FabulaCoherenceEngine.run_all_checks(events=[], scenes=[], episodes=[])
         assert "Fabula Coherence" in report.summary

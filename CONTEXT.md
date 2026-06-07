@@ -1,6 +1,6 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-06-07 | **Status:** Phase I — editorial/revision real-LLM wiring complete; Phase H tree workbench live.
+**Branch:** `main` | **Last Updated:** 2026-06-08 | **Status:** Phase I — editorial/revision real-LLM wiring + Propp + Todorov + Modality split complete; Phase H tree workbench live.
 
 ---
 
@@ -36,7 +36,7 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 
 ## Current Status
 
-- **Pipeline (linear path)**: Full 8-workflow pipeline runs clean end-to-end with real LLM — all steps succeed, all checkpoints pass. **209 tests passing**.
+- **Pipeline (linear path)**: Full 8-workflow pipeline runs clean end-to-end with real LLM — all steps succeed, all checkpoints pass. **254 tests passing**.
 - **Editorial/Revision**: Soft gate and cliché detection now call the real LLM for evaluation scores. Revision agent applies real contract modifications. Revision loop uses targeted editorial passes (N-1) before full regeneration instead of nuke-and-regenerate.
 - **Tree layer**: All core operations implemented. Canonical CLI (`python -m src`) has `run`, `branch`, `compare`, `promote`, `prune`, `show`, `set`, `lock`, `unlock` commands.
 
@@ -49,7 +49,7 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 | 3 | Compare — side-by-side contract viewer | ✅ Done |
 | 4 | Promote/prune — navigate the tree | ✅ Done |
 | 5 | Canonical CLI — `python -m src branch/compare/promote/prune/show` | ✅ Done |
-| 6 | LLM parameter variance (seed, top_p, etc.) | ⬜ Deferred |
+
 
 ---
 
@@ -85,8 +85,9 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 - **Cliché detection uses real LLM**: `cliche_signals` array from LLM, falls back to empty detection when LLM fails
 - **Revision loop is targeted**: N-1 attempts run 06-editorial-passes + 07-critique-and-revision; full scene regeneration only on the last attempt — avoids nuke-and-regenerate
 - **Deterministic administrative steps**: `approve_final`, `assemble_*`, `refine_script` use structure validation instead of LLM calls for reliability
-- **Medium-agnostic**: narrative core (Greimas, Propp, fabula, actants, character models, coherence) stays universal. Medium is a pipeline runtime parameter, not a story contract field.
+- **Medium-agnostic**: narrative core (Greimas, Propp, Todorov, fabula, actants, character models, coherence) stays universal. Medium is a pipeline runtime parameter, not a story contract field.
 - **Tree over ladder**: Instead of one linear path, the system is a tree. Branch at any depth, compare siblings, freeze + continue. The pipeline stages are depth levels, not sequential checkpoints.
+- **Modality split**: Single `ModalityState` enum replaced with 4 per-modality enums (`WantingState`, `KnowingState`, `BeingAbleState`, `HavingToState`) — invalid cross-modality states no longer possible at the type level.
 
 ---
 
@@ -101,7 +102,7 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 | `python -m src show --tree-load tree.json` | ASCII tree visualization |
 | `python -m src set story.genre.primary_bisac=FIC002000` | Set a contract field |
 | `python -m src lock story.genre` | Lock a field |
-| `pytest tests/ -q` | Run all 209 tests |
+| `pytest tests/ -q` | Run all 254 tests |
 
 ### Key Paths
 
@@ -123,4 +124,4 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 | Agent notes | `AGENTS.md` |
 | ROADMAP | `ROADMAP.md` |
 | Contract YAML schemas | `contracts/*.yaml` |
-| Agent role cards | `agents/*.md` |
+| Agent role cards | `src/agents/prompts/*.md` (root `agents/*.md` is orphaned) |

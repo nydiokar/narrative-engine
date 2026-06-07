@@ -105,11 +105,6 @@ Dynamic Agent System — LLM as role-booted agent.
 - [ ] `demo.py --tree <path>` — load/save entire tree structure
 - [ ] Tree visualization (ASCII or simple text)
 
-#### Step 5 — LLM Parameter Variance
-- [ ] Expose `seed`, `top_p`, `top_k`, `frequency_penalty`, `presence_penalty` in `LLMProvider.generate()`
-- [ ] Per-call parameter override from variant config
-- [ ] `--vary temperature` flag for creative variance
-
 ### Example Session
 
 ```
@@ -155,16 +150,19 @@ $ python scripts/demo.py --promote world-2 --to scenes
 | Area | What |
 |:-----|:------|
 | Quality & Iteration | Revisit triggers, showrunner final approval, editorial pass depth tuning |
-| Infrastructure | ModalityState split, Propp/Todorov/GOLEM models, save/load, CLI, test coverage |
+| Infrastructure | GOLEM models, save/load, CLI, test coverage |
 | Human Interface | Intake form, release package, legal/bias check |
-| LLM Parameters | Expose `seed`, `top_p`, `top_k`, `frequency_penalty`, `presence_penalty` for creative variance |
 
 ---
 
 ## Known Design Debt
 
-- ModalityState single enum allows invalid cross-modality states — split into per-modality enums deferred
-- Propp function sequence validation and Todorov equilibrium validation stubbed but not implemented
+- ModalityState split into per-modality enums (WantingState, KnowingState, BeingAbleState, HavingToState) — done
+- Propp function sequence validation — implemented as 9th Fabula Coherence check
+- Todorov equilibrium validation — implemented as 10th Fabula Coherence check
 - ContractStore singleton leaks state across tests — safe in serial, unsafe in parallel
 - GOLEM event model (goal→action→outcome→event→perception→internal element) referenced in specs, not coded
+- Hard Gate receives `events=[]` at runtime (`src/agents/critic.py:47`) — 6 of 10 coherence checks never validate (only stakes, conflict, Propp, Todorov run)
+- Worldbuilder agent registered in 20-agent roster but never dispatched by any workflow step
 - 25 Python modules lack dedicated unit tests
+- `src/contracts/loader.py` — dead code, deleted

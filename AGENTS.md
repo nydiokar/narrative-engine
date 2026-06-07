@@ -50,8 +50,7 @@ Handled in `src/tree/executor.py:_apply_variant()`:
 - `character` — sets `character.name` + `character.description` (name-only; use `--set` for deeper field tweaks)
 - `conflict` — sets `episode.dominant_conflict` on all episodes
 
-`seed` is reserved for future LLM parameter variance (not implemented).
-`tone` and `theme` are removed — no contract fields exist for them yet.
+`seed`, `tone`, and `theme` have no corresponding contract fields — removed as vary field options.
 
 ## Running Tests
 

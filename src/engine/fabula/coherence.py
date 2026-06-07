@@ -1,4 +1,4 @@
-"""Fabula Coherence Engine — the 8 diagnostic checks for narrative soundness.
+"""Fabula Coherence Engine — the 10 diagnostic checks for narrative soundness.
 
 These checks constitute the hard gate from the evaluation-rubric specification.
 Every narrative artifact must pass all checks or be rejected without scoring.
@@ -9,6 +9,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 from uuid import UUID
+
+from src.engine.propp import ProppSequenceValidator
+from src.engine.todorov import TodorovValidator
 
 
 @dataclass
@@ -31,9 +34,9 @@ class FabulaCoherenceReport:
 
 
 class FabulaCoherenceEngine:
-    """Runs the 8 Fabula Coherence checks on a narrative artifact.
+    """Runs the 10 Fabula Coherence checks on a narrative artifact.
 
-    The 8 checks (from evaluation-rubric.md and fabula-chain.yaml):
+    The 10 checks:
     1. Causal Soundness — every event follows from prior events
     2. Character Intentionality — every action grounded in motivation
     3. World Rule Consistency — no world-rule violations
@@ -42,6 +45,8 @@ class FabulaCoherenceEngine:
     6. Conflict Active — at least one conflict type active per scene
     7. Continuity — no drift without causal justification
     8. Event Necessity — every event transforms state or enables future
+    9. Propp Sequence — functions follow canonical morphology order
+    10. Todorov Equilibrium — phases follow canonical narrative arc
     """
 
     CHECK_DEFINITIONS: list[dict[str, str]] = [
@@ -76,6 +81,14 @@ class FabulaCoherenceEngine:
         {
             "name": "event_necessity",
             "description": "Every event must register a non-none value_object_change or modality change — otherwise it is filler.",
+        },
+        {
+            "name": "propp_sequence",
+            "description": "Propp functions follow canonical morphology order with core functions present.",
+        },
+        {
+            "name": "todorov_equilibrium",
+            "description": "Todorov phases follow canonical narrative arc with no regression.",
         },
     ]
 
@@ -311,6 +324,57 @@ class FabulaCoherenceEngine:
             check.passed = False
         return check
 
+    # ── Todorov equilibrium check ───────────────────────────────────
+
+    @staticmethod
+    def check_todorov_equilibrium(
+        episodes: list[dict[str, Any]] | None = None,
+    ) -> FabulaCoherenceCheck:
+        check = FabulaCoherenceCheck(
+            name="todorov_equilibrium",
+            description="Todorov phases follow canonical narrative arc with no regression.",
+            passed=True,
+        )
+        if not episodes:
+            return check
+
+        result = TodorovValidator.validate_episodes(episodes)
+        for v in result.violations:
+            check.violations.append(v)
+
+        if check.violations:
+            check.passed = False
+        return check
+
+    # ── Propp morphology check ──────────────────────────────────────
+
+    @staticmethod
+    def check_propp_sequence(
+        episodes: list[dict[str, Any]] | None = None,
+    ) -> FabulaCoherenceCheck:
+        check = FabulaCoherenceCheck(
+            name="propp_sequence",
+            description="Propp functions follow canonical morphology order with core functions present.",
+            passed=True,
+        )
+        if not episodes:
+            # No episode data to validate — skip (backward compatible)
+            return check
+
+        # Skip if no episodes have explicit propp_functions (not opted in)
+        has_functions = any(ep.get("propp_functions") for ep in episodes)
+        if not has_functions:
+            return check
+
+        results = ProppSequenceValidator.validate_episodes(episodes)
+        for result in results:
+            for v in result.violations:
+                check.violations.append(v)
+
+        if check.violations:
+            check.passed = False
+        return check
+
     # ── Orchestration ────────────────────────────────────────────────
 
     @classmethod
@@ -320,6 +384,7 @@ class FabulaCoherenceEngine:
         scenes: list[dict[str, Any]] | None = None,
         characters: list[dict[str, Any]] | None = None,
         world_rules: list[str] | None = None,
+        episodes: list[dict[str, Any]] | None = None,
     ) -> FabulaCoherenceReport:
         events = events or []
         scenes = scenes or []
@@ -333,6 +398,8 @@ class FabulaCoherenceEngine:
             cls.check_conflict_active(scenes),
             cls.check_continuity(events, characters),
             cls.check_event_necessity(events),
+            cls.check_propp_sequence(episodes),
+            cls.check_todorov_equilibrium(episodes),
         ]
 
         passed = all(c.passed for c in checks)

@@ -152,19 +152,41 @@ class ModalityType(str, Enum):
     HAVING_TO = "having_to"
 
 
-class ModalityState(str, Enum):
-    # wanting
+class WantingState(str, Enum):
     DESIRES = "desires"
     INDIFFERENT = "indifferent"
     REJECTS = "rejects"
-    # knowing
+
+
+class KnowingState(str, Enum):
     KNOWS = "knows"
     PARTIALLY_KNOWS = "partially_knows"
     IGNORANT = "ignorant"
-    # being_able
+
+
+class BeingAbleState(str, Enum):
     ABLE = "able"
     UNABLE = "unable"
-    # having_to
+
+
+class HavingToState(str, Enum):
+    OBLIGATED = "obligated"
+    FREE = "free"
+
+
+class ModalityState(str, Enum):
+    """Deprecated — use per-modality enums (WantingState, KnowingState, etc.).
+
+    Kept for backward compatibility with serialized data.
+    """
+    DESIRES = "desires"
+    INDIFFERENT = "indifferent"
+    REJECTS = "rejects"
+    KNOWS = "knows"
+    PARTIALLY_KNOWS = "partially_knows"
+    IGNORANT = "ignorant"
+    ABLE = "able"
+    UNABLE = "unable"
     OBLIGATED = "obligated"
     FREE = "free"
 
@@ -354,10 +376,10 @@ class StoryStatus(str, Enum):
 # ── Value Objects ─────────────────────────────────────────────────────────
 
 class ModalitySet(BaseModel):
-    wanting: ModalityState = ModalityState.INDIFFERENT
-    knowing: ModalityState = ModalityState.IGNORANT
-    being_able: ModalityState = ModalityState.UNABLE
-    having_to: ModalityState = ModalityState.FREE
+    wanting: WantingState = WantingState.INDIFFERENT
+    knowing: KnowingState = KnowingState.IGNORANT
+    being_able: BeingAbleState = BeingAbleState.UNABLE
+    having_to: HavingToState = HavingToState.FREE
 
 
 class ConflictLoad(BaseModel):
@@ -585,6 +607,7 @@ class EpisodeContract(BaseModel):
     canonical_phase: CanonicalPhase = CanonicalPhase.MANIPULATION
     narrative_programs: list[UUID] = Field(default_factory=list)
     propp_functions: list[str] = Field(default_factory=list)
+    todorov_phase: str = ""
 
     themes_active: list[UUID] = Field(default_factory=list)
     dominant_conflict: ConflictType = ConflictType.INTERPERSONAL

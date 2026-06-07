@@ -1,1 +1,1 @@
-# Core engine — Greimas, Propp, action/state validation
+# Core engine — Greimas, Propp, Todorov, action/state validation
