@@ -52,6 +52,13 @@ Handled in `src/tree/executor.py:_apply_variant()`:
 
 `seed`, `tone`, and `theme` have no corresponding contract fields — removed as vary field options.
 
+## Building Docs
+
+```
+python -m mkdocs build --strict     # build site/
+python -m mkdocs serve               # live preview at http://127.0.0.1:8000
+```
+
 ## Running Tests
 
 ```
