@@ -1,9 +1,12 @@
 """Unit tests for the Dialogue Specialist agent."""
 
+from uuid import uuid4
+
 from src.agents.base import AgentContext
 from src.agents.dialogue_specialist import DialogueSpecialist
 from src.agents.llm import MockLLMProvider, set_llm, reset_llm
 from src.agents.store import reset_store
+from src.contracts.models import CharacterContract, SceneContract
 
 
 class TestDialogueSpecialist:
@@ -23,6 +26,8 @@ class TestDialogueSpecialist:
         )
         set_llm(mock)
         agent = DialogueSpecialist()
+        agent.store.put("scene", SceneContract(setting_location="loc", chapter_id=uuid4()))
+        agent.store.put("character", CharacterContract(name="Alice"))
         ctx = AgentContext(workflow_id="04", step_id="plan_speech_acts")
         result = agent.execute(ctx)
         assert result.success is True
@@ -34,13 +39,13 @@ class TestDialogueSpecialist:
         )
         set_llm(mock)
         agent = DialogueSpecialist()
+        agent.store.put("scene", SceneContract(setting_location="loc", chapter_id=uuid4()))
+        agent.store.put("character", CharacterContract(name="Alice"))
         ctx = AgentContext(workflow_id="04", step_id="plan_speech_acts")
         result = agent.execute(ctx)
         assert result.success is False
 
     def test_plan_speech_acts_counts_scenes(self):
-        from src.contracts.models import SceneContract
-        from uuid import uuid4
         mock = MockLLMProvider(
             fallback='{"success": true}'
         )
@@ -48,6 +53,7 @@ class TestDialogueSpecialist:
         agent = DialogueSpecialist()
         agent.store.put("scene", SceneContract(setting_location="loc", chapter_id=uuid4()))
         agent.store.put("scene", SceneContract(setting_location="loc2", chapter_id=uuid4()))
+        agent.store.put("character", CharacterContract(name="Alice"))
         ctx = AgentContext(workflow_id="04", step_id="plan_speech_acts")
         result = agent.execute(ctx)
         assert result.success is True

@@ -4,6 +4,7 @@ from src.agents.base import AgentContext
 from src.agents.character_simulator import CharacterSimulator
 from src.agents.llm import MockLLMProvider, set_llm, reset_llm
 from src.agents.store import reset_store
+from src.contracts.models import CharacterContract, EpisodeContract
 
 
 class TestCharacterSimulator:
@@ -23,6 +24,8 @@ class TestCharacterSimulator:
         )
         set_llm(mock)
         agent = CharacterSimulator()
+        agent.store.put("character", CharacterContract(name="Alice"))
+        agent.store.put("episode", EpisodeContract(title="E1"))
         ctx = AgentContext(workflow_id="04", step_id="enact_episode")
         result = agent.execute(ctx)
         assert result.success is True
@@ -34,12 +37,13 @@ class TestCharacterSimulator:
         )
         set_llm(mock)
         agent = CharacterSimulator()
+        agent.store.put("character", CharacterContract(name="Alice"))
+        agent.store.put("episode", EpisodeContract(title="E1"))
         ctx = AgentContext(workflow_id="04", step_id="enact_episode")
         result = agent.execute(ctx)
         assert result.success is False
 
     def test_enact_episode_returns_character_artifacts(self):
-        from src.contracts.models import CharacterContract
         mock = MockLLMProvider(
             fallback='{"success": true, "message": "Done"}'
         )
@@ -49,6 +53,7 @@ class TestCharacterSimulator:
         c2 = CharacterContract(name="Bob")
         agent.store.put("character", c1)
         agent.store.put("character", c2)
+        agent.store.put("episode", EpisodeContract(title="E1"))
         ctx = AgentContext(workflow_id="04", step_id="enact_episode")
         result = agent.execute(ctx)
         assert result.success is True

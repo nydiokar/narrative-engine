@@ -14,7 +14,16 @@ class ChapterPlanner(BaseAgent):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(role="chapter_planner", **kwargs)
 
+    def get_prerequisites(self, step_id: str) -> list[str]:
+        return ["episode"]
+
     def execute(self, context: AgentContext) -> AgentResult:
+        missing = self.check_prerequisites(context.step_id)
+        if missing:
+            return AgentResult(
+                success=False,
+                errors=[f"Missing prerequisites: {missing} — go back"],
+            )
         if context.step_id == "divide_episodes":
             return self._divide_episodes(context)
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])

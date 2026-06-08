@@ -43,6 +43,31 @@ class ScriptEditor(BaseAgent):
 
         self.log("info", f"Refining {len(scenes)} scenes for script formatting")
 
+        llm_result = self._call_llm_for_step(context)
+        if llm_result.get("success", False):
+            contracts_data = llm_result.get("contracts_data")
+            if isinstance(contracts_data, list):
+                refined_count = 0
+                for refined in contracts_data:
+                    sid = refined.get("id", "")
+                    if not sid:
+                        continue
+                    target = next((s for s in scenes if str(s.id) == sid), None)
+                    if target is None:
+                        continue
+                    content = refined.get("content")
+                    if content is not None:
+                        target.content = content
+                    new_setting = refined.get("setting_location")
+                    if new_setting:
+                        target.setting_location = new_setting
+                    new_time = refined.get("setting_time")
+                    if new_time:
+                        target.setting_time = new_time
+                    self.write_contract("scene", target)
+                    refined_count += 1
+                self.log("info", f"Applied LLM refinements to {refined_count} scenes")
+
         # Validate scene structure — check required fields exist
         issues: list[str] = []
         for s in scenes:
