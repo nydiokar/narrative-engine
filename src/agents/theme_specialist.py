@@ -14,7 +14,16 @@ class ThemeSpecialist(BaseAgent):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(role="theme_specialist", **kwargs)
 
+    def get_prerequisites(self, step_id: str) -> list[str]:
+        return ["story"]
+
     def execute(self, context: AgentContext) -> AgentResult:
+        missing = self.check_prerequisites(context.step_id)
+        if missing:
+            return AgentResult(
+                success=False,
+                errors=[f"Missing prerequisites: {missing} — go back"],
+            )
         if context.step_id == "select_themes":
             return self._select_themes(context)
         if context.step_id == "select_genre":

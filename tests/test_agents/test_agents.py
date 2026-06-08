@@ -91,6 +91,7 @@ class TestIndividualAgents:
 
     def test_theme_specialist_selects_themes(self):
         ts = ThemeSpecialist()
+        ts.store.put("story", StoryContract(title="Test", premise="A test premise"))
         ctx = AgentContext(workflow_id="00", step_id="select_themes")
         result = ts.execute(ctx)
         assert result.success is True

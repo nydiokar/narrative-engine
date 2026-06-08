@@ -25,6 +25,7 @@ class TestThemeSpecialist:
         )
         set_llm(mock)
         agent = ThemeSpecialist()
+        agent.store.put("story", StoryContract(title="Test", premise="A test premise"))
         ctx = AgentContext(workflow_id="00", step_id="select_themes")
         result = agent.execute(ctx)
         assert result.success is True
@@ -36,6 +37,7 @@ class TestThemeSpecialist:
         mock = MockLLMProvider()
         set_llm(mock)
         agent = ThemeSpecialist()
+        agent.store.put("story", StoryContract(title="Test", premise="A test premise"))
         ctx = AgentContext(workflow_id="00", step_id="select_themes")
         result = agent.execute(ctx)
         assert result.success is True
@@ -47,6 +49,7 @@ class TestThemeSpecialist:
         mock = MockLLMProvider(fallback='not valid')
         set_llm(mock)
         agent = ThemeSpecialist()
+        agent.store.put("story", StoryContract(title="Test", premise="A test premise"))
         ctx = AgentContext(workflow_id="00", step_id="select_themes")
         result = agent.execute(ctx)
         assert result.success is True
@@ -82,6 +85,7 @@ class TestThemeSpecialist:
         mock = MockLLMProvider(fallback='{"success": true}')
         set_llm(mock)
         agent = ThemeSpecialist()
+        agent.store.put("story", StoryContract(title="Test", premise="A test premise"))
         ctx = AgentContext(workflow_id="00", step_id="validate_thematic_fit")
         result = agent.execute(ctx)
         assert result.success is True
@@ -90,6 +94,7 @@ class TestThemeSpecialist:
         mock = MockLLMProvider(fallback='{"success": false}')
         set_llm(mock)
         agent = ThemeSpecialist()
+        agent.store.put("story", StoryContract(title="Test", premise="A test premise"))
         ctx = AgentContext(workflow_id="00", step_id="validate_thematic_fit")
         result = agent.execute(ctx)
         assert result.success is False
