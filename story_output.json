@@ -1,0 +1,1414 @@
+{
+  "contracts": {
+    "story": [
+      {
+        "contract": {
+          "id": "6d10d43b-14d4-40d3-a7a9-66891005449c",
+          "title": "The Crystal Key",
+          "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+          "premise_type": null,
+          "ending_type": null,
+          "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+          "hook": "",
+          "brief_layer": null,
+          "concept_layer": {
+            "story_promise": "",
+            "comps": []
+          },
+          "genre": {
+            "primary_bisac": "FIC028000",
+            "secondary_bisac": [
+              "FIC028020",
+              "FIC008000"
+            ],
+            "subgenre_notes": "The story blends elements of fantasy and adventure, leaning towards a darker, more morally ambiguous tone than traditional heroic fantasy.  The race-against-time plot and antagonistic cabal introduce thriller elements, while the focus on a flawed protagonist seeking redemption aligns with grimdark fantasy conventions, albeit with a degree of hope and resolution."
+          },
+          "theme_contract_id": null,
+          "subject_id": "37d0b864-fac0-4755-8a11-42dd0042f923",
+          "object_of_value_id": "blight_prevention",
+          "object_of_value_type": null,
+          "object_of_value_description": "Prevention of the world-ending blight; societal stability and hope.",
+          "sender_id": "archivist_1",
+          "receiver_id": "world_population",
+          "helper_ids": [],
+          "opponent_ids": [],
+          "narrative_programs": [],
+          "conflict_contract_id": null,
+          "discourse_contract_id": null,
+          "fabula": {
+            "events": [],
+            "causality_chains": []
+          },
+          "episodes": [],
+          "chapters": [],
+          "status": "seed"
+        },
+        "current_version": 4,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:45:59.443510+00:00",
+            "agent": "system",
+            "action": "created",
+            "snapshot": {
+              "id": "6d10d43b-14d4-40d3-a7a9-66891005449c",
+              "title": "The Crystal Key",
+              "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+              "premise_type": null,
+              "ending_type": null,
+              "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+              "hook": "",
+              "brief_layer": null,
+              "concept_layer": {
+                "story_promise": "",
+                "comps": []
+              },
+              "genre": {
+                "primary_bisac": "",
+                "secondary_bisac": [],
+                "subgenre_notes": ""
+              },
+              "theme_contract_id": null,
+              "subject_id": "",
+              "object_of_value_id": "",
+              "object_of_value_type": null,
+              "object_of_value_description": "",
+              "sender_id": "",
+              "receiver_id": "",
+              "helper_ids": [],
+              "opponent_ids": [],
+              "narrative_programs": [],
+              "conflict_contract_id": null,
+              "discourse_contract_id": null,
+              "fabula": {
+                "events": [],
+                "causality_chains": []
+              },
+              "episodes": [],
+              "chapters": [],
+              "status": "seed"
+            }
+          },
+          {
+            "version": 2,
+            "timestamp": "2026-06-08T09:46:28.662337+00:00",
+            "agent": "theme_specialist",
+            "action": "updated",
+            "snapshot": {
+              "id": "6d10d43b-14d4-40d3-a7a9-66891005449c",
+              "title": "The Crystal Key",
+              "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+              "premise_type": null,
+              "ending_type": null,
+              "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+              "hook": "",
+              "brief_layer": null,
+              "concept_layer": {
+                "story_promise": "",
+                "comps": []
+              },
+              "genre": {
+                "primary_bisac": "FIC028000",
+                "secondary_bisac": [
+                  "FIC028020",
+                  "FIC008000"
+                ],
+                "subgenre_notes": "The story blends elements of fantasy and adventure, leaning towards a darker, more morally ambiguous tone than traditional heroic fantasy.  The race-against-time plot and antagonistic cabal introduce thriller elements, while the focus on a flawed protagonist seeking redemption aligns with grimdark fantasy conventions, albeit with a degree of hope and resolution."
+              },
+              "theme_contract_id": null,
+              "subject_id": "",
+              "object_of_value_id": "",
+              "object_of_value_type": null,
+              "object_of_value_description": "",
+              "sender_id": "",
+              "receiver_id": "",
+              "helper_ids": [],
+              "opponent_ids": [],
+              "narrative_programs": [],
+              "conflict_contract_id": null,
+              "discourse_contract_id": null,
+              "fabula": {
+                "events": [],
+                "causality_chains": []
+              },
+              "episodes": [],
+              "chapters": [],
+              "status": "seed"
+            }
+          },
+          {
+            "version": 3,
+            "timestamp": "2026-06-08T09:46:53.770350+00:00",
+            "agent": "structuralist",
+            "action": "updated",
+            "snapshot": {
+              "id": "6d10d43b-14d4-40d3-a7a9-66891005449c",
+              "title": "The Crystal Key",
+              "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+              "premise_type": null,
+              "ending_type": null,
+              "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+              "hook": "",
+              "brief_layer": null,
+              "concept_layer": {
+                "story_promise": "",
+                "comps": []
+              },
+              "genre": {
+                "primary_bisac": "FIC028000",
+                "secondary_bisac": [
+                  "FIC028020",
+                  "FIC008000"
+                ],
+                "subgenre_notes": "The story blends elements of fantasy and adventure, leaning towards a darker, more morally ambiguous tone than traditional heroic fantasy.  The race-against-time plot and antagonistic cabal introduce thriller elements, while the focus on a flawed protagonist seeking redemption aligns with grimdark fantasy conventions, albeit with a degree of hope and resolution."
+              },
+              "theme_contract_id": null,
+              "subject_id": "mage_1",
+              "object_of_value_id": "blight_prevention",
+              "object_of_value_type": null,
+              "object_of_value_description": "Prevention of the world-ending blight; societal stability and hope.",
+              "sender_id": "archivist_1",
+              "receiver_id": "world_population",
+              "helper_ids": [],
+              "opponent_ids": [],
+              "narrative_programs": [],
+              "conflict_contract_id": null,
+              "discourse_contract_id": null,
+              "fabula": {
+                "events": [],
+                "causality_chains": []
+              },
+              "episodes": [],
+              "chapters": [],
+              "status": "seed"
+            }
+          },
+          {
+            "version": 4,
+            "timestamp": "2026-06-08T09:47:03.731609+00:00",
+            "agent": "character_architect",
+            "action": "updated",
+            "snapshot": {
+              "id": "6d10d43b-14d4-40d3-a7a9-66891005449c",
+              "title": "The Crystal Key",
+              "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+              "premise_type": null,
+              "ending_type": null,
+              "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+              "hook": "",
+              "brief_layer": null,
+              "concept_layer": {
+                "story_promise": "",
+                "comps": []
+              },
+              "genre": {
+                "primary_bisac": "FIC028000",
+                "secondary_bisac": [
+                  "FIC028020",
+                  "FIC008000"
+                ],
+                "subgenre_notes": "The story blends elements of fantasy and adventure, leaning towards a darker, more morally ambiguous tone than traditional heroic fantasy.  The race-against-time plot and antagonistic cabal introduce thriller elements, while the focus on a flawed protagonist seeking redemption aligns with grimdark fantasy conventions, albeit with a degree of hope and resolution."
+              },
+              "theme_contract_id": null,
+              "subject_id": "37d0b864-fac0-4755-8a11-42dd0042f923",
+              "object_of_value_id": "blight_prevention",
+              "object_of_value_type": null,
+              "object_of_value_description": "Prevention of the world-ending blight; societal stability and hope.",
+              "sender_id": "archivist_1",
+              "receiver_id": "world_population",
+              "helper_ids": [],
+              "opponent_ids": [],
+              "narrative_programs": [],
+              "conflict_contract_id": null,
+              "discourse_contract_id": null,
+              "fabula": {
+                "events": [],
+                "causality_chains": []
+              },
+              "episodes": [],
+              "chapters": [],
+              "status": "seed"
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "theme": [
+      {
+        "contract": {
+          "id": "d7bcf4bf-26fe-45f1-bab9-96f1b13eb6ae",
+          "primary_themes": [
+            {
+              "name": "Redemption",
+              "question": "Can past mistakes be truly atoned for, even when the consequences are catastrophic?",
+              "embodied_by": "The disgraced mage's journey to regain trust and purpose."
+            },
+            {
+              "name": "Power & Responsibility",
+              "question": "What obligations accompany great power, and what happens when that power is abused?",
+              "embodied_by": "The mage's initial experiment and subsequent loss of power; the rival cabal's potential misuse of the crystal."
+            }
+          ],
+          "secondary_themes": [
+            {
+              "name": "Knowledge vs. Ignorance",
+              "question": "Is knowledge inherently good, or can it be a dangerous weapon in the wrong hands?",
+              "embodied_by": "The archivist\u2019s wisdom versus the cabal\u2019s reckless pursuit of power."
+            },
+            {
+              "name": "Trust & Betrayal",
+              "question": "How much faith should be placed in others, especially when survival depends on it?",
+              "embodied_by": "The stolen map and the uncertainty of its origins; the mage's reliance on fragmented guidance."
+            },
+            {
+              "name": "Hope vs. Despair",
+              "question": "Can hope endure even in the face of overwhelming darkness?",
+              "embodied_by": "The mage's determination to prevent the blight despite her past failures."
+            }
+          ],
+          "moral_tensions": [
+            {
+              "themes": [
+                "Redemption",
+                "Power & Responsibility"
+              ],
+              "conflict": "The mage's desire for redemption clashes with the potential for her actions to inadvertently unleash the blight, highlighting the difficult balance between personal growth and societal consequences."
+            },
+            {
+              "themes": [
+                "Knowledge vs. Ignorance",
+                "Trust & Betrayal"
+              ],
+              "conflict": "The pursuit of knowledge, as represented by the ancient crystal and the archivist's guidance, is pitted against the inherent risks of trusting information that may be manipulated or misleading."
+            }
+          ],
+          "symbolic_motifs": [
+            {
+              "motif": "Crystals",
+              "meaning": "Represent both immense power and fragility; the potential for creation and destruction.",
+              "recurrence_points": [
+                "Initial experiment scene",
+                "Discovery of each fragment",
+                "Final confrontation"
+              ]
+            },
+            {
+              "motif": "Maps",
+              "meaning": "Symbolize the journey, but also the potential for deception and false paths.",
+              "recurrence_points": [
+                "Introduction of the stolen map",
+                "Moments of disorientation",
+                "Revelation of the map's true nature"
+              ]
+            }
+          ],
+          "theme_progression": []
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:46:23.746420+00:00",
+            "agent": "theme_specialist",
+            "action": "created",
+            "snapshot": {
+              "id": "d7bcf4bf-26fe-45f1-bab9-96f1b13eb6ae",
+              "primary_themes": [
+                {
+                  "name": "Redemption",
+                  "question": "Can past mistakes be truly atoned for, even when the consequences are catastrophic?",
+                  "embodied_by": "The disgraced mage's journey to regain trust and purpose."
+                },
+                {
+                  "name": "Power & Responsibility",
+                  "question": "What obligations accompany great power, and what happens when that power is abused?",
+                  "embodied_by": "The mage's initial experiment and subsequent loss of power; the rival cabal's potential misuse of the crystal."
+                }
+              ],
+              "secondary_themes": [
+                {
+                  "name": "Knowledge vs. Ignorance",
+                  "question": "Is knowledge inherently good, or can it be a dangerous weapon in the wrong hands?",
+                  "embodied_by": "The archivist\u2019s wisdom versus the cabal\u2019s reckless pursuit of power."
+                },
+                {
+                  "name": "Trust & Betrayal",
+                  "question": "How much faith should be placed in others, especially when survival depends on it?",
+                  "embodied_by": "The stolen map and the uncertainty of its origins; the mage's reliance on fragmented guidance."
+                },
+                {
+                  "name": "Hope vs. Despair",
+                  "question": "Can hope endure even in the face of overwhelming darkness?",
+                  "embodied_by": "The mage's determination to prevent the blight despite her past failures."
+                }
+              ],
+              "moral_tensions": [
+                {
+                  "themes": [
+                    "Redemption",
+                    "Power & Responsibility"
+                  ],
+                  "conflict": "The mage's desire for redemption clashes with the potential for her actions to inadvertently unleash the blight, highlighting the difficult balance between personal growth and societal consequences."
+                },
+                {
+                  "themes": [
+                    "Knowledge vs. Ignorance",
+                    "Trust & Betrayal"
+                  ],
+                  "conflict": "The pursuit of knowledge, as represented by the ancient crystal and the archivist's guidance, is pitted against the inherent risks of trusting information that may be manipulated or misleading."
+                }
+              ],
+              "symbolic_motifs": [
+                {
+                  "motif": "Crystals",
+                  "meaning": "Represent both immense power and fragility; the potential for creation and destruction.",
+                  "recurrence_points": [
+                    "Initial experiment scene",
+                    "Discovery of each fragment",
+                    "Final confrontation"
+                  ]
+                },
+                {
+                  "motif": "Maps",
+                  "meaning": "Symbolize the journey, but also the potential for deception and false paths.",
+                  "recurrence_points": [
+                    "Introduction of the stolen map",
+                    "Moments of disorientation",
+                    "Revelation of the map's true nature"
+                  ]
+                }
+              ],
+              "theme_progression": []
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "character": [
+      {
+        "contract": {
+          "id": "37d0b864-fac0-4755-8a11-42dd0042f923",
+          "name": "Lyra",
+          "description": "A brilliant but reckless mage, stripped of her powers after a catastrophic experiment. Haunted by her past mistakes, she's driven to redeem herself and prevent a world-ending blight.",
+          "actant_roles": [
+            "subject",
+            "hero",
+            "initiator"
+          ],
+          "personality": {
+            "openness": 7,
+            "conscientiousness": 4,
+            "extraversion": 3,
+            "agreeableness": 6,
+            "neuroticism": 8
+          },
+          "values": {
+            "primary": "",
+            "secondary": [],
+            "priorities": {}
+          },
+          "social_mode_default": null,
+          "attachment_pattern": null,
+          "core_desires": [
+            "redemption",
+            "acceptance",
+            "knowledge"
+          ],
+          "core_fears": [
+            "failure",
+            "loss of control",
+            "causing harm"
+          ],
+          "wound_types": [],
+          "need_types": [],
+          "goal_polarity": "attain",
+          "modalities": {
+            "wanting": "indifferent",
+            "knowing": "ignorant",
+            "being_able": "unable",
+            "having_to": "free"
+          },
+          "emotional_baseline_emotion": null,
+          "emotional_baseline_intensity": "low",
+          "arc": {
+            "initial_state": "",
+            "terminal_state": "",
+            "personality_changes": [],
+            "value_shifts": []
+          },
+          "relationships": []
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:47:03.731609+00:00",
+            "agent": "character_architect",
+            "action": "created",
+            "snapshot": {
+              "id": "37d0b864-fac0-4755-8a11-42dd0042f923",
+              "name": "Lyra",
+              "description": "A brilliant but reckless mage, stripped of her powers after a catastrophic experiment. Haunted by her past mistakes, she's driven to redeem herself and prevent a world-ending blight.",
+              "actant_roles": [
+                "subject",
+                "hero",
+                "initiator"
+              ],
+              "personality": {
+                "openness": 7,
+                "conscientiousness": 4,
+                "extraversion": 3,
+                "agreeableness": 6,
+                "neuroticism": 8
+              },
+              "values": {
+                "primary": "",
+                "secondary": [],
+                "priorities": {}
+              },
+              "social_mode_default": null,
+              "attachment_pattern": null,
+              "core_desires": [
+                "redemption",
+                "acceptance",
+                "knowledge"
+              ],
+              "core_fears": [
+                "failure",
+                "loss of control",
+                "causing harm"
+              ],
+              "wound_types": [],
+              "need_types": [],
+              "goal_polarity": "attain",
+              "modalities": {
+                "wanting": "indifferent",
+                "knowing": "ignorant",
+                "being_able": "unable",
+                "having_to": "free"
+              },
+              "emotional_baseline_emotion": null,
+              "emotional_baseline_intensity": "low",
+              "arc": {
+                "initial_state": "",
+                "terminal_state": "",
+                "personality_changes": [],
+                "value_shifts": []
+              },
+              "relationships": []
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "episode": [
+      {
+        "contract": {
+          "id": "93efb785-7453-405e-8f63-6e93356fb81d",
+          "title": "Whispers of the Past",
+          "sequence_number": 0,
+          "summary": "Lyra, haunted by her past failure, receives fragmented guidance from the archivist's records, revealing the existence of the crystal fragments. She begins her quest, but quickly realizes the map she stole is incomplete and potentially a trap, setting her on a perilous path. The state transforms from despair and isolation to hesitant action and uncertainty.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Lyra",
+            "object_of_value": "crystal_fragments",
+            "current_state": "despair, powerless, isolated",
+            "desired_transformation": "knowledge of crystal fragments' location, a plan",
+            "opponent": "rival_cabal, faulty_map",
+            "opponent_value_logic": "Power at any cost, deception to gain advantage",
+            "helper": "archivist's_records",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "investigation",
+            "resulting_state": "aware of the fragments, possessing a flawed map, uncertain of the path ahead",
+            "sanction_or_judgment": "The map's misleading nature creates immediate doubt and suspicion.",
+            "contribution_to_whole_fabula": "Establishes the protagonist's motivation, introduces the central artifact, and sets the stage for the quest."
+          },
+          "canonical_phase": "manipulation",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "epistemic",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:48:01.816611+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "93efb785-7453-405e-8f63-6e93356fb81d",
+              "title": "Whispers of the Past",
+              "sequence_number": 0,
+              "summary": "Lyra, haunted by her past failure, receives fragmented guidance from the archivist's records, revealing the existence of the crystal fragments. She begins her quest, but quickly realizes the map she stole is incomplete and potentially a trap, setting her on a perilous path. The state transforms from despair and isolation to hesitant action and uncertainty.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Lyra",
+                "object_of_value": "crystal_fragments",
+                "current_state": "despair, powerless, isolated",
+                "desired_transformation": "knowledge of crystal fragments' location, a plan",
+                "opponent": "rival_cabal, faulty_map",
+                "opponent_value_logic": "Power at any cost, deception to gain advantage",
+                "helper": "archivist's_records",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "investigation",
+                "resulting_state": "aware of the fragments, possessing a flawed map, uncertain of the path ahead",
+                "sanction_or_judgment": "The map's misleading nature creates immediate doubt and suspicion.",
+                "contribution_to_whole_fabula": "Establishes the protagonist's motivation, introduces the central artifact, and sets the stage for the quest."
+              },
+              "canonical_phase": "manipulation",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "epistemic",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "21f42c3f-35da-4f01-a82c-b725e3ec4ce1",
+          "title": "Echoes of Skill",
+          "sequence_number": 1,
+          "summary": "Lyra, attempting to decipher the map, must relearn basic magical skills, finding her power diminished and unstable. She confronts initial obstacles, demonstrating a flicker of her former talent while battling self-doubt. The state transforms from unskilled and uncertain to possessing rudimentary abilities and a renewed sense of purpose.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Lyra",
+            "object_of_value": "magical_ability",
+            "current_state": "powerless, unskilled",
+            "desired_transformation": "reclaimed magical competence",
+            "opponent": "her_own_past_failure, diminished_power",
+            "opponent_value_logic": "Fear of repeating past mistakes, limitation of power",
+            "helper": "memories_of_training",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "training",
+            "resulting_state": "reacquired basic magical skills, increased confidence, but still limited",
+            "sanction_or_judgment": "Success in regaining some power, tempered by the realization of how much has been lost.",
+            "contribution_to_whole_fabula": "Rebuilds the protagonist's capabilities and demonstrates the cost of her past actions."
+          },
+          "canonical_phase": "competence",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "internal",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:48:01.816611+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "21f42c3f-35da-4f01-a82c-b725e3ec4ce1",
+              "title": "Echoes of Skill",
+              "sequence_number": 1,
+              "summary": "Lyra, attempting to decipher the map, must relearn basic magical skills, finding her power diminished and unstable. She confronts initial obstacles, demonstrating a flicker of her former talent while battling self-doubt. The state transforms from unskilled and uncertain to possessing rudimentary abilities and a renewed sense of purpose.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Lyra",
+                "object_of_value": "magical_ability",
+                "current_state": "powerless, unskilled",
+                "desired_transformation": "reclaimed magical competence",
+                "opponent": "her_own_past_failure, diminished_power",
+                "opponent_value_logic": "Fear of repeating past mistakes, limitation of power",
+                "helper": "memories_of_training",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "training",
+                "resulting_state": "reacquired basic magical skills, increased confidence, but still limited",
+                "sanction_or_judgment": "Success in regaining some power, tempered by the realization of how much has been lost.",
+                "contribution_to_whole_fabula": "Rebuilds the protagonist's capabilities and demonstrates the cost of her past actions."
+              },
+              "canonical_phase": "competence",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "internal",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "aa9f9664-1c3d-4016-917f-4cc96e361d00",
+          "title": "Shadows of Pursuit",
+          "sequence_number": 2,
+          "summary": "Lyra, now with some magical ability, actively seeks out the first crystal fragment, facing challenges from the environment and encountering agents of the rival cabal. A tense chase and a narrow escape highlights her growing skills, but also reveals the cabal\u2019s formidable power. The state transforms from tentative pursuit to direct confrontation and a grudging acknowledgement of the enemy's strength.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Lyra",
+            "object_of_value": "crystal_fragment_1",
+            "current_state": "recovering magical skill, seeking the fragment",
+            "desired_transformation": "acquisition of the first crystal fragment",
+            "opponent": "rival_cabal_agents, environmental_hazards",
+            "opponent_value_logic": "Securing the crystal at all costs, eliminating Lyra",
+            "helper": "reclaimed_skills, intuition",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "pursuit, evasion, minor combat",
+            "resulting_state": "escaped the cabal, first fragment elusive, understanding of the enemy\u2019s capabilities",
+            "sanction_or_judgment": "A close call demonstrates the danger ahead.",
+            "contribution_to_whole_fabula": "Tests the protagonist\u2019s skills and introduces the direct threat of the antagonist."
+          },
+          "canonical_phase": "performance",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "interpersonal",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:48:01.816611+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "aa9f9664-1c3d-4016-917f-4cc96e361d00",
+              "title": "Shadows of Pursuit",
+              "sequence_number": 2,
+              "summary": "Lyra, now with some magical ability, actively seeks out the first crystal fragment, facing challenges from the environment and encountering agents of the rival cabal. A tense chase and a narrow escape highlights her growing skills, but also reveals the cabal\u2019s formidable power. The state transforms from tentative pursuit to direct confrontation and a grudging acknowledgement of the enemy's strength.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Lyra",
+                "object_of_value": "crystal_fragment_1",
+                "current_state": "recovering magical skill, seeking the fragment",
+                "desired_transformation": "acquisition of the first crystal fragment",
+                "opponent": "rival_cabal_agents, environmental_hazards",
+                "opponent_value_logic": "Securing the crystal at all costs, eliminating Lyra",
+                "helper": "reclaimed_skills, intuition",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "pursuit, evasion, minor combat",
+                "resulting_state": "escaped the cabal, first fragment elusive, understanding of the enemy\u2019s capabilities",
+                "sanction_or_judgment": "A close call demonstrates the danger ahead.",
+                "contribution_to_whole_fabula": "Tests the protagonist\u2019s skills and introduces the direct threat of the antagonist."
+              },
+              "canonical_phase": "performance",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "interpersonal",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "82a2e00d-31e5-49f9-ad58-4ad45374a4ed",
+          "title": "The Cost of Knowledge",
+          "sequence_number": 3,
+          "summary": "Lyra, having learned from her experiences, confronts the cabal, uncovering a devastating truth about her past and their connection to her downfall. She makes a difficult choice, sacrificing something valuable to gain an advantage, setting the stage for a final confrontation. The state transforms from a quest for redemption to a deeper understanding of the conflict\u2019s roots and a willingness to make sacrifices.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Lyra",
+            "object_of_value": "truth_about_the_past, advantage_over_cabal",
+            "current_state": "pursuing the crystal fragments, facing the cabal",
+            "desired_transformation": "understanding the origins of the conflict, gaining a strategic advantage",
+            "opponent": "rival_cabal, past_secrets",
+            "opponent_value_logic": "Maintaining control through manipulation and secrecy",
+            "helper": "knowledge_gained_from_confrontation",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "confrontation, revelation, sacrifice",
+            "resulting_state": "understanding of the past, strategic advantage, a significant loss",
+            "sanction_or_judgment": "A harsh realization and a personal sacrifice mark a turning point in the quest.",
+            "contribution_to_whole_fabula": "Provides closure on the protagonist\u2019s past and sets the stage for the final conflict."
+          },
+          "canonical_phase": "sanction",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "interpersonal",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:48:01.816611+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "82a2e00d-31e5-49f9-ad58-4ad45374a4ed",
+              "title": "The Cost of Knowledge",
+              "sequence_number": 3,
+              "summary": "Lyra, having learned from her experiences, confronts the cabal, uncovering a devastating truth about her past and their connection to her downfall. She makes a difficult choice, sacrificing something valuable to gain an advantage, setting the stage for a final confrontation. The state transforms from a quest for redemption to a deeper understanding of the conflict\u2019s roots and a willingness to make sacrifices.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Lyra",
+                "object_of_value": "truth_about_the_past, advantage_over_cabal",
+                "current_state": "pursuing the crystal fragments, facing the cabal",
+                "desired_transformation": "understanding the origins of the conflict, gaining a strategic advantage",
+                "opponent": "rival_cabal, past_secrets",
+                "opponent_value_logic": "Maintaining control through manipulation and secrecy",
+                "helper": "knowledge_gained_from_confrontation",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "confrontation, revelation, sacrifice",
+                "resulting_state": "understanding of the past, strategic advantage, a significant loss",
+                "sanction_or_judgment": "A harsh realization and a personal sacrifice mark a turning point in the quest.",
+                "contribution_to_whole_fabula": "Provides closure on the protagonist\u2019s past and sets the stage for the final conflict."
+              },
+              "canonical_phase": "sanction",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "interpersonal",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "chapter": [
+      {
+        "contract": {
+          "id": "a1c4f715-16e5-48ac-95e2-3873767740d9",
+          "episode_id": "93efb785-7453-405e-8f63-6e93356fb81d",
+          "sequence_number": 0,
+          "title": "Whispers of the Past",
+          "summary": "Lyra, haunted by her past failure, receives fragmented guidance from the archivist's records, revealing the existence of the crystal fragments. She begins her quest, but quickly realizes the map she stole is incomplete and potentially a trap, setting her on a perilous path.",
+          "narrative_programs_active": [],
+          "scenes": [],
+          "chapter_arc_opening": "",
+          "chapter_arc_closing": "",
+          "primary_conflict_type": "interpersonal",
+          "word_count_target": 2500,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:48:15.926532+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "a1c4f715-16e5-48ac-95e2-3873767740d9",
+              "episode_id": "93efb785-7453-405e-8f63-6e93356fb81d",
+              "sequence_number": 0,
+              "title": "Whispers of the Past",
+              "summary": "Lyra, haunted by her past failure, receives fragmented guidance from the archivist's records, revealing the existence of the crystal fragments. She begins her quest, but quickly realizes the map she stole is incomplete and potentially a trap, setting her on a perilous path.",
+              "narrative_programs_active": [],
+              "scenes": [],
+              "chapter_arc_opening": "",
+              "chapter_arc_closing": "",
+              "primary_conflict_type": "interpersonal",
+              "word_count_target": 2500,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "0f29baf2-5223-4a80-bfad-f7a3f3b7a3ec",
+          "episode_id": "21f42c3f-35da-4f01-a82c-b725e3ec4ce1",
+          "sequence_number": 0,
+          "title": "Echoes of Skill",
+          "summary": "Lyra, attempting to decipher the map, must relearn basic magical skills, finding her power diminished and unstable. She confronts initial obstacles, demonstrating a flicker of her former talent while battling self-doubt.",
+          "narrative_programs_active": [],
+          "scenes": [],
+          "chapter_arc_opening": "",
+          "chapter_arc_closing": "",
+          "primary_conflict_type": "interpersonal",
+          "word_count_target": 2500,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:48:15.926532+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "0f29baf2-5223-4a80-bfad-f7a3f3b7a3ec",
+              "episode_id": "21f42c3f-35da-4f01-a82c-b725e3ec4ce1",
+              "sequence_number": 0,
+              "title": "Echoes of Skill",
+              "summary": "Lyra, attempting to decipher the map, must relearn basic magical skills, finding her power diminished and unstable. She confronts initial obstacles, demonstrating a flicker of her former talent while battling self-doubt.",
+              "narrative_programs_active": [],
+              "scenes": [],
+              "chapter_arc_opening": "",
+              "chapter_arc_closing": "",
+              "primary_conflict_type": "interpersonal",
+              "word_count_target": 2500,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "scene": [
+      {
+        "contract": {
+          "id": "721a9408-558b-46e5-9b41-3d0203b18b36",
+          "episode_id": null,
+          "chapter_id": null,
+          "sequence_number": 0,
+          "scene_type": null,
+          "setting_location": "unknown",
+          "setting_time": "",
+          "setting_atmosphere": "",
+          "characters_present": [],
+          "greimas_diagnostic": {
+            "state_before": "Initial state",
+            "action_occurs": "Key action",
+            "state_after": "Transformed state",
+            "value_object_change": "transferred",
+            "future_action_possible_or_blocked": "Next scene enabled",
+            "diagnostic_pass": true
+          },
+          "events": [],
+          "propp_function": "",
+          "canonical_phase": "manipulation",
+          "narrative_program_advanced": null,
+          "conflict_load": {
+            "internal": "low",
+            "interpersonal": "medium",
+            "institutional": "none",
+            "environmental": "none",
+            "epistemic": "none",
+            "metaphysical": "none",
+            "systemic": "none"
+          },
+          "modality_changes": [],
+          "emotional_tone": null,
+          "content": "",
+          "word_count": 0,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:49:47.953137+00:00",
+            "agent": "scene_writer",
+            "action": "created",
+            "snapshot": {
+              "id": "721a9408-558b-46e5-9b41-3d0203b18b36",
+              "episode_id": null,
+              "chapter_id": null,
+              "sequence_number": 0,
+              "scene_type": null,
+              "setting_location": "unknown",
+              "setting_time": "",
+              "setting_atmosphere": "",
+              "characters_present": [],
+              "greimas_diagnostic": {
+                "state_before": "Initial state",
+                "action_occurs": "Key action",
+                "state_after": "Transformed state",
+                "value_object_change": "transferred",
+                "future_action_possible_or_blocked": "Next scene enabled",
+                "diagnostic_pass": true
+              },
+              "events": [],
+              "propp_function": "",
+              "canonical_phase": "manipulation",
+              "narrative_program_advanced": null,
+              "conflict_load": {
+                "internal": "low",
+                "interpersonal": "medium",
+                "institutional": "none",
+                "environmental": "none",
+                "epistemic": "none",
+                "metaphysical": "none",
+                "systemic": "none"
+              },
+              "modality_changes": [],
+              "emotional_tone": null,
+              "content": "",
+              "word_count": 0,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "696bfaa8-296e-4488-8cb6-91576588e1e9",
+          "episode_id": null,
+          "chapter_id": null,
+          "sequence_number": 1,
+          "scene_type": null,
+          "setting_location": "unknown",
+          "setting_time": "",
+          "setting_atmosphere": "",
+          "characters_present": [],
+          "greimas_diagnostic": {
+            "state_before": "Initial state",
+            "action_occurs": "Key action",
+            "state_after": "Transformed state",
+            "value_object_change": "transferred",
+            "future_action_possible_or_blocked": "Next scene enabled",
+            "diagnostic_pass": true
+          },
+          "events": [],
+          "propp_function": "",
+          "canonical_phase": "manipulation",
+          "narrative_program_advanced": null,
+          "conflict_load": {
+            "internal": "low",
+            "interpersonal": "medium",
+            "institutional": "none",
+            "environmental": "none",
+            "epistemic": "none",
+            "metaphysical": "none",
+            "systemic": "none"
+          },
+          "modality_changes": [],
+          "emotional_tone": null,
+          "content": "",
+          "word_count": 0,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:49:47.953137+00:00",
+            "agent": "scene_writer",
+            "action": "created",
+            "snapshot": {
+              "id": "696bfaa8-296e-4488-8cb6-91576588e1e9",
+              "episode_id": null,
+              "chapter_id": null,
+              "sequence_number": 1,
+              "scene_type": null,
+              "setting_location": "unknown",
+              "setting_time": "",
+              "setting_atmosphere": "",
+              "characters_present": [],
+              "greimas_diagnostic": {
+                "state_before": "Initial state",
+                "action_occurs": "Key action",
+                "state_after": "Transformed state",
+                "value_object_change": "transferred",
+                "future_action_possible_or_blocked": "Next scene enabled",
+                "diagnostic_pass": true
+              },
+              "events": [],
+              "propp_function": "",
+              "canonical_phase": "manipulation",
+              "narrative_program_advanced": null,
+              "conflict_load": {
+                "internal": "low",
+                "interpersonal": "medium",
+                "institutional": "none",
+                "environmental": "none",
+                "epistemic": "none",
+                "metaphysical": "none",
+                "systemic": "none"
+              },
+              "modality_changes": [],
+              "emotional_tone": null,
+              "content": "",
+              "word_count": 0,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "84753b5d-cd4a-453e-9342-8a05388ce716",
+          "episode_id": null,
+          "chapter_id": null,
+          "sequence_number": 0,
+          "scene_type": null,
+          "setting_location": "unknown",
+          "setting_time": "",
+          "setting_atmosphere": "",
+          "characters_present": [],
+          "greimas_diagnostic": {
+            "state_before": "Initial state",
+            "action_occurs": "Key action",
+            "state_after": "Transformed state",
+            "value_object_change": "transferred",
+            "future_action_possible_or_blocked": "Next scene enabled",
+            "diagnostic_pass": true
+          },
+          "events": [],
+          "propp_function": "",
+          "canonical_phase": "manipulation",
+          "narrative_program_advanced": null,
+          "conflict_load": {
+            "internal": "low",
+            "interpersonal": "medium",
+            "institutional": "none",
+            "environmental": "none",
+            "epistemic": "none",
+            "metaphysical": "none",
+            "systemic": "none"
+          },
+          "modality_changes": [],
+          "emotional_tone": null,
+          "content": "",
+          "word_count": 0,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:49:47.953137+00:00",
+            "agent": "scene_writer",
+            "action": "created",
+            "snapshot": {
+              "id": "84753b5d-cd4a-453e-9342-8a05388ce716",
+              "episode_id": null,
+              "chapter_id": null,
+              "sequence_number": 0,
+              "scene_type": null,
+              "setting_location": "unknown",
+              "setting_time": "",
+              "setting_atmosphere": "",
+              "characters_present": [],
+              "greimas_diagnostic": {
+                "state_before": "Initial state",
+                "action_occurs": "Key action",
+                "state_after": "Transformed state",
+                "value_object_change": "transferred",
+                "future_action_possible_or_blocked": "Next scene enabled",
+                "diagnostic_pass": true
+              },
+              "events": [],
+              "propp_function": "",
+              "canonical_phase": "manipulation",
+              "narrative_program_advanced": null,
+              "conflict_load": {
+                "internal": "low",
+                "interpersonal": "medium",
+                "institutional": "none",
+                "environmental": "none",
+                "epistemic": "none",
+                "metaphysical": "none",
+                "systemic": "none"
+              },
+              "modality_changes": [],
+              "emotional_tone": null,
+              "content": "",
+              "word_count": 0,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "376c3669-cc37-4066-82b3-4b084b4631c2",
+          "episode_id": null,
+          "chapter_id": null,
+          "sequence_number": 1,
+          "scene_type": null,
+          "setting_location": "unknown",
+          "setting_time": "",
+          "setting_atmosphere": "",
+          "characters_present": [],
+          "greimas_diagnostic": {
+            "state_before": "Initial state",
+            "action_occurs": "Key action",
+            "state_after": "Transformed state",
+            "value_object_change": "transferred",
+            "future_action_possible_or_blocked": "Next scene enabled",
+            "diagnostic_pass": true
+          },
+          "events": [],
+          "propp_function": "",
+          "canonical_phase": "manipulation",
+          "narrative_program_advanced": null,
+          "conflict_load": {
+            "internal": "low",
+            "interpersonal": "medium",
+            "institutional": "none",
+            "environmental": "none",
+            "epistemic": "none",
+            "metaphysical": "none",
+            "systemic": "none"
+          },
+          "modality_changes": [],
+          "emotional_tone": null,
+          "content": "",
+          "word_count": 0,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:49:47.953137+00:00",
+            "agent": "scene_writer",
+            "action": "created",
+            "snapshot": {
+              "id": "376c3669-cc37-4066-82b3-4b084b4631c2",
+              "episode_id": null,
+              "chapter_id": null,
+              "sequence_number": 1,
+              "scene_type": null,
+              "setting_location": "unknown",
+              "setting_time": "",
+              "setting_atmosphere": "",
+              "characters_present": [],
+              "greimas_diagnostic": {
+                "state_before": "Initial state",
+                "action_occurs": "Key action",
+                "state_after": "Transformed state",
+                "value_object_change": "transferred",
+                "future_action_possible_or_blocked": "Next scene enabled",
+                "diagnostic_pass": true
+              },
+              "events": [],
+              "propp_function": "",
+              "canonical_phase": "manipulation",
+              "narrative_program_advanced": null,
+              "conflict_load": {
+                "internal": "low",
+                "interpersonal": "medium",
+                "institutional": "none",
+                "environmental": "none",
+                "epistemic": "none",
+                "metaphysical": "none",
+                "systemic": "none"
+              },
+              "modality_changes": [],
+              "emotional_tone": null,
+              "content": "",
+              "word_count": 0,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "critique": [
+      {
+        "contract": {
+          "id": "986829b6-6bb1-461f-8025-3c61d1546653",
+          "target_id": "6d10d43b-14d4-40d3-a7a9-66891005449c",
+          "target_type": "story_draft",
+          "reviewer": "critic",
+          "timestamp": "2026-06-08T09:52:33.281449Z",
+          "greimas_checks": [],
+          "coherence": {
+            "pass_": false,
+            "value": 0,
+            "issues": []
+          },
+          "completeness": {
+            "pass_": false,
+            "value": 0,
+            "issues": []
+          },
+          "character_consistency": {
+            "pass_": false,
+            "value": 0,
+            "issues": []
+          },
+          "no_filler_compliance": {
+            "pass_": false,
+            "value": 0,
+            "issues": []
+          },
+          "structural_fidelity": {
+            "pass_": false,
+            "value": 0,
+            "issues": []
+          },
+          "verdict": "pass",
+          "summary": "Soft gate: composite=5.0/5.0",
+          "revision_instructions": [],
+          "revision_actions": []
+        },
+        "current_version": 2,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T09:52:33.281449+00:00",
+            "agent": "critic",
+            "action": "created",
+            "snapshot": {
+              "id": "986829b6-6bb1-461f-8025-3c61d1546653",
+              "target_id": "6d10d43b-14d4-40d3-a7a9-66891005449c",
+              "target_type": "story_draft",
+              "reviewer": "critic",
+              "timestamp": "2026-06-08T09:52:33.281449Z",
+              "greimas_checks": [],
+              "coherence": {
+                "pass_": false,
+                "value": 0,
+                "issues": []
+              },
+              "completeness": {
+                "pass_": false,
+                "value": 0,
+                "issues": []
+              },
+              "character_consistency": {
+                "pass_": false,
+                "value": 0,
+                "issues": []
+              },
+              "no_filler_compliance": {
+                "pass_": false,
+                "value": 0,
+                "issues": []
+              },
+              "structural_fidelity": {
+                "pass_": false,
+                "value": 0,
+                "issues": []
+              },
+              "verdict": "pass",
+              "summary": "Fabula Coherence: all 11/11 checks passed.",
+              "revision_instructions": [],
+              "revision_actions": []
+            }
+          },
+          {
+            "version": 2,
+            "timestamp": "2026-06-08T09:52:51.997115+00:00",
+            "agent": "critic",
+            "action": "updated",
+            "snapshot": {
+              "id": "986829b6-6bb1-461f-8025-3c61d1546653",
+              "target_id": "6d10d43b-14d4-40d3-a7a9-66891005449c",
+              "target_type": "story_draft",
+              "reviewer": "critic",
+              "timestamp": "2026-06-08T09:52:33.281449Z",
+              "greimas_checks": [],
+              "coherence": {
+                "pass_": false,
+                "value": 0,
+                "issues": []
+              },
+              "completeness": {
+                "pass_": false,
+                "value": 0,
+                "issues": []
+              },
+              "character_consistency": {
+                "pass_": false,
+                "value": 0,
+                "issues": []
+              },
+              "no_filler_compliance": {
+                "pass_": false,
+                "value": 0,
+                "issues": []
+              },
+              "structural_fidelity": {
+                "pass_": false,
+                "value": 0,
+                "issues": []
+              },
+              "verdict": "pass",
+              "summary": "Soft gate: composite=5.0/5.0",
+              "revision_instructions": [],
+              "revision_actions": []
+            }
+          }
+        ],
+        "locked": false
+      }
+    ]
+  },
+  "field_locks": {}
+}

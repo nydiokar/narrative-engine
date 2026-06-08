@@ -1,0 +1,1133 @@
+{
+  "contracts": {
+    "story": [
+      {
+        "contract": {
+          "id": "3c494c40-85fa-499c-b76c-ec43d0d6d3ee",
+          "title": "The Crystal Key",
+          "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+          "premise_type": null,
+          "ending_type": null,
+          "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+          "hook": "",
+          "brief_layer": null,
+          "concept_layer": {
+            "story_promise": "",
+            "comps": []
+          },
+          "genre": {
+            "primary_bisac": "FIC028000",
+            "secondary_bisac": [
+              "FIC014000",
+              "FIC022000"
+            ],
+            "subgenre_notes": "The story fits within the Epic Fantasy subgenre, with strong elements of Mystery/Thriller and Adventure. The core conflict revolves around a mage's quest to prevent a catastrophic event, combining traditional fantasy elements with a modern, tension-driven narrative focused on knowledge, trust, and power. The protagonist's journey is both heroic and morally complex, aligning with the characteristics of high fantasy with a focus on character-driven plot and philosophical depth."
+          },
+          "theme_contract_id": null,
+          "subject_id": "1f6d261e-047c-400b-8a4c-6de746996a62",
+          "object_of_value_id": "ancient-crystal-fragment",
+          "object_of_value_type": null,
+          "object_of_value_description": "preventing the world-ending blight",
+          "sender_id": "rival-cabal-uuid",
+          "receiver_id": "world-in-general-uuid",
+          "helper_ids": [],
+          "opponent_ids": [],
+          "narrative_programs": [],
+          "conflict_contract_id": null,
+          "discourse_contract_id": null,
+          "fabula": {
+            "events": [],
+            "causality_chains": []
+          },
+          "episodes": [],
+          "chapters": [],
+          "status": "seed"
+        },
+        "current_version": 4,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T01:57:31.897308+00:00",
+            "agent": "system",
+            "action": "created",
+            "snapshot": {
+              "id": "3c494c40-85fa-499c-b76c-ec43d0d6d3ee",
+              "title": "The Crystal Key",
+              "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+              "premise_type": null,
+              "ending_type": null,
+              "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+              "hook": "",
+              "brief_layer": null,
+              "concept_layer": {
+                "story_promise": "",
+                "comps": []
+              },
+              "genre": {
+                "primary_bisac": "",
+                "secondary_bisac": [],
+                "subgenre_notes": ""
+              },
+              "theme_contract_id": null,
+              "subject_id": "",
+              "object_of_value_id": "",
+              "object_of_value_type": null,
+              "object_of_value_description": "",
+              "sender_id": "",
+              "receiver_id": "",
+              "helper_ids": [],
+              "opponent_ids": [],
+              "narrative_programs": [],
+              "conflict_contract_id": null,
+              "discourse_contract_id": null,
+              "fabula": {
+                "events": [],
+                "causality_chains": []
+              },
+              "episodes": [],
+              "chapters": [],
+              "status": "seed"
+            }
+          },
+          {
+            "version": 2,
+            "timestamp": "2026-06-08T01:58:03.331082+00:00",
+            "agent": "theme_specialist",
+            "action": "updated",
+            "snapshot": {
+              "id": "3c494c40-85fa-499c-b76c-ec43d0d6d3ee",
+              "title": "The Crystal Key",
+              "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+              "premise_type": null,
+              "ending_type": null,
+              "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+              "hook": "",
+              "brief_layer": null,
+              "concept_layer": {
+                "story_promise": "",
+                "comps": []
+              },
+              "genre": {
+                "primary_bisac": "FIC028000",
+                "secondary_bisac": [
+                  "FIC014000",
+                  "FIC022000"
+                ],
+                "subgenre_notes": "The story fits within the Epic Fantasy subgenre, with strong elements of Mystery/Thriller and Adventure. The core conflict revolves around a mage's quest to prevent a catastrophic event, combining traditional fantasy elements with a modern, tension-driven narrative focused on knowledge, trust, and power. The protagonist's journey is both heroic and morally complex, aligning with the characteristics of high fantasy with a focus on character-driven plot and philosophical depth."
+              },
+              "theme_contract_id": null,
+              "subject_id": "",
+              "object_of_value_id": "",
+              "object_of_value_type": null,
+              "object_of_value_description": "",
+              "sender_id": "",
+              "receiver_id": "",
+              "helper_ids": [],
+              "opponent_ids": [],
+              "narrative_programs": [],
+              "conflict_contract_id": null,
+              "discourse_contract_id": null,
+              "fabula": {
+                "events": [],
+                "causality_chains": []
+              },
+              "episodes": [],
+              "chapters": [],
+              "status": "seed"
+            }
+          },
+          {
+            "version": 3,
+            "timestamp": "2026-06-08T01:58:38.023353+00:00",
+            "agent": "structuralist",
+            "action": "updated",
+            "snapshot": {
+              "id": "3c494c40-85fa-499c-b76c-ec43d0d6d3ee",
+              "title": "The Crystal Key",
+              "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+              "premise_type": null,
+              "ending_type": null,
+              "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+              "hook": "",
+              "brief_layer": null,
+              "concept_layer": {
+                "story_promise": "",
+                "comps": []
+              },
+              "genre": {
+                "primary_bisac": "FIC028000",
+                "secondary_bisac": [
+                  "FIC014000",
+                  "FIC022000"
+                ],
+                "subgenre_notes": "The story fits within the Epic Fantasy subgenre, with strong elements of Mystery/Thriller and Adventure. The core conflict revolves around a mage's quest to prevent a catastrophic event, combining traditional fantasy elements with a modern, tension-driven narrative focused on knowledge, trust, and power. The protagonist's journey is both heroic and morally complex, aligning with the characteristics of high fantasy with a focus on character-driven plot and philosophical depth."
+              },
+              "theme_contract_id": null,
+              "subject_id": "disgraced-mage-uuid",
+              "object_of_value_id": "ancient-crystal-fragment",
+              "object_of_value_type": null,
+              "object_of_value_description": "preventing the world-ending blight",
+              "sender_id": "rival-cabal-uuid",
+              "receiver_id": "world-in-general-uuid",
+              "helper_ids": [],
+              "opponent_ids": [],
+              "narrative_programs": [],
+              "conflict_contract_id": null,
+              "discourse_contract_id": null,
+              "fabula": {
+                "events": [],
+                "causality_chains": []
+              },
+              "episodes": [],
+              "chapters": [],
+              "status": "seed"
+            }
+          },
+          {
+            "version": 4,
+            "timestamp": "2026-06-08T01:58:53.114326+00:00",
+            "agent": "character_architect",
+            "action": "updated",
+            "snapshot": {
+              "id": "3c494c40-85fa-499c-b76c-ec43d0d6d3ee",
+              "title": "The Crystal Key",
+              "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+              "premise_type": null,
+              "ending_type": null,
+              "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+              "hook": "",
+              "brief_layer": null,
+              "concept_layer": {
+                "story_promise": "",
+                "comps": []
+              },
+              "genre": {
+                "primary_bisac": "FIC028000",
+                "secondary_bisac": [
+                  "FIC014000",
+                  "FIC022000"
+                ],
+                "subgenre_notes": "The story fits within the Epic Fantasy subgenre, with strong elements of Mystery/Thriller and Adventure. The core conflict revolves around a mage's quest to prevent a catastrophic event, combining traditional fantasy elements with a modern, tension-driven narrative focused on knowledge, trust, and power. The protagonist's journey is both heroic and morally complex, aligning with the characteristics of high fantasy with a focus on character-driven plot and philosophical depth."
+              },
+              "theme_contract_id": null,
+              "subject_id": "1f6d261e-047c-400b-8a4c-6de746996a62",
+              "object_of_value_id": "ancient-crystal-fragment",
+              "object_of_value_type": null,
+              "object_of_value_description": "preventing the world-ending blight",
+              "sender_id": "rival-cabal-uuid",
+              "receiver_id": "world-in-general-uuid",
+              "helper_ids": [],
+              "opponent_ids": [],
+              "narrative_programs": [],
+              "conflict_contract_id": null,
+              "discourse_contract_id": null,
+              "fabula": {
+                "events": [],
+                "causality_chains": []
+              },
+              "episodes": [],
+              "chapters": [],
+              "status": "seed"
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "theme": [
+      {
+        "contract": {
+          "id": "c645ac81-ad52-452b-8684-765f23c79103",
+          "primary_themes": [
+            {
+              "name": "Redemption through Sacrifice",
+              "question": "Can one atone for a catastrophic failure by risking everything else?",
+              "embodied_by": "The disgraced mage who must retrieve the crystal fragments to prevent a greater evil, even as she risks her own life and reputation"
+            },
+            {
+              "name": "The Burden of Knowledge",
+              "question": "What is the cost of knowing too much about the past and the future?",
+              "embodied_by": "The long-dead archivist whose whispered guidance may be a trap, and the mage's internal struggle with her own forgotten or suppressed knowledge"
+            },
+            {
+              "name": "Trust and Deception",
+              "question": "How do we distinguish truth from betrayal when all information is suspect?",
+              "embodied_by": "The stolen map that might be a trap, and the mage's growing uncertainty about who she can trust"
+            }
+          ],
+          "secondary_themes": [
+            {
+              "name": "The Corruption of Power",
+              "question": "Does the pursuit of ultimate power inevitably corrupt those who seek it?",
+              "embodied_by": "The rival cabal seeking to weaponize the crystal for world-ending blight"
+            },
+            {
+              "name": "The Price of Isolation",
+              "question": "What is the cost of being cut off from others in order to survive or achieve a goal?",
+              "embodied_by": "The mage's exile and her journey alone, with only the voice of the dead archivist"
+            },
+            {
+              "name": "Legacy and Identity",
+              "question": "How does one's legacy define them, and how can they rewrite it?",
+              "embodied_by": "The mage's struggle to reclaim her identity after losing her powers and reputation"
+            }
+          ],
+          "moral_tensions": [
+            {
+              "themes": [
+                "Redemption through Sacrifice",
+                "The Corruption of Power"
+              ],
+              "conflict": "The mage seeks redemption by saving the world, but her journey may lead her to embrace the same corrupting power she tries to stop"
+            },
+            {
+              "themes": [
+                "The Burden of Knowledge",
+                "Trust and Deception"
+              ],
+              "conflict": "The archivist's guidance provides knowledge, but it's unclear if it's truth or a trap that will lead the mage to her doom"
+            },
+            {
+              "themes": [
+                "Trust and Deception",
+                "The Price of Isolation"
+              ],
+              "conflict": "The mage's need to trust the whispered guidance leads her deeper into isolation, as she must choose between her own judgment and the unknown"
+            }
+          ],
+          "symbolic_motifs": [
+            {
+              "motif": "Crystal Fragments",
+              "meaning": "They symbolize both the potential for great good and great evil, as well as the fragmented nature of truth and identity",
+              "recurrence_points": [
+                "At the beginning, the mage receives the fragments",
+                "In the middle, she discovers one fragment is a trap",
+                "At the end, the full crystal must be assembled to either save or destroy"
+              ]
+            },
+            {
+              "motif": "Whispered Guidance",
+              "meaning": "Represents the thin line between wisdom and deception, and how one's inner voice can be both a guide and a trap",
+              "recurrence_points": [
+                "At the start, the mage begins to follow the whispers",
+                "Midway, she questions whether they are real or delusions",
+                "At the climax, she must decide whether to trust them completely or not"
+              ]
+            },
+            {
+              "motif": "Stolen Map",
+              "meaning": "Symbolizes the idea that even the most valuable information can be corrupted or manipulated by those with ulterior motives",
+              "recurrence_points": [
+                "At the beginning, the map is her only guide",
+                "Midway, she suspects it may be leading her into danger",
+                "At the end, she may have to make a final choice about its reliability"
+              ]
+            }
+          ],
+          "theme_progression": []
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T01:57:57.038222+00:00",
+            "agent": "theme_specialist",
+            "action": "created",
+            "snapshot": {
+              "id": "c645ac81-ad52-452b-8684-765f23c79103",
+              "primary_themes": [
+                {
+                  "name": "Redemption through Sacrifice",
+                  "question": "Can one atone for a catastrophic failure by risking everything else?",
+                  "embodied_by": "The disgraced mage who must retrieve the crystal fragments to prevent a greater evil, even as she risks her own life and reputation"
+                },
+                {
+                  "name": "The Burden of Knowledge",
+                  "question": "What is the cost of knowing too much about the past and the future?",
+                  "embodied_by": "The long-dead archivist whose whispered guidance may be a trap, and the mage's internal struggle with her own forgotten or suppressed knowledge"
+                },
+                {
+                  "name": "Trust and Deception",
+                  "question": "How do we distinguish truth from betrayal when all information is suspect?",
+                  "embodied_by": "The stolen map that might be a trap, and the mage's growing uncertainty about who she can trust"
+                }
+              ],
+              "secondary_themes": [
+                {
+                  "name": "The Corruption of Power",
+                  "question": "Does the pursuit of ultimate power inevitably corrupt those who seek it?",
+                  "embodied_by": "The rival cabal seeking to weaponize the crystal for world-ending blight"
+                },
+                {
+                  "name": "The Price of Isolation",
+                  "question": "What is the cost of being cut off from others in order to survive or achieve a goal?",
+                  "embodied_by": "The mage's exile and her journey alone, with only the voice of the dead archivist"
+                },
+                {
+                  "name": "Legacy and Identity",
+                  "question": "How does one's legacy define them, and how can they rewrite it?",
+                  "embodied_by": "The mage's struggle to reclaim her identity after losing her powers and reputation"
+                }
+              ],
+              "moral_tensions": [
+                {
+                  "themes": [
+                    "Redemption through Sacrifice",
+                    "The Corruption of Power"
+                  ],
+                  "conflict": "The mage seeks redemption by saving the world, but her journey may lead her to embrace the same corrupting power she tries to stop"
+                },
+                {
+                  "themes": [
+                    "The Burden of Knowledge",
+                    "Trust and Deception"
+                  ],
+                  "conflict": "The archivist's guidance provides knowledge, but it's unclear if it's truth or a trap that will lead the mage to her doom"
+                },
+                {
+                  "themes": [
+                    "Trust and Deception",
+                    "The Price of Isolation"
+                  ],
+                  "conflict": "The mage's need to trust the whispered guidance leads her deeper into isolation, as she must choose between her own judgment and the unknown"
+                }
+              ],
+              "symbolic_motifs": [
+                {
+                  "motif": "Crystal Fragments",
+                  "meaning": "They symbolize both the potential for great good and great evil, as well as the fragmented nature of truth and identity",
+                  "recurrence_points": [
+                    "At the beginning, the mage receives the fragments",
+                    "In the middle, she discovers one fragment is a trap",
+                    "At the end, the full crystal must be assembled to either save or destroy"
+                  ]
+                },
+                {
+                  "motif": "Whispered Guidance",
+                  "meaning": "Represents the thin line between wisdom and deception, and how one's inner voice can be both a guide and a trap",
+                  "recurrence_points": [
+                    "At the start, the mage begins to follow the whispers",
+                    "Midway, she questions whether they are real or delusions",
+                    "At the climax, she must decide whether to trust them completely or not"
+                  ]
+                },
+                {
+                  "motif": "Stolen Map",
+                  "meaning": "Symbolizes the idea that even the most valuable information can be corrupted or manipulated by those with ulterior motives",
+                  "recurrence_points": [
+                    "At the beginning, the map is her only guide",
+                    "Midway, she suspects it may be leading her into danger",
+                    "At the end, she may have to make a final choice about its reliability"
+                  ]
+                }
+              ],
+              "theme_progression": []
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "character": [
+      {
+        "contract": {
+          "id": "1f6d261e-047c-400b-8a4c-6de746996a62",
+          "name": "Lyralei Thornwick",
+          "description": "A disgraced mage stripped of her powers after a catastrophic experiment, driven by a desperate need for redemption and the will to prevent a world-ending blight.",
+          "actant_roles": [
+            "subject",
+            "hero"
+          ],
+          "personality": {
+            "openness": 8,
+            "conscientiousness": 7,
+            "extraversion": 4,
+            "agreeableness": 6,
+            "neuroticism": 9
+          },
+          "values": {
+            "primary": "",
+            "secondary": [],
+            "priorities": {}
+          },
+          "social_mode_default": null,
+          "attachment_pattern": null,
+          "core_desires": [
+            "To redeem herself and restore her honor through saving the world",
+            "To uncover the truth about her past failure and the archivist's guidance"
+          ],
+          "core_fears": [
+            "To be forever forgotten and consumed by her past mistakes",
+            "To be betrayed or manipulated by those she trusts, especially the archivist"
+          ],
+          "wound_types": [],
+          "need_types": [],
+          "goal_polarity": "attain",
+          "modalities": {
+            "wanting": "indifferent",
+            "knowing": "ignorant",
+            "being_able": "unable",
+            "having_to": "free"
+          },
+          "emotional_baseline_emotion": null,
+          "emotional_baseline_intensity": "low",
+          "arc": {
+            "initial_state": "",
+            "terminal_state": "",
+            "personality_changes": [],
+            "value_shifts": []
+          },
+          "relationships": []
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T01:58:53.114326+00:00",
+            "agent": "character_architect",
+            "action": "created",
+            "snapshot": {
+              "id": "1f6d261e-047c-400b-8a4c-6de746996a62",
+              "name": "Lyralei Thornwick",
+              "description": "A disgraced mage stripped of her powers after a catastrophic experiment, driven by a desperate need for redemption and the will to prevent a world-ending blight.",
+              "actant_roles": [
+                "subject",
+                "hero"
+              ],
+              "personality": {
+                "openness": 8,
+                "conscientiousness": 7,
+                "extraversion": 4,
+                "agreeableness": 6,
+                "neuroticism": 9
+              },
+              "values": {
+                "primary": "",
+                "secondary": [],
+                "priorities": {}
+              },
+              "social_mode_default": null,
+              "attachment_pattern": null,
+              "core_desires": [
+                "To redeem herself and restore her honor through saving the world",
+                "To uncover the truth about her past failure and the archivist's guidance"
+              ],
+              "core_fears": [
+                "To be forever forgotten and consumed by her past mistakes",
+                "To be betrayed or manipulated by those she trusts, especially the archivist"
+              ],
+              "wound_types": [],
+              "need_types": [],
+              "goal_polarity": "attain",
+              "modalities": {
+                "wanting": "indifferent",
+                "knowing": "ignorant",
+                "being_able": "unable",
+                "having_to": "free"
+              },
+              "emotional_baseline_emotion": null,
+              "emotional_baseline_intensity": "low",
+              "arc": {
+                "initial_state": "",
+                "terminal_state": "",
+                "personality_changes": [],
+                "value_shifts": []
+              },
+              "relationships": []
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "episode": [
+      {
+        "contract": {
+          "id": "3987e901-1f64-47bc-afb9-80c67d7d4339",
+          "title": "The Shattered Past",
+          "sequence_number": 0,
+          "summary": "Lyralei begins her quest to retrieve the crystal fragments, driven by her need for redemption and the desperate hope that she can undo her past catastrophe. She starts alone, guided only by the cryptic whispers of a long-dead archivist and a stolen map that may be a trap.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Lyralei Thornwick",
+            "object_of_value": "preventing the world-ending blight",
+            "current_state": "disgraced mage, stripped of powers, exiled",
+            "desired_transformation": "to redeem herself and prevent catastrophic blight",
+            "opponent": "the rival cabal",
+            "opponent_value_logic": "power through domination and control",
+            "helper": "the long-dead archivist (whispered guidance)",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "initiation of journey",
+            "resulting_state": "disgraced mage begins quest",
+            "sanction_or_judgment": "her own internal conviction drives her forward",
+            "contribution_to_whole_fabula": "establishes the protagonist's state of manipulation and the initial moral stakes of her journey"
+          },
+          "canonical_phase": "manipulation",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "internal",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T02:00:21.473731+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "3987e901-1f64-47bc-afb9-80c67d7d4339",
+              "title": "The Shattered Past",
+              "sequence_number": 0,
+              "summary": "Lyralei begins her quest to retrieve the crystal fragments, driven by her need for redemption and the desperate hope that she can undo her past catastrophe. She starts alone, guided only by the cryptic whispers of a long-dead archivist and a stolen map that may be a trap.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Lyralei Thornwick",
+                "object_of_value": "preventing the world-ending blight",
+                "current_state": "disgraced mage, stripped of powers, exiled",
+                "desired_transformation": "to redeem herself and prevent catastrophic blight",
+                "opponent": "the rival cabal",
+                "opponent_value_logic": "power through domination and control",
+                "helper": "the long-dead archivist (whispered guidance)",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "initiation of journey",
+                "resulting_state": "disgraced mage begins quest",
+                "sanction_or_judgment": "her own internal conviction drives her forward",
+                "contribution_to_whole_fabula": "establishes the protagonist's state of manipulation and the initial moral stakes of her journey"
+              },
+              "canonical_phase": "manipulation",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "internal",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "236538d8-707d-4bb5-8fe7-17781f044be9",
+          "title": "The Fragments of Truth",
+          "sequence_number": 1,
+          "summary": "Lyralei retrieves the first crystal fragment, only to realize that the map she follows is a trap set by a rival faction. She begins to question the archivist's guidance and the true nature of her quest, as she discovers that her past failure was more complex than she believed.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Lyralei Thornwick",
+            "object_of_value": "preventing the world-ending blight",
+            "current_state": "disgraced mage begins quest",
+            "desired_transformation": "to uncover the truth about her past and complete the quest",
+            "opponent": "rival cabal, false guidance from archivist",
+            "opponent_value_logic": "deceit for power",
+            "helper": "her own growing knowledge and intuition",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "acquisition of first fragment",
+            "resulting_state": "disgraced mage learns first truths about her past",
+            "sanction_or_judgment": "the first fragment leads to deeper questioning",
+            "contribution_to_whole_fabula": "develops Lyralei's competence and introduces the theme of trust and deception"
+          },
+          "canonical_phase": "competence",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "interpersonal",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T02:00:21.473731+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "236538d8-707d-4bb5-8fe7-17781f044be9",
+              "title": "The Fragments of Truth",
+              "sequence_number": 1,
+              "summary": "Lyralei retrieves the first crystal fragment, only to realize that the map she follows is a trap set by a rival faction. She begins to question the archivist's guidance and the true nature of her quest, as she discovers that her past failure was more complex than she believed.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Lyralei Thornwick",
+                "object_of_value": "preventing the world-ending blight",
+                "current_state": "disgraced mage begins quest",
+                "desired_transformation": "to uncover the truth about her past and complete the quest",
+                "opponent": "rival cabal, false guidance from archivist",
+                "opponent_value_logic": "deceit for power",
+                "helper": "her own growing knowledge and intuition",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "acquisition of first fragment",
+                "resulting_state": "disgraced mage learns first truths about her past",
+                "sanction_or_judgment": "the first fragment leads to deeper questioning",
+                "contribution_to_whole_fabula": "develops Lyralei's competence and introduces the theme of trust and deception"
+              },
+              "canonical_phase": "competence",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "interpersonal",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "b637d40f-c7af-4785-98bb-94f3eae47602",
+          "title": "The Price of Power",
+          "sequence_number": 2,
+          "summary": "With two fragments in hand, Lyralei faces a moral crisis as she becomes aware of the true cost of her actions. Her choices begin to reflect the corruption of power, and she realizes that her quest may inadvertently lead her toward the same destructive path she seeks to stop. The archivist's voice becomes more ambiguous as her own power returns subtly.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Lyralei Thornwick",
+            "object_of_value": "preventing the world-ending blight",
+            "current_state": "disgraced mage learns truths about her past",
+            "desired_transformation": "to prevent the blight without becoming corrupted",
+            "opponent": "the temptation of power, her own corrupted potential",
+            "opponent_value_logic": "the corruption of power as a tool for good",
+            "helper": "the memory of her original noble intent",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "struggle with power and moral choice",
+            "resulting_state": "disgraced mage becomes aware of her own corruption",
+            "sanction_or_judgment": "her internal struggle reflects the potential for moral decay",
+            "contribution_to_whole_fabula": "introduces the moral complexity of the protagonist's journey and the central conflict of power and corruption"
+          },
+          "canonical_phase": "performance",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "metaphysical",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T02:00:21.473731+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "b637d40f-c7af-4785-98bb-94f3eae47602",
+              "title": "The Price of Power",
+              "sequence_number": 2,
+              "summary": "With two fragments in hand, Lyralei faces a moral crisis as she becomes aware of the true cost of her actions. Her choices begin to reflect the corruption of power, and she realizes that her quest may inadvertently lead her toward the same destructive path she seeks to stop. The archivist's voice becomes more ambiguous as her own power returns subtly.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Lyralei Thornwick",
+                "object_of_value": "preventing the world-ending blight",
+                "current_state": "disgraced mage learns truths about her past",
+                "desired_transformation": "to prevent the blight without becoming corrupted",
+                "opponent": "the temptation of power, her own corrupted potential",
+                "opponent_value_logic": "the corruption of power as a tool for good",
+                "helper": "the memory of her original noble intent",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "struggle with power and moral choice",
+                "resulting_state": "disgraced mage becomes aware of her own corruption",
+                "sanction_or_judgment": "her internal struggle reflects the potential for moral decay",
+                "contribution_to_whole_fabula": "introduces the moral complexity of the protagonist's journey and the central conflict of power and corruption"
+              },
+              "canonical_phase": "performance",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "metaphysical",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "d1709df4-5ea0-4c44-9dfe-9ae55e9cf828",
+          "title": "The Redemption of a Mage",
+          "sequence_number": 3,
+          "summary": "In the climactic moment, Lyralei must choose between the power to prevent the blight and the moral integrity that defines her. She ultimately sacrifices the full return of her powers to complete her quest, thereby redeeming her past while embracing the truth of her transformation. The final fragment is used not to dominate but to save.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Lyralei Thornwick",
+            "object_of_value": "preventing the world-ending blight",
+            "current_state": "aware of her own corruption",
+            "desired_transformation": "to redeem herself while preventing the blight",
+            "opponent": "the corrupting power of the crystal",
+            "opponent_value_logic": "the seduction of dominion",
+            "helper": "her own moral conviction and the truth of her past",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "final confrontation and choice",
+            "resulting_state": "redeemed mage who prevents the blight",
+            "sanction_or_judgment": "her moral choice defines her redemption and ultimate victory",
+            "contribution_to_whole_fabula": "resolves the central conflict and provides closure to Lyralei's arc of redemption and transformation"
+          },
+          "canonical_phase": "manipulation",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "internal",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T02:00:21.473731+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "d1709df4-5ea0-4c44-9dfe-9ae55e9cf828",
+              "title": "The Redemption of a Mage",
+              "sequence_number": 3,
+              "summary": "In the climactic moment, Lyralei must choose between the power to prevent the blight and the moral integrity that defines her. She ultimately sacrifices the full return of her powers to complete her quest, thereby redeeming her past while embracing the truth of her transformation. The final fragment is used not to dominate but to save.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Lyralei Thornwick",
+                "object_of_value": "preventing the world-ending blight",
+                "current_state": "aware of her own corruption",
+                "desired_transformation": "to redeem herself while preventing the blight",
+                "opponent": "the corrupting power of the crystal",
+                "opponent_value_logic": "the seduction of dominion",
+                "helper": "her own moral conviction and the truth of her past",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "final confrontation and choice",
+                "resulting_state": "redeemed mage who prevents the blight",
+                "sanction_or_judgment": "her moral choice defines her redemption and ultimate victory",
+                "contribution_to_whole_fabula": "resolves the central conflict and provides closure to Lyralei's arc of redemption and transformation"
+              },
+              "canonical_phase": "manipulation",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "internal",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "chapter": [
+      {
+        "contract": {
+          "id": "dd2ecd85-5479-4d47-83c9-9cff2f901f02",
+          "episode_id": "3987e901-1f64-47bc-afb9-80c67d7d4339",
+          "sequence_number": 0,
+          "title": "The Shattered Past, Chapter 1",
+          "summary": "Lyralei begins her quest to retrieve the crystal fragments, driven by her need for redemption and the desperate hope that she can undo her past catastrophe. Guided only by the cryptic whispers of a long-dead archivist and a stolen map that may be a trap, she ventures into the unknown.",
+          "narrative_programs_active": [],
+          "scenes": [],
+          "chapter_arc_opening": "",
+          "chapter_arc_closing": "",
+          "primary_conflict_type": "interpersonal",
+          "word_count_target": 2500,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T02:01:38.913237+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "dd2ecd85-5479-4d47-83c9-9cff2f901f02",
+              "episode_id": "3987e901-1f64-47bc-afb9-80c67d7d4339",
+              "sequence_number": 0,
+              "title": "The Shattered Past, Chapter 1",
+              "summary": "Lyralei begins her quest to retrieve the crystal fragments, driven by her need for redemption and the desperate hope that she can undo her past catastrophe. Guided only by the cryptic whispers of a long-dead archivist and a stolen map that may be a trap, she ventures into the unknown.",
+              "narrative_programs_active": [],
+              "scenes": [],
+              "chapter_arc_opening": "",
+              "chapter_arc_closing": "",
+              "primary_conflict_type": "interpersonal",
+              "word_count_target": 2500,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "06966936-50d0-49fa-b59d-abc03e45e808",
+          "episode_id": "3987e901-1f64-47bc-afb9-80c67d7d4339",
+          "sequence_number": 0,
+          "title": "The Shattered Past, Chapter 2",
+          "summary": "Lyralei's journey becomes fraught with danger as she encounters the first sign of the rival faction's interference. She finds the first crystal fragment but realizes the map is a trap set by enemy forces.",
+          "narrative_programs_active": [],
+          "scenes": [],
+          "chapter_arc_opening": "",
+          "chapter_arc_closing": "",
+          "primary_conflict_type": "interpersonal",
+          "word_count_target": 2500,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T02:01:38.913237+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "06966936-50d0-49fa-b59d-abc03e45e808",
+              "episode_id": "3987e901-1f64-47bc-afb9-80c67d7d4339",
+              "sequence_number": 0,
+              "title": "The Shattered Past, Chapter 2",
+              "summary": "Lyralei's journey becomes fraught with danger as she encounters the first sign of the rival faction's interference. She finds the first crystal fragment but realizes the map is a trap set by enemy forces.",
+              "narrative_programs_active": [],
+              "scenes": [],
+              "chapter_arc_opening": "",
+              "chapter_arc_closing": "",
+              "primary_conflict_type": "interpersonal",
+              "word_count_target": 2500,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "7dad2bee-12fd-436e-b594-e2cb470ba1f4",
+          "episode_id": "3987e901-1f64-47bc-afb9-80c67d7d4339",
+          "sequence_number": 0,
+          "title": "The Shattered Past, Chapter 3",
+          "summary": "Lyralei's growing distrust of the archivist's guidance leads her to uncover hidden truths about her own past failure. She begins to suspect that her previous actions may have been more complex than she thought, and that the rival faction might be manipulating her from within.",
+          "narrative_programs_active": [],
+          "scenes": [],
+          "chapter_arc_opening": "",
+          "chapter_arc_closing": "",
+          "primary_conflict_type": "interpersonal",
+          "word_count_target": 2500,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T02:01:38.913237+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "7dad2bee-12fd-436e-b594-e2cb470ba1f4",
+              "episode_id": "3987e901-1f64-47bc-afb9-80c67d7d4339",
+              "sequence_number": 0,
+              "title": "The Shattered Past, Chapter 3",
+              "summary": "Lyralei's growing distrust of the archivist's guidance leads her to uncover hidden truths about her own past failure. She begins to suspect that her previous actions may have been more complex than she thought, and that the rival faction might be manipulating her from within.",
+              "narrative_programs_active": [],
+              "scenes": [],
+              "chapter_arc_opening": "",
+              "chapter_arc_closing": "",
+              "primary_conflict_type": "interpersonal",
+              "word_count_target": 2500,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "3b3c1f54-b58c-4b3f-b1aa-1c7ae5f08697",
+          "episode_id": "236538d8-707d-4bb5-8fe7-17781f044be9",
+          "sequence_number": 0,
+          "title": "The Fragments of Truth, Chapter 1",
+          "summary": "Lyralei continues her quest, now more cautious and skeptical. She begins to understand that the fragments of the crystal may not be just tools for destruction, but keys to understanding the true nature of power and corruption.",
+          "narrative_programs_active": [],
+          "scenes": [],
+          "chapter_arc_opening": "",
+          "chapter_arc_closing": "",
+          "primary_conflict_type": "interpersonal",
+          "word_count_target": 2500,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T02:01:38.913237+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "3b3c1f54-b58c-4b3f-b1aa-1c7ae5f08697",
+              "episode_id": "236538d8-707d-4bb5-8fe7-17781f044be9",
+              "sequence_number": 0,
+              "title": "The Fragments of Truth, Chapter 1",
+              "summary": "Lyralei continues her quest, now more cautious and skeptical. She begins to understand that the fragments of the crystal may not be just tools for destruction, but keys to understanding the true nature of power and corruption.",
+              "narrative_programs_active": [],
+              "scenes": [],
+              "chapter_arc_opening": "",
+              "chapter_arc_closing": "",
+              "primary_conflict_type": "interpersonal",
+              "word_count_target": 2500,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "cc3bebc2-679a-479a-a4db-80de242980f4",
+          "episode_id": "236538d8-707d-4bb5-8fe7-17781f044be9",
+          "sequence_number": 0,
+          "title": "The Fragments of Truth, Chapter 2",
+          "summary": "Lyralei encounters a mysterious ally who reveals that the archivist is not who he seems to be. This revelation forces her to re-evaluate everything she thought she knew about her mission and the forces that manipulate her.",
+          "narrative_programs_active": [],
+          "scenes": [],
+          "chapter_arc_opening": "",
+          "chapter_arc_closing": "",
+          "primary_conflict_type": "interpersonal",
+          "word_count_target": 2500,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T02:01:38.913237+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "cc3bebc2-679a-479a-a4db-80de242980f4",
+              "episode_id": "236538d8-707d-4bb5-8fe7-17781f044be9",
+              "sequence_number": 0,
+              "title": "The Fragments of Truth, Chapter 2",
+              "summary": "Lyralei encounters a mysterious ally who reveals that the archivist is not who he seems to be. This revelation forces her to re-evaluate everything she thought she knew about her mission and the forces that manipulate her.",
+              "narrative_programs_active": [],
+              "scenes": [],
+              "chapter_arc_opening": "",
+              "chapter_arc_closing": "",
+              "primary_conflict_type": "interpersonal",
+              "word_count_target": 2500,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "abfdd928-7d25-4138-8a90-7cd38194e5c3",
+          "episode_id": "236538d8-707d-4bb5-8fe7-17781f044be9",
+          "sequence_number": 0,
+          "title": "The Fragments of Truth, Chapter 3",
+          "summary": "With her newfound understanding of the true nature of her mission, Lyralei decides to take control of her destiny. She realizes that the key to stopping the end of the world lies not in the fragments themselves, but in understanding the deeper truths about power, sacrifice, and redemption.",
+          "narrative_programs_active": [],
+          "scenes": [],
+          "chapter_arc_opening": "",
+          "chapter_arc_closing": "",
+          "primary_conflict_type": "interpersonal",
+          "word_count_target": 2500,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-08T02:01:38.913237+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "abfdd928-7d25-4138-8a90-7cd38194e5c3",
+              "episode_id": "236538d8-707d-4bb5-8fe7-17781f044be9",
+              "sequence_number": 0,
+              "title": "The Fragments of Truth, Chapter 3",
+              "summary": "With her newfound understanding of the true nature of her mission, Lyralei decides to take control of her destiny. She realizes that the key to stopping the end of the world lies not in the fragments themselves, but in understanding the deeper truths about power, sacrifice, and redemption.",
+              "narrative_programs_active": [],
+              "scenes": [],
+              "chapter_arc_opening": "",
+              "chapter_arc_closing": "",
+              "primary_conflict_type": "interpersonal",
+              "word_count_target": 2500,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      }
+    ]
+  },
+  "field_locks": {}
+}
