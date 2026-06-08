@@ -76,6 +76,14 @@ class OutlinePlanner(BaseAgent):
 
     def _normalize_episode(self, ep_data: dict[str, Any]) -> dict[str, Any]:
         """Fix common LLM output issues like wrong case on enum fields."""
+        # Convert None values in greimas_tracking to empty strings
+        gt = ep_data.get("greimas_tracking")
+        if isinstance(gt, dict):
+            for key in list(gt.keys()):
+                if gt[key] is None:
+                    gt[key] = ""
+            ep_data["greimas_tracking"] = gt
+
         phase = ep_data.get("canonical_phase", "")
         if isinstance(phase, str):
             lower = phase.lower()
@@ -83,6 +91,22 @@ class OutlinePlanner(BaseAgent):
                 if lower == valid:
                     ep_data["canonical_phase"] = valid
                     break
+
+        dc = ep_data.get("dominant_conflict", "")
+        if isinstance(dc, str):
+            valid_conflicts = {"internal", "interpersonal", "institutional", "environmental", "epistemic", "metaphysical", "systemic"}
+            lower_dc = dc.lower().replace(" ", "_")
+            if lower_dc in valid_conflicts:
+                ep_data["dominant_conflict"] = lower_dc
+            else:
+                ep_data["dominant_conflict"] = "interpersonal"
+
+        for arc_field in ("emotional_arc_opening", "emotional_arc_closing"):
+            val = ep_data.get(arc_field)
+            if isinstance(val, str):
+                valid_emotions = {"joy", "trust", "fear", "surprise", "sadness", "disgust", "anger", "anticipation"}
+                lower_val = val.lower()
+                ep_data[arc_field] = lower_val if lower_val in valid_emotions else "anticipation"
         return ep_data
 
     def _fallback_episodes(self) -> list[dict[str, Any]]:

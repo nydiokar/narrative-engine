@@ -308,7 +308,6 @@ class Director:
                 if result.errors:
                     for err in result.errors:
                         self.log(f"    Error: {err}")
-                break
 
         return results
 

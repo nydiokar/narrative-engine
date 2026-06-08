@@ -146,12 +146,21 @@ class BaseAgent(ABC):
         )
 
         self.log("info", f"Calling LLM for step '{context.step_id}'")
-        response = self.llm.generate(
-            system_prompt=system_prompt,
-            user_prompt=user_prompt,
-            temperature=0.7,
-            max_tokens=4096,
-        )
+        try:
+            response = self.llm.generate(
+                system_prompt=system_prompt,
+                user_prompt=user_prompt,
+                temperature=0.7,
+                max_tokens=4096,
+            )
+        except Exception as e:
+            self.log("error", f"LLM call failed for step '{context.step_id}': {e}")
+            return {
+                "success": False,
+                "message": f"LLM call failed for step '{context.step_id}'",
+                "errors": [str(e)],
+                "artifacts": [],
+            }
 
         try:
             parsed = parse_json_output(response.content)
