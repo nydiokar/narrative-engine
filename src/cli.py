@@ -44,7 +44,6 @@ _proj_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _proj_root not in sys.path:
     sys.path.insert(0, _proj_root)
 
-import json
 
 from src.agents.director import Director
 from src.agents.llm import MockLLMProvider, OpenAILLMProvider, SubprocessLLMProvider, set_llm, reset_llm

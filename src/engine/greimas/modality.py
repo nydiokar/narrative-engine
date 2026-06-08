@@ -7,7 +7,7 @@ and combination rules.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Union
+from typing import Any
 
 from src.contracts.models import (
     BeingAbleState,

@@ -31,7 +31,6 @@ from src.agents.theme_specialist import ThemeSpecialist
 from src.agents.world_researcher import WorldResearcher
 from src.agents.store import ContractStore, get_store
 from src.contracts.models import Medium
-from src.engine.config import get_settings
 
 
 def default_agent_registry(

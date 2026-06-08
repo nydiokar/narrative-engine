@@ -11,7 +11,6 @@ Flow:
 from __future__ import annotations
 
 import json
-import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -65,6 +64,7 @@ def check_referential_integrity(
     store: ContractStore,
     contracts: list[BaseModel],
     type_key: str,
+    pending_ids: set[str] | None = None,
 ) -> list[str]:
     """Run referential integrity checks on contracts being committed.
 
@@ -75,14 +75,22 @@ def check_referential_integrity(
       - characters: episode.character_ids / scene character references must exist
       - critiques: target_id must resolve to an existing contract
 
+    Args:
+        store: Contract store with currently committed contracts.
+        contracts: List of contracts being committed this batch.
+        type_key: Contract type key (e.g. "scene", "episode").
+        pending_ids: Set of IDs being committed in this batch.
+            References to pending IDs are not flagged as violations.
+
     Returns list of violation messages (empty = all clean).
     """
     violations: list[str] = []
+    pending = pending_ids or set()
 
-    episode_ids = {str(c.id) for c in store.list_by_type("episode")}
-    chapter_ids = {str(c.id) for c in store.list_by_type("chapter")}
-    scene_ids = {str(c.id) for c in store.list_by_type("scene")}
-    character_ids = {str(c.id) for c in store.list_by_type("character")}
+    episode_ids = {str(c.id) for c in store.list_by_type("episode")} | pending
+    chapter_ids = {str(c.id) for c in store.list_by_type("chapter")} | pending
+    scene_ids = {str(c.id) for c in store.list_by_type("scene")} | pending
+    character_ids = {str(c.id) for c in store.list_by_type("character")} | pending
     critique_target_ids = episode_ids | chapter_ids | scene_ids
 
     for c in contracts:
@@ -205,8 +213,9 @@ def commit_agent_output(
     # 1. Validate
     validated = validate_output(raw_data, model, many=many)
 
-    # 2. Referential integrity
-    violations = check_referential_integrity(store, validated, type_key)
+    # 2. Referential integrity (allow intra-batch cross-references)
+    pending_ids = {str(c.id) for c in validated if hasattr(c, "id")}
+    violations = check_referential_integrity(store, validated, type_key, pending_ids=pending_ids)
     if violations:
         raise RuntimeError(f"Referential integrity violations for {type_key}:\n" + "\n".join(violations))
 

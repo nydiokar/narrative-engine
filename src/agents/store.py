@@ -305,7 +305,6 @@ class ContractStore:
     def load(self, path: str) -> None:
         """Deserialize the store from a JSON file, merging into existing state."""
         import json
-        from datetime import datetime
 
         from pydantic import BaseModel
 
@@ -406,7 +405,6 @@ class ContractStore:
 
     def restore(self, snapshot_data: dict[str, list[dict[str, Any]]]) -> None:
         """Restore store state from a snapshot (clears current state first)."""
-        from datetime import datetime
 
         from pydantic import BaseModel
 

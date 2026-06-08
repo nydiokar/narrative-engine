@@ -23,11 +23,10 @@ from __future__ import annotations
 import json
 import os
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any
-from uuid import uuid4
 
 
 # ── Role name mapping: Python snake_case → OpenCode kebab-case ──────
@@ -212,8 +211,10 @@ class SubprocessLLMProvider(LLMProvider):
         if not self.cmd_template:
             self.cmd_template = (
                 "opencode run --dir {run_dir} --agent {agent} "
-                "--file {user_file} --format json "
-                '"Execute the task in {user_file}. Write ONLY valid JSON to {output_file}."'
+                "--file {system_file} --file {user_file} --format json "
+                '"Read the system prompt in {system_file} for your role. '
+                'Execute the task in {user_file}. '
+                'Write ONLY valid JSON to {output_file}."'
             )
         self.timeout = int(os.getenv("LLM_SUBPROCESS_TIMEOUT", "300"))
         self.runs_root = Path(os.getenv("LLM_RUNS_DIR", "runs"))
@@ -234,7 +235,6 @@ class SubprocessLLMProvider(LLMProvider):
         context: GenerationContext | None = None,
     ) -> LLMResponse:
         import subprocess
-        import shutil
 
         agent_role = context.agent_role if context else "unknown"
         semantic_agent = role_to_semantic_agent(agent_role)

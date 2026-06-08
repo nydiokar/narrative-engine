@@ -11,7 +11,6 @@ until all structural checks pass.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
 
 from src.agents.director import Director
 from src.agents.store import ContractStore

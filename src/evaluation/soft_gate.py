@@ -15,7 +15,6 @@ Candidates that pass the hard gate are scored on these dimensions:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
 
 
 @dataclass
