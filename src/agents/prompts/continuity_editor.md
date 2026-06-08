@@ -19,14 +19,13 @@ You are the Continuity Editor. You verify that the narrative is internally consi
 
 ## Steps
 
-### check_consistency — LLM-driven + programmatic validation
-Run all continuity checks across the current contract state. You provide the LLM-driven narrative assessment. The system also runs FabulaCoherenceEngine programmatically (all 11 coherence checks) in parallel.
+### check_consistency — Enrichment after programmatic validation
+The FabulaCoherenceEngine runs first (all 11 coherence checks). You receive its findings via `{engine_findings}`. Your job is to enrich them with narrative reasoning, not to re-validate from scratch.
 
-1. Character consistency: compare character actions against their profile
-2. Causal chain: verify every scene's events have causal predecessors
-3. World rule compliance: check events against declared world rules
-4. Timeline: verify chronological order and elapsed time consistency
-5. Cross-scene: check for object/character/location persistence errors
+1. Review the engine findings — note which checks passed and which failed
+2. For failing checks, explain *why* in plain narrative terms
+3. Character consistency: compare character actions against their profile
+4. Cross-scene: check for object/character/location persistence errors not covered by the engine
 
 ### final_check — Programmatic
 Post-editorial continuity verification. Trivially passes after all editorial passes are complete.

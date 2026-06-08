@@ -34,6 +34,22 @@ class ContinuityEditor(BaseAgent):
         return self._final_check(context)
 
     def _check_consistency(self, context: AgentContext) -> AgentResult:
+        scenes = self.list_contracts("scene")
+        scenes_data = [s.model_dump(mode="json") for s in scenes if hasattr(s, "model_dump")]
+        episodes = self.list_contracts("episode")
+        episodes_data = [e.model_dump(mode="json") for e in episodes if hasattr(e, "model_dump")]
+        report = FabulaCoherenceEngine.run_all_checks(scenes=scenes_data, episodes=episodes_data)
+
+        engine_findings = {
+            "passed": report.passed,
+            "summary": report.summary,
+            "checks": [
+                {"name": c.name, "passed": c.passed, "violations": c.violations}
+                for c in report.checks
+            ],
+        }
+        context.metadata["engine_findings"] = engine_findings
+
         result = self._call_llm_for_step(context)
         contract_data = result.get("contract_data")
         if isinstance(contract_data, dict):
@@ -45,11 +61,6 @@ class ContinuityEditor(BaseAgent):
             )
             self.write_contract("critique", cc)
 
-        scenes = self.list_contracts("scene")
-        scenes_data = [s.model_dump(mode="json") for s in scenes if hasattr(s, "model_dump")]
-        episodes = self.list_contracts("episode")
-        episodes_data = [e.model_dump(mode="json") for e in episodes if hasattr(e, "model_dump")]
-        report = FabulaCoherenceEngine.run_all_checks(scenes=scenes_data, episodes=episodes_data)
         if report.passed:
             return AgentResult(success=True, message="Continuity check passed")
         return AgentResult(
