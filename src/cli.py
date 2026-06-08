@@ -46,7 +46,7 @@ if _proj_root not in sys.path:
 import json
 
 from src.agents.director import Director
-from src.agents.llm import MockLLMProvider, OpenAILLMProvider, set_llm, reset_llm
+from src.agents.llm import MockLLMProvider, OpenAILLMProvider, SubprocessLLMProvider, set_llm, reset_llm
 from src.agents.store import get_store, reset_store
 from src.contracts.models import Medium, StoryContract
 from src.pipeline.checkpoints import CHECKPOINT_ORDER, run_to_checkpoint
@@ -71,6 +71,11 @@ def _setup_llm(use_real_llm: bool, model_name: str | None):
     if use_real_llm:
         provider = OpenAILLMProvider(model=model_name)
         print(f"\nReal LLM: {provider.model} @ {provider.client.base_url}\n")
+        set_llm(provider)
+        return
+    if os.getenv("LLM_SUBPROCESS_CMD"):
+        provider = SubprocessLLMProvider()
+        print(f"\nAgent subprocess: {provider.cmd_template[:120]}...\n")
         set_llm(provider)
         return
     from scripts.demo import MOCK_RESPONSES
