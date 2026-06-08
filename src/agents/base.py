@@ -131,18 +131,21 @@ class BaseAgent(ABC):
         """
         upstream_yaml = self._gather_upstream_yaml()
         medium = context.metadata.get("medium", "book")
+        extra_meta = {k: v for k, v in context.metadata.items() if k not in ("medium",)}
 
         system_prompt = render_system_prompt(
             self.role,
             upstream_contracts=upstream_yaml,
             current_step=context.step_id,
             medium=medium,
+            **extra_meta,
         )
         user_prompt = render_user_prompt(
             step_id=context.step_id,
             upstream_yaml=upstream_yaml,
             agent_name=self.role,
             medium=medium,
+            **extra_meta,
         )
 
         self.log("info", f"Calling LLM for step '{context.step_id}'")

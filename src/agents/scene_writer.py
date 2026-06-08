@@ -53,6 +53,8 @@ class SceneWriter(BaseAgent):
             fallback = []
             for ch in chapters:
                 ep_id = str(ch.episode_id) if getattr(ch, "episode_id", None) else None
+                ch_title = getattr(ch, "title", "unknown")
+                ch_summary = getattr(ch, "summary", "") or ch_title
                 for i in range(2):
                     fallback.append({
                         "chapter_id": str(ch.id),
@@ -64,14 +66,14 @@ class SceneWriter(BaseAgent):
                         "scene_type": "confrontation",
                         "canonical_phase": "performance",
                         "emotional_tone": "anticipation",
-                        "content": f"The {getattr(ch, 'title', 'unknown')} continued. The scene unfolded with deliberate pacing, each moment building upon the last. Characters moved through the space, their actions revealing hidden motivations. The air carried the weight of unspoken tensions as the narrative threaded forward through action and reaction, cause and consequence.",
+                        "content": f"Chapter: {ch_title}. {ch_summary} The scene unfolded with deliberate pacing, each moment building upon the last.",
                         "characters_present": [],
                         "greimas_diagnostic": {
-                            "state_before": "Initial state",
-                            "action_occurs": "Key action",
-                            "state_after": "Transformed state",
+                            "state_before": "Initial state before the events of this scene",
+                            "action_occurs": f"Key action in chapter {ch_title}",
+                            "state_after": "Transformed state resulting from the action",
                             "value_object_change": "transferred",
-                            "future_action_possible_or_blocked": "Next scene enabled",
+                            "future_action_possible_or_blocked": "Next scene is now enabled",
                             "diagnostic_pass": True,
                         },
                     })

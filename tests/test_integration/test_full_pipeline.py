@@ -73,7 +73,8 @@ class TestFullPipeline:
         assert c.verdict in ("pass", "needs_revision", "fail")
         assert c.summary
         # Soft gate produces a composite score summary
-        assert "composite" in c.summary
+        soft = next((x for x in critiques if "composite" in x.summary), None)
+        assert soft is not None, f"No soft gate critique found among {len(critiques)} critiques"
 
     # ── Workflow-by-workflow verification ─────────────────────────────
 

@@ -31,6 +31,10 @@ class Critic(BaseAgent):
                 errors=[f"Missing prerequisites: {missing} — go back"],
             )
 
+        metadata = dict(context.metadata)
+        metadata.setdefault("hard_gate_findings", self._get_hard_gate_context())
+        context.metadata = metadata
+
         if context.step_id == "run_hard_gate":
             return self._run_hard_gate(context)
         if context.step_id == "run_soft_gate":
@@ -117,29 +121,65 @@ class Critic(BaseAgent):
             errors=result.failure_reasons,
         )
 
+    def _get_hard_gate_context(self) -> str:
+        critiques = self.list_contracts("critique")
+        for c in critiques:
+            if getattr(c, "target_type", "") == "story_draft":
+                return f"Hard gate verdict: {c.verdict}\nSummary: {c.summary}"
+        return "Hard gate: not yet run"
+
+    def _validate_scores_consistency(
+        self,
+        dimension_scores: dict[str, int],
+    ) -> list[str]:
+        warnings: list[str] = []
+        values = list(dimension_scores.values())
+        if not values:
+            return warnings
+        avg = sum(values) / len(values)
+        high_count = sum(1 for v in values if v >= 9)
+        low_count = sum(1 for v in values if v <= 3)
+        if high_count >= len(values) - 1:
+            warnings.append(f"Score inflation detected: {high_count}/{len(values)} scores >= 9")
+        if low_count == len(values):
+            warnings.append(f"All scores <= 3 — possible floor effect")
+        if avg > 8.5:
+            warnings.append(f"Average {avg:.1f} suggests systematic inflation — recalibrate")
+        for w in warnings:
+            self.log("warning", f"Score consistency: {w}")
+        return warnings
+
     def _run_soft_gate(self, context: AgentContext) -> AgentResult:
         gate = SoftGate(threshold=5.0)
 
+        metadata = dict(context.metadata)
+        metadata["hard_gate_findings"] = self._get_hard_gate_context()
+        context.metadata = metadata
+
         llm_result = self._call_llm_for_step(context)
         scores_obtained = False
+        dimension_scores: dict[str, int] = {}
         if llm_result.get("success", False):
             contract_data = llm_result.get("contract_data", {}) or {}
             if isinstance(contract_data, dict):
-                dimension_scores = contract_data.get("dimension_scores", {})
-                if isinstance(dimension_scores, dict) and dimension_scores:
+                raw_scores = contract_data.get("dimension_scores", {})
+                if isinstance(raw_scores, dict) and raw_scores:
                     dimension_notes = contract_data.get("dimension_notes", {}) or {}
-                    for dim_name, score in dimension_scores.items():
+                    for dim_name, score in raw_scores.items():
                         try:
                             numeric_score = int(score) if not isinstance(score, int) else score
                             if 0 <= numeric_score <= 10:
                                 note = dimension_notes.get(dim_name, "") if isinstance(dimension_notes, dict) else ""
                                 gate.set_score(dim_name, numeric_score, notes=str(note))
+                                dimension_scores[dim_name] = numeric_score
                                 scores_obtained = True
                             else:
                                 self.log("warning", f"Soft gate score for '{dim_name}' out of range: {score}")
                         except (ValueError, TypeError):
                             self.log("warning", f"Soft gate non-numeric score for '{dim_name}': {score}")
-        if not scores_obtained:
+        if scores_obtained:
+            self._validate_scores_consistency(dimension_scores)
+        else:
             self.log("warning", "Soft gate LLM returned no scores — using fallback mid-range")
             gate.set_score("genre_fit", 5)
             gate.set_score("thematic_clarity", 5)
@@ -153,12 +193,14 @@ class Critic(BaseAgent):
 
         s_result = gate.evaluate()
 
-        critique_list = self.list_contracts("critique")
-        if critique_list:
-            c = critique_list[0]
-            c.verdict = "pass" if s_result.passed else "needs_revision"
-            c.summary = f"Soft gate: composite={s_result.composite_score:.1f}/{s_result.threshold}"
-            self.write_contract("critique", c)
+        soft_critique = CritiqueContract(
+            target_id=None,
+            target_type="story_draft",
+            reviewer="critic",
+            verdict="pass" if s_result.passed else "needs_revision",
+            summary=f"Soft gate: composite={s_result.composite_score:.1f}/{s_result.threshold}",
+        )
+        self.write_contract("critique", soft_critique)
 
         if s_result.passed:
             return AgentResult(success=True, message=f"Soft gate: PASS ({s_result.composite_score:.1f})")

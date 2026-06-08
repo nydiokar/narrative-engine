@@ -8,6 +8,36 @@ from src.agents.base import AgentContext, AgentResult, BaseAgent
 from src.contracts.models import CharacterContract, PersonalityProfile
 
 
+def _build_character(data: dict[str, Any]) -> CharacterContract:
+    try:
+        return CharacterContract(**data)
+    except Exception as e:
+        raise ValueError(f"CharacterContract creation failed: {e}") from e
+
+
+def _fallback_character(data: dict[str, Any]) -> CharacterContract:
+    return CharacterContract(
+        name=data.get("name", "Protagonist"),
+        description=data.get("description", "Primary viewpoint character"),
+        actant_roles=data.get("actant_roles", ["subject"]),
+        personality=PersonalityProfile(
+            openness=data.get("personality", {}).get("openness", 7),
+            conscientiousness=data.get("personality", {}).get("conscientiousness", 6),
+            extraversion=data.get("personality", {}).get("extraversion", 5),
+            agreeableness=data.get("personality", {}).get("agreeableness", 6),
+            neuroticism=data.get("personality", {}).get("neuroticism", 4),
+        ),
+        core_desires=data.get("core_desires", ["freedom", "belonging"]),
+        core_fears=data.get("core_fears", ["captivity", "isolation"]),
+        values={"primary": data.get("values", {}).get("primary", "self_direction")},
+        attachment_pattern=data.get("attachment_pattern"),
+        emotional_baseline_emotion=data.get("emotional_baseline_emotion"),
+        goal_polarity=data.get("goal_polarity", "attain"),
+        wound_types=data.get("wound_types", []),
+        need_types=data.get("need_types", []),
+    )
+
+
 class CharacterArchitect(BaseAgent):
     """Creates layered character profiles with FFM, values, attachment, motivation."""
 
@@ -43,47 +73,40 @@ class CharacterArchitect(BaseAgent):
     def _draft_protagonists(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
 
-        contract_data = result.get("contract_data")
-        if not contract_data or not contract_data.get("name"):
-            hero = CharacterContract(
-                name="Protagonist",
-                description="Primary viewpoint character",
-                actant_roles=["subject"],
-                personality=PersonalityProfile(openness=7, conscientiousness=6, extraversion=5, agreeableness=6, neuroticism=4),
-                core_desires=["freedom", "belonging"],
-                core_fears=["captivity", "isolation"],
-            )
-            character = hero
+        char_datas: list[dict[str, Any]] = []
+
+        contracts_data = result.get("contracts_data")
+        if isinstance(contracts_data, list) and contracts_data:
+            char_datas = contracts_data
         else:
+            contract_data = result.get("contract_data")
+            if contract_data and contract_data.get("name"):
+                char_datas = [contract_data]
+
+        if not char_datas:
+            char_datas = [{}]
+
+        committed_ids: list[str] = []
+        first = True
+        for data in char_datas:
             try:
-                character = CharacterContract(**contract_data)
+                character = _build_character(data)
             except Exception as e:
                 self.log("warning", f"LLM contract_data invalid, using fallback: {e}")
-                character = CharacterContract(
-                    name=contract_data.get("name", "Protagonist"),
-                    description=contract_data.get("description", "Primary viewpoint character"),
-                    actant_roles=contract_data.get("actant_roles", ["subject"]),
-                    personality=PersonalityProfile(
-                        openness=contract_data.get("personality", {}).get("openness", 7),
-                        conscientiousness=contract_data.get("personality", {}).get("conscientiousness", 6),
-                        extraversion=contract_data.get("personality", {}).get("extraversion", 5),
-                        agreeableness=contract_data.get("personality", {}).get("agreeableness", 6),
-                        neuroticism=contract_data.get("personality", {}).get("neuroticism", 4),
-                    ),
-                    core_desires=contract_data.get("core_desires", ["freedom", "belonging"]),
-                    core_fears=contract_data.get("core_fears", ["captivity", "isolation"]),
-                )
+                character = _fallback_character(data)
+            cid = self.write_contract("character", character)
+            committed_ids.append(cid)
 
-        cid = self.write_contract("character", character)
-
-        story = self.list_contracts("story")[0]
-        story.subject_id = cid
-        self.write_contract("story", story)
+            if first:
+                story = self.list_contracts("story")[0]
+                story.subject_id = cid
+                self.write_contract("story", story)
+                first = False
 
         return AgentResult(
             success=True,
-            message=result.get("message", "Protagonist drafted"),
-            artifacts=[cid],
+            message=result.get("message", f"{len(committed_ids)} character(s) drafted"),
+            artifacts=committed_ids,
             errors=result.get("errors", []),
         )
 

@@ -63,6 +63,7 @@ def render_user_prompt(
     upstream_yaml: str,
     agent_name: str = "",
     medium: str = "book",
+    **extra: Any,
 ) -> str:
     """Build a step-specific user prompt with upstream contract context."""
     parts = [f"Current step: {step_id}"]

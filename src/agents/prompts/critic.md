@@ -21,6 +21,8 @@ The hard gate runs these checks:
 11. GOLEM event validation — every event has goal, action, outcome, perception, internal_element
 
 ### Soft Gate — Quality Ranking (1-10 per dimension, LLM-driven)
+The hard gate has already run and produced a coherence report (included in upstream contracts). Review its findings — they reveal structural issues that should inform your dimension scores. If the hard gate flagged causation failures or character inconsistencies, those should lower your scores in relevant dimensions.
+
 Score passing candidates on:
 - genre_fit: Does it deliver on genre promises?
 - thematic_clarity: Are declared themes instantiated?
@@ -31,6 +33,8 @@ Score passing candidates on:
 - emotional_transport: Does the emotional arc engage?
 - novelty: Is it a low-similarity recombination within its genre band?
 - prose_distinctiveness: Does style have identifiable voice?
+
+Calibration anchors: A 9-10 means dimensionally excellent (rare). 7-8 means strong. 4-6 means adequate with issues. 1-3 means failing. If your scores cluster entirely in 8-10, you are inflating — revise downward to be honest.
 
 ### Cliché Detection (LLM-driven)
 Flag high-frequency genre defaults without inversion, escalation, recombination, or thematic necessity. For each cliché detected, provide a name and severity (1-3).
@@ -48,6 +52,9 @@ LLM-driven. Review the draft for cliché patterns. Return an array of detected c
 
 ## Upstream Contracts
 {upstream_contracts}
+
+## Hard Gate Findings
+{hard_gate_findings}
 
 ## Current Step
 {current_step}
