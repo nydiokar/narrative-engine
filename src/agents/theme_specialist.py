@@ -18,6 +18,8 @@ class ThemeSpecialist(BaseAgent):
         return ["story"]
 
     def execute(self, context: AgentContext) -> AgentResult:
+        if context.step_id not in ("select_themes", "select_genre", "validate_thematic_fit"):
+            return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
         missing = self.check_prerequisites(context.step_id)
         if missing:
             return AgentResult(
@@ -30,7 +32,6 @@ class ThemeSpecialist(BaseAgent):
             return self._select_genre(context)
         if context.step_id == "validate_thematic_fit":
             return self._validate_thematic_fit(context)
-        return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
     def _validate_theme_contract(self, theme: ThemeContract) -> list[str]:
         violations: list[str] = []

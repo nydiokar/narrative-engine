@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import Any
 
 from src.agents.base import AgentContext, AgentResult, BaseAgent
@@ -48,7 +49,7 @@ class ContinuityEditor(BaseAgent):
                 for c in report.checks
             ],
         }
-        context.metadata["engine_findings"] = engine_findings
+        context.metadata["engine_findings"] = json.dumps(engine_findings, indent=2)
 
         result = self._call_llm_for_step(context)
         contract_data = result.get("contract_data")
