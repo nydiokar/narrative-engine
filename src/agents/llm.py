@@ -1,14 +1,21 @@
-"""LLM interface — abstract provider, mock/stub for testing, and real provider.
+"""LLM interface — abstract provider, mock/stub for testing, and real providers.
 
-The real provider uses the OpenAI-compatible API and can talk to any
-OpenAI-compatible endpoint (OpenAI, Azure, Ollama, opencode's own LLM, etc.)
+Architecture:
+  Python Agent (logic) → LLMProvider (abstraction) → Backend (concrete)
+
+Three providers:
+  - OpenAILLMProvider   — OpenAI-compatible HTTP API (Ollama, OpenAI, etc.)
+  - SubprocessLLMProvider — CLI subprocess (opencode run, custom scripts)
+  - MockLLMProvider     — canned responses for testing
 
 Environment variables:
-    LLM_API_KEY       — API key (default: "ollama" for local use)
-    LLM_BASE_URL      — Base URL (default: http://localhost:11434/v1 for Ollama)
-    LLM_MODEL         — Model name (default: llama3.2)
-    LLM_MAX_TOKENS    — Max tokens per call (default: 4096)
-    LLM_TEMPERATURE   — Temperature (default: 0.7)
+  LLM_API_KEY            — API key (default: "ollama" for local use)
+  LLM_BASE_URL           — Base URL (default: http://localhost:11434/v1 for Ollama)
+  LLM_MODEL              — Model name (default: llama3.2)
+  LLM_MAX_TOKENS         — Max tokens per call (default: 4096)
+  LLM_TEMPERATURE        — Temperature (default: 0.7)
+  LLM_SUBPROCESS_CMD     — CLI command template for SubprocessLLMProvider
+  LLM_SUBPROCESS_TIMEOUT — Timeout in seconds (default: 300)
 """
 
 from __future__ import annotations
@@ -17,7 +24,42 @@ import json
 import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, ClassVar
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+from uuid import uuid4
+
+
+# ── Role name mapping: Python snake_case → OpenCode kebab-case ──────
+
+_ROLE_TO_SEMANTIC_AGENT: dict[str, str] = {
+    "showrunner": "showrunner",
+    "structuralist": "structuralist",
+    "character_architect": "character-architect",
+    "character_simulator": "character-simulator",
+    "theme_specialist": "theme-specialist",
+    "world_researcher": "world-researcher",
+    "outline_planner": "outline-planner",
+    "chapter_planner": "chapter-planner",
+    "scene_writer": "scene-writer",
+    "continuity_editor": "continuity-editor",
+    "copy_editor": "copy-editor",
+    "developmental_editor": "developmental-editor",
+    "line_editor": "line-editor",
+    "proofreader": "proofreader",
+    "revision_agent": "revision-agent",
+    "script_editor": "script-editor",
+    "dialogue_specialist": "dialogue-specialist",
+    "critic": "critic",
+}
+
+
+def role_to_semantic_agent(role: str) -> str:
+    """Map Python agent role name to OpenCode semantic agent filename (kebab-case)."""
+    return _ROLE_TO_SEMANTIC_AGENT.get(role, role.replace("_", "-"))
+
+
+# ── Data classes ─────────────────────────────────────────────────────
 
 
 @dataclass
@@ -25,6 +67,23 @@ class LLMResponse:
     content: str
     raw: dict[str, Any] | None = None
     tokens_used: int = 0
+
+
+@dataclass
+class GenerationContext:
+    """Context passed from the logic agent to the LLM provider.
+
+    The provider uses this to select the correct backend agent config,
+    create run directories, and log execution metadata.
+    """
+
+    agent_role: str = ""
+    step_id: str = ""
+    workflow_id: str = ""
+    medium: str = "book"
+
+
+# ── Abstract provider ────────────────────────────────────────────────
 
 
 class LLMProvider(ABC):
@@ -37,11 +96,12 @@ class LLMProvider(ABC):
         user_prompt: str,
         temperature: float = 0.7,
         max_tokens: int = 4096,
+        context: GenerationContext | None = None,
     ) -> LLMResponse:
         ...
 
 
-# ── Real Provider (OpenAI-compatible) ────────────────────────────────────
+# ── OpenAI-compatible provider ───────────────────────────────────────
 
 
 class OpenAILLMProvider(LLMProvider):
@@ -75,6 +135,7 @@ class OpenAILLMProvider(LLMProvider):
         user_prompt: str,
         temperature: float | None = None,
         max_tokens: int | None = None,
+        context: GenerationContext | None = None,
     ) -> LLMResponse:
         temp = temperature if temperature is not None else self.temperature
         mt = max_tokens if max_tokens is not None else self.max_tokens
@@ -85,6 +146,10 @@ class OpenAILLMProvider(LLMProvider):
             "user": user_prompt[:200],
             "temperature": temp,
             "max_tokens": mt,
+            "context": {
+                "role": context.agent_role if context else None,
+                "step": context.step_id if context else None,
+            },
         })
 
         response = self.client.chat.completions.create(
@@ -106,42 +171,59 @@ class OpenAILLMProvider(LLMProvider):
         )
 
 
-# ── Subprocess Provider (agent-agnostic CLI harness) ────────────────────
+# ── Subprocess provider (OpenCode / CLI backend) ────────────────────
 
 
 class SubprocessLLMProvider(LLMProvider):
-    """Calls any CLI command instead of an LLM API.
+    """Calls a CLI command instead of an LLM API, with run directory isolation.
 
-    The command receives prompts via temp files and produces JSON output
-    via stdout or a temp file. This is agent-agnostic — swap in opencode,
-    ollama, a custom agent script, etc.
+    Each call creates an isolated run directory:
+      runs/{run_id}/step_{step_id}/
+        task.md              — instruction for the agent
+        input/
+          system_prompt.md   — system prompt
+          context.json       — upstream contract context
+          schema.json        — expected output schema
+        output/
+          result.json        — agent writes its output here
+        logs/
+          stdout.txt         — captured stdout
+          stderr.txt         — captured stderr
+          metadata.json      — call metadata
 
-    Environment variables (set LLM_SUBPROCESS_CMD to activate):
-        LLM_SUBPROCESS_CMD — CLI command template with placeholders:
-            {system_file}  — path to temp file with system prompt
-            {user_file}    — path to temp file with user prompt
-            {output_file}  — path to output file (agent writes JSON here)
-        LLM_SUBPROCESS_TIMEOUT — timeout in seconds (default: 300)
+    The command template supports these placeholders:
+      {system_file}  — path to system prompt file
+      {user_file}    — path to user prompt / task file
+      {output_file}  — path where agent should write JSON output
+      {run_dir}      — path to the run step directory
 
-    Example commands:
-      opencode:  opencode run --file {user_file} --format json --dangerously-skip-permissions
-                 "Read the attached file. Produce ONLY a JSON object and write it to {output_file}"
-      ollama:    ollama run gemma3:12b < {user_file} > {output_file}
-      custom:    python agent_script.py --system {system_file} --user {user_file} --output {output_file}
+    Default command (set LLM_SUBPROCESS_CMD to override):
+      opencode run --dir {run_dir} --agent {agent} --file {user_file} --format json
+        "Execute the task in task.md. Write JSON output to {output_file}."
     """
 
-    def __init__(self, cmd_template: str | None = None) -> None:
-        import shutil
+    _run_counter: int = 0
 
+    def __init__(self, cmd_template: str | None = None) -> None:
         self.cmd_template = (
             cmd_template
             or os.getenv("LLM_SUBPROCESS_CMD", "")
         )
         if not self.cmd_template:
-            msg = "LLM_SUBPROCESS_CMD not set — provide a command template or set the env var"
-            raise ValueError(msg)
+            self.cmd_template = (
+                "opencode run --dir {run_dir} --agent {agent} "
+                "--file {user_file} --format json "
+                '"Execute the task in {user_file}. Write ONLY valid JSON to {output_file}."'
+            )
         self.timeout = int(os.getenv("LLM_SUBPROCESS_TIMEOUT", "300"))
+        self.runs_root = Path(os.getenv("LLM_RUNS_DIR", "runs"))
         self.call_log: list[dict[str, Any]] = []
+
+    @classmethod
+    def _next_run_id(cls) -> str:
+        cls._run_counter += 1
+        now = datetime.now().strftime("%Y%m%d_%H%M%S")
+        return f"run_{now}_{cls._run_counter:03d}"
 
     def generate(
         self,
@@ -149,36 +231,74 @@ class SubprocessLLMProvider(LLMProvider):
         user_prompt: str,
         temperature: float = 0.7,
         max_tokens: int = 4096,
+        context: GenerationContext | None = None,
     ) -> LLMResponse:
         import subprocess
-        import tempfile
-        import os
+        import shutil
 
-        # Write prompts to temp files
-        sf = tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8")
-        sf.write(system_prompt)
-        sf.close()
-        uf = tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8")
-        uf.write(user_prompt)
-        uf.close()
-        of = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False, encoding="utf-8")
-        of.close()
+        agent_role = context.agent_role if context else "unknown"
+        semantic_agent = role_to_semantic_agent(agent_role)
+        step_id = context.step_id if context else "unknown"
+        workflow_id = context.workflow_id if context else "unknown"
+        medium = context.medium if context else "book"
 
-        cmd = self.cmd_template.format(
-            system_file=sf.name,
-            user_file=uf.name,
-            output_file=of.name,
+        # Create run step directory
+        run_id = self._next_run_id()
+        run_dir = self.runs_root / run_id / f"step_{step_id}"
+        input_dir = run_dir / "input"
+        output_dir = run_dir / "output"
+        logs_dir = run_dir / "logs"
+
+        input_dir.mkdir(parents=True, exist_ok=True)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        logs_dir.mkdir(parents=True, exist_ok=True)
+
+        # Write task.md (user prompt is the instruction)
+        task_path = run_dir / "task.md"
+        task_path.write_text(user_prompt, encoding="utf-8")
+
+        # Write system prompt
+        sys_path = input_dir / "system_prompt.md"
+        sys_path.write_text(system_prompt, encoding="utf-8")
+
+        # Write metadata about the call
+        meta = {
+            "timestamp": datetime.now().isoformat(),
+            "agent_role": agent_role,
+            "semantic_agent": semantic_agent,
+            "workflow_id": workflow_id,
+            "step_id": step_id,
+            "medium": medium,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }
+        (input_dir / "call_metadata.json").write_text(
+            json.dumps(meta, indent=2), encoding="utf-8"
         )
+
+        # Output file
+        output_path = output_dir / "result.json"
+
+        # Build command
+        placeholders = {
+            "system_file": str(sys_path),
+            "user_file": str(task_path),
+            "output_file": str(output_path),
+            "run_dir": str(run_dir),
+            "agent": semantic_agent,
+        }
+        cmd = self.cmd_template.format(**placeholders)
 
         self.call_log.append({
             "cmd": cmd,
-            "system_file": sf.name,
-            "user_file": uf.name,
-            "output_file": of.name,
+            "run_dir": str(run_dir),
+            "agent": semantic_agent,
+            "step_id": step_id,
             "temperature": temperature,
             "max_tokens": max_tokens,
         })
 
+        # Execute
         try:
             result = subprocess.run(
                 cmd,
@@ -193,19 +313,17 @@ class SubprocessLLMProvider(LLMProvider):
             stdout_content = ""
             stderr_content = "TIMEOUT"
 
-        # Prefer output file, fall back to stdout
+        # Save logs
+        (logs_dir / "stdout.txt").write_text(stdout_content, encoding="utf-8")
+        (logs_dir / "stderr.txt").write_text(stderr_content, encoding="utf-8")
+        (logs_dir / "metadata.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
+
+        # Read output: prefer output/result.json, fall back to stdout
         content = ""
-        if os.path.exists(of.name):
-            with open(of.name, "r", encoding="utf-8") as f:
-                content = f.read()
-            os.unlink(of.name)
+        if output_path.exists():
+            content = output_path.read_text(encoding="utf-8")
         if not content and stdout_content:
             content = stdout_content
-
-        # Cleanup temp files
-        for p in (sf.name, uf.name):
-            if os.path.exists(p):
-                os.unlink(p)
 
         if not content:
             content = json.dumps({
@@ -217,6 +335,8 @@ class SubprocessLLMProvider(LLMProvider):
 
         return LLMResponse(content=content, tokens_used=len(content))
 
+
+# ── Mock provider (testing) ──────────────────────────────────────────
 
 
 @dataclass
@@ -244,6 +364,7 @@ class MockLLMProvider(LLMProvider):
         user_prompt: str,
         temperature: float = 0.7,
         max_tokens: int = 4096,
+        context: GenerationContext | None = None,
     ) -> LLMResponse:
         self.call_log.append({
             "system": system_prompt,
@@ -266,30 +387,58 @@ class MockLLMProvider(LLMProvider):
         return LLMResponse(content=self.fallback, tokens_used=len(self.fallback))
 
 
-# ── Singleton ────────────────────────────────────────────────────────────
+# ── Singleton ────────────────────────────────────────────────────────
 
+_PROVIDER_TYPE: str | None = None
 _provider: LLMProvider | None = None
 
 
 def get_llm() -> LLMProvider:
     global _provider
     if _provider is None:
-        if os.getenv("LLM_SUBPROCESS_CMD"):
+        provider_type = _PROVIDER_TYPE or os.getenv("LLM_PROVIDER", "auto")
+        if provider_type == "opencode":
             _provider = SubprocessLLMProvider()
-        elif os.getenv("LLM_BASE_URL") or os.getenv("LLM_API_KEY"):
+        elif provider_type == "openai":
             _provider = OpenAILLMProvider()
-        else:
+        elif provider_type == "mock":
             _provider = MockLLMProvider(
                 fallback='{"success": true, "message": "Mock response", "errors": [], "artifacts": []}'
             )
+        elif provider_type == "auto":
+            if os.getenv("LLM_SUBPROCESS_CMD") or os.getenv("LLM_PROVIDER") == "opencode":
+                _provider = SubprocessLLMProvider()
+            elif os.getenv("LLM_BASE_URL") or os.getenv("LLM_API_KEY"):
+                _provider = OpenAILLMProvider()
+            else:
+                _provider = MockLLMProvider(
+                    fallback='{"success": true, "message": "Mock response", "errors": [], "artifacts": []}'
+                )
+        else:
+            msg = f"Unknown provider type: {provider_type}. Use 'opencode', 'openai', or 'mock'."
+            raise ValueError(msg)
     return _provider
 
 
-def set_llm(provider: LLMProvider) -> None:
-    global _provider
+def set_llm(provider: LLMProvider, provider_type: str | None = None) -> None:
+    global _provider, _PROVIDER_TYPE
     _provider = provider
+    if provider_type:
+        _PROVIDER_TYPE = provider_type
+
+
+def set_provider_type(provider_type: str) -> None:
+    """Set the provider type for the next get_llm() call.
+
+    Args:
+        provider_type: One of "opencode", "openai", "mock", "auto".
+    """
+    global _PROVIDER_TYPE, _provider
+    _PROVIDER_TYPE = provider_type
+    _provider = None  # Force re-creation on next get_llm()
 
 
 def reset_llm() -> None:
-    global _provider
+    global _provider, _PROVIDER_TYPE
     _provider = None
+    _PROVIDER_TYPE = None

@@ -13,6 +13,7 @@ Commands:
 
 Global flags:
     --model TEXT       LLM model name (implies real LLM)
+    --provider TEXT    LLM provider: opencode, openai, mock (overrides auto-detect)
     --medium TEXT      Output medium: book, animation, movie, series
     --premise TEXT     Custom premise string
     --save PATH        Save pipeline state after run
@@ -66,17 +67,42 @@ DEFAULT_PREMISE = (
 CHECKPOINT_HELP = ", ".join(CHECKPOINT_ORDER)
 
 
-def _setup_llm(use_real_llm: bool, model_name: str | None):
+def _setup_llm(
+    use_real_llm: bool = False,
+    model_name: str | None = None,
+    provider_type: str | None = None,
+):
     reset_llm()
-    if use_real_llm:
+
+    # Provider flag takes precedence
+    if provider_type == "opencode":
+        p = SubprocessLLMProvider()
+        print(f"\nOpenCode subprocess: {p.cmd_template[:120]}...\n")
+        set_llm(p, provider_type="opencode")
+        return
+    if provider_type == "mock":
+        from scripts.demo import MOCK_RESPONSES
+        mock = MockLLMProvider()
+        for trigger, response in MOCK_RESPONSES.items():
+            mock.add_rule(trigger, response)
+        set_llm(mock, provider_type="mock")
+        return
+
+    # Fall back to real LLM or auto-detect
+    if use_real_llm and provider_type != "opencode":
         provider = OpenAILLMProvider(model=model_name)
         print(f"\nReal LLM: {provider.model} @ {provider.client.base_url}\n")
-        set_llm(provider)
+        set_llm(provider, provider_type="openai")
+        return
+    if provider_type == "openai":
+        provider = OpenAILLMProvider(model=model_name)
+        print(f"\nReal LLM: {provider.model} @ {provider.client.base_url}\n")
+        set_llm(provider, provider_type="openai")
         return
     if os.getenv("LLM_SUBPROCESS_CMD"):
-        provider = SubprocessLLMProvider()
-        print(f"\nAgent subprocess: {provider.cmd_template[:120]}...\n")
-        set_llm(provider)
+        p = SubprocessLLMProvider()
+        print(f"\nAgent subprocess: {p.cmd_template[:120]}...\n")
+        set_llm(p, provider_type="opencode")
         return
     from scripts.demo import MOCK_RESPONSES
     mock = MockLLMProvider()
@@ -162,11 +188,12 @@ def _apply_set_flags(store: Any, set_args: list[str]) -> None:
 
 
 def cmd_run(args: list[str]):
-    """python -m src run [--to CHECKPOINT] [--model NAME] [--premise TEXT] [--save PATH] [--load PATH] [--lock TYPE]"""
+    """python -m src run [--to CHECKPOINT] [--model NAME] [--premise TEXT] [--save PATH] [--load PATH] [--lock TYPE] [--provider opencode|openai|mock]"""
     target = None
     premise = DEFAULT_PREMISE
     use_real_llm = False
     model_name = None
+    provider_type = None
     medium = Medium.BOOK
     save_path = None
     load_path = None
@@ -180,8 +207,13 @@ def cmd_run(args: list[str]):
         elif arg == "--premise" and i + 1 < len(args):
             premise = args[i + 1]
         elif arg == "--model" and i + 1 < len(args):
-            use_real_llm = True
             model_name = args[i + 1]
+            if provider_type != "opencode":
+                use_real_llm = True
+        elif arg == "--provider" and i + 1 < len(args):
+            provider_type = args[i + 1]
+            if provider_type == "opencode":
+                use_real_llm = False  # --model is handled differently for opencode
         elif arg == "--medium" and i + 1 < len(args):
             medium = Medium(args[i + 1])
         elif arg == "--save" and i + 1 < len(args):
@@ -201,7 +233,7 @@ def cmd_run(args: list[str]):
     reset_store()
     store = get_store()
 
-    _setup_llm(use_real_llm, model_name)
+    _setup_llm(use_real_llm=use_real_llm, model_name=model_name, provider_type=provider_type)
 
     if load_path:
         if os.path.exists(load_path):
@@ -266,6 +298,7 @@ def cmd_branch(args: list[str]):
     labels_str = None
     use_real_llm = False
     model_name = None
+    provider_type = None
     medium = Medium.BOOK
     tree_load_path = None
     tree_save_path = None
@@ -285,8 +318,13 @@ def cmd_branch(args: list[str]):
         elif arg == "--labels" and i + 1 < len(args):
             labels_str = args[i + 1]
         elif arg == "--model" and i + 1 < len(args):
-            use_real_llm = True
             model_name = args[i + 1]
+            if provider_type != "opencode":
+                use_real_llm = True
+        elif arg == "--provider" and i + 1 < len(args):
+            provider_type = args[i + 1]
+            if provider_type == "opencode":
+                use_real_llm = False
         elif arg == "--medium" and i + 1 < len(args):
             medium = Medium(args[i + 1])
         elif arg == "--tree-load" and i + 1 < len(args):
@@ -298,7 +336,7 @@ def cmd_branch(args: list[str]):
         elif arg == "--set" and i + 1 < len(args):
             set_args.append(args[i + 1])
 
-    _setup_llm(use_real_llm, model_name)
+    _setup_llm(use_real_llm=use_real_llm, model_name=model_name, provider_type=provider_type)
     agents = default_agent_registry(store=get_store())
 
     tree = TreeStore()

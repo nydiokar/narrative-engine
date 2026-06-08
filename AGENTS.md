@@ -27,6 +27,10 @@ The CLI lives in `src/cli.py` and dispatches subcommands:
 | Subcommands | `cmd_run`, `cmd_branch`, `cmd_compare`, etc. in `src/cli.py` |
 | Tree executor | `src/tree/executor.py` — `branch()`, `compare()`, `promote()`, `prune()` |
 | Tree node + store | `src/tree/node.py` — `TreeNode`, `TreeStore` |
+| LLM providers | `src/agents/llm.py` — `OpenAILLMProvider`, `SubprocessLLMProvider`, `MockLLMProvider` |
+| Atomic commit | `src/pipeline/commit.py` — `commit_agent_output()`, `validate_output()`, `check_referential_integrity()` |
+| Semantic agents | `.opencode/agents/*.md` — 18 agent configs (model, temp, permissions, system prompt) |
+| Project config | `opencode.json` — default model provider config |
 | Tests | `tests/test_tree/test_node.py`, `tests/test_tree/test_executor.py` |
 
 ## Tree Commands
@@ -51,6 +55,68 @@ Handled in `src/tree/executor.py:_apply_variant()`:
 - `conflict` — sets `episode.dominant_conflict` on all episodes
 
 `seed`, `tone`, and `theme` have no corresponding contract fields — removed as vary field options.
+
+## Provider Selection
+
+Three LLM backends, switchable at runtime:
+
+| Provider | Flag | Backend |
+|----------|------|---------|
+| OpenCode | `--provider opencode` | `SubprocessLLMProvider` — calls `opencode run --agent <role>` (uses `.opencode/agents/*.md` semantic agent configs) |
+| OpenAI | `--provider openai` | `OpenAILLMProvider` — standard OpenAI-compatible HTTP (Ollama, OpenAI, etc.) |
+| Mock | `--provider mock` | `MockLLMProvider` — canned responses for testing |
+
+Examples:
+```
+python -m src run --to premise --provider opencode
+python -m src run --to final --provider openai --model qwen3-coder
+python -m src run --to scene --provider mock
+```
+
+The `LLM_PROVIDER` env var can also set it: `export LLM_PROVIDER=opencode`
+
+## Architecture: Logic Agents + Semantic Agents
+
+Every pipeline role has **two** agent configs:
+
+| Layer | File | Purpose |
+|-------|------|---------|
+| Logic agent | `src/agents/*.py` | Python class — validation, routing, diagnostics, fallbacks, assembly. Owns the logic. |
+| Semantic agent | `.opencode/agents/*.md` | OpenCode config — model binding, temperature, permissions, system prompt. Owns the model interface. |
+
+The flow is:
+```
+Director → logic agent (Python) → LLMProvider → semantic agent (OpenCode agent config) → backend model
+```
+
+To connect the semantic agent config for a new backend, just change the `model` field in `.opencode/agents/*.md` or the default in `opencode.json`.
+
+## Run Directory Structure
+
+When using `--provider opencode`, each LLM call creates an isolated run directory:
+```
+runs/
+  run_20260608_125530_001/
+    step_select_themes/
+      task.md                     # instruction for the agent
+      input/
+        system_prompt.md          # system prompt from role template
+        call_metadata.json        # step, role, workflow info
+      output/
+        result.json               # agent writes output here
+      logs/
+        stdout.txt                # captured stdout
+        stderr.txt                # captured stderr
+        metadata.json             # execution metadata
+    step_analyze_premise/
+      ...
+  store/
+    committed/
+      story/{id}.json
+      character/{id}.json
+      ...
+    commits/commit.log.jsonl
+```
 
 ## Building Docs
 

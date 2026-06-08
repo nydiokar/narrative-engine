@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from logging import Logger
 from typing import Any
 
-from src.agents.llm import LLMProvider, get_llm
+from src.agents.llm import GenerationContext, LLMProvider, get_llm
 from src.agents.prompts import (
     contracts_to_yaml,
     parse_json_output,
@@ -146,12 +146,21 @@ class BaseAgent(ABC):
         )
 
         self.log("info", f"Calling LLM for step '{context.step_id}'")
+
+        gen_ctx = GenerationContext(
+            agent_role=self.role,
+            step_id=context.step_id,
+            workflow_id=context.workflow_id,
+            medium=context.metadata.get("medium", "book"),
+        )
+
         try:
             response = self.llm.generate(
                 system_prompt=system_prompt,
                 user_prompt=user_prompt,
                 temperature=0.7,
                 max_tokens=4096,
+                context=gen_ctx,
             )
         except Exception as e:
             self.log("error", f"LLM call failed for step '{context.step_id}': {e}")
