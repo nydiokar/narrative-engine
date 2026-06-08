@@ -20,7 +20,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [src]
+          paths: [C:\Users\Cicada38\Projects\narrative-engine\src]
           options:
             show_source: true
             show_root_heading: true
