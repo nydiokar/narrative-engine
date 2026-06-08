@@ -104,11 +104,44 @@ class Showrunner(BaseAgent):
         )
 
     def _assemble_draft(self, context: AgentContext) -> AgentResult:
-        result = self._call_llm_for_step(context)
+        from pathlib import Path
+
+        story = self.list_contracts("story")
+        episodes = sorted(self.list_contracts("episode"), key=lambda e: e.sequence_number)
+        chapters = self.list_contracts("chapter")
+        scenes = self.list_contracts("scene")
+
+        lines = []
+        title = story[0].title if story else "Untitled"
+        lines.append(f"# {title}\n")
+
+        for ep in episodes:
+            ep_chapters = [ch for ch in chapters if getattr(ch, "episode_id", None) == ep.id]
+            if not ep_chapters:
+                continue
+            lines.append(f"\n## Episode {ep.sequence_number}: {ep.title}\n")
+            for ch in ep_chapters:
+                ch_scenes = [s for s in scenes if getattr(s, "chapter_id", None) == ch.id]
+                ch_scenes = sorted(ch_scenes, key=lambda s: s.sequence_number)
+                if not ch_scenes:
+                    continue
+                lines.append(f"\n### {ch.title}\n")
+                for s in ch_scenes:
+                    if s.content:
+                        lines.append(s.content + "\n")
+
+        draft_text = "\n".join(lines)
+
+        output_dir = Path("output")
+        output_dir.mkdir(exist_ok=True)
+        draft_path = output_dir / "draft.md"
+        draft_path.write_text(draft_text, encoding="utf-8")
+
+        char_count = len(draft_text)
         return AgentResult(
-            success=result.get("success", False),
-            message=result.get("message", "Draft assembled"),
-            errors=result.get("errors", []),
+            success=True,
+            message=f"Draft assembled: {char_count} chars across {len(episodes)} episodes, {len(scenes)} scenes",
+            artifacts=[str(draft_path)],
         )
 
     def _assemble_script(self, context: AgentContext) -> AgentResult:

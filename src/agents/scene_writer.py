@@ -52,11 +52,20 @@ class SceneWriter(BaseAgent):
             chapters = self.list_contracts("chapter")
             fallback = []
             for ch in chapters:
+                ep_id = str(ch.episode_id) if getattr(ch, "episode_id", None) else None
                 for i in range(2):
                     fallback.append({
                         "chapter_id": str(ch.id),
+                        "episode_id": ep_id,
                         "sequence_number": i,
                         "setting_location": "unknown",
+                        "setting_time": "unknown",
+                        "setting_atmosphere": "neutral",
+                        "scene_type": "confrontation",
+                        "canonical_phase": "performance",
+                        "emotional_tone": "anticipation",
+                        "content": f"The {getattr(ch, 'title', 'unknown')} continued. The scene unfolded with deliberate pacing, each moment building upon the last. Characters moved through the space, their actions revealing hidden motivations. The air carried the weight of unspoken tensions as the narrative threaded forward through action and reaction, cause and consequence.",
+                        "characters_present": [],
                         "greimas_diagnostic": {
                             "state_before": "Initial state",
                             "action_occurs": "Key action",
@@ -77,6 +86,11 @@ class SceneWriter(BaseAgent):
                     interpersonal=Intensity.MEDIUM,
                     internal=Intensity.LOW,
                 )
+                # Ensure episode_id is set from chapter if not present
+                if not sc.episode_id and sc.chapter_id:
+                    ch = self.read_contract("chapter", str(sc.chapter_id))
+                    if ch and getattr(ch, "episode_id", None):
+                        sc.episode_id = ch.episode_id
                 sid = self.write_contract("scene", sc)
                 artifacts.append(sid)
             except Exception as e:
@@ -120,10 +134,9 @@ class SceneWriter(BaseAgent):
         return AgentResult(success=True, message="All scenes pass Greimas diagnostic")
 
     def _normalize_scene(self, sc_data: dict[str, Any]) -> dict[str, Any]:
-        # LLM often returns fake/invalid UUIDs — strip them, we want auto-generated
-        for id_field in ("id", "episode_id", "chapter_id"):
-            if id_field in sc_data:
-                del sc_data[id_field]
+        # Strip only fake/invalid UUIDs — preserve episode_id and chapter_id
+        if "id" in sc_data:
+            del sc_data["id"]
         # Remap common LLM field errors
         if "greimas_tracking" in sc_data and "greimas_diagnostic" not in sc_data:
             self.log("warning", "LLM used greimas_tracking instead of greimas_diagnostic — remapping")
@@ -153,6 +166,12 @@ class SceneWriter(BaseAgent):
             cp = sc_data["canonical_phase"]
             if isinstance(cp, str) and cp.lower() in valid_phases:
                 sc_data["canonical_phase"] = cp.lower()
+        if "emotional_tone" in sc_data:
+            valid_emotions = {"joy", "trust", "fear", "surprise", "sadness", "disgust", "anger", "anticipation"}
+            et = sc_data["emotional_tone"]
+            if isinstance(et, str):
+                lower_et = et.lower()
+                sc_data["emotional_tone"] = lower_et if lower_et in valid_emotions else "anticipation"
         return sc_data
 
     def _finalize_scenes(self, context: AgentContext) -> AgentResult:
