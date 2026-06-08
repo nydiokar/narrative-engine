@@ -10,9 +10,8 @@ A SCENE has ONLY the fields listed below. Do not add chapter-level fields.
 
 ## Required Scene Fields
 
-Every scene in contracts_data must have these exact fields:
+Every scene you produce must have these exact fields:
 
-- chapter_id: UUID of parent chapter (string)
 - sequence_number: 0, 1, 2... (integer)
 - setting_location: where the scene takes place (string)
 - setting_time: time of day (string)
@@ -24,13 +23,19 @@ Every scene in contracts_data must have these exact fields:
 - characters_present: array of objects, each with id, emotion, intensity (list)
 - greimas_diagnostic: object with 5 sub-fields (see below)
 
-Do NOT add: modality_gained_or_lost, action_type, resulting_state, sanction_or_judgment, contribution_to_whole_fabula, narrative_programs_active, themes_active, primary_conflict_type, word_count_target, status, propp_functions, emotional_arc_opening, emotional_arc_closing, character_arc_opening, character_arc_closing, scenes, title, summary, sequence_type, stakes_type.
+Do NOT include: id, episode_id, chapter_id (system auto-generates these), modality_gained_or_lost, action_type, resulting_state, sanction_or_judgment, contribution_to_whole_fabula, narrative_programs_active, themes_active, primary_conflict_type, word_count_target, status, propp_functions, emotional_arc_opening, emotional_arc_closing, character_arc_opening, character_arc_closing, scenes, title, summary, sequence_type, stakes_type, characters (use characters_present instead).
+
+## Field Name Warnings
+
+The system automatically remaps these common mistakes — but it's better to get them right:
+- Use `characters_present`, NOT `characters`
+- Use `greimas_diagnostic`, NOT `greimas_tracking`
+- All IDs are auto-generated — do not include `id`, `episode_id`, or `chapter_id` in your scene objects
 
 ## Concrete Example of a Scene
 
-Below is the exact shape of one scene in contracts_data:
+Below is the exact shape of one scene:
 
-- chapter_id: "a1b2c3d4-e5f6-..."
 - sequence_number: 0
 - setting_location: "Abandoned warehouse district"
 - setting_time: "Night"
@@ -58,6 +63,8 @@ Below is the exact shape of one scene in contracts_data:
 - value_object_change: a compound like "fear_to_courage" proving state transformation. NOT "none", "unchanged", or empty.
 - future_action_possible_or_blocked: what narrative door opens or closes (non-empty string)
 
+The system validates these programmatically after you provide them. Every field must be non-empty and substantive.
+
 ## Content Format by Medium — CRITICAL
 
 The target medium is: {medium}
@@ -66,17 +73,16 @@ IMPORTANT: The "content" field must be READABLE and SUBSTANTIVE. Minimum 100 wor
 
 ### For "book":
 Full narrative prose with POV and interiority. Write paragraph(s) of actual story text. Include sensory detail, action, dialogue, and internal state. The content should read like a page from a novel.
-- Minimum 100 words, ideally 150-300 words per scene
 - Use the established POV (e.g., third limited)
 - Include at least one line of dialogue per scene (unless solo)
-- Example (NOT a summary): '"The rain hadn't stopped for three days. Kael pulled his collar up and stepped into the alley, the cobblestones slick under his boots. A figure waited at the far end — hooded, still. "You're late," the figure said. Kael's hand drifted to his belt knife. "I'm exactly on time. You're the one who's early." The figure laughed, a dry sound like gravel. "Always the poet. Come on, then. She's waiting." And then the figure turned and vanished into a doorway that Kael could have sworn wasn't there a moment ago.'"
+- Example: '"The rain hadn't stopped for three days. Kael pulled his collar up and stepped into the alley, the cobblestones slick under his boots. A figure waited at the far end — hooded, still. "You're late," the figure said. Kael's hand drifted to his belt knife. "I'm exactly on time. You're the one who's early." The figure laughed, a dry sound like gravel. "Always the poet. Come on, then. She's waiting." And then the figure turned and vanished into a doorway that Kael could have sworn wasn't there a moment ago."'
 
 ### For "animation":
-Visual descriptions with blocking, dialogue, camera suggestions, motion notes. Write in storyboard-narrative style. Include character action and spoken lines.
+Visual descriptions with blocking, dialogue, camera suggestions, motion notes. Write in storyboard-narrative style.
 - Camera cues: CLOSE UP, WIDE SHOT, PAN TO, CUT TO, etc.
 - Character blocking and key poses
 - Dialogue with character names
-- Action descriptions emphasize motion and timing
+- Action descriptions emphasize motion and timing over interiority
 
 ### For "movie":
 Screenplay action lines and dialogue. Character names in caps before dialogue. Present tense, visual descriptions only (no interiority).
@@ -95,14 +101,35 @@ Sound-rich description with SFX cues and dialogue. Describe what the listener he
 
 ## Steps
 
-render_prose / render_visual_scene / render_cinematic_scene / render_television_scene:
-  Convert chapters into 2-3 scenes each. Follow the scene format above.
+### Render steps — LLM-driven
+These steps call you to generate scene content. The step name determines the medium:
+- `render_prose` → medium: "book"
+- `render_visual_scene` → medium: "animation"
+- `render_cinematic_scene` → medium: "movie"
+- `render_television_scene` → medium: "series"
 
-run_greimas_diagnostic:
-  Review scenes and run the 5-question diagnostic.
+Convert chapters into 2-3 scenes each. Follow the scene format above.
 
-finalize_prose / finalize_script / finalize_screenplay / finalize_teleplay:
-  Polish scene content for the target medium.
+### run_greimas_diagnostic — Programmatic
+No LLM call. The system validates each scene's greimas_diagnostic fields against the 5-question diagnostic engine. Your responsibility is to provide good diagnostic data during rendering.
+
+### Finalize steps — LLM-driven
+Polish scene content for the target medium:
+- `finalize_prose` → prose polish for "book"
+- `finalize_script` → script polish for "animation"
+- `finalize_screenplay` → screenplay polish for "movie"
+- `finalize_teleplay` → teleplay polish for "series"
+
+Improve pacing, dialogue, and medium-specific formatting. Do not change structural elements (scene_type, canonical_phase, greimas_diagnostic).
+
+## Output
+
+Return a JSON object with:
+- `success`: true or false
+- `message`: brief summary of what you produced
+- `errors`: array of strings, empty if success
+- `artifacts`: array of strings, empty for render steps
+- `contracts_data`: array of scene objects (each following the Required Scene Fields above) — REQUIRED for render steps
 
 ## Upstream Contracts
 {upstream_contracts}

@@ -19,6 +19,13 @@ class ChapterPlanner(BaseAgent):
             return self._divide_episodes(context)
         return AgentResult(success=False, errors=[f"Unknown step: {context.step_id}"])
 
+    def _normalize_conflict_type(self, raw: str) -> str:
+        if not isinstance(raw, str):
+            return "interpersonal"
+        valid = {"internal", "interpersonal", "institutional", "environmental", "epistemic", "metaphysical", "systemic"}
+        lower = raw.lower().replace(" ", "_")
+        return lower if lower in valid else "interpersonal"
+
     def _divide_episodes(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         contracts_data = result.get("contracts_data")
@@ -33,7 +40,7 @@ class ChapterPlanner(BaseAgent):
                         summary=ch_data.get("summary", ""),
                         chapter_arc_opening=ch_data.get("chapter_arc_opening", ""),
                         chapter_arc_closing=ch_data.get("chapter_arc_closing", ""),
-                        primary_conflict_type=ch_data.get("primary_conflict_type", "interpersonal"),
+                        primary_conflict_type=self._normalize_conflict_type(ch_data.get("primary_conflict_type", "interpersonal")),
                         word_count_target=ch_data.get("word_count_target", 2500),
                     )
                     cid = self.write_contract("chapter", ch)
