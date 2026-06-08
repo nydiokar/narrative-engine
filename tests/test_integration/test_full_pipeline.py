@@ -72,6 +72,8 @@ class TestFullPipeline:
         c = critiques[0]
         assert c.verdict in ("pass", "needs_revision", "fail")
         assert c.summary
+        # Soft gate produces a composite score summary
+        assert "composite" in c.summary
 
     # ── Workflow-by-workflow verification ─────────────────────────────
 
@@ -142,6 +144,93 @@ class TestFullPipeline:
         store = get_store()
         critiques = store.list_by_type("critique")
         assert len(critiques) >= 1
+
+    # ── Coherence engine verification ────────────────────────────────
+
+    def test_hard_gate_receives_episodes_for_propp_and_todorov(self):
+        self._seed_story()
+        orchestrator = PipelineOrchestrator()
+        for wid in ("00-brief-and-taxonomy", "01-seed-to-premise", "02-premise-to-structure", "03-structure-to-episodes"):
+            orchestrator.run_workflow(wid)
+
+        store = get_store()
+        episodes = store.list_by_type("episode")
+        assert len(episodes) == 4
+
+        from src.engine.fabula.coherence import FabulaCoherenceEngine
+        episodes_data = [e.model_dump(mode="json") for e in episodes if hasattr(e, "model_dump")]
+        report = FabulaCoherenceEngine.run_all_checks(episodes=episodes_data)
+        propp_check = [c for c in report.checks if c.name == "propp_sequence"][0]
+        todorov_check = [c for c in report.checks if c.name == "todorov_equilibrium"][0]
+        assert propp_check.passed is True
+        assert todorov_check.passed is True
+
+    def test_golem_events_generate_from_pipeline_story(self):
+        self._seed_story()
+        orchestrator = PipelineOrchestrator()
+        orchestrator.run()
+
+        store = get_store()
+        story = store.list_by_type("story")[0]
+
+        from src.engine.golem.generator import GolemEventGenerator
+        events = GolemEventGenerator.generate_all_events(story=story)
+        assert len(events) == 11
+
+        golem_dicts = [e.to_dict() for e in events]
+        for d in golem_dicts:
+            assert d["goal"]
+            assert d["action_type"]
+            assert d["outcome"]
+            assert d["perception"]
+            assert d["internal_element"]
+
+    def test_pipeline_scenes_pass_multiple_coherence_checks(self):
+        self._seed_story()
+        orchestrator = PipelineOrchestrator()
+        orchestrator.run()
+
+        store = get_store()
+        scenes = store.list_by_type("scene")
+        assert len(scenes) == 24
+
+        from src.engine.fabula.coherence import FabulaCoherenceEngine
+        scenes_data = [s.model_dump(mode="json") for s in scenes if hasattr(s, "model_dump")]
+
+        events_data: list[dict] = []
+        for i, scene in enumerate(scenes_data):
+            diag = scene.get("greimas_diagnostic", {})
+            if not diag:
+                continue
+            preds: list[str] = []
+            if i > 0:
+                prev_id = scenes_data[i - 1].get("id", "")
+                if prev_id:
+                    preds.append(str(prev_id))
+            events_data.append({
+                "id": str(scene.get("id", "")),
+                "actant": "",
+                "action": diag.get("action_occurs", ""),
+                "state_before": diag.get("state_before", ""),
+                "state_after": diag.get("state_after", ""),
+                "value_object_change": diag.get("value_object_change", "none"),
+                "modality_changes": scene.get("modality_changes", []),
+                "unlocks": diag.get("future_action_possible_or_blocked", ""),
+                "blocks": "",
+                "causal_predecessors": preds,
+            })
+
+        assert len(events_data) > 0
+        report = FabulaCoherenceEngine.run_all_checks(events=events_data, scenes=scenes_data)
+        firing_checks = [c for c in report.checks if c.name in (
+            "causal_soundness", "character_intentionality", "stakes_presence",
+            "conflict_active", "event_necessity",
+        )]
+        passed_checks = [c for c in firing_checks if c.passed]
+        assert len(passed_checks) >= 2, (
+            f"Expected at least 2 coherence checks to fire with real data, "
+            f"got {len(passed_checks)}: {[(c.name, c.passed, len(c.violations)) for c in firing_checks]}"
+        )
 
     # ── Edge cases ────────────────────────────────────────────────────
 

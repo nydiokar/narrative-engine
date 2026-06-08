@@ -45,10 +45,10 @@ Score the draft across all 9 quality dimensions. Compute weighted composite. Pas
 Run the 8 Greimas diagnostic checks. Flag cliché patterns. Compute cliché score.
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

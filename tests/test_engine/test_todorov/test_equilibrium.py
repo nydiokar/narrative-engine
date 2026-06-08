@@ -171,4 +171,4 @@ class TestCoherenceEngineIntegration:
         )
         check_names = [c.name for c in report.checks]
         assert "todorov_equilibrium" in check_names
-        assert len(report.checks) == 10
+        assert len(report.checks) == 11

@@ -10,7 +10,6 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from src.engine.fabula.coherence import (
-    FabulaCoherenceCheck,
     FabulaCoherenceEngine,
     FabulaCoherenceReport,
 )
@@ -33,6 +32,7 @@ class HardGate:
         characters: list[dict[str, Any]] | None = None,
         world_rules: list[str] | None = None,
         episodes: list[dict[str, Any]] | None = None,
+        golem_events: list[dict[str, Any]] | None = None,
     ) -> HardGateResult:
         report = FabulaCoherenceEngine.run_all_checks(
             events=events,
@@ -40,6 +40,7 @@ class HardGate:
             characters=characters,
             world_rules=world_rules,
             episodes=episodes,
+            golem_events=golem_events,
         )
 
         failure_reasons: list[str] = []

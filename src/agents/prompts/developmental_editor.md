@@ -28,10 +28,10 @@ Review all contracts (story, theme, character, episode, chapter, scene). Produce
 5. Structural recommendations (specific, actionable)
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

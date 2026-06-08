@@ -29,10 +29,10 @@ Review all scene content and contract text fields. Report:
 6. Overall copy quality score (1-10)
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

@@ -27,10 +27,10 @@ Divide the complete fabula into episodes. For each episode create:
 Output: EpisodeContract entries for each episode.
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

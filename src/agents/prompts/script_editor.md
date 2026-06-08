@@ -46,10 +46,10 @@ You are the Script Editor. You review and refine scene content for screen-based 
 Review all rendered scenes. Apply formatting rules for the target medium. Return refined scenes with corrections.
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

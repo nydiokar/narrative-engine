@@ -105,7 +105,7 @@ finalize_prose / finalize_script / finalize_screenplay / finalize_teleplay:
   Polish scene content for the target medium.
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}

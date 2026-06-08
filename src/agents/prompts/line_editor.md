@@ -28,10 +28,10 @@ Review all scene content strings. For each scene:
 5. Do not rewrite entire scenes — targeted edits only
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

@@ -114,6 +114,7 @@ _ANIMATION_WORKFLOWS: dict[str, list[WorkflowStep]] = {
         WorkflowStep("script_editor", "refine_script"),
         WorkflowStep("revision_agent", "apply_script_changes"),
         WorkflowStep("continuity_editor", "check_consistency"),
+        WorkflowStep("proofreader", "final_check"),
     ],
 }
 
@@ -140,6 +141,7 @@ _MOVIE_WORKFLOWS: dict[str, list[WorkflowStep]] = {
         WorkflowStep("script_editor", "refine_script"),
         WorkflowStep("revision_agent", "apply_script_changes"),
         WorkflowStep("continuity_editor", "check_consistency"),
+        WorkflowStep("proofreader", "final_check"),
     ],
 }
 
@@ -164,6 +166,7 @@ _SERIES_WORKFLOWS: dict[str, list[WorkflowStep]] = {
         WorkflowStep("script_editor", "refine_script"),
         WorkflowStep("revision_agent", "apply_script_changes"),
         WorkflowStep("continuity_editor", "check_consistency"),
+        WorkflowStep("proofreader", "final_check"),
     ],
 }
 

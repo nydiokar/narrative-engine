@@ -9,6 +9,7 @@ from src.contracts.models import CritiqueContract
 from src.evaluation.cliche import ClicheDetector
 from src.evaluation.hard_gate import HardGate
 from src.evaluation.soft_gate import SoftGate
+from src.engine.golem.generator import GolemEventGenerator
 
 
 class Critic(BaseAgent):
@@ -78,12 +79,24 @@ class Critic(BaseAgent):
                 "world_rule_violations": [],
             })
 
+        # Generate GOLEM event data for the 11th coherence check
+        golem_events_data: list[dict[str, Any]] = []
+        if story_list:
+            story = story_list[0]
+            golem_events = GolemEventGenerator.generate_all_events(
+                story=story,
+                episodes=episodes if episodes else None,
+                characters=characters if characters else None,
+            )
+            golem_events_data = [e.to_dict() for e in golem_events]
+
         gate = HardGate()
         result = gate.evaluate(
             scenes=scenes_data,
             events=events_data,
             characters=characters_data,
             episodes=episodes_data,
+            golem_events=golem_events_data,
         )
 
         critique = CritiqueContract(

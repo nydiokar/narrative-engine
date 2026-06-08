@@ -31,10 +31,10 @@ Run all continuity checks across the current contract state:
 Post-editorial continuity verification. Same checks but against the final draft state. Must pass before clearance.
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

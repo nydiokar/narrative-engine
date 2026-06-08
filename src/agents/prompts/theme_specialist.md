@@ -34,10 +34,10 @@ Based on the premise and themes, select the primary BISAC genre code and 1-2 sec
 Review episodes/chapters/scenes and confirm each instantiates at least one declared theme. Report any scene that lacks thematic grounding.
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

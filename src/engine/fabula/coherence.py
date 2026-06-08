@@ -1,4 +1,4 @@
-"""Fabula Coherence Engine — the 10 diagnostic checks for narrative soundness.
+"""Fabula Coherence Engine — the 11 diagnostic checks for narrative soundness.
 
 These checks constitute the hard gate from the evaluation-rubric specification.
 Every narrative artifact must pass all checks or be rejected without scoring.
@@ -34,9 +34,9 @@ class FabulaCoherenceReport:
 
 
 class FabulaCoherenceEngine:
-    """Runs the 10 Fabula Coherence checks on a narrative artifact.
+    """Runs the 11 Fabula Coherence checks on a narrative artifact.
 
-    The 10 checks:
+    The 11 checks:
     1. Causal Soundness — every event follows from prior events
     2. Character Intentionality — every action grounded in motivation
     3. World Rule Consistency — no world-rule violations
@@ -47,6 +47,7 @@ class FabulaCoherenceEngine:
     8. Event Necessity — every event transforms state or enables future
     9. Propp Sequence — functions follow canonical morphology order
     10. Todorov Equilibrium — phases follow canonical narrative arc
+    11. GOLEM Event Validation — every event follows goal→action→outcome→perception→internal_element
     """
 
     CHECK_DEFINITIONS: list[dict[str, str]] = [
@@ -89,6 +90,10 @@ class FabulaCoherenceEngine:
         {
             "name": "todorov_equilibrium",
             "description": "Todorov phases follow canonical narrative arc with no regression.",
+        },
+        {
+            "name": "golem_event_validation",
+            "description": "Every event must follow the GOLEM model: goal, action, outcome, perception, internal_element.",
         },
     ]
 
@@ -346,6 +351,51 @@ class FabulaCoherenceEngine:
             check.passed = False
         return check
 
+    # ── GOLEM event validation check ────────────────────────────────
+
+    @staticmethod
+    def check_golem_event_validation(
+        events: list[dict[str, Any]] | None = None,
+    ) -> FabulaCoherenceCheck:
+        check = FabulaCoherenceCheck(
+            name="golem_event_validation",
+            description="Every event must follow the GOLEM model: goal, action, outcome, perception, internal_element.",
+            passed=True,
+        )
+        if not events:
+            return check
+
+        for i, event in enumerate(events):
+            if not event.get("goal"):
+                check.violations.append(
+                    f"Event[{i}] ({event.get('id', '?')}): missing 'goal' — "
+                    "every event must originate from a character's goal"
+                )
+            if not event.get("action_type") and not event.get("action"):
+                check.violations.append(
+                    f"Event[{i}] ({event.get('id', '?')}): missing 'action_type' or 'action' — "
+                    "action is required between goal and outcome"
+                )
+            if not event.get("outcome"):
+                check.violations.append(
+                    f"Event[{i}] ({event.get('id', '?')}): missing 'outcome' — "
+                    "every action must produce an outcome"
+                )
+            if not event.get("perception"):
+                check.violations.append(
+                    f"Event[{i}] ({event.get('id', '?')}): missing 'perception' — "
+                    "how the actant perceives the outcome must be recorded"
+                )
+            if not event.get("internal_element"):
+                check.violations.append(
+                    f"Event[{i}] ({event.get('id', '?')}): missing 'internal_element' — "
+                    "every event must register an internal/subjective effect"
+                )
+
+        if check.violations:
+            check.passed = False
+        return check
+
     # ── Propp morphology check ──────────────────────────────────────
 
     @staticmethod
@@ -385,6 +435,7 @@ class FabulaCoherenceEngine:
         characters: list[dict[str, Any]] | None = None,
         world_rules: list[str] | None = None,
         episodes: list[dict[str, Any]] | None = None,
+        golem_events: list[dict[str, Any]] | None = None,
     ) -> FabulaCoherenceReport:
         events = events or []
         scenes = scenes or []
@@ -400,6 +451,7 @@ class FabulaCoherenceEngine:
             cls.check_event_necessity(events),
             cls.check_propp_sequence(episodes),
             cls.check_todorov_equilibrium(episodes),
+            cls.check_golem_event_validation(golem_events),
         ]
 
         passed = all(c.passed for c in checks)

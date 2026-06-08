@@ -48,10 +48,10 @@ Read script editor contracts. Apply formatting and medium-specific corrections t
 Read critique contracts. If the verdict is "fail", extract revision_instructions and revision_actions and apply them. If the verdict is "pass", report that no revisions are needed.
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

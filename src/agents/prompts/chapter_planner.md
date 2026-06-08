@@ -31,10 +31,10 @@ Read episode contracts and character arcs. For each episode, produce chapter con
 - narrative_programs_active: which programs from the parent episode are active here
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

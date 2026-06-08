@@ -53,10 +53,10 @@ Run the Fabula Coherence checks on the constructed events and scenes. Verify:
 Report pass/fail with specific violations.
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

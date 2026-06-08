@@ -27,10 +27,10 @@ Review every contract with text content. Produce:
 4. Final clearance certificate or rejection list
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

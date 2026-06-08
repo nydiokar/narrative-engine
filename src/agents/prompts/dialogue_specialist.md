@@ -31,10 +31,10 @@ For each scene in the current episode:
 4. Flag any scene where characters would logically refuse to speak
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:

@@ -46,7 +46,7 @@ class TestFabulaCoherenceEngine:
             events=events, scenes=scenes, characters=characters, episodes=episodes
         )
         assert report.passed is True
-        assert len(report.checks) == 10
+        assert len(report.checks) == 11
 
     def test_causal_soundness_fails_orphan(self):
         events = [
@@ -126,7 +126,7 @@ class TestFabulaCoherenceEngine:
 
     def test_empty_events_no_crash(self):
         report = FabulaCoherenceEngine.run_all_checks()
-        assert len(report.checks) == 10
+        assert len(report.checks) == 11
         # causal_soundness on empty list should pass
         assert report.checks[0].passed is True
 

@@ -30,10 +30,10 @@ For each episode, assign a primary setting that:
 - Has sensory qualities (visual, auditory, tactile) you can describe
 
 ## Upstream Contracts
-{{upstream_contracts}}
+{upstream_contracts}
 
 ## Current Step
-{{current_step}}
+{current_step}
 
 ## Output
 Return a JSON object with:
