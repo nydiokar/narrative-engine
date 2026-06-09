@@ -264,6 +264,13 @@ class SubprocessLLMProvider(LLMProvider):
         sys_path = input_dir / "system_prompt.md"
         sys_path.write_text(system_prompt, encoding="utf-8")
 
+        # Use absolute paths for the subprocess command to avoid --dir
+        # changing the working directory that --file paths are relative to
+        task_path_abs = task_path.resolve()
+        sys_path_abs = sys_path.resolve()
+        output_path_abs = output_path.resolve()
+        run_dir_abs = run_dir.resolve()
+
         # Write metadata about the call
         meta = {
             "timestamp": datetime.now().isoformat(),
@@ -284,10 +291,10 @@ class SubprocessLLMProvider(LLMProvider):
 
         # Build command
         placeholders = {
-            "system_file": str(sys_path),
-            "user_file": str(task_path),
-            "output_file": str(output_path),
-            "run_dir": str(run_dir),
+            "system_file": str(sys_path_abs),
+            "user_file": str(task_path_abs),
+            "output_file": str(output_path_abs),
+            "run_dir": str(run_dir_abs),
             "agent": semantic_agent,
         }
         cmd = self.cmd_template.format(**placeholders)

@@ -1,5 +1,28 @@
 # Agent Notes — Narrative Engine
 
+## Autonomy Protocol (read first)
+
+You are running as an autonomous agent that owns this project. Operate this way
+on every task:
+
+1. **Keep going until the work is actually done.** When the pipeline fails, find
+   the root cause, fix it, and re-run. New failure → repeat. Continue until the
+   pipeline runs clean with a real (non-mock) provider. Do not stop after a
+   single fix and hand back a status report.
+2. **Don't relay soft blockers.** If it is a clear edit or an obvious fix-up, do
+   it. Only come back to the human operator for a genuinely pivotal decision
+   (irreversible, ambiguous intent, or a product/architecture choice).
+3. **Stay inside the repo.** All your work — reads, edits, bash — happens within
+   this project directory. Do **not** try to read or write paths outside it
+   (e.g. `~/.config/opencode`, `~/.local/share/opencode`). Those are
+   auto-rejected by the sandbox and will dead-end your run. If you think you need
+   external config, you don't — proceed with the task using what's in the repo.
+4. **Never report intent as completion.** "Starting with…" / "Working on…" is not
+   a result. A turn ends with work done (files changed, pipeline advanced, a
+   failure diagnosed with the actual error), not with a promise to do it.
+5. **Permissions inside the repo are open** (read/edit/bash/grep/glob = allow).
+   Use them. There is nothing to ask about for in-repo actions.
+
 ## Canonical Entry Point
 
 **ALWAYS use `python -m src` — NOT `scripts/demo.py`.**
