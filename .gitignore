@@ -12,3 +12,6 @@ build/
 narrative_engine.log
 output/
 site/
+
+.env.local
+runs/
