@@ -1,1 +1,0 @@
-$(cat C:\Users\Cicada38\Projects\narrative-engine\runs\run_20260609_180226_008\step_set_world_axes\prompt.txt)

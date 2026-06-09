@@ -1,1 +1,0 @@
-Define world axes for a fantasy story

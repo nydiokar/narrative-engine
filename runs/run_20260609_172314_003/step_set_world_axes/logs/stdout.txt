@@ -1,3 +1,0 @@
-{"type":"error","timestamp":1781014996319,"sessionID":"ses_1533bdb6bffe4VFLb3CzHxN0C4","error":{"name":"UnknownError","data":{"message":""}}}
-{"type":"error","timestamp":1781014996319,"sessionID":"ses_1533bdb6bffe4VFLb3CzHxN0C4","error":{"name":"UnknownError","data":{"message":""}}}
-{"type":"error","timestamp":1781014996339,"sessionID":"ses_1533bdb6bffe4VFLb3CzHxN0C4","error":{"name":"UnknownError","data":{"message":"Unexpected server error. Check server logs for details.","ref":"err_38a7d674"}}}

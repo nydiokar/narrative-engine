@@ -1,1 +1,0 @@
-$(cat C:\Users\Cicada38\Projects\narrative-engine\runs\run_20260609_180051_001\step_select_themes\prompt.txt)
