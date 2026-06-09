@@ -94,23 +94,120 @@ def contracts_to_yaml(contracts: list[Any], max_chars: int = 4000) -> str:
 
 
 def parse_json_output(raw: str) -> dict[str, Any]:
-    """Extract and parse JSON from LLM output (handles markdown code fences)."""
-    cleaned = raw.strip()
+    """Extract and parse JSON from LLM output (handles real-LLM failure modes).
 
-    # Strip markdown code fences if present
-    if cleaned.startswith("```"):
-        lines = cleaned.splitlines()
-        start = 0
-        for i, line in enumerate(lines):
-            if line.startswith("```"):
-                start = i + 1
-                break
-        end = len(lines)
-        for i in range(len(lines) - 1, start - 1, -1):
-            if lines[i].startswith("```"):
-                end = i
-                break
-        cleaned = "\n".join(lines[start:end]).strip()
+    Resilience chain:
+    1. Strip markdown code fences (```json ... ```, etc.)
+    2. Extract first JSON object/array boundary — ignores prefix/suffix text
+    3. Fix trailing commas before ] or }
+    4. Replace single quotes with double quotes for keys
+    5. Try multiple fallback JSON decoders
+    6. Never crash — return a dict with success=False on total failure
+    """
+    import json as _json
+    import re as _re
 
-    import json
-    return json.loads(cleaned)
+    text = raw.strip()
+
+    # ── Step 1: Strip markdown code fences ──────────────────────────
+    if "```" in text:
+        lines = text.splitlines()
+        fence_starts = [i for i, line in enumerate(lines) if line.strip().startswith("```")]
+        if fence_starts:
+            start = fence_starts[0] + 1
+            end = fence_starts[-1] if len(fence_starts) > 1 else len(lines)
+            text = "\n".join(lines[start:end]).strip()
+
+    # ── Step 2: Extract first JSON object or array ──────────────────
+    def _find_json_boundary(s: str) -> str | None:
+        for open_char, close_char in [("{", "}"), ("[", "]")]:
+            start = s.find(open_char)
+            if start == -1:
+                continue
+            depth = 0
+            in_str = False
+            escape = False
+            for i in range(start, len(s)):
+                ch = s[i]
+                if escape:
+                    escape = False
+                    continue
+                if ch == "\\":
+                    escape = True
+                    continue
+                if ch == '"':
+                    in_str = not in_str
+                    continue
+                if in_str:
+                    continue
+                if ch == open_char:
+                    depth += 1
+                elif ch == close_char:
+                    depth -= 1
+                    if depth == 0:
+                        return s[start:i+1]
+        return None
+
+    boundary = _find_json_boundary(text)
+    if boundary:
+        text = boundary
+
+    # ── Step 3: Fix trailing commas ─────────────────────────────────
+    text = _re.sub(r",\s*([}\]])", r"\1", text)
+
+    # ── Step 4: Try common JSON repairs ─────────────────────────────
+    def _try_parse(s: str) -> dict | list | None:
+        try:
+            return _json.loads(s)
+        except _json.JSONDecodeError:
+            pass
+
+        # Try replacing single quotes with double quotes (for keys)
+        try:
+            # Replace single-quoted keys/values with double-quoted
+            fixed = _re.sub(r"'([^']*)'", r'"\1"', s)
+            return _json.loads(fixed)
+        except (_json.JSONDecodeError, _re.error):
+            pass
+
+        # Try basic Python literal eval for dicts/lists
+        if s.startswith("{") or s.startswith("["):
+            try:
+                import ast
+                return ast.literal_eval(s)
+            except (ValueError, SyntaxError, MemoryError):
+                pass
+
+        return None
+
+    result = _try_parse(text)
+    if result is not None:
+        if isinstance(result, list):
+            return {"contracts_data": result, "success": True, "message": "Parsed array output", "errors": [], "artifacts": []}
+        if isinstance(result, dict):
+            return result
+
+    # ── Step 5: Last resort — extract key-value pairs via regex ────
+    extracted: dict[str, Any] = {}
+    try:
+        kv_pattern = _re.compile(r'"(\w+)":\s*"([^"]*)"')
+        for match in kv_pattern.finditer(raw):
+            extracted[match.group(1)] = match.group(2)
+    except (_re.error, Exception):
+        pass
+
+    if extracted:
+        return {
+            "success": True,
+            "message": "Partially parsed from LLM output (regex extraction)",
+            "errors": [f"Raw output truncated: {raw[:300]}"],
+            "artifacts": [],
+            **extracted,
+        }
+
+    return {
+        "success": False,
+        "message": "No valid JSON found in LLM output",
+        "errors": [f"Raw output: {raw[:500]}"],
+        "artifacts": [],
+    }

@@ -96,6 +96,7 @@ class LLMProvider(ABC):
         temperature: float = 0.7,
         max_tokens: int = 4096,
         context: GenerationContext | None = None,
+        timeout: int | None = None,
     ) -> LLMResponse:
         ...
 
@@ -135,6 +136,7 @@ class OpenAILLMProvider(LLMProvider):
         temperature: float | None = None,
         max_tokens: int | None = None,
         context: GenerationContext | None = None,
+        timeout: int | None = None,
     ) -> LLMResponse:
         temp = temperature if temperature is not None else self.temperature
         mt = max_tokens if max_tokens is not None else self.max_tokens
@@ -233,8 +235,9 @@ class SubprocessLLMProvider(LLMProvider):
         temperature: float = 0.7,
         max_tokens: int = 4096,
         context: GenerationContext | None = None,
+        timeout: int | None = None,
     ) -> LLMResponse:
-        import subprocess
+        import subprocess as _subprocess
 
         agent_role = context.agent_role if context else "unknown"
         semantic_agent = role_to_semantic_agent(agent_role)
@@ -289,29 +292,35 @@ class SubprocessLLMProvider(LLMProvider):
         }
         cmd = self.cmd_template.format(**placeholders)
 
+        effective_timeout = timeout if timeout is not None else self.timeout
+
         self.call_log.append({
             "cmd": cmd,
             "run_dir": str(run_dir),
             "agent": semantic_agent,
             "step_id": step_id,
+            "timeout": effective_timeout,
             "temperature": temperature,
             "max_tokens": max_tokens,
         })
 
         # Execute
         try:
-            result = subprocess.run(
+            result = _subprocess.run(
                 cmd,
                 shell=True,
                 capture_output=True,
                 text=True,
-                timeout=self.timeout,
+                timeout=effective_timeout,
             )
             stdout_content = result.stdout or ""
             stderr_content = result.stderr or ""
-        except subprocess.TimeoutExpired:
+        except _subprocess.TimeoutExpired:
             stdout_content = ""
-            stderr_content = "TIMEOUT"
+            stderr_content = f"TIMEOUT after {effective_timeout}s"
+        except OSError as _os_err:
+            stdout_content = ""
+            stderr_content = f"OS error: {_os_err}"
 
         # Save logs
         (logs_dir / "stdout.txt").write_text(stdout_content, encoding="utf-8")
@@ -365,6 +374,7 @@ class MockLLMProvider(LLMProvider):
         temperature: float = 0.7,
         max_tokens: int = 4096,
         context: GenerationContext | None = None,
+        timeout: int | None = None,
     ) -> LLMResponse:
         self.call_log.append({
             "system": system_prompt,

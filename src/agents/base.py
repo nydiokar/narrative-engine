@@ -123,12 +123,16 @@ class BaseAgent(ABC):
     def _call_llm_for_step(
         self,
         context: AgentContext,
+        max_retries: int = 2,
+        retry_delay: float = 2.0,
     ) -> dict[str, Any]:
         """Build prompt from role template, call LLM, parse JSON response.
 
-        Returns the parsed JSON dict from the LLM, or a default
-        success dict if parsing fails.
+        Retries on parse failure up to `max_retries` times with exponential
+        backoff. Returns the parsed JSON dict or a default error dict.
         """
+        import time as _time
+
         upstream_yaml = self._gather_upstream_yaml()
         medium = context.metadata.get("medium", "book")
         extra_meta = {k: v for k, v in context.metadata.items() if k not in ("medium",)}
@@ -157,31 +161,37 @@ class BaseAgent(ABC):
             medium=context.metadata.get("medium", "book"),
         )
 
-        try:
-            response = self.llm.generate(
-                system_prompt=system_prompt,
-                user_prompt=user_prompt,
-                temperature=0.7,
-                max_tokens=4096,
-                context=gen_ctx,
-            )
-        except Exception as e:
-            self.log("error", f"LLM call failed for step '{context.step_id}': {e}")
-            return {
-                "success": False,
-                "message": f"LLM call failed for step '{context.step_id}'",
-                "errors": [str(e)],
-                "artifacts": [],
-            }
+        last_error: str = ""
+        for attempt in range(max_retries + 1):
+            if attempt > 0:
+                self.log("info", f"Retry {attempt}/{max_retries} for step '{context.step_id}'")
+                _time.sleep(retry_delay * (2 ** (attempt - 1)))
 
-        try:
+            try:
+                response = self.llm.generate(
+                    system_prompt=system_prompt,
+                    user_prompt=user_prompt,
+                    temperature=0.7,
+                    max_tokens=4096,
+                    context=gen_ctx,
+                )
+            except Exception as e:
+                last_error = str(e)
+                self.log("error", f"LLM call failed for step '{context.step_id}': {e}")
+                continue
+
             parsed = parse_json_output(response.content)
-            return parsed
-        except Exception as e:
-            self.log("warning", f"Failed to parse LLM output as JSON: {e}")
-            return {
-                "success": False,
-                "message": f"Failed to parse LLM output for step '{context.step_id}'",
-                "errors": [f"JSON parse error: {e}"],
-                "artifacts": [],
-            }
+
+            # Check if parsing produced meaningful output
+            if parsed.get("success") is not False or parsed.get("contracts_data"):
+                return parsed
+
+            last_error = parsed.get("message", "Parse returned no usable data")
+            self.log("warning", f"LLM output parse failure (attempt {attempt+1}): {last_error}")
+
+        return {
+            "success": False,
+            "message": f"LLM call failed for step '{context.step_id}' after {max_retries + 1} attempts",
+            "errors": [last_error],
+            "artifacts": [],
+        }

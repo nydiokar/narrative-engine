@@ -42,6 +42,11 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 - **Hard Gate event feed fixed**: critic.py now extracts `world_rules` from WorldContract, builds character ID→name map, and passes scene-derived events + GOLEM events with actant metadata to `HardGate.evaluate()`. Modality field name mismatch fixed — coherence checks now use `actant_id`/`from_state`/`to_state` keys matching the `ModalityChange` Pydantic model.
 - **Tree UX upgraded**: `compare` renders Rich tables (color-coded verdicts, --detail panels); `diff` shows contract-level field differences; `branch --parallel` for concurrent variant execution via ThreadPoolExecutor.
 - **Pre-existing bugs fixed**: `_find_root_seed()` dead-code while loop corrected; `--set` flag timing in `cmd_branch()` no longer silently ignored.
+- **Phase J groundwork — real-LLM resilience**:
+  - `parse_json_output()` rewritten to handle: markdown fences, extra text around JSON, trailing commas, single-quoted keys, truncated output, array-wrapped results, regex fallback extraction
+  - `BaseAgent._call_llm_for_step()` now retries up to 3 times with exponential backoff on parse failure
+  - `SubprocessLLMProvider.generate()` accepts per-call `timeout` override; catches `OSError` alongside `TimeoutExpired`
+  - All 3 provider signatures accept `timeout` parameter (backward compatible)
 
 ### Critical Path — Phase J (Real-LLM Battle Testing)
 
