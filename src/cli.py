@@ -400,12 +400,21 @@ def cmd_branch(args: list[str]):
         if "nodes" in _header:
             tree.load(tree_load_path)
             print(f"Loaded tree from {tree_load_path} ({tree.size()} nodes)")
+            # Apply --set to root's snapshot so branches inherit modified config
+            if set_args:
+                _store = get_store()
+                _store.restore(tree.root.store_snapshot)
+                _apply_set_flags(_store, set_args)
+                tree.root.store_snapshot = _store.snapshot()
         else:
             # Store file — create root from its snapshot
             from src.agents.store import reset_store as _rs, get_store as _gs
             _rs()
             _store = _gs()
             _store.restore(_header)
+            # Apply --set before capturing seed snapshot
+            if set_args:
+                _apply_set_flags(_store, set_args)
             _snap = _store.snapshot()
             _cd = _snap.get("contracts", {})
             _seed = {"contracts": {k: v for k, v in _cd.items() if k in {"story"}}, "field_locks": {}}
@@ -413,6 +422,9 @@ def cmd_branch(args: list[str]):
             print(f"Created root from store file {tree_load_path}")
     else:
         store = get_store()
+        # Apply --set before capturing seed snapshot
+        if set_args:
+            _apply_set_flags(store, set_args)
         story_contracts = store.list_by_type("story")
         if not story_contracts:
             print("No story in store. Run 'python -m src run --to <checkpoint>' first.")
@@ -425,11 +437,6 @@ def cmd_branch(args: list[str]):
         root = TreeNode(label="root", checkpoint="", store_snapshot=seed_snapshot, active=True)
         tree.root = root
         print(f"Created root from current store")
-
-    # Apply --set flags BEFORE locks so set-then-lock works
-    if set_args:
-        store_ref = get_store()
-        _apply_set_flags(store_ref, set_args)
 
     # Apply locks from --lock flag (support field-level locking)
     if lock_types:

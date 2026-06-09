@@ -81,8 +81,8 @@ class CausalityGraph:
             for mc in modality_changes:
                 trigger = mc.get("trigger", mc.get("cause", ""))
                 if not trigger:
-                    from_state = mc.get("from", "?")
-                    to_state = mc.get("to", "?")
+                    from_state = mc.get("from_state", "?")
+                    to_state = mc.get("to_state", "?")
                     mod = mc.get("modality", "?")
                     self._unexplained_modality_shifts.append(
                         f"Event '{eid}': {mod} changed {from_state}→{to_state} "

@@ -110,13 +110,12 @@ class TreeExecutor:
     def _find_root_seed(self, node: TreeNode) -> TreeNode:
         """Walk up to the root node."""
         current = node
-        root = self.tree.root
         while current.parent_id:
             parent = self.tree.get(current.parent_id)
             if not parent:
                 break
             current = parent
-        return root or current
+        return current
 
     # ── Static variant runner (for parallel or sequential use) ────────
 

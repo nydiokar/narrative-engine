@@ -216,13 +216,13 @@ class FabulaCoherenceEngine:
             # Track modality states per actant for contradiction detection
             modality_changes = event.get("modality_changes", [])
             for mc in modality_changes:
-                actant = mc.get("actant", "")
+                actant_id = mc.get("actant_id", "")
                 mod = mc.get("modality", "")
-                to_state = mc.get("to", "")
-                key = f"{actant}.{mod}"
+                to_state = mc.get("to_state", "")
+                key = f"{actant_id}.{mod}"
                 if key in seen_states and seen_states[key] != to_state:
                     # This is only a contradiction if the change is unexplained
-                    from_state = mc.get("from", "")
+                    from_state = mc.get("from_state", "")
                     check.violations.append(
                         f"Event[{i}]: {key} changed {from_state}→{to_state} "
                         f"but was previously {seen_states[key]} — "
@@ -276,12 +276,12 @@ class FabulaCoherenceEngine:
 
         for i, event in enumerate(events):
             for mc in event.get("modality_changes", []):
-                actant = mc.get("actant", "")
+                actant_id = mc.get("actant_id", "")
                 mod = mc.get("modality", "")
-                to_state = mc.get("to", "")
+                to_state = mc.get("to_state", "")
                 trigger = mc.get("trigger", mc.get("cause", ""))
-                if actant and mod:
-                    modality_log.setdefault(f"{actant}.{mod}", []).append(
+                if actant_id and mod:
+                    modality_log.setdefault(f"{actant_id}.{mod}", []).append(
                         (i, to_state, trigger)
                     )
 
