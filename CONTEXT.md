@@ -1,6 +1,6 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-06-08 | **Status:** Phase I — editorial/revision real-LLM wiring + Propp + Todorov + Modality split complete; Phase H tree workbench live.
+**Branch:** `main` | **Last Updated:** 2026-06-09 | **Status:** Phase H (tree workbench) complete; Phase J — real-LLM battle testing and end-to-end output — is next.
 
 ---
 
@@ -36,19 +36,22 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 
 ## Current Status
 
-- **Pipeline (linear path)**: Full 8-workflow pipeline runs clean end-to-end with real LLM — all steps succeed, all checkpoints pass. **254 tests passing**.
+- **Pipeline (linear path)**: Full 8-workflow pipeline runs clean end-to-end with real LLM — all steps succeed, all checkpoints pass. **254+ tests passing**.
 - **Editorial/Revision**: Soft gate and cliché detection now call the real LLM for evaluation scores. Revision agent applies real contract modifications. Revision loop uses targeted editorial passes (N-1) before full regeneration instead of nuke-and-regenerate.
-- **Tree layer**: All core operations implemented. Canonical CLI (`python -m src`) has `run`, `branch`, `compare`, `promote`, `prune`, `show`, `set`, `lock`, `unlock` commands.
+- **Tree layer**: All core operations implemented. Canonical CLI (`python -m src`) has `run`, `branch`, `compare`, `diff`, `promote`, `prune`, `show`, `set`, `lock`, `unlock` commands.
+- **Hard Gate event feed fixed**: critic.py now extracts `world_rules` from WorldContract, builds character ID→name map, and passes scene-derived events + GOLEM events with actant metadata to `HardGate.evaluate()`. Modality field name mismatch fixed — coherence checks now use `actant_id`/`from_state`/`to_state` keys matching the `ModalityChange` Pydantic model.
+- **Tree UX upgraded**: `compare` renders Rich tables (color-coded verdicts, --detail panels); `diff` shows contract-level field differences; `branch --parallel` for concurrent variant execution via ThreadPoolExecutor.
+- **Pre-existing bugs fixed**: `_find_root_seed()` dead-code while loop corrected; `--set` flag timing in `cmd_branch()` no longer silently ignored.
 
-### Critical Path — Phase H
+### Critical Path — Phase J (Real-LLM Battle Testing)
 
-| # | Task | Status |
-|:-:|:-----|:-------|
-| 1 | `TreeNode` model + store snapshot/restore | ✅ Done |
-| 2 | Branch executor — run N variants from any node | ✅ Done |
-| 3 | Compare — side-by-side contract viewer | ✅ Done |
-| 4 | Promote/prune — navigate the tree | ✅ Done |
-| 5 | Canonical CLI — `python -m src branch/compare/promote/prune/show` | ✅ Done |
+| # | Task | Priority | Status |
+|:-:|:-----|:---------|:-------|
+| 1 | End-to-end `--provider opencode` run from premise through final | P0 | 🔲 |
+| 2 | JSON parse resilience across all 18 agents | P0 | 🔲 |
+| 3 | Timeout + retry layer for LLM calls | P0 | 🔲 |
+| 4 | Quality baseline: soft gate scores across 3 genres | P1 | 🔲 |
+| 5 | Parallel tree execution with real LLM | P2 | 🔲 |
 
 
 ---
@@ -96,13 +99,17 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 | Command | Description |
 |:--------|:------------|
 | `python -m src run --to premise` | Run pipeline with mock LLM to premise |
+| `python -m src run --to final --provider opencode` | Run full pipeline with OpenCode big-pickle |
 | `python -m src branch --vary genre --values fantasy,scifi` | Branch 2 genre variants |
+| `python -m src branch --vary genre --values a,b --parallel` | Branch with concurrent execution |
 | `python -m src compare --labels fantasy,scifi --tree-load tree.json` | Compare siblings |
-| `python -m src promote fantasy --tree-load tree.json --tree-save tree.json` | Promote a branch |
+| `python -m src compare --labels a,b --tree-load t.json --detail` | Compare with expanded panels |
+| `python -m src diff fantasy scifi --tree-load tree.json` | Field-by-field diff between branches |
+| `python -m src promote fantasy --tree-load t.json --tree-save t.json` | Promote a branch |
 | `python -m src show --tree-load tree.json` | ASCII tree visualization |
 | `python -m src set story.genre.primary_bisac=FIC002000` | Set a contract field |
 | `python -m src lock story.genre` | Lock a field |
-| `pytest tests/ -q` | Run all 254 tests |
+| `pytest tests/ -q` | Run all tests |
 
 ### Key Paths
 

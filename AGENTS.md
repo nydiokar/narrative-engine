@@ -137,3 +137,12 @@ pytest tests/ -q
 
 Tree-specific: `pytest tests/test_tree/ -q`
 Adversarial review pass after any tree/CLI changes.
+
+## Session Protocol
+
+After every session, update `CONTEXT.md` with:
+- New features, fixed bugs, and changed behaviour
+- Updated test counts and status
+- Any changes to the Known Design Debt or roadmap
+
+This file (`AGENTS.md`) is the operational manual. `CONTEXT.md` is the canonical hot-context file for continuity across sessions. Do not skip the update.

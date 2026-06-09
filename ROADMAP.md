@@ -57,7 +57,7 @@ Dynamic Agent System — LLM as role-booted agent.
 
 ---
 
-## Phase H — Tree-Based Narrative Workbench (In Progress)
+## Phase H — Tree-Based Narrative Workbench ✅ (Done)
 
 **Core insight**: The current pipeline is a **ladder** — climb from 00 to 07, one path. A writer needs a **tree** — branch at any node, compare siblings, freeze what works, keep branching.
 
@@ -71,6 +71,7 @@ Dynamic Agent System — LLM as role-booted agent.
 | **Branch** | Fork a parent into N variants | `branch(node, vary=..., values=...)` |
 | **Promote** | Make a child the active path | `promote(node)` |
 | **Compare** | View siblings side-by-side | `compare(nodes)` |
+| **Diff** | View two children field-by-field | `diff(node_a, node_b)` |
 | **Prune** | Delete unwanted branches | `prune(node)` |
 
 ### Pipeline Stages as Branch Points
@@ -94,36 +95,37 @@ Dynamic Agent System — LLM as role-booted agent.
 - [x] `src/tree/executor.py` — `branch()` takes a node + vary config, runs N pipeline instances
 - [x] Each variant clones the parent store, varies the specified parameter, runs from branch point
 - [x] Returns N child nodes with their own stores
+- [x] `--parallel` flag for concurrent variant execution via `ThreadPoolExecutor`
 
-#### Step 3 — Compare + Promote
-- [ ] `compare(nodes)` — side-by-side table: genre, world axes, protagonist, antagonist, soft gate score
-- [ ] `promote(node)` — mark child as active path, continue branching from there
-- [ ] `prune(node)` — delete a branch subtree
+#### Step 3 — Compare + Promote + Diff ✅
+- [x] `compare(nodes)` — side-by-side Rich table: genre, world axes, protagonist, antagonist, soft gate score
+- [x] `compare --detail` — expanded panels with world dimensions, protagonist roles per variant
+- [x] `diff(node_a, node_b)` — contract-level field-by-field differences via Rich tables
+- [x] `promote(node)` — mark child as active path, continue branching from there
+- [x] `prune(node)` — delete a branch subtree
 
-#### Step 4 — Interactive CLI
-- [ ] `demo.py --branch` mode — interactive branching commands
-- [ ] `demo.py --tree <path>` — load/save entire tree structure
-- [ ] Tree visualization (ASCII or simple text)
+#### Step 4 — Interactive CLI ✅
+- [x] Canonical CLI (`python -m src`) with all subcommands: `branch`, `compare`, `diff`, `promote`, `prune`, `show`, `set`, `lock`, `unlock`
+- [x] `show` — ASCII tree visualization with depth, label, active status
+- [x] `--tree-load` / `--tree-save` for persistence
 
 ### Example Session
 
 ```
-# Start with a premise
-$ python scripts/demo.py --to premise --save trunk.json
+# Run pipeline, save state
+$ python -m src run --to premise --save trunk.json
 
 # Branch 3 genres from the same premise
-$ python scripts/demo.py --branch --from premise \
-    --vary genre --values "fantasy,scifi,horror"
+$ python -m src branch --vary genre --values fantasy,scifi,horror --tree-load trunk.json --tree-save tree.json
 
 # Compare them side-by-side
-$ python scripts/demo.py --compare
+$ python -m src compare --labels fantasy,scifi,horror --tree-load tree.json
 
-# Branch world architectures from the best genre
-$ python scripts/demo.py --branch --node fantasy \
-    --vary world --values 3
+# Diff two specific branches
+$ python -m src diff fantasy horror --tree-load tree.json
 
-# Promote the best branch and continue to scenes
-$ python scripts/demo.py --promote world-2 --to scenes
+# Promote the best branch and continue
+$ python -m src promote fantasy --tree-load tree.json --tree-save tree.json
 ```
 
 ---
@@ -145,24 +147,53 @@ $ python scripts/demo.py --promote world-2 --to scenes
 
 ---
 
+## Phase J — Real-LLM Battle Testing & End-to-End Output (Next)
+
+**Goal**: Stop optimizing for MockLLMProvider. Prove the pipeline produces coherent narrative output on a strong model (OpenCode big-pickle). The mock is a development crutch — everything now works with mocks, but real LLMs expose fragility in prompt templates, parse resilience, timeout handling, and output quality.
+
+### Must-Have
+
+- [ ] **Real-LLM end-to-end run**: `python -m src run --to final --provider opencode` produces a draft from premise through all 18 agents, 8 workflows, two gates
+- [ ] **Structured output enforcement**: Verify JSON parse resilience across all 18 agents — handle extra text, markdown fences, incomplete fields from real models
+- [ ] **Timeout + retry layer**: LLM calls that hang or return garbage don't kill the pipeline — configurable timeout, N retries, graceful fallback
+- [ ] **Output quality baseline**: Run 3 genres through the full pipeline, collect soft gate scores — establish a quality baseline that future iterations improve against
+
+### Nice-to-Have
+
+- [ ] **Parallel tree execution with real LLM**: `--parallel` with `--provider opencode` — verify thread safety with SubprocessLLMProvider
+- [ ] **Draft output formats**: epub, markdown, plain text — validate narrative coherence at the human-readable level
+- [ ] **Regression test suite**: snapshot-based tests for each agent's LLM output parsing
+
+### Known Risks
+
+- Real LLM calls are slow (30s–2min per agent × 18 agents × 8 workflows = hours). Start with `--to premise` and build up.
+- OpenCode big-pickle model needs GPU or quantized inference — verify it runs on available hardware before committing to full pipeline.
+- Prompt templates were written for mock JSON output — real models may produce valid but structurally different JSON (extra fields, nested vs flat, string vs int enums).
+
+---
+
 ## Downstream (future)
 
 | Area | What |
 |:-----|:------|
 | Quality & Iteration | Revisit triggers, showrunner final approval, editorial pass depth tuning |
-| Infrastructure | GOLEM models, save/load, CLI, test coverage |
-| Human Interface | Intake form, release package, legal/bias check |
+| Infrastructure | Test coverage, CI pipeline, release packaging |
+| Human Interface | Intake form, legal/bias check, writer dashboard |
 
 ---
 
 ## Known Design Debt
 
-- ModalityState split into per-modality enums (WantingState, KnowingState, BeingAbleState, HavingToState) — done
-- Propp function sequence validation — implemented as 9th Fabula Coherence check
-- Todorov equilibrium validation — implemented as 10th Fabula Coherence check
+### Fixed This Session
+- Modality field name mismatch: coherence checks used `mc.get("actant"/"from"/"to")` but `ModalityChange` Pydantic model uses `actant_id`/`from_state`/`to_state` — 6 checks now fire on real GOLEM data
+- Hard Gate received `events=[]` at runtime — critic now extracts world_rules, builds character ID map, passes scene+GOLEM events with actant metadata
+- `_find_root_seed()` dead-code while loop in executor.py — now actually walks up the tree
+- `--set` flag timing in `cmd_branch()` — applied after root snapshot, silently ignored; now applied before capture
+
+### Remaining
+
 - ContractStore singleton leaks state across tests — safe in serial, unsafe in parallel
-- GOLEM event model (goal→action→outcome→event→perception→internal element) referenced in specs, not coded
-- Hard Gate receives `events=[]` at runtime (`src/agents/critic.py:47`) — 6 of 10 coherence checks never validate (only stakes, conflict, Propp, Todorov run)
-- Worldbuilder agent registered in 20-agent roster but never dispatched by any workflow step
 - 25 Python modules lack dedicated unit tests
+- Pipeline optimized for MockLLMProvider — real LLM (OpenCode big-pickle) not battle-tested end-to-end
+- Rich inline scene rendering not tested in editorial pipeline
 - `src/contracts/loader.py` — dead code, deleted
