@@ -264,13 +264,6 @@ class SubprocessLLMProvider(LLMProvider):
         sys_path = input_dir / "system_prompt.md"
         sys_path.write_text(system_prompt, encoding="utf-8")
 
-        # Use absolute paths for the subprocess command to avoid --dir
-        # changing the working directory that --file paths are relative to
-        task_path_abs = task_path.resolve()
-        sys_path_abs = sys_path.resolve()
-        output_path_abs = output_path.resolve()
-        run_dir_abs = run_dir.resolve()
-
         # Write metadata about the call
         meta = {
             "timestamp": datetime.now().isoformat(),
@@ -288,6 +281,13 @@ class SubprocessLLMProvider(LLMProvider):
 
         # Output file
         output_path = output_dir / "result.json"
+
+        # Use absolute paths for the subprocess command to avoid --dir
+        # changing the working directory that --file paths are relative to
+        task_path_abs = task_path.resolve()
+        sys_path_abs = sys_path.resolve()
+        output_path_abs = output_path.resolve()
+        run_dir_abs = run_dir.resolve()
 
         # Build command
         placeholders = {

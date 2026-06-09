@@ -1,11 +1,18 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "big-pickle",
+  "model": "ollama-local/qwen3-coder",
   "provider": {
-    "big-pickle": {
-      "name": "Big Pickle (local)",
+    "ollama-local": {
+      "name": "Ollama (local)",
+      "npm": "@ai-sdk/openai-compatible",
       "options": {
         "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "qwen3-coder": { "name": "Qwen3 Coder (local)" },
+        "gemma3:12b": { "name": "Gemma 3 12B (local)" },
+        "granite4:tiny-h": { "name": "Granite 4 Tiny (local)" },
+        "llama3.2": { "name": "Llama 3.2 (local)" }
       }
     }
   },
