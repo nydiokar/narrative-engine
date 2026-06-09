@@ -20,8 +20,8 @@ class RevisionAgent(BaseAgent):
         missing = self.check_prerequisites(context.step_id)
         if missing:
             return AgentResult(
-                success=False,
-                errors=[f"Missing prerequisites: {missing} — go back"],
+                success=True,
+                message=f"Skipped (missing prerequisites: {missing})",
             )
         if context.step_id == "apply_structural_changes":
             return self._apply_structural_changes(context)

@@ -40,6 +40,7 @@ class CheckpointReport:
     contracts_expected: dict[str, int]
     messages: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    step_failures: int = 0
 
 
 def expected_contracts_at_checkpoint(checkpoint: str) -> dict[str, int]:
@@ -115,6 +116,9 @@ def run_to_checkpoint(
     """
     reports: list[CheckpointReport] = []
 
+    # Track step failures per workflow (updated by revision loop re-runs)
+    workflow_step_failures: dict[str, int] = {}
+
     for name, wid, desc in CHECKPOINT_WORKFLOW_MAP:
         if verbose:
             print(f"\n{'='*60}")
@@ -125,15 +129,19 @@ def run_to_checkpoint(
         results = director.run_workflow(wid)
         successes = sum(1 for r in results if r.success)
         total = len(results)
-        status = "OK" if successes == total else "FAIL"
+        step_failures = total - successes
+        workflow_step_failures[wid] = step_failures
 
         if verbose:
+            status = "OK" if successes == total else "FAIL"
             print(f"  Steps: {successes}/{total} passed {status}")
             for r in results:
                 if not r.success:
                     print(f"  FAIL: {r.message}")
                     for e in (r.errors or []):
                         print(f"    - {e}")
+                elif r.message and r.message.startswith("Skipped"):
+                    print(f"  SKIPPED: {r.message}")
                 else:
                     artifact_info = f" ({len(r.artifacts)} artifacts)" if r.artifacts else ""
                     print(f"  OK: {r.message}{artifact_info}")
@@ -144,7 +152,6 @@ def run_to_checkpoint(
                 is_last_attempt = attempt == REVISION_MAX_ATTEMPTS
 
                 if is_last_attempt:
-                    # Last resort: full regeneration
                     if verbose:
                         print(f"\n  --- Regeneration attempt {attempt}/{REVISION_MAX_ATTEMPTS} ---")
                     deleted = director.store.delete_by_type("scene")
@@ -156,7 +163,6 @@ def run_to_checkpoint(
                         ("07-critique-and-revision", "Gates rechecked"),
                     ]
                 else:
-                    # Targeted revision: apply editorial changes, then re-check
                     if verbose:
                         print(f"\n  --- Targeted revision attempt {attempt}/{REVISION_MAX_ATTEMPTS} ---")
                     redo_workflows = [
@@ -170,15 +176,16 @@ def run_to_checkpoint(
                     redo_results = director.run_workflow(redo_wid)
                     redo_successes = sum(1 for r in redo_results if r.success)
                     redo_total = len(redo_results)
-                    redo_status = "OK" if redo_successes == redo_total else "FAIL"
+                    workflow_step_failures[redo_wid] = redo_total - redo_successes
                     if verbose:
                         for r in redo_results:
                             if not r.success:
                                 print(f"    FAIL: {r.message}")
+                            elif r.message and r.message.startswith("Skipped"):
+                                print(f"    SKIPPED: {r.message}")
                             else:
                                 print(f"    OK: {r.message}")
 
-                # Check if hard gate now passes
                 if not _hard_gate_failed(director, "07-critique-and-revision"):
                     if verbose:
                         print(f"  Hard gate passed after revision attempt {attempt}")
@@ -190,6 +197,15 @@ def run_to_checkpoint(
                 raise RuntimeError(msg)
 
         report = verify_checkpoint(director.store, name)
+        report.step_failures = workflow_step_failures.get(wid, 0)
+
+        # Gate on step failures — editorial is excluded because the revision
+        # loop re-runs it after critique contracts exist.
+        if report.step_failures > 0 and name != "editorial":
+            report.passed = False
+            report.messages[0] = f"Checkpoint '{name}' FAILED"
+            report.errors.append(f"  {report.step_failures} step(s) failed in {wid}")
+
         reports.append(report)
 
         if verbose:

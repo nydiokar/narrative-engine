@@ -39,6 +39,7 @@ class TestRevisionAgent:
 
     def test_unknown_step_returns_error(self):
         agent = self._make_agent()
+        agent.store.put("critique", CritiqueContract(target_id=uuid4(), target_type="story_draft", verdict="pass"))
         ctx = AgentContext(workflow_id="00", step_id="nonexistent")
         result = agent.execute(ctx)
         assert result.success is False
@@ -46,6 +47,7 @@ class TestRevisionAgent:
 
     def test_apply_structural_changes_success(self):
         agent, cid = self._make_agent_with_changes()
+        agent.store.put("critique", CritiqueContract(target_id=uuid4(), target_type="story_draft", verdict="pass"))
         ctx = AgentContext(workflow_id="06", step_id="apply_structural_changes")
         result = agent.execute(ctx)
         assert result.success is True
@@ -56,13 +58,14 @@ class TestRevisionAgent:
 
     def test_apply_structural_changes_llm_failure(self):
         agent = self._make_agent_with_failing_llm()
+        agent.store.put("critique", CritiqueContract(target_id=uuid4(), target_type="story_draft", verdict="pass"))
         ctx = AgentContext(workflow_id="06", step_id="apply_structural_changes")
         result = agent.execute(ctx)
-        assert result.success is False
         assert result.success is False
 
     def test_apply_line_changes_success(self):
         agent, cid = self._make_agent_with_changes()
+        agent.store.put("critique", CritiqueContract(target_id=uuid4(), target_type="story_draft", verdict="pass"))
         ctx = AgentContext(workflow_id="06", step_id="apply_line_changes")
         result = agent.execute(ctx)
         assert result.success is True
@@ -71,6 +74,7 @@ class TestRevisionAgent:
 
     def test_apply_copy_changes_success(self):
         agent, cid = self._make_agent_with_changes()
+        agent.store.put("critique", CritiqueContract(target_id=uuid4(), target_type="story_draft", verdict="pass"))
         ctx = AgentContext(workflow_id="06", step_id="apply_copy_changes")
         result = agent.execute(ctx)
         assert result.success is True
