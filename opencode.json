@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "ollama-local/qwen3-coder",
+  "model": "opencode/big-pickle",
   "provider": {
     "ollama-local": {
       "name": "Ollama (local)",
