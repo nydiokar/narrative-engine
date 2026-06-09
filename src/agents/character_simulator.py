@@ -31,7 +31,8 @@ class CharacterSimulator(BaseAgent):
     def _enact_episode(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
         contracts_data = result.get("contracts_data")
-        if isinstance(contracts_data, list) and contracts_data:
+        has_data = isinstance(contracts_data, list) and len(contracts_data) > 0
+        if has_data:
             cc = CritiqueContract(
                 target_type="character_simulation",
                 reviewer="character_simulator",
@@ -40,8 +41,14 @@ class CharacterSimulator(BaseAgent):
             )
             self.write_contract("critique", cc)
         chars = self.list_contracts("character")
+        if not result.get("success", False) and not has_data:
+            return AgentResult(
+                success=False,
+                message="Character simulation failed — no data from LLM",
+                errors=result.get("errors", ["LLM produced no simulation data"]),
+            )
         return AgentResult(
-            success=result.get("success", False),
+            success=True,
             message=result.get("message", f"Simulated {len(chars)} characters through episode"),
             artifacts=[str(c.id) for c in chars],
             errors=result.get("errors", []),

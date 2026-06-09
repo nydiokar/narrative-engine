@@ -5,7 +5,41 @@ from __future__ import annotations
 from typing import Any
 
 from src.agents.base import AgentContext, AgentResult, BaseAgent
-from src.contracts.models import CharacterContract, PersonalityProfile
+from src.contracts.models import (
+    CharacterContract,
+    GoalPolarity,
+    PersonalityProfile,
+    PlutchikEmotion,
+)
+
+_VALID_PLUTCHIK = {e.value for e in PlutchikEmotion}
+_VALID_GOAL_POLARITIES = {e.value for e in GoalPolarity}
+
+
+def _normalize_character_data(data: dict[str, Any]) -> dict[str, Any]:
+    """Clamp FFM scores, validate enums, so a single bad field doesn't nuke the whole character."""
+    out = dict(data)
+
+    personality = out.get("personality", {})
+    if isinstance(personality, dict):
+        clamped = {}
+        for trait in ("openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"):
+            raw = personality.get(trait, 5)
+            try:
+                clamped[trait] = max(1, min(10, int(raw)))
+            except (TypeError, ValueError):
+                clamped[trait] = 5
+        out["personality"] = clamped
+
+    emotion = out.get("emotional_baseline_emotion")
+    if emotion is not None and emotion not in _VALID_PLUTCHIK:
+        out["emotional_baseline_emotion"] = None
+
+    polarity = out.get("goal_polarity")
+    if polarity is not None and polarity not in _VALID_GOAL_POLARITIES:
+        out["goal_polarity"] = "attain"
+
+    return out
 
 
 def _build_character(data: dict[str, Any]) -> CharacterContract:
@@ -90,7 +124,7 @@ class CharacterArchitect(BaseAgent):
         first = True
         for data in char_datas:
             try:
-                character = _build_character(data)
+                character = _build_character(_normalize_character_data(data))
             except Exception as e:
                 self.log("warning", f"LLM contract_data invalid, using fallback: {e}")
                 character = _fallback_character(data)

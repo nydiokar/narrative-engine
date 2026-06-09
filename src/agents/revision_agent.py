@@ -13,7 +13,16 @@ class RevisionAgent(BaseAgent):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(role="revision_agent", **kwargs)
 
+    def get_prerequisites(self, step_id: str) -> list[str]:
+        return ["critique"]
+
     def execute(self, context: AgentContext) -> AgentResult:
+        missing = self.check_prerequisites(context.step_id)
+        if missing:
+            return AgentResult(
+                success=False,
+                errors=[f"Missing prerequisites: {missing} — go back"],
+            )
         if context.step_id == "apply_structural_changes":
             return self._apply_structural_changes(context)
         if context.step_id == "apply_line_changes":

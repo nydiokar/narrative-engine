@@ -30,7 +30,13 @@ class CopyEditor(BaseAgent):
 
     def _check_consistency(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
-        quality_score = result.get("contract_data", {}).get("quality_score")
+
+        contracts_data = result.get("contracts_data", {})
+        quality_score = (
+            contracts_data.get("quality_score")
+            if isinstance(contracts_data, dict)
+            else None
+        )
         if quality_score is not None:
             cc = CritiqueContract(
                 target_type="copy_edit",
