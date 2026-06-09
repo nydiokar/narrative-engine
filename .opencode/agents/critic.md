@@ -1,7 +1,6 @@
 ---
 description: Two-gate evaluator. Runs soft gate quality scoring and cliché detection. Hard gate is programmatic (no LLM).
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.3
 permission:
   read: allow

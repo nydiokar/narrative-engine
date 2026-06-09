@@ -1,7 +1,6 @@
 ---
 description: Final quality gate — catches residual typos, formatting glitches, metadata errors. Issues clearance certificate.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.2
 permission:
   read: allow

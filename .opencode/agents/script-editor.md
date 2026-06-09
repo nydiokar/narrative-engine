@@ -1,7 +1,6 @@
 ---
 description: Reviews and refines scene content for screen-based mediums — sluglines, action lines, dialogue formatting, pacing.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.2
 permission:
   read: allow

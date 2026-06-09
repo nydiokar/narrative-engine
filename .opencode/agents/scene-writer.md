@@ -1,7 +1,6 @@
 ---
 description: Converts chapter outlines into SceneContract objects with Greimas diagnostics. Handles prose, visual, cinematic, and teleplay rendering.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.3
 permission:
   read: allow

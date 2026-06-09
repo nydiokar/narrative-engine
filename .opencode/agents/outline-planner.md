@@ -1,7 +1,6 @@
 ---
 description: Segments fabula into 4 episodes following Manipulation → Competence → Performance → Sanction schema. Produces episode-level architecture.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.3
 permission:
   read: allow

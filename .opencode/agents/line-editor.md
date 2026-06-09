@@ -1,7 +1,6 @@
 ---
 description: Sentence-level prose refinement — rhythm, diction, metaphor density, voice preservation. Targeted edits, not rewrites.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.2
 permission:
   read: allow

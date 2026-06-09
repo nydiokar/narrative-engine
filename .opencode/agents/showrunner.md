@@ -1,7 +1,6 @@
 ---
 description: Creative authority and final approver. Owns canon, tone, arcs, and sign-off decisions. Approves or rejects all generated artifacts.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.2
 permission:
   read: allow

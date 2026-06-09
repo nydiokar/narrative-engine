@@ -1,7 +1,6 @@
 ---
 description: Defines world dimensions, rules, and boundaries. Assigns settings that reinforce canonical phases. Bible keeper.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.3
 permission:
   read: allow

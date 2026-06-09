@@ -1,7 +1,6 @@
 ---
 description: Creates layered character profiles using FFM personality theory, Schwartz values, attachment patterns, and motivation stack.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.4
 permission:
   read: allow

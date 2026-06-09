@@ -1,7 +1,6 @@
 ---
 description: Structural-level narrative evaluation — pacing, act architecture, genre delivery, character arc completeness, thematic coherence.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.3
 permission:
   read: allow

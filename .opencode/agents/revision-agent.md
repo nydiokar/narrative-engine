@@ -1,7 +1,6 @@
 ---
 description: Implements prescribed changes from critique and editorial reports. Executes structural, line, copy, and script edits.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.2
 permission:
   read: allow

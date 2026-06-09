@@ -1,7 +1,6 @@
 ---
 description: Ensures grammatical correctness, spelling consistency, timeline integrity, terminology uniformity, and style guide adherence.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.2
 permission:
   read: allow

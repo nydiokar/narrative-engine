@@ -1,7 +1,6 @@
 ---
 description: Applies Greimasian actantial theory and Proppian morphology. Constructs and validates the fabula chain.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.2
 permission:
   read: allow

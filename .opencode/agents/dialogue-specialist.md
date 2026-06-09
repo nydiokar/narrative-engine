@@ -1,7 +1,6 @@
 ---
 description: Plans speech acts per scene. Ensures every line of dialogue serves narrative purpose — reveal, conceal, persuade, threaten, etc.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.4
 permission:
   read: allow

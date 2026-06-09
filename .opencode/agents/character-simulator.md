@@ -1,7 +1,6 @@
 ---
 description: Simulates character emotional and motivational states through each episode's events. Tracks modality changes and desire proximity.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.3
 permission:
   read: allow

@@ -1,7 +1,6 @@
 ---
 description: Selects themes, maps genres to BISAC codes, defines moral tensions, and validates thematic coherence across the narrative.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.4
 permission:
   read: allow

@@ -1,11 +1,10 @@
 ---
 description: Breaks episodes into 3 chapters each with defined arcs, pacing targets, and scene goals. Does not write scenes.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.3
 permission:
   read: allow
-  edit: deny
+  edit: allow
   bash: deny
   websearch: deny
   webfetch: deny

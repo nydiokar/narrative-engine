@@ -1,7 +1,6 @@
 ---
 description: Verifies internal consistency — character behavior, causal logic, world rules, chronology, and discourse presentation.
 mode: primary
-model: ollama-local/qwen3-coder
 temperature: 0.2
 permission:
   read: allow
