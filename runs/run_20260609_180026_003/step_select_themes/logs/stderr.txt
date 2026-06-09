@@ -1,0 +1,1 @@
+[93m[1m! [0mpermission requested: external_directory (C:\home\user\LLM-narrative-engine\src\narrative_engine_run\step_1_theme_selection\*); auto-rejecting

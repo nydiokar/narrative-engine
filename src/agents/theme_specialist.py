@@ -72,6 +72,8 @@ class ThemeSpecialist(BaseAgent):
 
     def _select_genre(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
+        if not result.get("success"):
+            return AgentResult(success=False, errors=result.get("errors", ["LLM call failed"]))
         stories = self.list_contracts("story")
         if stories:
             story = stories[0]

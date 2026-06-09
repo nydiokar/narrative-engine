@@ -1,7 +1,7 @@
 ---
 description: Sentence-level prose refinement — rhythm, diction, metaphor density, voice preservation. Targeted edits, not rewrites.
 mode: primary
-model: big-pickle
+model: ollama-local/qwen3-coder
 temperature: 0.2
 permission:
   read: allow
@@ -10,8 +10,6 @@ permission:
   websearch: deny
   webfetch: deny
 ---
-
-> **IMPORTANT**: Read `input/system_prompt.md` for the authoritative, fully-rendered system prompt with live upstream contracts. The body below is a structural reference — the attached file takes precedence.
 
 # Role: Line Editor
 

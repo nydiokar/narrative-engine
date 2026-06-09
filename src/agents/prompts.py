@@ -73,8 +73,11 @@ def render_user_prompt(
     if upstream_yaml:
         parts.append("\nUpstream contracts available:\n" + upstream_yaml)
     parts.append(
-        '\nProduce your output as a single JSON object with the fields '
-        'specified in the "Output" section of your role definition.'
+        '\nProduce your output as a single JSON object matching the '
+        'output schema in your role definition. The current step is '
+        f'"{step_id}". Include all required fields: success (bool), '
+        'message (str), errors (array), artifacts (array), and any '
+        'step-specific data as contract_data.'
     )
     return "\n\n".join(parts)
 

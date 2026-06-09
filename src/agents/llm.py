@@ -121,7 +121,10 @@ class OpenAILLMProvider(LLMProvider):
     ) -> None:
         from openai import OpenAI
 
-        self.model = model or os.getenv("LLM_MODEL", "llama3.2")
+        raw_model = model or os.getenv("LLM_MODEL", "llama3.2")
+        if "/" in raw_model:
+            raw_model = raw_model.split("/", 1)[1]
+        self.model = raw_model
         api_key = api_key or os.getenv("LLM_API_KEY", "ollama")
         base_url = base_url or os.getenv("LLM_BASE_URL", "http://localhost:11434/v1")
         self.max_tokens = max_tokens or int(os.getenv("LLM_MAX_TOKENS", "4096"))
@@ -212,11 +215,8 @@ class SubprocessLLMProvider(LLMProvider):
         )
         if not self.cmd_template:
             self.cmd_template = (
-                "opencode run --dir {run_dir} --agent {agent} "
-                "--file {system_file} --file {user_file} --format json "
-                '"Read the system prompt in {system_file} for your role. '
-                'Execute the task in {user_file}. '
-                'Write ONLY valid JSON to {output_file}."'
+                "opencode run --dir {run_dir} --format json --dangerously-skip-permissions "
+                '{prompt}'
             )
         self.timeout = int(os.getenv("LLM_SUBPROCESS_TIMEOUT", "300"))
         self.runs_root = Path(os.getenv("LLM_RUNS_DIR", "runs"))
@@ -289,32 +289,41 @@ class SubprocessLLMProvider(LLMProvider):
         output_path_abs = output_path.resolve()
         run_dir_abs = run_dir.resolve()
 
-        # Build command
-        placeholders = {
-            "system_file": str(sys_path_abs),
-            "user_file": str(task_path_abs),
-            "output_file": str(output_path_abs),
-            "run_dir": str(run_dir_abs),
-            "agent": semantic_agent,
-        }
-        cmd = self.cmd_template.format(**placeholders)
+        # Build combined prompt
+        combined_prompt = (
+            f"You are the {agent_role.replace('_', ' ')} for a narrative pipeline.\n\n"
+            f"## System Instructions\n{system_prompt}\n\n"
+            f"## Task\n{user_prompt}\n\n"
+            f"Respond with ONLY valid JSON matching the output schema."
+        )
 
         effective_timeout = timeout if timeout is not None else self.timeout
 
         self.call_log.append({
-            "cmd": cmd,
+            "cmd_template": self.cmd_template,
             "run_dir": str(run_dir),
             "agent": semantic_agent,
             "step_id": step_id,
             "timeout": effective_timeout,
+            "prompt_length": len(combined_prompt),
             "temperature": temperature,
             "max_tokens": max_tokens,
         })
 
-        # Execute
+        # Execute via shell for PATH resolution
+        # Write prompt to a temp file and use shell substitution to embed it
+        prompt_path = run_dir / "prompt.txt"
+        prompt_path.write_text(combined_prompt, encoding="utf-8")
+        prompt_path_abs = prompt_path.resolve()
+
+        shell_cmd = (
+            f'opencode run --dir "{run_dir_abs}" --format json '
+            f'"$(cat "{prompt_path_abs}")"'
+        )
+
         try:
             result = _subprocess.run(
-                cmd,
+                shell_cmd,
                 shell=True,
                 capture_output=True,
                 text=True,
@@ -348,6 +357,36 @@ class SubprocessLLMProvider(LLMProvider):
                 "errors": [stderr_content or "No output from subprocess"],
                 "artifacts": [],
             })
+
+        # Parse NDJSON from OpenCode's --format json mode
+        # Look for the last "type":"text" event which contains the actual response
+        if content.startswith('{"type":"') or content.startswith('{"type'):  # <-- type field is always
+            # It's NDJSON — extract the text content from text events
+            text_parts: list[str] = []
+            for line in content.strip().splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    evt = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if isinstance(evt, dict) and evt.get("type") == "text":
+                    text = evt.get("part", {}).get("text", "") if isinstance(evt.get("part"), dict) else ""
+                    if text:
+                        text_parts.append(text)
+                elif isinstance(evt, dict) and evt.get("type") == "error":
+                    # OpenCode error event — treat as failure
+                    err_msg = evt.get("error", {}).get("data", {}).get("message", "OpenCode error")
+                    content = json.dumps({
+                        "success": False,
+                        "message": "OpenCode subprocess error",
+                        "errors": [err_msg],
+                        "artifacts": [],
+                    })
+                    break
+            if text_parts:
+                content = "\n".join(text_parts)
 
         return LLMResponse(content=content, tokens_used=len(content))
 
