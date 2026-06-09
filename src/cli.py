@@ -3,7 +3,8 @@
 Commands:
     run         Run pipeline to a checkpoint
     branch      Create N variant children from a node
-    compare     Compare siblings side-by-side
+    compare     Compare siblings side-by-side (--detail for expanded view)
+    diff        Show contract-level differences between two nodes
     promote     Mark a node as active path
     prune       Remove a node and all its descendants from the tree
     show        Display the tree as ASCII art
@@ -25,7 +26,9 @@ Per-command flags:
     run [--to CHECKPOINT] [--set KEY=VALUE] [--lock TYPE[.FIELD]]
     branch [--from CHECKPOINT] [--vary FIELD] [--values LIST] [--set KEY=VALUE]
            [--to CHECKPOINT] [--tree-load PATH] [--tree-save PATH] [--lock TYPE[.FIELD]]
-    compare [--tree-load PATH] --labels LIST
+           [--parallel] [--max-workers N]
+    compare [--tree-load PATH] --labels LIST [--detail]
+    diff LABEL_A LABEL_B [--tree-load PATH]
     promote [--tree-load PATH] [--tree-save PATH] LABEL
     prune LABEL --tree-load PATH [--tree-save PATH]
     set TYPE.FIELD=VALUE [TYPE.FIELD=VALUE ...] [--lock] [--load PATH] [--save PATH]
@@ -288,8 +291,49 @@ def cmd_run(args: list[str]):
         sys.exit(1)
 
 
+def cmd_diff(args: list[str]):
+    """python -m src diff LABEL_A LABEL_B [--tree-load PATH]"""
+    tree_load_path = None
+    labels: list[str] = []
+    consumed: set[int] = set()
+
+    for i, arg in enumerate(args):
+        if arg == "--tree-load" and i + 1 < len(args):
+            tree_load_path = args[i + 1]
+            consumed.update({i, i + 1})
+
+    for i, arg in enumerate(args):
+        if i in consumed:
+            continue
+        if not arg.startswith("--"):
+            labels.append(arg)
+
+    if len(labels) < 2:
+        print("Usage: python -m src diff LABEL_A LABEL_B [--tree-load PATH]")
+        sys.exit(1)
+
+    tree = TreeStore()
+    if tree_load_path and os.path.exists(tree_load_path):
+        tree.load(tree_load_path)
+    else:
+        print("No tree loaded — use --tree-load")
+        sys.exit(1)
+
+    node_a = tree.get_by_label(labels[0])
+    node_b = tree.get_by_label(labels[1])
+    if not node_a:
+        print(f"Node '{labels[0]}' not found")
+        sys.exit(1)
+    if not node_b:
+        print(f"Node '{labels[1]}' not found")
+        sys.exit(1)
+
+    executor = TreeExecutor(tree, {})
+    executor.diff(node_a, node_b)
+
+
 def cmd_branch(args: list[str]):
-    """python -m src branch --vary FIELD --values LIST [--from Ck] [--to Ck] [--tree-load P] [--tree-save P] [--lock TYPE]"""
+    """python -m src branch --vary FIELD --values LIST [--from Ck] [--to Ck] [--tree-load P] [--tree-save P] [--lock TYPE] [--parallel]"""
     branch_from = "premise"
     branch_to = "final"
     vary_field = "genre"
@@ -302,6 +346,8 @@ def cmd_branch(args: list[str]):
     tree_load_path = None
     tree_save_path = None
     lock_types: list[str] = []
+    use_parallel = False
+    max_workers = 4
 
     set_args: list[str] = []
 
@@ -334,6 +380,13 @@ def cmd_branch(args: list[str]):
             lock_types = [t.strip() for t in args[i + 1].split(",")]
         elif arg == "--set" and i + 1 < len(args):
             set_args.append(args[i + 1])
+        elif arg == "--parallel":
+            use_parallel = True
+        elif arg == "--max-workers" and i + 1 < len(args):
+            try:
+                max_workers = int(args[i + 1])
+            except ValueError:
+                pass
 
     _setup_llm(use_real_llm=use_real_llm, model_name=model_name, provider_type=provider_type)
     agents = default_agent_registry(store=get_store())
@@ -420,7 +473,7 @@ def cmd_branch(args: list[str]):
     )
 
     executor = TreeExecutor(tree, agents)
-    children = executor.branch(parent, config)
+    children = executor.branch(parent, config, parallel=use_parallel, max_workers=max_workers)
 
     print(f"\nCreated {len(children)} children:")
     for c in children:
@@ -434,15 +487,18 @@ def cmd_branch(args: list[str]):
 
 
 def cmd_compare(args: list[str]):
-    """python -m src compare --labels LIST [--tree-load PATH]"""
+    """python -m src compare --labels LIST [--tree-load PATH] [--detail]"""
     labels_str = None
     tree_load_path = None
+    detail = False
 
     for i, arg in enumerate(args):
         if arg == "--labels" and i + 1 < len(args):
             labels_str = args[i + 1]
         elif arg == "--tree-load" and i + 1 < len(args):
             tree_load_path = args[i + 1]
+        elif arg == "--detail":
+            detail = True
 
     if not labels_str:
         print("--labels is required. Example: --labels fantasy-v1,scifi-v1")
@@ -467,7 +523,7 @@ def cmd_compare(args: list[str]):
 
     if nodes:
         executor = TreeExecutor(tree, {})
-        executor.compare(nodes)
+        executor.compare(nodes, detail=detail)
 
 
 def cmd_promote(args: list[str]):
@@ -725,6 +781,7 @@ COMMANDS = {
     "run": cmd_run,
     "branch": cmd_branch,
     "compare": cmd_compare,
+    "diff": cmd_diff,
     "promote": cmd_promote,
     "prune": cmd_prune,
     "show": cmd_show,

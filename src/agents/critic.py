@@ -52,7 +52,23 @@ class Critic(BaseAgent):
         characters_data = [c.model_dump(mode="json") for c in characters if hasattr(c, "model_dump")]
         story_list = self.list_contracts("story")
 
-        # Build event dicts from scene greimas diagnostics so all 10
+        # Extract world rules from WorldContract for world_rule_consistency check
+        worlds = self.list_contracts("world")
+        world_rules: list[str] = []
+        if worlds:
+            for w in worlds:
+                if hasattr(w, "rules") and w.rules:
+                    world_rules.extend(w.rules)
+
+        # Build a character ID → name map for actant resolution
+        char_id_map: dict[str, str] = {}
+        for c in characters:
+            cid = str(c.id)
+            cname = getattr(c, "name", "") or ""
+            if cid:
+                char_id_map[cid] = cname
+
+        # Build event dicts from scene greimas diagnostics so all 11
         # coherence checks run on real data instead of empty input.
         events_data: list[dict[str, Any]] = []
         for i, scene in enumerate(scenes_data):
@@ -65,13 +81,20 @@ class Critic(BaseAgent):
                 if prev_id:
                     preds.append(str(prev_id))
             chars_present = scene.get("characters_present", [])
-            actant = ""
+            actant_id = ""
+            actant_name = ""
             if chars_present and isinstance(chars_present, list):
                 first = chars_present[0]
-                actant = str(first.get("id", first.get("name", "")))
+                actant_id = str(first.get("id", ""))
+                actant_name = str(first.get("name", ""))
+                # Resolve name from character map if only ID is available
+                if not actant_name and actant_id in char_id_map:
+                    actant_name = char_id_map[actant_id]
+
             events_data.append({
                 "id": str(scene.get("id", "")),
-                "actant": actant,
+                "actant": actant_id or actant_name,
+                "actant_name": actant_name,
                 "action": diag.get("action_occurs", ""),
                 "state_before": diag.get("state_before", ""),
                 "state_after": diag.get("state_after", ""),
@@ -81,6 +104,8 @@ class Critic(BaseAgent):
                 "blocks": "",
                 "causal_predecessors": preds,
                 "world_rule_violations": [],
+                "scene_type": scene.get("scene_type", ""),
+                "setting_location": scene.get("setting_location", ""),
             })
 
         # Generate GOLEM event data for the 11th coherence check
@@ -99,6 +124,7 @@ class Critic(BaseAgent):
             scenes=scenes_data,
             events=events_data,
             characters=characters_data,
+            world_rules=world_rules if world_rules else None,
             episodes=episodes_data,
             golem_events=golem_events_data,
         )

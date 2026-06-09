@@ -10,7 +10,10 @@ The CLI lives in `src/cli.py` and dispatches subcommands:
 |---------|---------|
 | `run` | `python -m src run --to premise` |
 | `branch` | `python -m src branch --vary genre --values fantasy,scifi,horror` |
+| `branch` (parallel) | `python -m src branch --vary genre --values fantasy,scifi,horror --parallel --max-workers 4` |
 | `compare` | `python -m src compare --labels fantasy,scifi --tree-load tree.json` |
+| `compare` (detail) | `python -m src compare --labels fantasy,scifi --tree-load tree.json --detail` |
+| `diff` | `python -m src diff fantasy scifi --tree-load tree.json` |
 | `promote` | `python -m src promote fantasy --tree-load tree.json --tree-save tree.json` |
 | `prune` | `python -m src prune bad-branch --tree-load tree.json --tree-save tree.json` |
 | `show` | `python -m src show --tree-load tree.json` |
@@ -40,13 +43,14 @@ Run pipeline, save state, then branch:
 python -m src run --to premise --save trunk.json
 python -m src branch --vary genre --values fantasy,scifi --tree-load trunk.json --tree-save tree.json
 python -m src compare --labels fantasy,scifi --tree-load tree.json
+python -m src diff fantasy scifi --tree-load tree.json
 python -m src promote fantasy --tree-load tree.json --tree-save tree.json
 python -m src show --tree-load tree.json
 ```
 
 ## Vary Fields
 
-Handled in `src/tree/executor.py:_apply_variant()`:
+Handled in `src/tree/executor.py:_apply_variant_static()`:
 
 - `genre` — sets `story.genre.primary_bisac`
 - `premise` — sets `story.premise` + `story.title`
