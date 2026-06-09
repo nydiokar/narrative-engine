@@ -12,7 +12,7 @@
   "permission": {
     "read": "allow",
     "edit": "allow",
-    "bash": "deny",
+    "bash": "allow",
     "grep": "allow",
     "glob": "allow",
     "websearch": "deny",
