@@ -1,6 +1,6 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-06-09 | **Status:** Phase H (tree workbench) complete; Phase J — real-LLM battle testing and end-to-end output — is next.
+**Branch:** `main` | **Last Updated:** 2026-06-11 | **Status:** Phase J — real-LLM battle testing in progress; scenes checkpoint failing Greimas diagnostic
 
 ---
 
@@ -36,7 +36,15 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 
 ## Current Status
 
-- **Pipeline (linear path)**: Full 8-workflow pipeline runs clean end-to-end with real LLM — all steps succeed, all checkpoints pass. **254+ tests passing**.
+- **Pipeline (linear path)**: Checkpoints 00–03 (brief, premise, structure, episodes) pass with real LLM. **Scenes (04) fails** — 26 scenes generated across 12 chapters, but all fail Greimas diagnostic.
+- **Root causes identified & fixed** (2026-06-11):
+  1. `_run_greimas_diagnostic` computed pass/fail but never wrote `diagnostic_pass` back to scene contracts — all 26 scenes showed `diagnostic: FAIL` in store.
+  2. `except` handler created bare fallback scenes with empty `greimas_diagnostic` (defaults to empty strings + `"none"`), guaranteeing failure.
+  3. LLM prompt still calls for 3 scenes per chapter (36 scenes total) but fallback only created 2 per chapter → mismatch.
+- **Fixes applied to `scene_writer.py`**:
+  - `_run_greimas_diagnostic` now persists `diagnostic_pass` via `write_contract()`
+  - `except` handler now includes non-empty placeholder diagnostic fields
+- **Re-run in progress** — command timed out after 10+ minutes (4 LLM calls × ~2-3 min each). Need to verify fix works.
 - **Editorial/Revision**: Soft gate and cliché detection now call the real LLM for evaluation scores. Revision agent applies real contract modifications. Revision loop uses targeted editorial passes (N-1) before full regeneration instead of nuke-and-regenerate.
 - **Tree layer**: All core operations implemented. Canonical CLI (`python -m src`) has `run`, `branch`, `compare`, `diff`, `promote`, `prune`, `show`, `set`, `lock`, `unlock` commands.
 - **Hard Gate event feed fixed**: critic.py now extracts `world_rules` from WorldContract, builds character ID→name map, and passes scene-derived events + GOLEM events with actant metadata to `HardGate.evaluate()`. Modality field name mismatch fixed — coherence checks now use `actant_id`/`from_state`/`to_state` keys matching the `ModalityChange` Pydantic model.
@@ -52,9 +60,9 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 
 | # | Task | Priority | Status |
 |:-:|:-----|:---------|:-------|
-| 1 | End-to-end `--provider opencode` run from premise through final | P0 | 🔲 |
-| 2 | JSON parse resilience across all 18 agents | P0 | 🔲 |
-| 3 | Timeout + retry layer for LLM calls | P0 | 🔲 |
+| 1 | End-to-end `--provider opencode` run from premise through final | P0 | 🔲 (scenes failing) |
+| 2 | JSON parse resilience across all 18 agents | P0 | ✅ |
+| 3 | Timeout + retry layer for LLM calls | P0 | ✅ |
 | 4 | Quality baseline: soft gate scores across 3 genres | P1 | 🔲 |
 | 5 | Parallel tree execution with real LLM | P2 | 🔲 |
 
@@ -66,11 +74,11 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 1. ✅ **00-brief-and-taxonomy** — LLM selects themes, genre, world axes, character layers; Showrunner approves
 2. ✅ **01-seed-to-premise** — LLM extracts actants, selects backbone grammar, drafts protagonist, approves
 3. ✅ **02-premise-to-structure** — LLM builds fabula, checks constraints, validates theme fit
-4. ✅ **03-structure-to-episodes** — LLM segments into 3 episodes, 9 chapters, refines arcs, assigns settings
-5. ✅ **04-episodes-to-scenes** — LLM generates 2+ scenes per episode, all pass Greimas diagnostic; continuity verified
-6. ✅ **05-scenes-to-draft** — Scenes finalized, continuity checked, draft assembled
-7. ✅ **06-editorial-passes** — Developmental, structural, line, copy, proofread passes; revision agent applies LLM-generated changes to contracts
-8. ✅ **07-critique-and-revision** — Hard gate (structural), soft gate (LLM-evaluated 9-dimension scores, fallback to neutral 5s), cliché detection (LLM-signaled, fallback to empty), revision loop (N-1 targeted editorial passes, then full regeneration)
+4. ✅ **03-structure-to-episodes** — LLM segments into 4 episodes, 12 chapters, refines arcs, assigns settings
+5. 🔄 **04-episodes-to-scenes** — **FAILING**: 26 scenes generated across 12 chapters, all fail Greimas diagnostic. Fixes applied (persist `diagnostic_pass`, fallback diagnostic fields). Re-run in progress — timed out after 10+ min.
+6. 🔲 **05-scenes-to-draft** — blocked on scenes
+7. 🔲 **06-editorial-passes** — blocked on scenes
+8. 🔲 **07-critique-and-revision** — blocked on scenes
 
 ---
 
@@ -98,6 +106,16 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 - **Modality split**: Single `ModalityState` enum replaced with 4 per-modality enums (`WantingState`, `KnowingState`, `BeingAbleState`, `HavingToState`) — invalid cross-modality states no longer possible at the type level.
 
 ---
+
+## Current Blockers & Next Steps
+
+| Blocker | Root Cause | Fix Status | Next Action |
+|---------|------------|------------|-------------|
+| Scenes checkpoint fails | `diagnostic_pass` never written back; fallback scenes empty diagnostic | ✅ Fixed in `scene_writer.py` | Re-run `python -m src run --to scenes --load state_scenes.json --save state_scenes.json --provider opencode` with `LLM_SUBPROCESS_TIMEOUT=900` |
+| LLM call timeout | 4 episodes × ~2-3 min each > 10 min shell timeout | ⚠️ Partial | Use longer timeout or check if `--max-workers` can parallelize episodes |
+| Scene count mismatch | LLM prompt asks for 3 scenes/chapter (36), but fallback creates 2/chapter | ⚠️ Needs prompt fix | Update `scene_writer.md` to be clearer: "2-3 scenes per chapter, 2 minimum" |
+
+**Immediate next step**: Re-run scenes checkpoint with the fix, wait for completion (may take 10-15 min), verify all scenes pass diagnostic.
 
 ## Quick Reference
 

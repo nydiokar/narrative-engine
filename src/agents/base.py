@@ -116,7 +116,8 @@ class BaseAgent(ABC):
         all_contracts = self.store.list_all()
         chunks: list[str] = []
         for type_key, contracts in all_contracts.items():
-            y = contracts_to_yaml(contracts, max_chars=2000)
+            max_chars = 8000 if type_key in ("chapter", "episode") else 4000
+            y = contracts_to_yaml(contracts, max_chars=max_chars)
             chunks.append(f"{type_key}:\n{y}")
         return "\n".join(chunks)
 

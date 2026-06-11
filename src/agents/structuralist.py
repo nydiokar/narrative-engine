@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from src.agents.base import AgentContext, AgentResult, BaseAgent
+from src.contracts.models import FabulaChain, NarrativeProgramRef
 from src.engine.fabula.coherence import FabulaCoherenceEngine
 
 
@@ -67,6 +68,24 @@ class Structuralist(BaseAgent):
 
     def _build_fabula(self, context: AgentContext) -> AgentResult:
         result = self._call_llm_for_step(context)
+
+        # Persist fabula data to the story contract so downstream steps can see it
+        contract_data = result.get("contract_data")
+        if contract_data and isinstance(contract_data, dict):
+            try:
+                stories = self.list_contracts("story")
+                if stories:
+                    story = stories[0]
+                    fabula_data = contract_data.get("fabula", {})
+                    if fabula_data:
+                        story.fabula = FabulaChain(**fabula_data)
+                    nps = contract_data.get("narrative_programs", [])
+                    if nps:
+                        story.narrative_programs = [NarrativeProgramRef(**np) for np in nps]
+                    self.write_contract("story", story)
+            except Exception as e:
+                self.log("warning", f"Failed to persist fabula data: {e}")
+
         return AgentResult(
             success=result.get("success", False),
             message=result.get("message", "Fabula constructed"),

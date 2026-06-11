@@ -310,23 +310,34 @@ class SubprocessLLMProvider(LLMProvider):
             "max_tokens": max_tokens,
         })
 
-        # Execute via shell for PATH resolution
-        # Write prompt to a temp file and use shell substitution to embed it
+        # Execute via shell for PATH resolution (npm shims on Windows need cmd.exe)
+        # Write prompt to a file and use --file to attach it (avoids command-line length limits)
         prompt_path = run_dir / "prompt.txt"
         prompt_path.write_text(combined_prompt, encoding="utf-8")
         prompt_path_abs = prompt_path.resolve()
 
         shell_cmd = (
             f'opencode run --dir "{run_dir_abs}" --format json '
-            f'"$(cat "{prompt_path_abs}")"'
+            f'"Execute the task in the attached file and respond with JSON." '
+            f'--file "{prompt_path_abs}"'
         )
+
+        import sys as _sys
+        use_shell = _sys.platform == "win32"
 
         try:
             result = _subprocess.run(
-                shell_cmd,
-                shell=True,
+                shell_cmd if use_shell else [
+                    "opencode", "run", "--dir", str(run_dir_abs),
+                    "--format", "json",
+                    "Execute the task in the attached file and respond with JSON.",
+                    "--file", str(prompt_path_abs),
+                ],
+                shell=use_shell,
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 timeout=effective_timeout,
             )
             stdout_content = result.stdout or ""

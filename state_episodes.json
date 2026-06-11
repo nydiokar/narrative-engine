@@ -1,0 +1,1411 @@
+{
+  "contracts": {
+    "story": [
+      {
+        "contract": {
+          "id": "deb2d28f-0ebf-414b-a1b2-4532a31d4095",
+          "title": "The Crystal Key",
+          "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+          "premise_type": null,
+          "ending_type": null,
+          "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+          "hook": "",
+          "brief_layer": null,
+          "concept_layer": {
+            "story_promise": "",
+            "comps": []
+          },
+          "genre": {
+            "primary_bisac": "FIC009010",
+            "secondary_bisac": [
+              "FIC009020",
+              "FIC009070"
+            ],
+            "subgenre_notes": "Epic fantasy with dark fantasy undertones. The world-ending blight, disgraced mage protagonist, and ancient crystal artifact anchor the story in high-stakes epic tradition, while the pervasive moral ambiguity\u00e2\u20ac\u201dredemption vs despair, knowledge as weapon\u00e2\u20ac\u201dand the unreliability of the archivist's guidance introduce dark fantasy edge. The three-fragment quest structure and race against the cabal drive action-adventure pacing consistent with FIC009070."
+          },
+          "theme_contract_id": null,
+          "subject_id": "9a3f7c2e-1d4b-4f8a-9c6d-0e5b2a1f3d8c",
+          "object_of_value_id": "deliverance-from-blight",
+          "object_of_value_type": null,
+          "object_of_value_description": "The state of the world being saved from the world-ending blight, and by extension the mage's attainment of redemption after catastrophic failure",
+          "sender_id": "long-dead-archivist",
+          "receiver_id": "the-world-and-the-mage",
+          "helper_ids": [],
+          "opponent_ids": [],
+          "narrative_programs": [
+            {
+              "id": "22222222-2222-4222-8222-222222222201",
+              "subject": "9a3f7c2e-1d4b-4f8a-9c6d-0e5b2a1f3d8c",
+              "object_of_value": "restoration_of_order",
+              "canonical_phases_completed": {
+                "manipulation": true,
+                "competence": true,
+                "performance": true,
+                "sanction": true
+              }
+            },
+            {
+              "id": "22222222-2222-4222-8222-222222222202",
+              "subject": "9a3f7c2e-1d4b-4f8a-9c6d-0e5b2a1f3d8c",
+              "object_of_value": "forgiveness",
+              "canonical_phases_completed": {
+                "manipulation": false,
+                "competence": true,
+                "performance": true,
+                "sanction": true
+              }
+            }
+          ],
+          "conflict_contract_id": null,
+          "discourse_contract_id": null,
+          "fabula": {
+            "events": [
+              "e1000001-0001-4000-a000-000000000001",
+              "e1000001-0001-4000-a000-000000000002",
+              "e1000001-0001-4000-a000-000000000003",
+              "e1000001-0001-4000-a000-000000000004",
+              "e1000001-0001-4000-a000-000000000005",
+              "e1000001-0001-4000-a000-000000000006",
+              "e1000001-0001-4000-a000-000000000007",
+              "e1000001-0001-4000-a000-000000000008",
+              "e1000001-0001-4000-a000-000000000009",
+              "e1000001-0001-4000-a000-000000000010",
+              "e1000001-0001-4000-a000-000000000011",
+              "e1000001-0001-4000-a000-000000000012",
+              "e1000001-0001-4000-a000-000000000013",
+              "e1000001-0001-4000-a000-000000000014"
+            ],
+            "causality_chains": [
+              "E1\u2192E2\u2192E3\u2192E4\u2192E5\u2192E6\u2192E7\u2192E8\u2192E9\u2192E10\u2192E11\u2192E12\u2192E13\u2192E14 (primary quest chain: Theron's contact \u2192 map retrieval \u2192 competence acquisition \u2192 evasion \u2192 first fragment \u2192 second fragment \u2192 cabal response \u2192 third fragment revelation \u2192 final confrontation \u2192 resolution)",
+              "E1\u2192E5\u2192E6 (Theron's guidance directly enables first fragment location and archive access)",
+              "E2\u2192E8\u2192E11 (the stolen map creates the trap that manifests at the second and third fragments)",
+              "E3\u2192E4 (negotiation for the damping device alerts the cabal, enabling pursuit)",
+              "E4\u2192E10 (cabal's awareness leads to capture of Elara's contact)",
+              "E7\u2192E12 (partial power restoration enables the final confrontation)"
+            ]
+          },
+          "episodes": [],
+          "chapters": [],
+          "status": "seed"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:13:03.661052+00:00",
+            "agent": "system",
+            "action": "created",
+            "snapshot": {
+              "id": "deb2d28f-0ebf-414b-a1b2-4532a31d4095",
+              "title": "The Crystal Key",
+              "premise": "A disgraced mage, stripped of her powers after a catastrophic experiment, must retrieve three scattered fragments of an ancient crystal before a rival cabal assembles them to unleash a world-ending blight. She has only the whispered guidance of a long-dead archivist and a stolen map that might be a trap.",
+              "premise_type": null,
+              "ending_type": null,
+              "logline": "A disgraced mage races to assemble an ancient crystal before her rivals weaponize it.",
+              "hook": "",
+              "brief_layer": null,
+              "concept_layer": {
+                "story_promise": "",
+                "comps": []
+              },
+              "genre": {
+                "primary_bisac": "FIC009010",
+                "secondary_bisac": [
+                  "FIC009020",
+                  "FIC009070"
+                ],
+                "subgenre_notes": "Epic fantasy with dark fantasy undertones. The world-ending blight, disgraced mage protagonist, and ancient crystal artifact anchor the story in high-stakes epic tradition, while the pervasive moral ambiguity\u00e2\u20ac\u201dredemption vs despair, knowledge as weapon\u00e2\u20ac\u201dand the unreliability of the archivist's guidance introduce dark fantasy edge. The three-fragment quest structure and race against the cabal drive action-adventure pacing consistent with FIC009070."
+              },
+              "theme_contract_id": null,
+              "subject_id": "9a3f7c2e-1d4b-4f8a-9c6d-0e5b2a1f3d8c",
+              "object_of_value_id": "deliverance-from-blight",
+              "object_of_value_type": null,
+              "object_of_value_description": "The state of the world being saved from the world-ending blight, and by extension the mage's attainment of redemption after catastrophic failure",
+              "sender_id": "long-dead-archivist",
+              "receiver_id": "the-world-and-the-mage",
+              "helper_ids": [],
+              "opponent_ids": [],
+              "narrative_programs": [
+                {
+                  "id": "22222222-2222-4222-8222-222222222201",
+                  "subject": "9a3f7c2e-1d4b-4f8a-9c6d-0e5b2a1f3d8c",
+                  "object_of_value": "restoration_of_order",
+                  "canonical_phases_completed": {
+                    "manipulation": true,
+                    "competence": true,
+                    "performance": true,
+                    "sanction": true
+                  }
+                }
+              ],
+              "conflict_contract_id": null,
+              "discourse_contract_id": null,
+              "fabula": {
+                "events": [
+                  "11111111-1111-4111-8111-111111111101",
+                  "11111111-1111-4111-8111-111111111102",
+                  "11111111-1111-4111-8111-111111111103",
+                  "11111111-1111-4111-8111-111111111104",
+                  "11111111-1111-4111-8111-111111111105",
+                  "11111111-1111-4111-8111-111111111106",
+                  "11111111-1111-4111-8111-111111111107",
+                  "11111111-1111-4111-8111-111111111108",
+                  "11111111-1111-4111-8111-111111111109",
+                  "11111111-1111-4111-8111-111111111110",
+                  "11111111-1111-4111-8111-111111111111",
+                  "11111111-1111-4111-8111-111111111112"
+                ],
+                "causality_chains": [
+                  "Primary chain: evt-001\u2192evt-002\u2192evt-003\u2192evt-004\u2192evt-005\u2192evt-006\u2192evt-007\u2192evt-008\u2192evt-009\u2192evt-010\u2192evt-011\u2192evt-012 (all 12 events in linear causal sequence)",
+                  "Trust arc: evt-001\u2192evt-008\u2192evt-009\u2192evt-012 (Theron's guidance reliability questioned \u2192 trust fracture \u2192 resolution through Elara's self-reliance)",
+                  "Map deception chain: evt-003\u2192evt-008\u2192evt-011 (map leads to trap at Sunken Vaults \u2192 trap knowledge weaponized against Cabal at Spire)"
+                ]
+              },
+              "episodes": [],
+              "chapters": [],
+              "status": "seed"
+            }
+          }
+        ],
+        "locked": true
+      }
+    ],
+    "theme": [
+      {
+        "contract": {
+          "id": "8d9d4c85-95eb-47b9-a0c4-d965d09cf786",
+          "primary_themes": [
+            {
+              "name": "Cost of Redemption",
+              "question": "What is the cost of redemption after catastrophic failure?",
+              "embodied_by": "The disgraced mage protagonist"
+            },
+            {
+              "name": "Knowledge as Double-Edged Sword",
+              "question": "Can ancient knowledge be both salvation and destruction?",
+              "embodied_by": "The archivist's whispered guidance and the crystal fragments"
+            },
+            {
+              "name": "Means versus Ends",
+              "question": "What justifies the means when survival hangs in the balance?",
+              "embodied_by": "The rival cabal's willingness to unleash blight vs the mage's quest"
+            }
+          ],
+          "secondary_themes": [
+            {
+              "name": "Trust After Betrayal",
+              "question": "Can trust be rebuilt after one's own failure has harmed others?",
+              "embodied_by": "The protagonist's internal journey and her reliance on the archivist"
+            },
+            {
+              "name": "The Trap of Certainty",
+              "question": "Is the past a reliable guide or a deliberate trap?",
+              "embodied_by": "The stolen map that might be a trap"
+            },
+            {
+              "name": "From Failure to Purpose",
+              "question": "Can a single catastrophic failure be transformed into the thing that saves everyone?",
+              "embodied_by": "The protagonist's arc from disgrace to potential heroism"
+            },
+            {
+              "name": "Power and Its Absence",
+              "question": "What defines a person when the power that once defined them is gone?",
+              "embodied_by": "The stripped-mage premise and her resourcefulness without magic"
+            }
+          ],
+          "moral_tensions": [
+            {
+              "themes": [
+                "redemption",
+                "despair"
+              ],
+              "conflict": "The protagonist must choose whether her past failure defines her forever or becomes the crucible for a second chance"
+            },
+            {
+              "themes": [
+                "knowledge",
+                "ignorance"
+              ],
+              "conflict": "Every piece of ancient knowledge could be a genuine key to salvation or a weapon aimed at the wielder \u00e2\u20ac\u201d the archivist's guidance and the map both embody this tension"
+            },
+            {
+              "themes": [
+                "trust",
+                "deception"
+              ],
+              "conflict": "The protagonist must navigate a world where allies may be liars, guides may be traps, and the only voice she can trust belongs to a dead person"
+            },
+            {
+              "themes": [
+                "progress",
+                "responsibility"
+              ],
+              "conflict": "The catastrophic experiment that stripped the mage of her powers represents the price of progress without accountability \u00e2\u20ac\u201d a tension the rival cabal repeats"
+            }
+          ],
+          "symbolic_motifs": [
+            {
+              "motif": "The Crystal",
+              "meaning": "Unity and fragmentation \u00e2\u20ac\u201d the crystal must be whole to work, just as the protagonist must integrate her broken past with her present quest",
+              "recurrence_points": [
+                "Three fragments to retrieve",
+                "Each fragment may reveal a different aspect of the mage's past failure"
+              ]
+            },
+            {
+              "motif": "Whispered Guidance / Silence",
+              "meaning": "The boundary between wisdom and madness; the dead speak but their intent is ambiguous",
+              "recurrence_points": [
+                "The archivist's whispered guidance",
+                "Moments of silence when the guidance fails or is ambiguous"
+              ]
+            },
+            {
+              "motif": "The Map",
+              "meaning": "Trust and deception \u00e2\u20ac\u201d a literal and metaphorical guide that may lead to salvation or ruin",
+              "recurrence_points": [
+                "Stolen at the outset",
+                "Each landmark on the map may hold a thematic test for the protagonist"
+              ]
+            }
+          ],
+          "theme_progression": []
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:13:03.661052+00:00",
+            "agent": "system",
+            "action": "created",
+            "snapshot": {
+              "id": "8d9d4c85-95eb-47b9-a0c4-d965d09cf786",
+              "primary_themes": [
+                {
+                  "name": "Cost of Redemption",
+                  "question": "What is the cost of redemption after catastrophic failure?",
+                  "embodied_by": "The disgraced mage protagonist"
+                },
+                {
+                  "name": "Knowledge as Double-Edged Sword",
+                  "question": "Can ancient knowledge be both salvation and destruction?",
+                  "embodied_by": "The archivist's whispered guidance and the crystal fragments"
+                },
+                {
+                  "name": "Means versus Ends",
+                  "question": "What justifies the means when survival hangs in the balance?",
+                  "embodied_by": "The rival cabal's willingness to unleash blight vs the mage's quest"
+                }
+              ],
+              "secondary_themes": [
+                {
+                  "name": "Trust After Betrayal",
+                  "question": "Can trust be rebuilt after one's own failure has harmed others?",
+                  "embodied_by": "The protagonist's internal journey and her reliance on the archivist"
+                },
+                {
+                  "name": "The Trap of Certainty",
+                  "question": "Is the past a reliable guide or a deliberate trap?",
+                  "embodied_by": "The stolen map that might be a trap"
+                },
+                {
+                  "name": "From Failure to Purpose",
+                  "question": "Can a single catastrophic failure be transformed into the thing that saves everyone?",
+                  "embodied_by": "The protagonist's arc from disgrace to potential heroism"
+                },
+                {
+                  "name": "Power and Its Absence",
+                  "question": "What defines a person when the power that once defined them is gone?",
+                  "embodied_by": "The stripped-mage premise and her resourcefulness without magic"
+                }
+              ],
+              "moral_tensions": [
+                {
+                  "themes": [
+                    "redemption",
+                    "despair"
+                  ],
+                  "conflict": "The protagonist must choose whether her past failure defines her forever or becomes the crucible for a second chance"
+                },
+                {
+                  "themes": [
+                    "knowledge",
+                    "ignorance"
+                  ],
+                  "conflict": "Every piece of ancient knowledge could be a genuine key to salvation or a weapon aimed at the wielder \u00e2\u20ac\u201d the archivist's guidance and the map both embody this tension"
+                },
+                {
+                  "themes": [
+                    "trust",
+                    "deception"
+                  ],
+                  "conflict": "The protagonist must navigate a world where allies may be liars, guides may be traps, and the only voice she can trust belongs to a dead person"
+                },
+                {
+                  "themes": [
+                    "progress",
+                    "responsibility"
+                  ],
+                  "conflict": "The catastrophic experiment that stripped the mage of her powers represents the price of progress without accountability \u00e2\u20ac\u201d a tension the rival cabal repeats"
+                }
+              ],
+              "symbolic_motifs": [
+                {
+                  "motif": "The Crystal",
+                  "meaning": "Unity and fragmentation \u00e2\u20ac\u201d the crystal must be whole to work, just as the protagonist must integrate her broken past with her present quest",
+                  "recurrence_points": [
+                    "Three fragments to retrieve",
+                    "Each fragment may reveal a different aspect of the mage's past failure"
+                  ]
+                },
+                {
+                  "motif": "Whispered Guidance / Silence",
+                  "meaning": "The boundary between wisdom and madness; the dead speak but their intent is ambiguous",
+                  "recurrence_points": [
+                    "The archivist's whispered guidance",
+                    "Moments of silence when the guidance fails or is ambiguous"
+                  ]
+                },
+                {
+                  "motif": "The Map",
+                  "meaning": "Trust and deception \u00e2\u20ac\u201d a literal and metaphorical guide that may lead to salvation or ruin",
+                  "recurrence_points": [
+                    "Stolen at the outset",
+                    "Each landmark on the map may hold a thematic test for the protagonist"
+                  ]
+                }
+              ],
+              "theme_progression": []
+            }
+          }
+        ],
+        "locked": true
+      }
+    ],
+    "character": [
+      {
+        "contract": {
+          "id": "9a3f7c2e-1d4b-4f8a-9c6d-0e5b2a1f3d8c",
+          "name": "Elara Vex",
+          "description": "A once-brilliant experimental mage living in self-imposed exile after her catastrophic breach of the Arcanum Veil killed seven apprentices. Stripped of her powers by the Mage Council and branded as a liability, she now navigates the world without the magic that once defined her \u00e2\u20ac\u201d relying on cunning, bitter experience, fragmentary lore, and the whispered guidance of Archivist Theron, a voice only she can hear. Haunted by guilt and desperate for atonement, she must retrieve three scattered crystal fragments before the Obsidian Cabal weaponizes them to unleash a world-ending blight.",
+          "actant_roles": [
+            "subject",
+            "hero",
+            "quester"
+          ],
+          "personality": {
+            "openness": 8,
+            "conscientiousness": 5,
+            "extraversion": 2,
+            "agreeableness": 3,
+            "neuroticism": 8
+          },
+          "values": {
+            "primary": "achievement",
+            "secondary": [
+              "universalism",
+              "self_direction"
+            ],
+            "priorities": {}
+          },
+          "social_mode_default": null,
+          "attachment_pattern": "fearful_avoidant",
+          "core_desires": [
+            "Atone for the lives destroyed by her experiment",
+            "Prove her worth exists beyond her magic",
+            "Stop the blight before it consumes the innocent",
+            "Understand the truth behind Archivist Theron's guidance"
+          ],
+          "core_fears": [
+            "That the archivist is leading her into a deliberate trap",
+            "That she will fail catastrophically again",
+            "That she was always a danger, not a savior",
+            "That her identity is permanently shattered without her magic"
+          ],
+          "wound_types": [
+            "Survivor's guilt over the seven apprentices",
+            "Identity dissolution after losing her magical core",
+            "Institutional betrayal by the Mage Council",
+            "Paranoia about the reliability of her own perceptions"
+          ],
+          "need_types": [
+            "Redemption and atonement",
+            "Self-forgiveness",
+            "Authentic trust in another being",
+            "Reclaiming agency and purpose"
+          ],
+          "goal_polarity": "attain",
+          "modalities": {
+            "wanting": "indifferent",
+            "knowing": "ignorant",
+            "being_able": "unable",
+            "having_to": "free"
+          },
+          "emotional_baseline_emotion": "sadness",
+          "emotional_baseline_intensity": "low",
+          "arc": {
+            "initial_state": "",
+            "terminal_state": "",
+            "personality_changes": [],
+            "value_shifts": []
+          },
+          "relationships": []
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:13:03.661052+00:00",
+            "agent": "system",
+            "action": "created",
+            "snapshot": {
+              "id": "9a3f7c2e-1d4b-4f8a-9c6d-0e5b2a1f3d8c",
+              "name": "Elara Vex",
+              "description": "A once-brilliant experimental mage living in self-imposed exile after her catastrophic breach of the Arcanum Veil killed seven apprentices. Stripped of her powers by the Mage Council and branded as a liability, she now navigates the world without the magic that once defined her \u00e2\u20ac\u201d relying on cunning, bitter experience, fragmentary lore, and the whispered guidance of Archivist Theron, a voice only she can hear. Haunted by guilt and desperate for atonement, she must retrieve three scattered crystal fragments before the Obsidian Cabal weaponizes them to unleash a world-ending blight.",
+              "actant_roles": [
+                "subject",
+                "hero",
+                "quester"
+              ],
+              "personality": {
+                "openness": 8,
+                "conscientiousness": 5,
+                "extraversion": 2,
+                "agreeableness": 3,
+                "neuroticism": 8
+              },
+              "values": {
+                "primary": "achievement",
+                "secondary": [
+                  "universalism",
+                  "self_direction"
+                ],
+                "priorities": {}
+              },
+              "social_mode_default": null,
+              "attachment_pattern": "fearful_avoidant",
+              "core_desires": [
+                "Atone for the lives destroyed by her experiment",
+                "Prove her worth exists beyond her magic",
+                "Stop the blight before it consumes the innocent",
+                "Understand the truth behind Archivist Theron's guidance"
+              ],
+              "core_fears": [
+                "That the archivist is leading her into a deliberate trap",
+                "That she will fail catastrophically again",
+                "That she was always a danger, not a savior",
+                "That her identity is permanently shattered without her magic"
+              ],
+              "wound_types": [
+                "Survivor's guilt over the seven apprentices",
+                "Identity dissolution after losing her magical core",
+                "Institutional betrayal by the Mage Council",
+                "Paranoia about the reliability of her own perceptions"
+              ],
+              "need_types": [
+                "Redemption and atonement",
+                "Self-forgiveness",
+                "Authentic trust in another being",
+                "Reclaiming agency and purpose"
+              ],
+              "goal_polarity": "attain",
+              "modalities": {
+                "wanting": "indifferent",
+                "knowing": "ignorant",
+                "being_able": "unable",
+                "having_to": "free"
+              },
+              "emotional_baseline_emotion": "sadness",
+              "emotional_baseline_intensity": "low",
+              "arc": {
+                "initial_state": "",
+                "terminal_state": "",
+                "personality_changes": [],
+                "value_shifts": []
+              },
+              "relationships": []
+            }
+          }
+        ],
+        "locked": true
+      }
+    ],
+    "episode": [
+      {
+        "contract": {
+          "id": "eedad7ec-624d-4bf3-a295-3d029f5a0c69",
+          "title": "The Whispered Contract",
+          "sequence_number": 0,
+          "summary": "Elara Vex, living in self-imposed exile, receives the whispered call of Archivist Theron and a stolen map. Despite crushing guilt over the seven apprentices she killed, she accepts the contract: retrieve three scattered crystal fragments before the Obsidian Cabal weaponizes them. She transforms from paralyzed despair to reluctant action.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Elara Vex",
+            "object_of_value": "deliverance-from-blight",
+            "current_state": "Exile and despair after catastrophic failure stripped her of magic and purpose",
+            "desired_transformation": "Accept the quest and overcome paralysis of guilt to act",
+            "opponent": "Mage Council and Obsidian Cabal",
+            "opponent_value_logic": "Power justifies any means; the Council values order over redemption, the Cabal values domination over life",
+            "helper": "Archivist Theron (whispered guidance)",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "persuasion and acceptance of the contract",
+            "resulting_state": "Elara accepts the quest and sets out despite her powerlessness and doubt",
+            "sanction_or_judgment": "Elara judges herself unworthy but the urgency of the blight overrides her self-condemnation",
+            "contribution_to_whole_fabula": "Establishes the stakes, the quest structure, and the protagonist's starting emotional state of guilt and reluctant purpose"
+          },
+          "canonical_phase": "manipulation",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "institutional",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:18:44.314110+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "eedad7ec-624d-4bf3-a295-3d029f5a0c69",
+              "title": "The Whispered Contract",
+              "sequence_number": 0,
+              "summary": "Elara Vex, living in self-imposed exile, receives the whispered call of Archivist Theron and a stolen map. Despite crushing guilt over the seven apprentices she killed, she accepts the contract: retrieve three scattered crystal fragments before the Obsidian Cabal weaponizes them. She transforms from paralyzed despair to reluctant action.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Elara Vex",
+                "object_of_value": "deliverance-from-blight",
+                "current_state": "Exile and despair after catastrophic failure stripped her of magic and purpose",
+                "desired_transformation": "Accept the quest and overcome paralysis of guilt to act",
+                "opponent": "Mage Council and Obsidian Cabal",
+                "opponent_value_logic": "Power justifies any means; the Council values order over redemption, the Cabal values domination over life",
+                "helper": "Archivist Theron (whispered guidance)",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "persuasion and acceptance of the contract",
+                "resulting_state": "Elara accepts the quest and sets out despite her powerlessness and doubt",
+                "sanction_or_judgment": "Elara judges herself unworthy but the urgency of the blight overrides her self-condemnation",
+                "contribution_to_whole_fabula": "Establishes the stakes, the quest structure, and the protagonist's starting emotional state of guilt and reluctant purpose"
+              },
+              "canonical_phase": "manipulation",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "institutional",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "6fd3c42d-0add-431b-9e18-12a9f8fbef5b",
+          "title": "Fragments and Doubts",
+          "sequence_number": 1,
+          "summary": "Elara pursues the first crystal fragment, navigating traps and the Mage Council's opposition. She acquires crucial lore and the fragment itself, but the archivist's guidance proves unsettlingly ambiguous, deepening her suspicion that the map and the voice may be leading her into a deliberate trap.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Elara Vex",
+            "object_of_value": "restoration_of_order",
+            "current_state": "Elara has accepted the quest but lacks power, knowledge, and allies",
+            "desired_transformation": "Acquire the first crystal fragment and the competence to continue the quest",
+            "opponent": "Mage Council (institutional opposition) and the map's potential deception",
+            "opponent_value_logic": "The Council values order and control over redemption; they see Elara as a permanent liability who cannot be trusted",
+            "helper": "Archivist Theron (lore and cryptic guidance)",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "learning, gathering, and overcoming initial obstacles",
+            "resulting_state": "Elara obtains the first fragment, gains crucial lore, but deepens her suspicion of the archivist's true motives",
+            "sanction_or_judgment": "Elara questions whether Theron's guidance is genuine or a trap; the fragment's power feels dangerous and intoxicating",
+            "contribution_to_whole_fabula": "Builds competence while introducing the central tension of unreliable guidance; advances the fragment-collection arc"
+          },
+          "canonical_phase": "competence",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "epistemic",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:18:44.314110+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "6fd3c42d-0add-431b-9e18-12a9f8fbef5b",
+              "title": "Fragments and Doubts",
+              "sequence_number": 1,
+              "summary": "Elara pursues the first crystal fragment, navigating traps and the Mage Council's opposition. She acquires crucial lore and the fragment itself, but the archivist's guidance proves unsettlingly ambiguous, deepening her suspicion that the map and the voice may be leading her into a deliberate trap.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Elara Vex",
+                "object_of_value": "restoration_of_order",
+                "current_state": "Elara has accepted the quest but lacks power, knowledge, and allies",
+                "desired_transformation": "Acquire the first crystal fragment and the competence to continue the quest",
+                "opponent": "Mage Council (institutional opposition) and the map's potential deception",
+                "opponent_value_logic": "The Council values order and control over redemption; they see Elara as a permanent liability who cannot be trusted",
+                "helper": "Archivist Theron (lore and cryptic guidance)",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "learning, gathering, and overcoming initial obstacles",
+                "resulting_state": "Elara obtains the first fragment, gains crucial lore, but deepens her suspicion of the archivist's true motives",
+                "sanction_or_judgment": "Elara questions whether Theron's guidance is genuine or a trap; the fragment's power feels dangerous and intoxicating",
+                "contribution_to_whole_fabula": "Builds competence while introducing the central tension of unreliable guidance; advances the fragment-collection arc"
+              },
+              "canonical_phase": "competence",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "epistemic",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "8d1e0dd3-ba4c-40b1-ba91-1334b13531bd",
+          "title": "The Cabal's Gambit",
+          "sequence_number": 2,
+          "summary": "Elara races the Obsidian Cabal for the remaining two fragments. In a direct confrontation, she secures all three pieces but at great cost. The archivist's true nature is partially revealed, forcing Elara to confront whether she has been a pawn in a larger game.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Elara Vex",
+            "object_of_value": "deliverance-from-blight",
+            "current_state": "Elara has one fragment and growing competence but faces the Cabal's accelerating timeline",
+            "desired_transformation": "Secure all three fragments and prevent the Cabal from weaponizing the crystal",
+            "opponent": "Obsidian Cabal (active opposition seeking the fragments for world-ending blight)",
+            "opponent_value_logic": "Sacrificing some lives for absolute power is justified; the blight is a weapon of control",
+            "helper": "Archivist Theron (cryptic guidance that may be manipulation toward unknown ends)",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "direct confrontation, chase, and strategic gambit",
+            "resulting_state": "Elara secures all fragments but at great cost, and the archivist's true nature is partially revealed as potentially adversarial",
+            "sanction_or_judgment": "The world sees a disgraced mage wielding dangerous power; the Cabal judges her their greatest obstacle; Theron's judgment remains ambiguous",
+            "contribution_to_whole_fabula": "Climactic performance of the quest narrative; tests Elara's character growth and reveals the central moral dilemma about who to trust"
+          },
+          "canonical_phase": "performance",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "systemic",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:18:44.314110+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "8d1e0dd3-ba4c-40b1-ba91-1334b13531bd",
+              "title": "The Cabal's Gambit",
+              "sequence_number": 2,
+              "summary": "Elara races the Obsidian Cabal for the remaining two fragments. In a direct confrontation, she secures all three pieces but at great cost. The archivist's true nature is partially revealed, forcing Elara to confront whether she has been a pawn in a larger game.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Elara Vex",
+                "object_of_value": "deliverance-from-blight",
+                "current_state": "Elara has one fragment and growing competence but faces the Cabal's accelerating timeline",
+                "desired_transformation": "Secure all three fragments and prevent the Cabal from weaponizing the crystal",
+                "opponent": "Obsidian Cabal (active opposition seeking the fragments for world-ending blight)",
+                "opponent_value_logic": "Sacrificing some lives for absolute power is justified; the blight is a weapon of control",
+                "helper": "Archivist Theron (cryptic guidance that may be manipulation toward unknown ends)",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "direct confrontation, chase, and strategic gambit",
+                "resulting_state": "Elara secures all fragments but at great cost, and the archivist's true nature is partially revealed as potentially adversarial",
+                "sanction_or_judgment": "The world sees a disgraced mage wielding dangerous power; the Cabal judges her their greatest obstacle; Theron's judgment remains ambiguous",
+                "contribution_to_whole_fabula": "Climactic performance of the quest narrative; tests Elara's character growth and reveals the central moral dilemma about who to trust"
+              },
+              "canonical_phase": "performance",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "systemic",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "b204ed61-a459-4842-8d15-9732bb0406dd",
+          "title": "The Price of Deliverance",
+          "sequence_number": 3,
+          "summary": "With all fragments assembled, Elara faces the final choice: follow the archivist's instruction or defy it. She must decide what the crystal should become \u2014 salvation or destruction \u2014 and in doing so confronts her guilt, her identity beyond magic, and what redemption truly costs.",
+          "sequence_type": null,
+          "stakes_type": null,
+          "greimas_tracking": {
+            "subject": "Elara Vex",
+            "object_of_value": "redemption and self-forgiveness",
+            "current_state": "Elara possesses all fragments but faces the final, most difficult choice about their use",
+            "desired_transformation": "Use the crystal rightly, find atonement, and accept herself beyond her magic",
+            "opponent": "Her own guilt, self-doubt, and the archivist's potential betrayal",
+            "opponent_value_logic": "The past defines worth; failure is permanent; power corrupts inevitably \u2014 voices she internalized from the Council and her own trauma",
+            "helper": "The memory of the seven apprentices, her hard-won growth, and her own agency",
+            "modality_gained_or_lost": {
+              "modality": "",
+              "change": "",
+              "source_or_cause": ""
+            },
+            "action_type": "moral choice, sacrifice, and resolution",
+            "resulting_state": "Elara makes her final choice, the blight is averted, and she finds a measure of peace and renewed purpose beyond magical identity",
+            "sanction_or_judgment": "The world judges her by her actions; she judges herself by who she has become; the archivist's final role is revealed as either mentor or manipulator",
+            "contribution_to_whole_fabula": "Resolves the narrative arc, answers thematic questions about redemption and knowledge, and completes the character journey from disgrace to agency"
+          },
+          "canonical_phase": "sanction",
+          "narrative_programs": [],
+          "propp_functions": [],
+          "todorov_phase": "",
+          "themes_active": [],
+          "dominant_conflict": "internal",
+          "chapters": [],
+          "modality_shifts": [],
+          "emotional_arc_opening": null,
+          "emotional_arc_closing": null,
+          "status": "draft"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:18:44.314110+00:00",
+            "agent": "outline_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "b204ed61-a459-4842-8d15-9732bb0406dd",
+              "title": "The Price of Deliverance",
+              "sequence_number": 3,
+              "summary": "With all fragments assembled, Elara faces the final choice: follow the archivist's instruction or defy it. She must decide what the crystal should become \u2014 salvation or destruction \u2014 and in doing so confronts her guilt, her identity beyond magic, and what redemption truly costs.",
+              "sequence_type": null,
+              "stakes_type": null,
+              "greimas_tracking": {
+                "subject": "Elara Vex",
+                "object_of_value": "redemption and self-forgiveness",
+                "current_state": "Elara possesses all fragments but faces the final, most difficult choice about their use",
+                "desired_transformation": "Use the crystal rightly, find atonement, and accept herself beyond her magic",
+                "opponent": "Her own guilt, self-doubt, and the archivist's potential betrayal",
+                "opponent_value_logic": "The past defines worth; failure is permanent; power corrupts inevitably \u2014 voices she internalized from the Council and her own trauma",
+                "helper": "The memory of the seven apprentices, her hard-won growth, and her own agency",
+                "modality_gained_or_lost": {
+                  "modality": "",
+                  "change": "",
+                  "source_or_cause": ""
+                },
+                "action_type": "moral choice, sacrifice, and resolution",
+                "resulting_state": "Elara makes her final choice, the blight is averted, and she finds a measure of peace and renewed purpose beyond magical identity",
+                "sanction_or_judgment": "The world judges her by her actions; she judges herself by who she has become; the archivist's final role is revealed as either mentor or manipulator",
+                "contribution_to_whole_fabula": "Resolves the narrative arc, answers thematic questions about redemption and knowledge, and completes the character journey from disgrace to agency"
+              },
+              "canonical_phase": "sanction",
+              "narrative_programs": [],
+              "propp_functions": [],
+              "todorov_phase": "",
+              "themes_active": [],
+              "dominant_conflict": "internal",
+              "chapters": [],
+              "modality_shifts": [],
+              "emotional_arc_opening": null,
+              "emotional_arc_closing": null,
+              "status": "draft"
+            }
+          }
+        ],
+        "locked": false
+      }
+    ],
+    "chapter": [
+      {
+        "contract": {
+          "id": "460f6e1a-7b40-42fd-a1ba-0ad07509664c",
+          "episode_id": "eedad7ec-624d-4bf3-a295-3d029f5a0c69",
+          "sequence_number": 0,
+          "title": "The Voice in the Ruins",
+          "summary": "In her self-imposed exile, Elara Vex hears the spectral voice of Archivist Theron for the first time in years. He reveals the Obsidian Cabal's plan to weaponize three crystal fragments and unleash the world-ending Blight. The revelation throws Elara from paralyzed despair into a crisis of conscience, forcing her to confront whether she can act without magic.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Paralyzed by guilt, living in isolation, devoid of purpose or hope after the catastrophic breach that killed seven apprentices",
+          "chapter_arc_closing": "Informed of the existential threat and her unique attunement to the crystal, torn between the desire for atonement and the terror of failing again",
+          "primary_conflict_type": "internal",
+          "word_count_target": 2800,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984044+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "460f6e1a-7b40-42fd-a1ba-0ad07509664c",
+              "episode_id": "eedad7ec-624d-4bf3-a295-3d029f5a0c69",
+              "sequence_number": 0,
+              "title": "The Voice in the Ruins",
+              "summary": "In her self-imposed exile, Elara Vex hears the spectral voice of Archivist Theron for the first time in years. He reveals the Obsidian Cabal's plan to weaponize three crystal fragments and unleash the world-ending Blight. The revelation throws Elara from paralyzed despair into a crisis of conscience, forcing her to confront whether she can act without magic.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Paralyzed by guilt, living in isolation, devoid of purpose or hope after the catastrophic breach that killed seven apprentices",
+              "chapter_arc_closing": "Informed of the existential threat and her unique attunement to the crystal, torn between the desire for atonement and the terror of failing again",
+              "primary_conflict_type": "internal",
+              "word_count_target": 2800,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "2ea85854-bcdc-45cc-82fa-fc568752427a",
+          "episode_id": "eedad7ec-624d-4bf3-a295-3d029f5a0c69",
+          "sequence_number": 1,
+          "title": "The Weight of Choice",
+          "summary": "Elara wrestles with the decision to accept the quest. Vivid flashbacks to the catastrophic breach and the faces of the seven apprentices haunt her. Theron's persistent whispered guidance grates against her self-condemnation. She must decide whether her guilt is a life sentence or a call to action, and in doing so, reclaim a fragment of her shattered agency.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Torn between the desperate desire for atonement and the paralyzing terror of causing another catastrophe",
+          "chapter_arc_closing": "Chooses action over paralysis; accepts the quest despite her powerlessness, transforming passive guilt into reluctant but genuine resolve",
+          "primary_conflict_type": "internal",
+          "word_count_target": 3200,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "2ea85854-bcdc-45cc-82fa-fc568752427a",
+              "episode_id": "eedad7ec-624d-4bf3-a295-3d029f5a0c69",
+              "sequence_number": 1,
+              "title": "The Weight of Choice",
+              "summary": "Elara wrestles with the decision to accept the quest. Vivid flashbacks to the catastrophic breach and the faces of the seven apprentices haunt her. Theron's persistent whispered guidance grates against her self-condemnation. She must decide whether her guilt is a life sentence or a call to action, and in doing so, reclaim a fragment of her shattered agency.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Torn between the desperate desire for atonement and the paralyzing terror of causing another catastrophe",
+              "chapter_arc_closing": "Chooses action over paralysis; accepts the quest despite her powerlessness, transforming passive guilt into reluctant but genuine resolve",
+              "primary_conflict_type": "internal",
+              "word_count_target": 3200,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "415296c6-7dde-4ab0-9061-3d9802c48f08",
+          "episode_id": "eedad7ec-624d-4bf3-a295-3d029f5a0c69",
+          "sequence_number": 2,
+          "title": "The Stolen Map",
+          "summary": "Elara retrieves the stolen map from its hiding place beneath the floorboards of her hovel, the first concrete step on her journey. Theron warns the map may have been tampered with by the cabal and could be a trap. She crosses the threshold from exile to quest, leaving behind the only life she has known and setting out into a world that has condemned her.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Has accepted the quest in principle but not yet taken physical action; the weight of commitment presses on her",
+          "chapter_arc_closing": "Steps into the world, map in hand, committed to the fragment hunt despite crippling doubt, external hostility, and the gnawing fear that her only guide may be misleading her",
+          "primary_conflict_type": "institutional",
+          "word_count_target": 2500,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "415296c6-7dde-4ab0-9061-3d9802c48f08",
+              "episode_id": "eedad7ec-624d-4bf3-a295-3d029f5a0c69",
+              "sequence_number": 2,
+              "title": "The Stolen Map",
+              "summary": "Elara retrieves the stolen map from its hiding place beneath the floorboards of her hovel, the first concrete step on her journey. Theron warns the map may have been tampered with by the cabal and could be a trap. She crosses the threshold from exile to quest, leaving behind the only life she has known and setting out into a world that has condemned her.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Has accepted the quest in principle but not yet taken physical action; the weight of commitment presses on her",
+              "chapter_arc_closing": "Steps into the world, map in hand, committed to the fragment hunt despite crippling doubt, external hostility, and the gnawing fear that her only guide may be misleading her",
+              "primary_conflict_type": "institutional",
+              "word_count_target": 2500,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "a68b6ed4-e396-4855-8e6e-6820b5cb99fa",
+          "episode_id": "6fd3c42d-0add-431b-9e18-12a9f8fbef5b",
+          "sequence_number": 0,
+          "title": "The Sunken Vaults",
+          "summary": "Elara navigates the treacherous Sunken Vaults, a flooded ruin from the Age of Veils half-submerged in a mercury marsh. Without magic, she must rely on her wits, a makeshift breathing apparatus, and Theron's whispered guidance. A near-fatal misdirection from Theron shakes her trust, planting the first seed of paranoia: is her only ally leading her into danger?",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Eager but uncertain, relying entirely on the stolen map and Theron's guidance, still hopeful that she can trust her helper",
+          "chapter_arc_closing": "Has survived the Vaults and reached the first fragment's chamber, but the near-fatal misdirection has fractured her trust in Theron and forced her to question the reliability of every piece of guidance she receives",
+          "primary_conflict_type": "environmental",
+          "word_count_target": 2600,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "a68b6ed4-e396-4855-8e6e-6820b5cb99fa",
+              "episode_id": "6fd3c42d-0add-431b-9e18-12a9f8fbef5b",
+              "sequence_number": 0,
+              "title": "The Sunken Vaults",
+              "summary": "Elara navigates the treacherous Sunken Vaults, a flooded ruin from the Age of Veils half-submerged in a mercury marsh. Without magic, she must rely on her wits, a makeshift breathing apparatus, and Theron's whispered guidance. A near-fatal misdirection from Theron shakes her trust, planting the first seed of paranoia: is her only ally leading her into danger?",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Eager but uncertain, relying entirely on the stolen map and Theron's guidance, still hopeful that she can trust her helper",
+              "chapter_arc_closing": "Has survived the Vaults and reached the first fragment's chamber, but the near-fatal misdirection has fractured her trust in Theron and forced her to question the reliability of every piece of guidance she receives",
+              "primary_conflict_type": "environmental",
+              "word_count_target": 2600,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "c97feaa7-5849-45de-bca7-15d04895902c",
+          "episode_id": "6fd3c42d-0add-431b-9e18-12a9f8fbef5b",
+          "sequence_number": 1,
+          "title": "The Ward's Secret",
+          "summary": "The first crystal fragment rests on a pedestal surrounded by a warding seal that lashes at magical signatures. Elara's powerlessness, once her greatest shame, becomes her greatest asset: the ward has no target. She walks through it untouched. Upon touching the fragment, a vision reveals the crystal's true history as a seal against the Blight, shattered by an ancient betrayal within the Mage Council. Her understanding of her own guilt begins to shift.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "At the threshold of claiming the fragment, vulnerable and exposed before an aggressive magical ward she cannot counter",
+          "chapter_arc_closing": "Holds the first fragment, burdened with explosive new knowledge that the Council may have caused the very disaster she was blamed for, forcing a fundamental reassessment of her identity as a villain",
+          "primary_conflict_type": "epistemic",
+          "word_count_target": 2900,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "c97feaa7-5849-45de-bca7-15d04895902c",
+              "episode_id": "6fd3c42d-0add-431b-9e18-12a9f8fbef5b",
+              "sequence_number": 1,
+              "title": "The Ward's Secret",
+              "summary": "The first crystal fragment rests on a pedestal surrounded by a warding seal that lashes at magical signatures. Elara's powerlessness, once her greatest shame, becomes her greatest asset: the ward has no target. She walks through it untouched. Upon touching the fragment, a vision reveals the crystal's true history as a seal against the Blight, shattered by an ancient betrayal within the Mage Council. Her understanding of her own guilt begins to shift.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "At the threshold of claiming the fragment, vulnerable and exposed before an aggressive magical ward she cannot counter",
+              "chapter_arc_closing": "Holds the first fragment, burdened with explosive new knowledge that the Council may have caused the very disaster she was blamed for, forcing a fundamental reassessment of her identity as a villain",
+              "primary_conflict_type": "epistemic",
+              "word_count_target": 2900,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "4f385da2-8a3f-4cda-a1b3-a73c092d1b98",
+          "episode_id": "6fd3c42d-0add-431b-9e18-12a9f8fbef5b",
+          "sequence_number": 2,
+          "title": "The Resonance-Compass",
+          "summary": "Following Theron's guidance to a secondary cache, Elara retrieves a resonance-compass that can detect crystal attunement at range, along with a dead seeker's journal. The journal describes the cabal's binder-mages who can suppress magical artifacts and track attuned individuals. The hunt becomes tactical as Elara realizes she is not just a hunter but also the hunted.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Has one fragment but limited ability to locate the remaining two; trust in Theron wavering after the Vaults incident",
+          "chapter_arc_closing": "Armed with a resonance-compass and critical intelligence about the cabal's capabilities, now both hunter and hunted, with a clearer but more dangerous picture of the road ahead",
+          "primary_conflict_type": "interpersonal",
+          "word_count_target": 2400,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "4f385da2-8a3f-4cda-a1b3-a73c092d1b98",
+              "episode_id": "6fd3c42d-0add-431b-9e18-12a9f8fbef5b",
+              "sequence_number": 2,
+              "title": "The Resonance-Compass",
+              "summary": "Following Theron's guidance to a secondary cache, Elara retrieves a resonance-compass that can detect crystal attunement at range, along with a dead seeker's journal. The journal describes the cabal's binder-mages who can suppress magical artifacts and track attuned individuals. The hunt becomes tactical as Elara realizes she is not just a hunter but also the hunted.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Has one fragment but limited ability to locate the remaining two; trust in Theron wavering after the Vaults incident",
+              "chapter_arc_closing": "Armed with a resonance-compass and critical intelligence about the cabal's capabilities, now both hunter and hunted, with a clearer but more dangerous picture of the road ahead",
+              "primary_conflict_type": "interpersonal",
+              "word_count_target": 2400,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "ed2089ed-2c9f-410f-b6ec-8c55b5a4e04e",
+          "episode_id": "a3b4c5d6-7e8f-4a9b-8c0d-1e2f3a4b5c6d",
+          "sequence_number": 0,
+          "title": "The Ashen Library",
+          "summary": "Using the resonance-compass, Elara tracks the second fragment to the Ashen Library, a labyrinthine archive preserved by ancient fire-wards. The map proves partially accurate for the outer sections, but the inner labyrinth is uncharted. She evades a cabal scout team by hiding in a collapsed reading room, confirming the cabal is actively hunting her and knows she has claimed the first fragment.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Tracking the second fragment with growing competence, aware the cabal is closing in but not yet in direct conflict",
+          "chapter_arc_closing": "Reaches the second fragment's inner sanctum in the Library, confirms the cabal's active pursuit, and realizes the race has become a hunt with her as the prey",
+          "primary_conflict_type": "environmental",
+          "word_count_target": 2400,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "ed2089ed-2c9f-410f-b6ec-8c55b5a4e04e",
+              "episode_id": "a3b4c5d6-7e8f-4a9b-8c0d-1e2f3a4b5c6d",
+              "sequence_number": 0,
+              "title": "The Ashen Library",
+              "summary": "Using the resonance-compass, Elara tracks the second fragment to the Ashen Library, a labyrinthine archive preserved by ancient fire-wards. The map proves partially accurate for the outer sections, but the inner labyrinth is uncharted. She evades a cabal scout team by hiding in a collapsed reading room, confirming the cabal is actively hunting her and knows she has claimed the first fragment.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Tracking the second fragment with growing competence, aware the cabal is closing in but not yet in direct conflict",
+              "chapter_arc_closing": "Reaches the second fragment's inner sanctum in the Library, confirms the cabal's active pursuit, and realizes the race has become a hunt with her as the prey",
+              "primary_conflict_type": "environmental",
+              "word_count_target": 2400,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "82bfd0c3-1d61-47f6-b9a3-c42077d97908",
+          "episode_id": "a3b4c5d6-7e8f-4a9b-8c0d-1e2f3a4b5c6d",
+          "sequence_number": 1,
+          "title": "The Fire-Spirit's Trial",
+          "summary": "The second fragment is guarded by a bound fire-spirit that tests not combat but truth. It forces Elara to relive the catastrophic breach and the faces of the seven apprentices. The spirit demands she answer: do you carry this guilt as a shield against further action or as a wound you must bear while still acting? Elara accepts her guilt as a permanent scar, not a defining identity, and passes the trial.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Burdened by guilt that she has unconsciously used as a shield against risking meaningful action and further failure",
+          "chapter_arc_closing": "Claims the second fragment with her guilt transmuted from a defensive shield to an acknowledged scar; takes her first genuine step toward self-acceptance and authentic agency",
+          "primary_conflict_type": "internal",
+          "word_count_target": 3100,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "82bfd0c3-1d61-47f6-b9a3-c42077d97908",
+              "episode_id": "a3b4c5d6-7e8f-4a9b-8c0d-1e2f3a4b5c6d",
+              "sequence_number": 1,
+              "title": "The Fire-Spirit's Trial",
+              "summary": "The second fragment is guarded by a bound fire-spirit that tests not combat but truth. It forces Elara to relive the catastrophic breach and the faces of the seven apprentices. The spirit demands she answer: do you carry this guilt as a shield against further action or as a wound you must bear while still acting? Elara accepts her guilt as a permanent scar, not a defining identity, and passes the trial.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Burdened by guilt that she has unconsciously used as a shield against risking meaningful action and further failure",
+              "chapter_arc_closing": "Claims the second fragment with her guilt transmuted from a defensive shield to an acknowledged scar; takes her first genuine step toward self-acceptance and authentic agency",
+              "primary_conflict_type": "internal",
+              "word_count_target": 3100,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "195705fa-a26d-48ef-83ef-f49839145fac",
+          "episode_id": "a3b4c5d6-7e8f-4a9b-8c0d-1e2f3a4b5c6d",
+          "sequence_number": 2,
+          "title": "The Trap Springs",
+          "summary": "Trusting the map's final route despite her doubts, Elara follows it into a narrow canyon. Alchemical traps and cabal operatives led by binder-mage Kaelen Dusk erupt around her. The stolen map was a deliberate kill-box. Theron's last-second warning allows her to trigger a rockfall that blocks the canyon, but she is injured and the cabal now knows her capabilities. In the aftermath, she confronts Theron, who admits he hid the map years ago and that the cabal altered it after his death.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Confident with two fragments in hand, cautiously following the map toward the third, hoping the worst is behind her",
+          "chapter_arc_closing": "Injured, the map rendered useless, trust in Theron fractured, but armed with the truth that the third fragment lies in the Spire of Judgment, where she was tried and broken",
+          "primary_conflict_type": "interpersonal",
+          "word_count_target": 2700,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "195705fa-a26d-48ef-83ef-f49839145fac",
+              "episode_id": "a3b4c5d6-7e8f-4a9b-8c0d-1e2f3a4b5c6d",
+              "sequence_number": 2,
+              "title": "The Trap Springs",
+              "summary": "Trusting the map's final route despite her doubts, Elara follows it into a narrow canyon. Alchemical traps and cabal operatives led by binder-mage Kaelen Dusk erupt around her. The stolen map was a deliberate kill-box. Theron's last-second warning allows her to trigger a rockfall that blocks the canyon, but she is injured and the cabal now knows her capabilities. In the aftermath, she confronts Theron, who admits he hid the map years ago and that the cabal altered it after his death.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Confident with two fragments in hand, cautiously following the map toward the third, hoping the worst is behind her",
+              "chapter_arc_closing": "Injured, the map rendered useless, trust in Theron fractured, but armed with the truth that the third fragment lies in the Spire of Judgment, where she was tried and broken",
+              "primary_conflict_type": "interpersonal",
+              "word_count_target": 2700,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "54b97d07-15a9-4c0e-a645-a2460a3e6688",
+          "episode_id": "b4c5d6e7-8f9a-4b0c-9d1e-2f3a4b5c6d7e",
+          "sequence_number": 0,
+          "title": "The Spire of Judgment",
+          "summary": "Elara returns to the Spire of Judgment for the first time since her trial. She petitions Grandmaster Valdris for access to the Council vault, presenting the two fragments as evidence of the Blight threat. Valdris and the Council reject her, maintaining the official narrative that her experiment shattered the crystal. The Council's refusal confirms what the crystal's vision showed her: they have something to hide about the crystal's original shattering.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Believes she can negotiate with the institution that destroyed her, still hoping for some form of official redemption",
+          "chapter_arc_closing": "Rejected by the Council, confirmed as a fugitive by necessity not just circumstance, and resolved to steal the third fragment from the very institution that condemned her",
+          "primary_conflict_type": "institutional",
+          "word_count_target": 2800,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "54b97d07-15a9-4c0e-a645-a2460a3e6688",
+              "episode_id": "b4c5d6e7-8f9a-4b0c-9d1e-2f3a4b5c6d7e",
+              "sequence_number": 0,
+              "title": "The Spire of Judgment",
+              "summary": "Elara returns to the Spire of Judgment for the first time since her trial. She petitions Grandmaster Valdris for access to the Council vault, presenting the two fragments as evidence of the Blight threat. Valdris and the Council reject her, maintaining the official narrative that her experiment shattered the crystal. The Council's refusal confirms what the crystal's vision showed her: they have something to hide about the crystal's original shattering.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Believes she can negotiate with the institution that destroyed her, still hoping for some form of official redemption",
+              "chapter_arc_closing": "Rejected by the Council, confirmed as a fugitive by necessity not just circumstance, and resolved to steal the third fragment from the very institution that condemned her",
+              "primary_conflict_type": "institutional",
+              "word_count_target": 2800,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "c4151c36-0d85-42fe-8557-70828c55499b",
+          "episode_id": "b4c5d6e7-8f9a-4b0c-9d1e-2f3a4b5c6d7e",
+          "sequence_number": 1,
+          "title": "The Vault",
+          "summary": "Using her intimate knowledge of the Spire's defenses from her years as an initiate, and Theron's guidance on the vault's layout, Elara breaks into the Council vault. Her lack of magical signature allows her to bypass arcane wards undetected. She claims the third fragment but triggers the alarm. Grandmaster Valdris corners her. In a desperate confrontation, she reveals the vision of the Council's betrayal. Valdris hesitates, then steps aside. She flees.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Planning the heist, leveraging her unique knowledge of the Spire and her powerlessness as unexpected advantages",
+          "chapter_arc_closing": "Possesses all three fragments, escaped from the Spire with Valdris's implicit acknowledgment of the Council's cover-up, vindicated but permanently alienated from her former world",
+          "primary_conflict_type": "institutional",
+          "word_count_target": 2600,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "c4151c36-0d85-42fe-8557-70828c55499b",
+              "episode_id": "b4c5d6e7-8f9a-4b0c-9d1e-2f3a4b5c6d7e",
+              "sequence_number": 1,
+              "title": "The Vault",
+              "summary": "Using her intimate knowledge of the Spire's defenses from her years as an initiate, and Theron's guidance on the vault's layout, Elara breaks into the Council vault. Her lack of magical signature allows her to bypass arcane wards undetected. She claims the third fragment but triggers the alarm. Grandmaster Valdris corners her. In a desperate confrontation, she reveals the vision of the Council's betrayal. Valdris hesitates, then steps aside. She flees.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Planning the heist, leveraging her unique knowledge of the Spire and her powerlessness as unexpected advantages",
+              "chapter_arc_closing": "Possesses all three fragments, escaped from the Spire with Valdris's implicit acknowledgment of the Council's cover-up, vindicated but permanently alienated from her former world",
+              "primary_conflict_type": "institutional",
+              "word_count_target": 2600,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      },
+      {
+        "contract": {
+          "id": "3dbbcefd-8ee0-4fad-ba37-31c6e48b5c9f",
+          "episode_id": "b4c5d6e7-8f9a-4b0c-9d1e-2f3a4b5c6d7e",
+          "sequence_number": 2,
+          "title": "The Convergence",
+          "summary": "At the convergence point, the site of her catastrophic experiment, Elara begins the sealing ritual. Kaelen Dusk and the cabal strike. Kaelen's binding magic suppresses all three fragments. With the cabal closing in, Elara faces her darkest moment. Heeding Theron's final guidance, she releases the fragments and offers not magical force but her authentic self: her guilt, her love for the seven apprentices, her refusal to let more die. The crystal reforms, sealing the Blight. Kaelen is destroyed. Valdris arrives and offers a pardon, but Elara walks away, finally at peace.",
+          "narrative_programs_active": [
+            "22222222-2222-4222-8222-222222222201"
+          ],
+          "scenes": [],
+          "chapter_arc_opening": "Races to seal the Blight with all three fragments in hand, hunted by the cabal, exhausted and wounded but determined",
+          "chapter_arc_closing": "The Blight is sealed, the cabal broken, and Elara walks away from institutional validation, still stripped of magic but for the first time whole in herself, her redemption earned not through power but through the choice to accept her flawed self",
+          "primary_conflict_type": "internal",
+          "word_count_target": 3500,
+          "status": "outline"
+        },
+        "current_version": 1,
+        "history": [
+          {
+            "version": 1,
+            "timestamp": "2026-06-11T00:21:32.984562+00:00",
+            "agent": "chapter_planner",
+            "action": "created",
+            "snapshot": {
+              "id": "3dbbcefd-8ee0-4fad-ba37-31c6e48b5c9f",
+              "episode_id": "b4c5d6e7-8f9a-4b0c-9d1e-2f3a4b5c6d7e",
+              "sequence_number": 2,
+              "title": "The Convergence",
+              "summary": "At the convergence point, the site of her catastrophic experiment, Elara begins the sealing ritual. Kaelen Dusk and the cabal strike. Kaelen's binding magic suppresses all three fragments. With the cabal closing in, Elara faces her darkest moment. Heeding Theron's final guidance, she releases the fragments and offers not magical force but her authentic self: her guilt, her love for the seven apprentices, her refusal to let more die. The crystal reforms, sealing the Blight. Kaelen is destroyed. Valdris arrives and offers a pardon, but Elara walks away, finally at peace.",
+              "narrative_programs_active": [
+                "22222222-2222-4222-8222-222222222201"
+              ],
+              "scenes": [],
+              "chapter_arc_opening": "Races to seal the Blight with all three fragments in hand, hunted by the cabal, exhausted and wounded but determined",
+              "chapter_arc_closing": "The Blight is sealed, the cabal broken, and Elara walks away from institutional validation, still stripped of magic but for the first time whole in herself, her redemption earned not through power but through the choice to accept her flawed self",
+              "primary_conflict_type": "internal",
+              "word_count_target": 3500,
+              "status": "outline"
+            }
+          }
+        ],
+        "locked": false
+      }
+    ]
+  },
+  "field_locks": {}
+}
