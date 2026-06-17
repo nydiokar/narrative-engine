@@ -1144,7 +1144,7 @@
       {
         "contract": {
           "id": "ed2089ed-2c9f-410f-b6ec-8c55b5a4e04e",
-          "episode_id": "a3b4c5d6-7e8f-4a9b-8c0d-1e2f3a4b5c6d",
+          "episode_id": "8d1e0dd3-ba4c-40b1-ba91-1334b13531bd",
           "sequence_number": 0,
           "title": "The Ashen Library",
           "summary": "Using the resonance-compass, Elara tracks the second fragment to the Ashen Library, a labyrinthine archive preserved by ancient fire-wards. The map proves partially accurate for the outer sections, but the inner labyrinth is uncharted. She evades a cabal scout team by hiding in a collapsed reading room, confirming the cabal is actively hunting her and knows she has claimed the first fragment.",
@@ -1158,7 +1158,7 @@
           "word_count_target": 2400,
           "status": "outline"
         },
-        "current_version": 1,
+        "current_version": 2,
         "history": [
           {
             "version": 1,
@@ -1188,7 +1188,7 @@
       {
         "contract": {
           "id": "82bfd0c3-1d61-47f6-b9a3-c42077d97908",
-          "episode_id": "a3b4c5d6-7e8f-4a9b-8c0d-1e2f3a4b5c6d",
+          "episode_id": "8d1e0dd3-ba4c-40b1-ba91-1334b13531bd",
           "sequence_number": 1,
           "title": "The Fire-Spirit's Trial",
           "summary": "The second fragment is guarded by a bound fire-spirit that tests not combat but truth. It forces Elara to relive the catastrophic breach and the faces of the seven apprentices. The spirit demands she answer: do you carry this guilt as a shield against further action or as a wound you must bear while still acting? Elara accepts her guilt as a permanent scar, not a defining identity, and passes the trial.",
@@ -1202,7 +1202,7 @@
           "word_count_target": 3100,
           "status": "outline"
         },
-        "current_version": 1,
+        "current_version": 2,
         "history": [
           {
             "version": 1,
@@ -1232,7 +1232,7 @@
       {
         "contract": {
           "id": "195705fa-a26d-48ef-83ef-f49839145fac",
-          "episode_id": "a3b4c5d6-7e8f-4a9b-8c0d-1e2f3a4b5c6d",
+          "episode_id": "8d1e0dd3-ba4c-40b1-ba91-1334b13531bd",
           "sequence_number": 2,
           "title": "The Trap Springs",
           "summary": "Trusting the map's final route despite her doubts, Elara follows it into a narrow canyon. Alchemical traps and cabal operatives led by binder-mage Kaelen Dusk erupt around her. The stolen map was a deliberate kill-box. Theron's last-second warning allows her to trigger a rockfall that blocks the canyon, but she is injured and the cabal now knows her capabilities. In the aftermath, she confronts Theron, who admits he hid the map years ago and that the cabal altered it after his death.",
@@ -1246,7 +1246,7 @@
           "word_count_target": 2700,
           "status": "outline"
         },
-        "current_version": 1,
+        "current_version": 2,
         "history": [
           {
             "version": 1,
@@ -1276,7 +1276,7 @@
       {
         "contract": {
           "id": "54b97d07-15a9-4c0e-a645-a2460a3e6688",
-          "episode_id": "b4c5d6e7-8f9a-4b0c-9d1e-2f3a4b5c6d7e",
+          "episode_id": "b204ed61-a459-4842-8d15-9732bb0406dd",
           "sequence_number": 0,
           "title": "The Spire of Judgment",
           "summary": "Elara returns to the Spire of Judgment for the first time since her trial. She petitions Grandmaster Valdris for access to the Council vault, presenting the two fragments as evidence of the Blight threat. Valdris and the Council reject her, maintaining the official narrative that her experiment shattered the crystal. The Council's refusal confirms what the crystal's vision showed her: they have something to hide about the crystal's original shattering.",
@@ -1290,7 +1290,7 @@
           "word_count_target": 2800,
           "status": "outline"
         },
-        "current_version": 1,
+        "current_version": 2,
         "history": [
           {
             "version": 1,
@@ -1320,7 +1320,7 @@
       {
         "contract": {
           "id": "c4151c36-0d85-42fe-8557-70828c55499b",
-          "episode_id": "b4c5d6e7-8f9a-4b0c-9d1e-2f3a4b5c6d7e",
+          "episode_id": "b204ed61-a459-4842-8d15-9732bb0406dd",
           "sequence_number": 1,
           "title": "The Vault",
           "summary": "Using her intimate knowledge of the Spire's defenses from her years as an initiate, and Theron's guidance on the vault's layout, Elara breaks into the Council vault. Her lack of magical signature allows her to bypass arcane wards undetected. She claims the third fragment but triggers the alarm. Grandmaster Valdris corners her. In a desperate confrontation, she reveals the vision of the Council's betrayal. Valdris hesitates, then steps aside. She flees.",
@@ -1334,7 +1334,7 @@
           "word_count_target": 2600,
           "status": "outline"
         },
-        "current_version": 1,
+        "current_version": 2,
         "history": [
           {
             "version": 1,
@@ -1364,7 +1364,7 @@
       {
         "contract": {
           "id": "3dbbcefd-8ee0-4fad-ba37-31c6e48b5c9f",
-          "episode_id": "b4c5d6e7-8f9a-4b0c-9d1e-2f3a4b5c6d7e",
+          "episode_id": "b204ed61-a459-4842-8d15-9732bb0406dd",
           "sequence_number": 2,
           "title": "The Convergence",
           "summary": "At the convergence point, the site of her catastrophic experiment, Elara begins the sealing ritual. Kaelen Dusk and the cabal strike. Kaelen's binding magic suppresses all three fragments. With the cabal closing in, Elara faces her darkest moment. Heeding Theron's final guidance, she releases the fragments and offers not magical force but her authentic self: her guilt, her love for the seven apprentices, her refusal to let more die. The crystal reforms, sealing the Blight. Kaelen is destroyed. Valdris arrives and offers a pardon, but Elara walks away, finally at peace.",
@@ -1378,7 +1378,7 @@
           "word_count_target": 3500,
           "status": "outline"
         },
-        "current_version": 1,
+        "current_version": 2,
         "history": [
           {
             "version": 1,

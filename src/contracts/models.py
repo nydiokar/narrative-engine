@@ -93,6 +93,10 @@ class SceneType(str, Enum):
     CLIMAX = "climax"
     RESOLUTION = "resolution"
     EPILOGUE = "epilogue"
+    EXPOSITION = "exposition"
+    TRANSITION = "transition"
+    RISING_ACTION = "rising_action"
+    FALLING_ACTION = "falling_action"
 
 
 class SequenceType(str, Enum):

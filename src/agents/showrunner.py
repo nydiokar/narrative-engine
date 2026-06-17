@@ -88,11 +88,33 @@ class Showrunner(BaseAgent):
         )
 
     def _approve_structure(self, context: AgentContext) -> AgentResult:
-        result = self._call_llm_for_step(context)
+        episodes = self.list_contracts("episode")
+        chapters = self.list_contracts("chapter")
+
+        errors = []
+
+        expected_phases = ["manipulation", "competence", "performance", "sanction"]
+        episode_phases = [getattr(e, "canonical_phase", None) or getattr(e, "phase", "") for e in episodes]
+
+        for phase in expected_phases:
+            if phase not in episode_phases:
+                errors.append(f"Missing episode with canonical_phase '{phase}'")
+
+        episode_ids = {str(e.id) for e in episodes}
+        for ch in chapters:
+            eid = getattr(ch, "episode_id", None)
+            if eid and str(eid) not in episode_ids:
+                errors.append(f"Chapter '{getattr(ch, 'title', '?')}' references unknown episode {eid}")
+
+        if not errors:
+            return AgentResult(
+                success=True,
+                message=f"Structure approved: {len(episodes)} episodes, {len(chapters)} chapters",
+            )
         return AgentResult(
-            success=result.get("success", False),
-            message=result.get("message", "Structure approved"),
-            errors=result.get("errors", []),
+            success=False,
+            message="Structure rejected",
+            errors=errors,
         )
 
     def _approve_episodes(self, context: AgentContext) -> AgentResult:

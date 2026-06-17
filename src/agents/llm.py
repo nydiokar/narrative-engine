@@ -354,10 +354,14 @@ class SubprocessLLMProvider(LLMProvider):
         (logs_dir / "stderr.txt").write_text(stderr_content, encoding="utf-8")
         (logs_dir / "metadata.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
-        # Read output: prefer output/result.json, fall back to stdout
+        # Read output: prefer output/result.json, then run_dir/result.json (agent may write to step root), fall back to stdout
         content = ""
         if output_path.exists():
             content = output_path.read_text(encoding="utf-8")
+        if not content:
+            root_result = run_dir / "result.json"
+            if root_result.exists():
+                content = root_result.read_text(encoding="utf-8")
         if not content and stdout_content:
             content = stdout_content
 
