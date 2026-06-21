@@ -57,8 +57,8 @@ class TestSceneWriter:
         result = writer.execute(ctx)
         assert result.success is True
         scenes = writer.list_contracts("scene")
-        # Fallback creates 2 scenes per chapter
-        assert len(scenes) == 2
+        # Fallback creates 3 scenes per chapter
+        assert len(scenes) == 3
 
     def test_render_scenes_handles_llm_parse_failure(self):
         mock = MockLLMProvider(fallback="not valid json")
@@ -69,7 +69,7 @@ class TestSceneWriter:
         result = writer.execute(ctx)
         assert result.success is True
         scenes = writer.list_contracts("scene")
-        assert len(scenes) == 2
+        assert len(scenes) == 3
 
     def test_render_scenes_normalizes_greimas_tracking(self):
         mock = MockLLMProvider(

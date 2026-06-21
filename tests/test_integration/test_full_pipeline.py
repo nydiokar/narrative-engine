@@ -49,7 +49,7 @@ class TestFullPipeline:
         assert story.status == "seed"
         assert len(all_items["episode"]) == 4
         assert len(all_items["chapter"]) == 12
-        assert len(all_items["scene"]) == 24
+        assert len(all_items["scene"]) == 36
 
     def test_pipeline_updates_story_genre(self):
         self._seed_story()
@@ -126,7 +126,7 @@ class TestFullPipeline:
             assert all(r.success for r in results), f"Workflow {wid} failed"
 
         store = get_store()
-        assert len(store.list_by_type("scene")) == 24
+        assert len(store.list_by_type("scene")) == 36
 
     def test_workflow_06_editorial_passes(self):
         self._seed_story()
@@ -193,7 +193,7 @@ class TestFullPipeline:
 
         store = get_store()
         scenes = store.list_by_type("scene")
-        assert len(scenes) == 24
+        assert len(scenes) == 36
 
         from src.engine.fabula.coherence import FabulaCoherenceEngine
         scenes_data = [s.model_dump(mode="json") for s in scenes if hasattr(s, "model_dump")]

@@ -78,7 +78,7 @@ class TestIndividualAgents:
         result = sw.execute(ctx)
         assert result.success is True
         scenes = sw.list_contracts("scene")
-        assert len(scenes) == 24  # 12 chapters * 2 scenes
+        assert len(scenes) == 36  # 12 chapters * 3 scenes
 
     def test_structuralist_checks_empty(self):
         s = Structuralist()

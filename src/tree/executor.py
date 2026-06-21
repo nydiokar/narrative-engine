@@ -14,6 +14,7 @@ from typing import Any
 from uuid import uuid4
 
 from rich.console import Console
+from rich.markup import escape
 from rich.panel import Panel
 from rich.table import Table
 
@@ -113,7 +114,7 @@ class TreeExecutor:
         while current.parent_id:
             parent = self.tree.get(current.parent_id)
             if not parent:
-                break
+                return self.tree.root
             current = parent
         return current
 
@@ -627,7 +628,7 @@ class TreeExecutor:
             label = s["label"]
             verdict = s.get("critique_verdict", "?")
             style = "green" if verdict == "pass" else "red"
-            table.add_column(f"[{label}]", style=style, no_wrap=False)
+            table.add_column(escape(label), style=style, no_wrap=False)
 
         PROPERTIES = [
             ("checkpoint", "Checkpoint"),

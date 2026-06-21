@@ -239,8 +239,6 @@ class SceneWriter(BaseAgent):
 
         last_error = ""
         for attempt in range(3):
-            if attempt > 0:
-                _time.sleep(2.0 * (2 ** (attempt - 1)))
             try:
                 response = self.llm.generate(
                     system_prompt=system_prompt,
@@ -250,6 +248,8 @@ class SceneWriter(BaseAgent):
                     context=gen_ctx,
                 )
             except Exception as e:
+                if attempt > 0:
+                    _time.sleep(2.0 * (2 ** (attempt - 1)))
                 last_error = str(e)
                 self.log("error", f"LLM call failed for episode '{ep_title}': {e}")
                 continue
@@ -259,6 +259,7 @@ class SceneWriter(BaseAgent):
                 return parsed
             last_error = parsed.get("message", "Parse returned no data")
             self.log("warning", f"Parse failure (attempt {attempt + 1}): {last_error}")
+            break
 
         self.log("error", f"All attempts failed for episode '{ep_title}': {last_error}")
         return {"contracts_data": [], "success": False, "errors": [last_error], "message": last_error}
