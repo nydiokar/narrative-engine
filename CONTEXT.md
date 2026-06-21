@@ -4,7 +4,7 @@
 
 All 435 tests pass. Full pipeline runs clean with real LLM (llama3.2 @ localhost:11434, OpenCode big-pickle).
 Branching (sequential + parallel) works with correct contract seeding + variant comparison.
-ROADMAP.md and CONTEXT.md aligned. 3 power moves defined, PM1 completed.
+ROADMAP.md and CONTEXT.md aligned. 3 power moves defined, PM1 and PM2 completed.
 
 ## Recent Work
 
@@ -34,6 +34,20 @@ ROADMAP.md and CONTEXT.md aligned. 3 power moves defined, PM1 completed.
 4. All 435 tests pass — no regressions.
 
 **Next action:** Power Move #2 — wire discourse contract.
+
+### Session: Power Move #2 — Discourse Contract Wired
+
+**Goal:** Populate `DiscourseContract` during pipeline execution so every agent can consume narrative discourse settings (POV, tense, voice, exposition strategy).
+
+**Achievements:**
+
+1. **`_define_discourse` added** (`src/agents/showrunner.py`) — programmatic step creates `DiscourseContract` with medium-appropriate defaults (book → third_limited/past, movie/animation → third_objective/present, series → third_limited/present), writes to store, links to story via `story.discourse_contract_id`.
+2. **WF00 step added** (`src/agents/director.py`) — `define_discourse` inserted after `prepare_layers`, before `approve_brief` in shared workflow 00.
+3. **Contract tracking** — `WORKFLOW_OUTPUT_TYPES` updated to include `"discourse"` in WF00, checkpoint expectations include discourse from brief onward, final approval verifies discourse exists.
+4. **6 tests updated** — all seed discourse where brief checkpoint state is expected.
+5. All 435 tests pass.
+
+**Next action:** Power Move #3 — quality baseline + regression suite.
 
 ### Session: Branch Seed Fix + Test Debt Cleanup
 
@@ -74,7 +88,7 @@ ROADMAP.md and CONTEXT.md aligned. 3 power moves defined, PM1 completed.
 | # | Move | Why | Status |
 |---|------|-----|--------|
 | 1 | **Ship non-book assemblers** — `_assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` write real output files (were counting stubs at `showrunner.py:172–194`) | Only book medium produced a readable file (`output/draft.md`). Animation/movie/series produced nothing. | ✅ Done |
-| 2 | **Wire discourse contract** — `DiscourseContract` defined but zero agents call `write_contract("discourse", ...)`. Connect it to scene writer prompts so POV/tense/voice settings are respected. | Structural gap affecting all mediums. Author intent (voice, perspective) is invisible to the pipeline. | 🔴 Not started |
+| 2 | **Wire discourse contract** — `DiscourseContract` defined but zero agents called `write_contract("discourse", ...)`. Showrunner now creates it in WF00 with medium-appropriate defaults. | Pipeline now creates and tracks narrative discourse settings (POV, tense, voice). Scene writer consumes them via upstream YAML. | ✅ Done |
 | 3 | **Quality baseline + regression suite** — Run 3 genres full pipeline with real LLM, collect soft gate scores. Snapshot LLM output parsing per agent. | No data-driven measure of output quality. Changes can regress without detection. | 🔴 Not started |
 
 ## Key Commands
@@ -86,7 +100,6 @@ python -m pytest tests/ -q
 ```
 
 ## Known Issues
-- `DiscourseContract` registered but never populated by any agent
 - No quality baseline: soft gate scores from real LLM never collected
 - ContractStore singleton leaks state across tests
 - 25 Python modules lack dedicated unit tests

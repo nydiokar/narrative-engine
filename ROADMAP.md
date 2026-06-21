@@ -174,7 +174,7 @@ $ python -m src promote fantasy --tree-load tree.json --tree-save tree.json
 
 1. **Ship non-book medium assemblers** — ✅ Done. `_assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` now read scenes from store and write `output/script.md`, `output/screenplay.md`, `output/teleplay.md` respectively with medium-appropriate headers.
 
-2. **Wire the discourse contract** — `DiscourseContract` is defined (`models.py:723`), registered in store, listed as WF05 output type — but no agent ever calls `write_contract("discourse", ...)`. The `story.discourse_contract_id` field (`models.py:477`) is always `None`. This is the bridge between "pipeline runs" and "story reads the way the author intends" (POV, tense, voice, exposition strategy).
+2. **Wire the discourse contract** — ✅ Done. Showrunner creates `DiscourseContract` with medium-appropriate defaults during WF00, links to story via `discourse_contract_id`. Discourse settings flow to downstream agents via upstream YAML.
 
 3. **Establish quality baseline + regression suite** — Run 3 genres full pipeline with real LLM, capture soft gate scores as a repeatable baseline. Build snapshot-based regression tests for each agent's LLM output parsing so future changes cannot silently break output structure.
 
