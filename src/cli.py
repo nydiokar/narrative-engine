@@ -52,7 +52,7 @@ from src.agents.director import Director
 from src.agents.llm import MockLLMProvider, OpenAILLMProvider, SubprocessLLMProvider, set_llm, reset_llm
 from src.agents.store import ContractStore, get_store, reset_store
 from src.contracts.models import Medium, StoryContract
-from src.pipeline.checkpoints import CHECKPOINT_ORDER, find_next_checkpoint, run_to_checkpoint
+from src.pipeline.checkpoints import CHECKPOINT_ORDER, expected_contracts_at_checkpoint, find_next_checkpoint, run_to_checkpoint
 from src.pipeline.orchestrator import default_agent_registry
 from src.tree.executor import BranchConfig, TreeExecutor
 from src.tree.node import TreeNode, TreeStore
@@ -430,6 +430,13 @@ def cmd_branch(args: list[str]):
                 _store.restore(tree.root.store_snapshot)
                 _apply_set_flags(_store, set_args)
                 tree.root.store_snapshot = _store.snapshot()
+            # Warn if root snapshot is missing expected contracts for branch-from checkpoint
+            _expected_types = set(expected_contracts_at_checkpoint(branch_from).keys())
+            if _expected_types:
+                _root_types = set(tree.root.store_snapshot.get("contracts", {}).keys())
+                _missing = _expected_types - _root_types
+                if _missing:
+                    print(f"  Warning: root snapshot missing contracts {_missing} (expected at '{branch_from}' checkpoint)")
         else:
             # Store file — create root from its snapshot
             from src.agents.store import reset_store as _rs, get_store as _gs
@@ -441,7 +448,8 @@ def cmd_branch(args: list[str]):
                 _apply_set_flags(_store, set_args)
             _snap = _store.snapshot()
             _cd = _snap.get("contracts", {})
-            _seed = {"contracts": {k: v for k, v in _cd.items() if k in {"story"}}, "field_locks": {}}
+            _seed_types = set(expected_contracts_at_checkpoint(branch_from).keys()) or {"story"}
+            _seed = {"contracts": {k: v for k, v in _cd.items() if k in _seed_types}, "field_locks": {}}
             tree.root = TreeNode(label="root", checkpoint="", store_snapshot=_seed, active=True)
             print(f"Created root from store file {tree_load_path}")
     else:
@@ -456,7 +464,8 @@ def cmd_branch(args: list[str]):
 
         full_snapshot = store.snapshot()
         contracts_data = full_snapshot.get("contracts", {})
-        seed_contracts = {k: v for k, v in contracts_data.items() if k in {"story"}}
+        seed_types = set(expected_contracts_at_checkpoint(branch_from).keys()) or {"story"}
+        seed_contracts = {k: v for k, v in contracts_data.items() if k in seed_types}
         seed_snapshot = {"contracts": seed_contracts, "field_locks": {}}
         root = TreeNode(label="root", checkpoint="", store_snapshot=seed_snapshot, active=True)
         tree.root = root
