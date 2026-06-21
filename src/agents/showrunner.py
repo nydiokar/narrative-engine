@@ -88,6 +88,15 @@ class Showrunner(BaseAgent):
         )
 
     def _approve_structure(self, context: AgentContext) -> AgentResult:
+        result = self._call_llm_for_step(context)
+        return AgentResult(
+            success=result.get("success", False),
+            message=result.get("message", "Structure review complete"),
+            errors=result.get("errors", []),
+        )
+
+    def _approve_episodes(self, context: AgentContext) -> AgentResult:
+        result = self._call_llm_for_step(context)
         episodes = self.list_contracts("episode")
         chapters = self.list_contracts("chapter")
 
@@ -106,19 +115,13 @@ class Showrunner(BaseAgent):
             if eid and str(eid) not in episode_ids:
                 errors.append(f"Chapter '{getattr(ch, 'title', '?')}' references unknown episode {eid}")
 
-        if not errors:
+        if errors:
             return AgentResult(
-                success=True,
-                message=f"Structure approved: {len(episodes)} episodes, {len(chapters)} chapters",
+                success=False,
+                message="Episode approval rejected",
+                errors=errors,
             )
-        return AgentResult(
-            success=False,
-            message="Structure rejected",
-            errors=errors,
-        )
 
-    def _approve_episodes(self, context: AgentContext) -> AgentResult:
-        result = self._call_llm_for_step(context)
         return AgentResult(
             success=result.get("success", False),
             message=result.get("message", "Episode structure approved"),

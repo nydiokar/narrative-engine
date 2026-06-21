@@ -80,15 +80,17 @@ class TestShowrunner:
         mock = MockLLMProvider(fallback='{"success": true}')
         set_llm(mock)
         agent = Showrunner()
-        ep = EpisodeContract(title="E1")
+        phases = ["manipulation", "competence", "performance", "sanction"]
+        eps = [EpisodeContract(title=f"E{i+1}-{p}", canonical_phase=p) for i, p in enumerate(phases)]
         agent.store.put("story", StoryContract(title="T", premise="P"))
-        agent.store.put("episode", ep)
-        agent.store.put("chapter", ChapterContract(episode_id=ep.id, title="C1"))
+        for ep in eps:
+            agent.store.put("episode", ep)
+            agent.store.put("chapter", ChapterContract(episode_id=ep.id, title=f"C-{ep.title}"))
         ctx = AgentContext(workflow_id="04", step_id="approve_episodes")
         result = agent.execute(ctx)
         assert result.success is True
 
-    def test_approve_episodes_missing_chapters(self):
+    def test_approve_episodes_missing_phases(self):
         agent = Showrunner()
         agent.store.put("story", StoryContract(title="T", premise="P"))
         agent.store.put("episode", EpisodeContract(title="E1"))

@@ -15,3 +15,4 @@ site/
 
 .env.local
 runs/
+state*.json

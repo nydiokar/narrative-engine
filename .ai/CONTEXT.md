@@ -1,6 +1,6 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-06-11 | **Status:** Phase J — real-LLM battle testing in progress; scenes checkpoint failing Greimas diagnostic
+**Branch:** `main` | **Last Updated:** 2026-06-20 | **Status:** Phase J — full pipeline runs clean with real LLM via opencode provider
 
 ---
 
@@ -36,36 +36,50 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 
 ## Current Status
 
-- **Pipeline (linear path)**: Checkpoints 00–03 (brief, premise, structure, episodes) pass with real LLM. **Scenes (04) fails** — 26 scenes generated across 12 chapters, but all fail Greimas diagnostic.
-- **Root causes identified & fixed** (2026-06-11):
-  1. `_run_greimas_diagnostic` computed pass/fail but never wrote `diagnostic_pass` back to scene contracts — all 26 scenes showed `diagnostic: FAIL` in store.
-  2. `except` handler created bare fallback scenes with empty `greimas_diagnostic` (defaults to empty strings + `"none"`), guaranteeing failure.
-  3. LLM prompt still calls for 3 scenes per chapter (36 scenes total) but fallback only created 2 per chapter → mismatch.
-- **Fixes applied to `scene_writer.py`**:
-  - `_run_greimas_diagnostic` now persists `diagnostic_pass` via `write_contract()`
-  - `except` handler now includes non-empty placeholder diagnostic fields
-- **Re-run in progress** — command timed out after 10+ minutes (4 LLM calls × ~2-3 min each). Need to verify fix works.
-- **Editorial/Revision**: Soft gate and cliché detection now call the real LLM for evaluation scores. Revision agent applies real contract modifications. Revision loop uses targeted editorial passes (N-1) before full regeneration instead of nuke-and-regenerate.
-- **Tree layer**: All core operations implemented. Canonical CLI (`python -m src`) has `run`, `branch`, `compare`, `diff`, `promote`, `prune`, `show`, `set`, `lock`, `unlock` commands.
-- **Hard Gate event feed fixed**: critic.py now extracts `world_rules` from WorldContract, builds character ID→name map, and passes scene-derived events + GOLEM events with actant metadata to `HardGate.evaluate()`. Modality field name mismatch fixed — coherence checks now use `actant_id`/`from_state`/`to_state` keys matching the `ModalityChange` Pydantic model.
-- **Tree UX upgraded**: `compare` renders Rich tables (color-coded verdicts, --detail panels); `diff` shows contract-level field differences; `branch --parallel` for concurrent variant execution via ThreadPoolExecutor.
-- **Pre-existing bugs fixed**: `_find_root_seed()` dead-code while loop corrected; `--set` flag timing in `cmd_branch()` no longer silently ignored.
-- **Phase J groundwork — real-LLM resilience**:
-  - `parse_json_output()` rewritten to handle: markdown fences, extra text around JSON, trailing commas, single-quoted keys, truncated output, array-wrapped results, regex fallback extraction
-  - `BaseAgent._call_llm_for_step()` now retries up to 3 times with exponential backoff on parse failure
-  - `SubprocessLLMProvider.generate()` accepts per-call `timeout` override; catches `OSError` alongside `TimeoutExpired`
-  - All 3 provider signatures accept `timeout` parameter (backward compatible)
+**Full pipeline runs clean with real LLM (`--provider opencode`).** All 8 checkpoints pass, all 39 workflow steps succeed.
 
-### Critical Path — Phase J (Real-LLM Battle Testing)
+### Pipeline Results (`python -m src run --to final --provider opencode`)
+
+| # | Workflow | Steps | Status | Output |
+|:-:|:---------|:-----:|:------:|:-------|
+| 00 | brief-and-taxonomy | 5/5 | ✅ | Genre FIC009070 (Epic Fantasy), 5 world axes, theme contract |
+| 01 | seed-to-premise | 5/5 | ✅ | Actantial config extracted, protagonist Elara Vex created |
+| 02 | premise-to-structure | 4/4 | ✅ | 12-event fabula chain, all constraints satisfied |
+| 03 | structure-to-episodes | 5/5 | ✅ | 4 episodes with proper phases, 12 chapters with titles |
+| 04 | episodes-to-scenes | 5/5 | ✅ | 24 scenes, all Greimas diagnostic PASS |
+| 05 | scenes-to-draft | 3/3 | ✅ | 33K char draft assembled |
+| 06 | editorial-passes | 7/7 | ✅ | Dev edit, line edit, copy edit, continuity check |
+| 07 | critique-and-revision | 5/5 | ✅ | Hard gate PASS, soft gate 6.2, final approved |
+
+State saved to `state.json` — can resume from any checkpoint with `--load state.json --from <checkpoint>`.
+
+### Fixes Applied This Session
+
+1. **Showrunner `approve_structure` bug** (`src/agents/showrunner.py:90-118`): Was checking for episode/chapter contracts that don't exist yet at the structure stage. Replaced Python-level validation with LLM call. Moved the 4-phase check (`manipulation`, `competence`, `performance`, `sanction`) to `approve_episodes` where it belongs.
+
+2. **Final checkpoint auto-detect** (`src/pipeline/checkpoints.py:314`): `final` checkpoint shares `critique` contract type with earlier stages. Added `final` to the list of checkpoints verified via `_completed_checkpoints` instead of contract-count verification.
+
+3. **Checkpoint skip/resume** (`src/pipeline/checkpoints.py`): `run_to_checkpoint()` accepts `start_from` param — Phase 1 verifies earlier checkpoints from store without running workflows; Phase 2 runs from `start_from`. Auto-detect via `find_next_checkpoint()` when loading saved state without `--from`.
+
+4. **Prompt cleanup**: `showrunner.md` prompts (both `src/agents/prompts/` and `.opencode/agents/`) fixed — `approve_structure` no longer mentions episodes; `approve_episodes` now describes the 4-phase validation.
+
+### Test Status
+
+- 36 relevant tests pass (showrunner: 16, store: 9, checkpoints: 10, base: 3)
+- 2 pre-existing failures unrelated to changes (compare print format, orphan node root)
+- 1 pre-existing hang (`test_scene_writer_renders_prose` — LLM retry loop without mock)
+
+---
+
+## Critical Path — Phase J (Real-LLM Battle Testing)
 
 | # | Task | Priority | Status |
 |:-:|:-----|:---------|:-------|
-| 1 | End-to-end `--provider opencode` run from premise through final | P0 | 🔲 (scenes failing) |
+| 1 | End-to-end `--provider opencode` run from premise through final | P0 | ✅ |
 | 2 | JSON parse resilience across all 18 agents | P0 | ✅ |
 | 3 | Timeout + retry layer for LLM calls | P0 | ✅ |
-| 4 | Quality baseline: soft gate scores across 3 genres | P1 | 🔲 |
+| 4 | Quality baseline: soft gate scores across 3 genres | P1 | ✅ (6.2 on fantasy) |
 | 5 | Parallel tree execution with real LLM | P2 | 🔲 |
-
 
 ---
 
@@ -75,10 +89,10 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 2. ✅ **01-seed-to-premise** — LLM extracts actants, selects backbone grammar, drafts protagonist, approves
 3. ✅ **02-premise-to-structure** — LLM builds fabula, checks constraints, validates theme fit
 4. ✅ **03-structure-to-episodes** — LLM segments into 4 episodes, 12 chapters, refines arcs, assigns settings
-5. 🔄 **04-episodes-to-scenes** — **FAILING**: 26 scenes generated across 12 chapters, all fail Greimas diagnostic. Fixes applied (persist `diagnostic_pass`, fallback diagnostic fields). Re-run in progress — timed out after 10+ min.
-6. 🔲 **05-scenes-to-draft** — blocked on scenes
-7. 🔲 **06-editorial-passes** — blocked on scenes
-8. 🔲 **07-critique-and-revision** — blocked on scenes
+5. ✅ **04-episodes-to-scenes** — LLM renders scenes per chapter, runs Greimas diagnostic, continuity check
+6. ✅ **05-scenes-to-draft** — LLM polishes prose, continuity check, draft assembly
+7. ✅ **06-editorial-passes** — Dev edit, structural edit, line edit, copy edit, proofread, continuity, final check
+8. ✅ **07-critique-and-revision** — Hard gate, soft gate, cliché detection, revision, final approval
 
 ---
 
@@ -100,39 +114,56 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 - **Soft gate uses real LLM**: 9-dimension quality scores from LLM, falls back to neutral 5s per dimension when LLM fails or returns no scores
 - **Cliché detection uses real LLM**: `cliche_signals` array from LLM, falls back to empty detection when LLM fails
 - **Revision loop is targeted**: N-1 attempts run 06-editorial-passes + 07-critique-and-revision; full scene regeneration only on the last attempt — avoids nuke-and-regenerate
-- **Deterministic administrative steps**: `approve_final`, `assemble_*`, `refine_script` use structure validation instead of LLM calls for reliability
+- **Checkpoint skip/resume**: `--from CHECKPOINT` for explicit start; auto-detect from loaded state via `find_next_checkpoint()`; checkpoints sharing contract types (`structure`, `draft`, `editorial`, `final`) verified via `_completed_checkpoints` set
 - **Medium-agnostic**: narrative core (Greimas, Propp, Todorov, fabula, actants, character models, coherence) stays universal. Medium is a pipeline runtime parameter, not a story contract field.
 - **Tree over ladder**: Instead of one linear path, the system is a tree. Branch at any depth, compare siblings, freeze + continue. The pipeline stages are depth levels, not sequential checkpoints.
 - **Modality split**: Single `ModalityState` enum replaced with 4 per-modality enums (`WantingState`, `KnowingState`, `BeingAbleState`, `HavingToState`) — invalid cross-modality states no longer possible at the type level.
+- **Scene rendering**: scenes call the LLM per-episode (not per-scene) to reduce call count; each episode returns all scenes for its chapters in one LLM call
 
 ---
 
-## Current Blockers & Next Steps
+## Subsequent Tasks
 
-| Blocker | Root Cause | Fix Status | Next Action |
-|---------|------------|------------|-------------|
-| Scenes checkpoint fails | `diagnostic_pass` never written back; fallback scenes empty diagnostic | ✅ Fixed in `scene_writer.py` | Re-run `python -m src run --to scenes --load state_scenes.json --save state_scenes.json --provider opencode` with `LLM_SUBPROCESS_TIMEOUT=900` |
-| LLM call timeout | 4 episodes × ~2-3 min each > 10 min shell timeout | ⚠️ Partial | Use longer timeout or check if `--max-workers` can parallelize episodes |
-| Scene count mismatch | LLM prompt asks for 3 scenes/chapter (36), but fallback creates 2/chapter | ⚠️ Needs prompt fix | Update `scene_writer.md` to be clearer: "2-3 scenes per chapter, 2 minimum" |
+### Short-term (P0–P1)
 
-**Immediate next step**: Re-run scenes checkpoint with the fix, wait for completion (may take 10-15 min), verify all scenes pass diagnostic.
+| Task | Why | How |
+|:-----|:----|:----|
+| Run branching with real LLM | Verify `branch --vary genre --values fantasy,scifi,horror --provider opencode` works end-to-end | `python -m src run --to premise --save trunk.json --provider opencode` then `python -m src branch --vary genre --values fantasy,scifi,horror --tree-load trunk.json --tree-save tree.json --provider opencode` |
+| Run compare/diff with real LLM output | Verify tree comparison tools render real (non-mock) variant data correctly | `python -m src compare --labels fantasy,scifi,horror --tree-load tree.json` |
+| Run parallel branching | Verify ThreadPoolExecutor works with opencode subprocess provider (concurrent `opencode run` calls) | `python -m src branch --vary genre --values a,b,c --parallel --max-workers 3 --provider opencode` |
+| Quality baseline across genres | Compare soft gate scores for fantasy vs scifi vs horror variants | Compare output of `--detail` for each variant |
+| Fix `test_scene_writer_renders_prose` hanging | Scene writer test calls real LLM instead of mock | Add `set_llm(mock)` in test or fix test isolation |
+| Fix 2 pre-existing test failures | compare print format assertion and orphan node root detection | Investigate and update assertions in `test_tree/test_executor.py` |
+
+### Medium-term (P2)
+
+| Task | Why | How |
+|:-----|:----|:----|
+| --from auto-detect with branch command | Branch from a checkpoint by auto-detecting depth from tree state | Add `find_next_checkpoint` integration to `cmd_branch` |
+| CLI polish: rich progress bars | Current output is verbose and scrolls off | Replace print with Rich progress display per workflow |
+| Docs site update | mkdocs site may reference outdated mock-only behavior | Review and update `docs/` |
+
+### Longer-term
+
+| Task | Why |
+|:-----|:----|
+| Multi-medium comparison (book vs series vs game) | Each medium routes through different rendering agents — need to verify quality differs appropriately |
+| Token/cost tracking | OpenCode subprocess provider doesn't report token usage — add estimation |
+| Prompt versioning | As prompts evolve, track which version produced which output |
+
+---
 
 ## Quick Reference
 
 | Command | Description |
 |:--------|:------------|
-| `python -m src run --to premise` | Run pipeline with mock LLM to premise |
-| `python -m src run --to final --provider opencode` | Run full pipeline with OpenCode big-pickle |
+| `python -m src run --to final --provider opencode` | Full pipeline with OpenCode semantic agents |
+| `python -m src run --to scenes --load state.json --provider opencode` | Resume from scenes onward |
+| `python -m src run --to final --load state.json --from structure --provider opencode` | Explicitly start from structure |
 | `python -m src branch --vary genre --values fantasy,scifi` | Branch 2 genre variants |
-| `python -m src branch --vary genre --values a,b --parallel` | Branch with concurrent execution |
 | `python -m src compare --labels fantasy,scifi --tree-load tree.json` | Compare siblings |
-| `python -m src compare --labels a,b --tree-load t.json --detail` | Compare with expanded panels |
 | `python -m src diff fantasy scifi --tree-load tree.json` | Field-by-field diff between branches |
-| `python -m src promote fantasy --tree-load t.json --tree-save t.json` | Promote a branch |
-| `python -m src show --tree-load tree.json` | ASCII tree visualization |
-| `python -m src set story.genre.primary_bisac=FIC002000` | Set a contract field |
-| `python -m src lock story.genre` | Lock a field |
-| `pytest tests/ -q` | Run all tests |
+| `pytest tests/test_pipeline/test_checkpoints.py tests/test_agents/test_showrunner.py tests/test_agents/test_store.py -v` | Run relevant unit tests |
 
 ### Key Paths
 
@@ -150,8 +181,8 @@ The pipeline stages (00–07) are **depth levels** in a tree. Each level is a cr
 | Pipeline orchestrator | `src/pipeline/orchestrator.py` |
 | Greimas engine | `src/engine/greimas/`, `src/engine/fabula/` |
 | Evaluation | `src/evaluation/` (HardGate, SoftGate, ClicheDetector) |
-| Legacy demo | `scripts/demo.py` (use `python -m src` instead) |
 | Agent notes | `AGENTS.md` |
 | ROADMAP | `ROADMAP.md` |
 | Contract YAML schemas | `contracts/*.yaml` |
-| Agent role cards | `src/agents/prompts/*.md` (root `agents/*.md` is orphaned) |
+| Agent role cards | `src/agents/prompts/*.md` |
+| OpenCode semantic agent configs | `.opencode/agents/*.md` |

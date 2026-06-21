@@ -104,12 +104,44 @@ def _hard_gate_failed(director: Director, workflow_id: str) -> bool:
     return False
 
 
+def _verify_skipped_checkpoints(
+    store: ContractStore,
+    skip_target: str,
+    verbose: bool = True,
+) -> bool:
+    """Verify that all checkpoints before skip_target are satisfied in the store.
+
+    Returns True if all up to (but not including) skip_target pass.
+    Returns False and prints the first failure if any checkpoint is missing contracts.
+    """
+    for name, wid, desc in CHECKPOINT_WORKFLOW_MAP:
+        if name == skip_target:
+            break
+        report = verify_checkpoint(store, name)
+        if not report.passed:
+            if verbose:
+                print(f"\n  State missing contracts for checkpoint '{name}'")
+                for e in report.errors:
+                    print(f"    {e}")
+                print(f"  Cannot skip — re-run from '{name}' or fix state.")
+            return False
+        if verbose:
+            ctypes = ", ".join(f"{k}={v}" for k, v in report.contracts_found.items())
+            print(f"  ✓ {name} satisfied ({ctypes})")
+    return True
+
+
 def run_to_checkpoint(
     director: Director,
     checkpoint: str,
     verbose: bool = True,
+    start_from: str | None = None,
 ) -> list[CheckpointReport]:
     """Run all workflows up to and including the target checkpoint.
+
+    When ``start_from`` is set, workflows whose checkpoints precede it are
+    skipped — their contracts are verified from the store instead of re-run.
+    This enables iterative stage-by-stage testing with a real LLM.
 
     After the critique workflow, if the hard gate fails, the pipeline loops
     back to regenerate scenes and re-check, up to REVISION_MAX_ATTEMPTS times.
@@ -119,7 +151,42 @@ def run_to_checkpoint(
     # Track step failures per workflow (updated by revision loop re-runs)
     workflow_step_failures: dict[str, int] = {}
 
+    # Phase 1: if start_from is set, verify and skip earlier checkpoints
+    if start_from is not None:
+        for name, wid, desc in CHECKPOINT_WORKFLOW_MAP:
+            if name == start_from:
+                break
+            report = verify_checkpoint(director.store, name)
+            report.step_failures = 0
+            reports.append(report)
+            if verbose:
+                ctypes = ", ".join(f"{k}={v}" for k, v in report.contracts_found.items())
+                print(f"\n  — Skipping {wid} ({ctypes}) —")
+
+            if not report.passed:
+                if verbose:
+                    print(f"  State missing contracts for checkpoint '{name}'")
+                    for e in report.errors:
+                        print(f"    {e}")
+                return reports
+
+            director.store.mark_checkpoint(name)
+
+            if name == checkpoint:
+                if verbose:
+                    print(f"\nOK Target checkpoint '{checkpoint}' already reached.")
+                return reports
+
+    # Phase 2: run remaining workflows from start_from (or from beginning)
+    started = start_from is None
+
     for name, wid, desc in CHECKPOINT_WORKFLOW_MAP:
+        if not started:
+            if name == start_from:
+                started = True
+            else:
+                continue
+
         if verbose:
             print(f"\n{'='*60}")
             print(f"WORKFLOW: {wid}")
@@ -208,6 +275,9 @@ def run_to_checkpoint(
 
         reports.append(report)
 
+        if report.passed:
+            director.store.mark_checkpoint(name)
+
         if verbose:
             for m in report.messages:
                 print(m)
@@ -226,3 +296,52 @@ def run_to_checkpoint(
             break
 
     return reports
+
+
+def _checkpoint_introduces_new_types(name: str) -> bool:
+    """Check if this checkpoint requires contract types the previous one didn't.
+
+    The checkpoints ``structure``, ``draft``, and ``editorial`` share the
+    same contract type requirements as their predecessors (``premise`` and
+    ``scenes`` respectively).  For these, contract-count verification alone
+    can't distinguish a completed checkpoint from an un-run one; we rely
+    on the store's ``_completed_checkpoints`` set instead.
+    """
+    # Checkpoints that share contract type requirements with their predecessor
+    # cannot be verified by contract counts alone. The store's _completed_checkpoints
+    # set is the authoritative source.
+    if name in ("structure", "draft", "editorial", "final"):
+        return False
+    prev_types: set[str] = set()
+    for n in CHECKPOINT_ORDER:
+        expected = set(expected_contracts_at_checkpoint(n).keys())
+        if n == name:
+            return expected != prev_types
+        prev_types = expected
+    return True
+
+
+def find_next_checkpoint(store: ContractStore, target: str) -> str | None:
+    """Find the first checkpoint that is NOT yet satisfied by the store.
+
+    Iterates through checkpoint order and runs ``verify_checkpoint`` on each.
+    Returns the name of the first failing checkpoint, or ``None`` if all
+    checkpoints up to (and including) ``target`` are already satisfied.
+
+    This is used by the CLI to auto-detect a ``start_from`` point when loading
+    saved pipeline state.
+    """
+    for name in CHECKPOINT_ORDER:
+        # Checkpoints that don't introduce new contract types
+        # (structure, draft, editorial) can only be verified via
+        # the store's _completed_checkpoints, not by contract counts.
+        if not _checkpoint_introduces_new_types(name):
+            if not store.is_checkpoint_completed(name):
+                return name
+        else:
+            report = verify_checkpoint(store, name)
+            if not report.passed:
+                return name
+        if name == target:
+            return None
+    return None

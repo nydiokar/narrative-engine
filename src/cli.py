@@ -50,9 +50,9 @@ if _proj_root not in sys.path:
 
 from src.agents.director import Director
 from src.agents.llm import MockLLMProvider, OpenAILLMProvider, SubprocessLLMProvider, set_llm, reset_llm
-from src.agents.store import get_store, reset_store
+from src.agents.store import ContractStore, get_store, reset_store
 from src.contracts.models import Medium, StoryContract
-from src.pipeline.checkpoints import CHECKPOINT_ORDER, run_to_checkpoint
+from src.pipeline.checkpoints import CHECKPOINT_ORDER, find_next_checkpoint, run_to_checkpoint
 from src.pipeline.orchestrator import default_agent_registry
 from src.tree.executor import BranchConfig, TreeExecutor
 from src.tree.node import TreeNode, TreeStore
@@ -190,8 +190,9 @@ def _apply_set_flags(store: Any, set_args: list[str]) -> None:
 
 
 def cmd_run(args: list[str]):
-    """python -m src run [--to CHECKPOINT] [--model NAME] [--premise TEXT] [--save PATH] [--load PATH] [--lock TYPE] [--provider opencode|openai|mock]"""
+    """python -m src run [--to CHECKPOINT] [--from CHECKPOINT] [--model NAME] [--premise TEXT] [--save PATH] [--load PATH] [--lock TYPE] [--provider opencode|openai|mock]"""
     target = None
+    start_from = None
     premise = DEFAULT_PREMISE
     use_real_llm = False
     model_name = None
@@ -206,6 +207,8 @@ def cmd_run(args: list[str]):
     for i, arg in enumerate(args):
         if arg == "--to" and i + 1 < len(args):
             target = args[i + 1]
+        elif arg == "--from" and i + 1 < len(args):
+            start_from = args[i + 1]
         elif arg == "--premise" and i + 1 < len(args):
             premise = args[i + 1]
         elif arg == "--model" and i + 1 < len(args):
@@ -227,10 +230,21 @@ def cmd_run(args: list[str]):
         elif arg == "--set" and i + 1 < len(args):
             set_args.append(args[i + 1])
 
-    if target and target not in CHECKPOINT_ORDER:
+    target = target or "final"
+
+    if target not in CHECKPOINT_ORDER:
         print(f"Unknown checkpoint '{target}'")
         print(f"Available: {CHECKPOINT_HELP}")
         sys.exit(1)
+
+    if start_from:
+        if start_from not in CHECKPOINT_ORDER:
+            print(f"Unknown start checkpoint '{start_from}'")
+            print(f"Available: {CHECKPOINT_HELP}")
+            sys.exit(1)
+        if CHECKPOINT_ORDER.index(start_from) > CHECKPOINT_ORDER.index(target):
+            print(f"Start checkpoint '{start_from}' is after target '{target}' — nothing to do")
+            sys.exit(0)
 
     reset_store()
     store = get_store()
@@ -241,6 +255,16 @@ def cmd_run(args: list[str]):
         if os.path.exists(load_path):
             store.load(load_path)
             print(f"\nLoaded pipeline state from {load_path}")
+            # Auto-detect start_from from loaded state if not explicitly set
+            if start_from is None:
+                detected = find_next_checkpoint(store, target)
+                if detected is None:
+                    print(f"\nTarget checkpoint '{target}' already satisfied in loaded state — nothing to run.")
+                    _print_store(store)
+                    return
+                if detected != CHECKPOINT_ORDER[0]:
+                    print(f"  Resuming from checkpoint '{detected}' (earlier stages satisfied)")
+                start_from = detected
         else:
             print(f"\nLoad path {load_path} not found — starting fresh")
 
@@ -272,7 +296,7 @@ def cmd_run(args: list[str]):
     agents = default_agent_registry(store=store)
     director = Director(agents, store=store, medium=medium)
 
-    reports = run_to_checkpoint(director, target or "final", verbose=True)
+    reports = run_to_checkpoint(director, target, verbose=True, start_from=start_from)
 
     if save_path:
         store.save(save_path)

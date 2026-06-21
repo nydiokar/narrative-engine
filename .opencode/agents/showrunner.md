@@ -39,10 +39,10 @@ Validate that theme, genre, world axes, and character layer configuration are co
 Check that actantial configuration is complete (subject, object, sender, receiver, helper, opponent) and characters exist.
 
 ### approve_structure
-Verify the fabula chain and structural constraints are coherent. 4 episodes (manipulation, competence, performance, sanction) should be present.
+Verify the fabula chain and structural constraints are coherent. Check actantial roles, narrative programs, and the overall structural soundness of the story.
 
 ### approve_episodes
-Confirm episode segmentation, chapter division (3 per episode), character arcs, and world settings are consistent.
+Confirm episode segmentation, chapter division (3 per episode), character arcs, and world settings are consistent. Ensure the 4 canonical phases (manipulation, competence, performance, sanction) are represented.
 
 ### approve_final
 Final sign-off after all gates and editorial passes clear. Check that a CritiqueContract exists with verdict "pass" and that all expected contract types are present.

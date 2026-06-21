@@ -43,6 +43,9 @@ class ContractStore:
         # Type-level field locks: {type_key: {field_path, ...}}
         # Field locks apply to ALL contracts of a type, regardless of UUID.
         self._field_locks: dict[str, set[str]] = {}
+        # Tracks which checkpoints have been verified as passed by run_to_checkpoint.
+        # Used by find_next_checkpoint for accurate auto-resume detection.
+        self._completed_checkpoints: set[str] = set()
 
     def subscribe(self, callback: Callable[[str, str, str, str], None]) -> None:
         self._subscribers.append(callback)
@@ -261,6 +264,23 @@ class ContractStore:
         self._field_locks.pop(type_key, None)
         return len(keys_to_delete)
 
+    # ── Checkpoint tracking ─────────────────────────────────────────
+
+    def mark_checkpoint(self, name: str) -> None:
+        """Record that a checkpoint has been verified as passed.
+
+        This lets ``find_next_checkpoint`` accurately detect which
+        checkpoints are already satisfied, even when the checkpoint's
+        contract expectations don't introduce new contract types
+        (e.g. ``structure`` vs ``premise``, or ``draft`` vs ``scenes``).
+        """
+        self._completed_checkpoints.add(name)
+
+    def is_checkpoint_completed(self, name: str) -> bool:
+        return name in self._completed_checkpoints
+
+    # ── Serialization ───────────────────────────────────────────────
+
     def save(self, path: str) -> None:
         """Serialize the store to a JSON file."""
         import json
@@ -281,6 +301,7 @@ class ContractStore:
         data: dict[str, Any] = {
             "contracts": {},
             "field_locks": field_locks_index,
+            "completed_checkpoints": sorted(self._completed_checkpoints),
         }
         for (tk, cid), entry in self._contracts.items():
             data["contracts"].setdefault(tk, []).append({
@@ -343,6 +364,7 @@ class ContractStore:
         if "contracts" in raw:
             contracts_data = raw["contracts"]
             field_locks_data = raw.get("field_locks", {})
+            self._completed_checkpoints = set(raw.get("completed_checkpoints", []))
         else:
             contracts_data = raw
             field_locks_data = {}
@@ -384,6 +406,7 @@ class ContractStore:
         data: dict[str, Any] = {
             "contracts": {},
             "field_locks": field_locks_index,
+            "completed_checkpoints": sorted(self._completed_checkpoints),
         }
         for (tk, cid), entry in self._contracts.items():
             data["contracts"].setdefault(tk, []).append({
@@ -438,8 +461,12 @@ class ContractStore:
 
         self._contracts.clear()
         self._field_locks.clear()
+        self._completed_checkpoints.clear()
 
         if "contracts" in snapshot_data:
+            self._completed_checkpoints = set(
+                snapshot_data.get("completed_checkpoints", [])
+            )
             contracts_data = snapshot_data["contracts"]
             field_locks_data = snapshot_data.get("field_locks", {})
         else:
@@ -471,6 +498,7 @@ class ContractStore:
     def clear(self) -> None:
         self._contracts.clear()
         self._field_locks.clear()
+        self._completed_checkpoints.clear()
 
 
 # Singleton shared across agents

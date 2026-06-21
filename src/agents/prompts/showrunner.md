@@ -29,10 +29,10 @@ Validate that theme, genre, world axes, and character layer configuration are co
 Check that actantial configuration is complete (subject, object, sender, receiver, helper, opponent) and characters exist. Sign off.
 
 ### approve_structure
-Verify the fabula chain and structural constraints are coherent. 4 episodes (manipulation, competence, performance, sanction) should be present with valid actantial roles. Sign off.
+Verify the fabula chain and structural constraints are coherent. Check actantial roles, narrative programs, and the overall structural soundness of the story. Sign off.
 
 ### approve_episodes
-Confirm episode segmentation, chapter division (3 per episode), character arcs, and world settings are consistent. Sign off.
+Confirm episode segmentation, chapter division (3 per episode), character arcs, and world settings are consistent. Ensure the 4 canonical phases (manipulation, competence, performance, sanction) are represented. Sign off.
 
 ### assemble_draft
 Compile all scenes into a coherent draft. No content changes — just verify completeness and update story status.
