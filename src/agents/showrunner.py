@@ -170,27 +170,124 @@ class Showrunner(BaseAgent):
         )
 
     def _assemble_script(self, context: AgentContext) -> AgentResult:
+        from pathlib import Path
+
+        story = self.list_contracts("story")
+        episodes = sorted(self.list_contracts("episode"), key=lambda e: e.sequence_number)
+        chapters = self.list_contracts("chapter")
         scenes = self.list_contracts("scene")
+
+        lines = []
+        title = story[0].title if story else "Untitled"
+        lines.append(f"# {title} — Animation Script\n")
+
+        for ep in episodes:
+            ep_chapters = [ch for ch in chapters if getattr(ch, "episode_id", None) == ep.id]
+            if not ep_chapters:
+                continue
+            lines.append(f"\n## Episode {ep.sequence_number}: {ep.title}\n")
+            for ch in ep_chapters:
+                ch_scenes = [s for s in scenes if getattr(s, "chapter_id", None) == ch.id]
+                ch_scenes = sorted(ch_scenes, key=lambda s: s.sequence_number)
+                if not ch_scenes:
+                    continue
+                lines.append(f"\n### {ch.title}\n")
+                for s in ch_scenes:
+                    if s.content:
+                        lines.append(s.content + "\n")
+
+        script_text = "\n".join(lines)
+
+        output_dir = Path("output")
+        output_dir.mkdir(exist_ok=True)
+        script_path = output_dir / "script.md"
+        script_path.write_text(script_text, encoding="utf-8")
+
+        char_count = len(script_text)
         return AgentResult(
             success=True,
-            message=f"Script assembled from {len(scenes)} scenes",
-            errors=[],
+            message=f"Script assembled: {char_count} chars across {len(episodes)} episodes, {len(scenes)} scenes",
+            artifacts=[str(script_path)],
         )
 
     def _assemble_screenplay(self, context: AgentContext) -> AgentResult:
+        from pathlib import Path
+
+        story = self.list_contracts("story")
+        episodes = sorted(self.list_contracts("episode"), key=lambda e: e.sequence_number)
+        chapters = self.list_contracts("chapter")
         scenes = self.list_contracts("scene")
+
+        lines = []
+        title = story[0].title if story else "Untitled"
+        lines.append(f"{title.upper()}\n{'=' * len(title)}\n")
+
+        for ep in episodes:
+            lines.append(f"\n{ep.title.upper()}\n{'-' * len(ep.title)}\n")
+            ep_chapters = [ch for ch in chapters if getattr(ch, "episode_id", None) == ep.id]
+            if not ep_chapters:
+                continue
+            for ch in ep_chapters:
+                ch_scenes = [s for s in scenes if getattr(s, "chapter_id", None) == ch.id]
+                ch_scenes = sorted(ch_scenes, key=lambda s: s.sequence_number)
+                if not ch_scenes:
+                    continue
+                for s in ch_scenes:
+                    if s.content:
+                        lines.append(s.content + "\n")
+
+        screenplay_text = "\n".join(lines)
+
+        output_dir = Path("output")
+        output_dir.mkdir(exist_ok=True)
+        screenplay_path = output_dir / "screenplay.md"
+        screenplay_path.write_text(screenplay_text, encoding="utf-8")
+
+        char_count = len(screenplay_text)
         return AgentResult(
             success=True,
-            message=f"Screenplay assembled from {len(scenes)} scenes",
-            errors=[],
+            message=f"Screenplay assembled: {char_count} chars across {len(episodes)} episodes, {len(scenes)} scenes",
+            artifacts=[str(screenplay_path)],
         )
 
     def _assemble_teleplay(self, context: AgentContext) -> AgentResult:
+        from pathlib import Path
+
+        story = self.list_contracts("story")
+        episodes = sorted(self.list_contracts("episode"), key=lambda e: e.sequence_number)
+        chapters = self.list_contracts("chapter")
         scenes = self.list_contracts("scene")
+
+        lines = []
+        title = story[0].title if story else "Untitled"
+        lines.append(f"{title.upper()}\n{'=' * len(title)}\n")
+
+        for ep in episodes:
+            lines.append(f"\nACT {ep.sequence_number}\n{'---' * 10}\n")
+            ep_chapters = [ch for ch in chapters if getattr(ch, "episode_id", None) == ep.id]
+            if not ep_chapters:
+                continue
+            for ch in ep_chapters:
+                ch_scenes = [s for s in scenes if getattr(s, "chapter_id", None) == ch.id]
+                ch_scenes = sorted(ch_scenes, key=lambda s: s.sequence_number)
+                if not ch_scenes:
+                    continue
+                for s in ch_scenes:
+                    if s.content:
+                        lines.append(s.content + "\n")
+
+        teleplay_text = "\n".join(lines)
+
+        output_dir = Path("output")
+        output_dir.mkdir(exist_ok=True)
+        teleplay_path = output_dir / "teleplay.md"
+        teleplay_path.write_text(teleplay_text, encoding="utf-8")
+
+        char_count = len(teleplay_text)
         return AgentResult(
             success=True,
-            message=f"Teleplay assembled from {len(scenes)} scenes",
-            errors=[],
+            message=f"Teleplay assembled: {char_count} chars across {len(episodes)} episodes, {len(scenes)} scenes",
+            artifacts=[str(teleplay_path)],
         )
 
     def _approve_final(self, context: AgentContext) -> AgentResult:

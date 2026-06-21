@@ -172,7 +172,7 @@ $ python -m src promote fantasy --tree-load tree.json --tree-save tree.json
 
 ### Next Power Moves
 
-1. **Ship non-book medium assemblers** — `showrunner._assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` are counting stubs (`showrunner.py:172–194`). Scene content exists in the contract store after rendering but no file is written. Each needs to read scenes and emit properly formatted output (AV script for animation, screenplay for movie, teleplay for series).
+1. **Ship non-book medium assemblers** — ✅ Done. `_assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` now read scenes from store and write `output/script.md`, `output/screenplay.md`, `output/teleplay.md` respectively with medium-appropriate headers.
 
 2. **Wire the discourse contract** — `DiscourseContract` is defined (`models.py:723`), registered in store, listed as WF05 output type — but no agent ever calls `write_contract("discourse", ...)`. The `story.discourse_contract_id` field (`models.py:477`) is always `None`. This is the bridge between "pipeline runs" and "story reads the way the author intends" (POV, tense, voice, exposition strategy).
 

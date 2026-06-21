@@ -4,7 +4,7 @@
 
 All 435 tests pass. Full pipeline runs clean with real LLM (llama3.2 @ localhost:11434, OpenCode big-pickle).
 Branching (sequential + parallel) works with correct contract seeding + variant comparison.
-ROADMAP.md and CONTEXT.md aligned. 3 power moves defined and documented.
+ROADMAP.md and CONTEXT.md aligned. 3 power moves defined, PM1 completed.
 
 ## Recent Work
 
@@ -21,6 +21,19 @@ ROADMAP.md and CONTEXT.md aligned. 3 power moves defined and documented.
 5. **Design debt updated** in ROADMAP.md — stale "Pipeline not battle-tested" entry removed, replaced with current state.
 
 **Next action:** Start Power Move #1 — ship non-book assemblers.
+
+### Session: Power Move #1 — Non-Book Assemblers
+
+**Goal:** Replace counting stubs in `_assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` with real output file writers.
+
+**Achievements:**
+
+1. **`_assemble_script`** (`src/agents/showrunner.py:172`) — reads episodes/chapters/scenes from store, writes `output/script.md` with episode/chapter headers for animation medium.
+2. **`_assemble_screenplay`** (`src/agents/showrunner.py:207`) — reads episodes/chapters/scenes, writes `output/screenplay.md` with screenplay-style header block (title page, episode dividers) for movie medium.
+3. **`_assemble_teleplay`** (`src/agents/showrunner.py:242`) — reads episodes/chapters/scenes, writes `output/teleplay.md` with act dividers for series medium.
+4. All 435 tests pass — no regressions.
+
+**Next action:** Power Move #2 — wire discourse contract.
 
 ### Session: Branch Seed Fix + Test Debt Cleanup
 
@@ -60,7 +73,7 @@ ROADMAP.md and CONTEXT.md aligned. 3 power moves defined and documented.
 
 | # | Move | Why | Status |
 |---|------|-----|--------|
-| 1 | **Ship non-book assemblers** — `_assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` write real output files (currently counting stubs at `showrunner.py:172–194`) | Only book medium produces a readable file (`output/draft.md`). Animation/movie/series produce nothing. | 🔴 Not started |
+| 1 | **Ship non-book assemblers** — `_assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` write real output files (were counting stubs at `showrunner.py:172–194`) | Only book medium produced a readable file (`output/draft.md`). Animation/movie/series produced nothing. | ✅ Done |
 | 2 | **Wire discourse contract** — `DiscourseContract` defined but zero agents call `write_contract("discourse", ...)`. Connect it to scene writer prompts so POV/tense/voice settings are respected. | Structural gap affecting all mediums. Author intent (voice, perspective) is invisible to the pipeline. | 🔴 Not started |
 | 3 | **Quality baseline + regression suite** — Run 3 genres full pipeline with real LLM, collect soft gate scores. Snapshot LLM output parsing per agent. | No data-driven measure of output quality. Changes can regress without detection. | 🔴 Not started |
 
@@ -73,7 +86,6 @@ python -m pytest tests/ -q
 ```
 
 ## Known Issues
-- `_assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` stubs — produce no output file
 - `DiscourseContract` registered but never populated by any agent
 - No quality baseline: soft gate scores from real LLM never collected
 - ContractStore singleton leaks state across tests
