@@ -147,28 +147,42 @@ $ python -m src promote fantasy --tree-load tree.json --tree-save tree.json
 
 ---
 
-## Phase J — Real-LLM Battle Testing & End-to-End Output (Next)
+## Phase J — Real-LLM Battle Testing & End-to-End Output ✅ (Done)
 
-**Goal**: Stop optimizing for MockLLMProvider. Prove the pipeline produces coherent narrative output on a strong model (OpenCode big-pickle). The mock is a development crutch — everything now works with mocks, but real LLMs expose fragility in prompt templates, parse resilience, timeout handling, and output quality.
+**Goal**: Prove the pipeline produces coherent narrative output on a real LLM. Run from premise through all 18 agents, 8 workflows, two gates. Fix real-LLM fragility in prompt templates, parse resilience, timeout handling, and revision loop.
 
 ### Must-Have
 
-- [ ] **Real-LLM end-to-end run**: `python -m src run --to final --provider opencode` produces a draft from premise through all 18 agents, 8 workflows, two gates
-- [ ] **Structured output enforcement**: Verify JSON parse resilience across all 18 agents — handle extra text, markdown fences, incomplete fields from real models
-- [ ] **Timeout + retry layer**: LLM calls that hang or return garbage don't kill the pipeline — configurable timeout, N retries, graceful fallback
-- [ ] **Output quality baseline**: Run 3 genres through the full pipeline, collect soft gate scores — establish a quality baseline that future iterations improve against
+- [x] **Real-LLM end-to-end run**: `python -m src run --to final --provider opencode` produces a draft from premise through all 18 agents, 8 workflows, two gates (tested with llama3.2 @ localhost:11434 + OpenCode big-pickle)
+- [x] **Structured output enforcement**: All 18 agents call `BaseAgent._call_llm_for_step()` with `parse_json_output()` — handles markdown fences, extra text, incomplete fields, and field-level remapping (`_normalize_scene` for scene-specific, generic fallback chain in base)
+- [x] **Timeout + retry layer**: `_call_llm_for_step` retries 3× with exponential backoff (`base.py:124–198`); `SubprocessLLMProvider` has configurable 300s timeout (`LLM_SUBPROCESS_TIMEOUT` env var); scene writer has independent retry loop for episode rendering (`scene_writer.py:241–264`); all failures gracefully fall back to error dict
+- [ ] **Output quality baseline**: Moved to Phase K (Power Move #3)
 
 ### Nice-to-Have
 
-- [ ] **Parallel tree execution with real LLM**: `--parallel` with `--provider opencode` — verify thread safety with SubprocessLLMProvider
-- [ ] **Draft output formats**: epub, markdown, plain text — validate narrative coherence at the human-readable level
+- [x] **Parallel tree execution with real LLM**: `--parallel` with `--provider opencode` — `ThreadPoolExecutor` in `executor.py:296–297`, CLI `--parallel` + `--max-workers` flags wired in, confirmed working with real LLM
+- [ ] **Draft output formats**: epub, markdown, plain text — only book `output/draft.md` exists; screenplay/script/teleplay assemblers are stubs
 - [ ] **Regression test suite**: snapshot-based tests for each agent's LLM output parsing
+
+---
+
+## Phase K — Output Quality & Medium Completeness (Next)
+
+**Goal**: Deliver the first complete, readable narrative output across all 4 mediums. Close the gap between "pipeline runs with real LLM" and "a writer can read the result."
+
+### Next Power Moves
+
+1. **Ship non-book medium assemblers** — `showrunner._assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` are counting stubs (`showrunner.py:172–194`). Scene content exists in the contract store after rendering but no file is written. Each needs to read scenes and emit properly formatted output (AV script for animation, screenplay for movie, teleplay for series).
+
+2. **Wire the discourse contract** — `DiscourseContract` is defined (`models.py:723`), registered in store, listed as WF05 output type — but no agent ever calls `write_contract("discourse", ...)`. The `story.discourse_contract_id` field (`models.py:477`) is always `None`. This is the bridge between "pipeline runs" and "story reads the way the author intends" (POV, tense, voice, exposition strategy).
+
+3. **Establish quality baseline + regression suite** — Run 3 genres full pipeline with real LLM, capture soft gate scores as a repeatable baseline. Build snapshot-based regression tests for each agent's LLM output parsing so future changes cannot silently break output structure.
 
 ### Known Risks
 
-- Real LLM calls are slow (30s–2min per agent × 18 agents × 8 workflows = hours). Start with `--to premise` and build up.
-- OpenCode big-pickle model needs GPU or quantized inference — verify it runs on available hardware before committing to full pipeline.
-- Prompt templates were written for mock JSON output — real models may produce valid but structurally different JSON (extra fields, nested vs flat, string vs int enums).
+- Non-book assemblers require knowledge of screenplay/script/teleplay formatting conventions
+- Discourse contract wiring requires updating scene writer prompts to consume discourse settings
+- Quality baseline is gated on having a real LLM available (big-pickle or qwen3-coder)
 
 ---
 
@@ -176,8 +190,8 @@ $ python -m src promote fantasy --tree-load tree.json --tree-save tree.json
 
 | Area | What |
 |:-----|:------|
-| Quality & Iteration | Revisit triggers, showrunner final approval, editorial pass depth tuning |
-| Infrastructure | Test coverage, CI pipeline, release packaging |
+| Quality & Iteration | Revisit triggers, showrunner final approval, editorial pass depth tuning, prose quality improvements |
+| Infrastructure | Test coverage (25 modules gap), CI pipeline, release packaging |
 | Human Interface | Intake form, legal/bias check, writer dashboard |
 
 ---
@@ -194,6 +208,5 @@ $ python -m src promote fantasy --tree-load tree.json --tree-save tree.json
 
 - ContractStore singleton leaks state across tests — safe in serial, unsafe in parallel
 - 25 Python modules lack dedicated unit tests
-- Pipeline optimized for MockLLMProvider — real LLM (OpenCode big-pickle) not battle-tested end-to-end
 - Rich inline scene rendering not tested in editorial pipeline
 - `src/contracts/loader.py` — dead code, deleted
