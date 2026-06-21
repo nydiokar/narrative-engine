@@ -20,6 +20,8 @@ class Showrunner(BaseAgent):
             return ["story", "character", "theme"]
         if step_id in ("approve_episodes",):
             return ["story", "episode", "chapter"]
+        if step_id == "define_discourse":
+            return ["story"]
         return ["story"]
 
     def execute(self, context: AgentContext) -> AgentResult:
@@ -34,6 +36,8 @@ class Showrunner(BaseAgent):
 
         if context.step_id == "review_brief":
             return self._review_brief(context)
+        if context.step_id == "define_discourse":
+            return self._define_discourse(context)
         if context.step_id == "approve_brief":
             return self._approve_brief(context)
         if context.step_id == "approve_premise":
@@ -63,6 +67,37 @@ class Showrunner(BaseAgent):
             success=result.get("success", False),
             message=result.get("message", ""),
             errors=result.get("errors", []),
+        )
+
+    def _define_discourse(self, context: AgentContext) -> AgentResult:
+        from src.contracts.models import DiscourseContract, POV, Tense
+
+        medium = context.metadata.get("medium", "book")
+
+        if medium in ("movie", "animation"):
+            pov = POV.THIRD_OBJECTIVE
+            tense = Tense.PRESENT
+        elif medium == "series":
+            pov = POV.THIRD_LIMITED
+            tense = Tense.PRESENT
+        else:
+            pov = POV.THIRD_LIMITED
+            tense = Tense.PAST
+
+        discourse = DiscourseContract(
+            point_of_view=pov,
+            tense=tense,
+        )
+        did = self.write_contract("discourse", discourse)
+
+        story = self.list_contracts("story")[0]
+        story.discourse_contract_id = discourse.id
+        self.write_contract("story", story)
+
+        return AgentResult(
+            success=True,
+            message=f"Discourse defined: {pov.value}, {tense.value}",
+            artifacts=[did, str(story.id)],
         )
 
     def _approve_brief(self, context: AgentContext) -> AgentResult:
@@ -301,7 +336,7 @@ class Showrunner(BaseAgent):
                     errors=[f"Final approval rejected — hard gate verdict is 'fail'"],
                 )
 
-        expected_types = ["story", "theme", "character", "episode", "chapter", "scene", "critique"]
+        expected_types = ["story", "theme", "character", "episode", "chapter", "scene", "critique", "discourse"]
         missing = [t for t in expected_types if not self.list_contracts(t)]
         if missing:
             return AgentResult(

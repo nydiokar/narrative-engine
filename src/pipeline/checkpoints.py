@@ -46,14 +46,14 @@ class CheckpointReport:
 def expected_contracts_at_checkpoint(checkpoint: str) -> dict[str, int]:
     """Return the minimum number of each contract type expected at a checkpoint."""
     expectations: dict[str, dict[str, int]] = {
-        "brief": {"story": 1, "theme": 1},
-        "premise": {"story": 1, "theme": 1, "character": 1},
-        "structure": {"story": 1, "theme": 1, "character": 1},
-        "episodes": {"story": 1, "theme": 1, "character": 1, "episode": 1, "chapter": 1},
-        "scenes": {"story": 1, "theme": 1, "character": 1, "episode": 1, "chapter": 1, "scene": 1},
-        "draft": {"story": 1, "theme": 1, "character": 1, "episode": 1, "chapter": 1, "scene": 1},
-        "editorial": {"story": 1, "theme": 1, "character": 1, "episode": 1, "chapter": 1, "scene": 1},
-        "final": {"story": 1, "theme": 1, "character": 1, "episode": 1, "chapter": 1, "scene": 1, "critique": 1},
+        "brief": {"story": 1, "theme": 1, "discourse": 1},
+        "premise": {"story": 1, "theme": 1, "character": 1, "discourse": 1},
+        "structure": {"story": 1, "theme": 1, "character": 1, "discourse": 1},
+        "episodes": {"story": 1, "theme": 1, "character": 1, "episode": 1, "chapter": 1, "discourse": 1},
+        "scenes": {"story": 1, "theme": 1, "character": 1, "episode": 1, "chapter": 1, "scene": 1, "discourse": 1},
+        "draft": {"story": 1, "theme": 1, "character": 1, "episode": 1, "chapter": 1, "scene": 1, "discourse": 1},
+        "editorial": {"story": 1, "theme": 1, "character": 1, "episode": 1, "chapter": 1, "scene": 1, "discourse": 1},
+        "final": {"story": 1, "theme": 1, "character": 1, "episode": 1, "chapter": 1, "scene": 1, "critique": 1, "discourse": 1},
     }
     return expectations.get(checkpoint, {})
 

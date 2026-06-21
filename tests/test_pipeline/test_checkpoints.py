@@ -5,7 +5,7 @@ import pytest
 from src.agents.director import Director
 from src.agents.llm import MockLLMProvider, reset_llm, set_llm
 from src.agents.store import ContractStore, reset_store
-from src.contracts.models import Medium, StoryContract, ThemeContract
+from src.contracts.models import DiscourseContract, Medium, StoryContract, ThemeContract
 from src.pipeline.checkpoints import (
     CHECKPOINT_ORDER,
     find_next_checkpoint,
@@ -52,6 +52,7 @@ def test_find_next_brief_satisfied_stops_at_premise():
     store = ContractStore()
     store.put("story", StoryContract(title="T", premise="P"))
     store.put("theme", ThemeContract())
+    store.put("discourse", DiscourseContract())
     assert find_next_checkpoint(store, "final") == "premise"
 
 
@@ -59,6 +60,7 @@ def test_find_next_target_already_reached():
     store = ContractStore()
     store.put("story", StoryContract(title="T", premise="P"))
     store.put("theme", ThemeContract())
+    store.put("discourse", DiscourseContract())
     assert find_next_checkpoint(store, "brief") is None
 
 
@@ -69,6 +71,7 @@ def test_verify_skipped_all_pass(capsys):
     store = ContractStore()
     store.put("story", StoryContract(title="T", premise="P"))
     store.put("theme", ThemeContract())
+    store.put("discourse", DiscourseContract())
     assert _verify_skipped_checkpoints(store, "premise", verbose=True) is True
     captured = capsys.readouterr()
     assert "brief satisfied" in captured.out
@@ -91,6 +94,7 @@ def test_run_to_checkpoint_start_from_skips_earlier_workflows():
     store = ContractStore()
     store.put("story", StoryContract(title="T", premise="P"))
     store.put("theme", ThemeContract())
+    store.put("discourse", DiscourseContract())
     _, director = _agents_and_director(store)
 
     reports = run_to_checkpoint(director, "structure", verbose=False, start_from="premise")
@@ -161,10 +165,11 @@ def test_resume_from_loaded_state():
     """Simulate what cmd_run does with --load and auto-detect."""
     _setup_mock()
 
-    # Create a store with state up to "brief" (story + theme)
+    # Create a store with state up to "brief" (story + theme + discourse)
     store = ContractStore()
     store.put("story", StoryContract(title="T", premise="P"))
     store.put("theme", ThemeContract())
+    store.put("discourse", DiscourseContract())
 
     # find_next_checkpoint detects "premise" as the next to run
     next_ck = find_next_checkpoint(store, "premise")

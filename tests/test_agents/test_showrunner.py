@@ -6,7 +6,7 @@ from src.agents.showrunner import Showrunner
 from src.agents.store import reset_store
 from src.contracts.models import (
     StoryContract, CharacterContract, EpisodeContract, ChapterContract,
-    SceneContract, CritiqueContract, ThemeContract,
+    SceneContract, CritiqueContract, ThemeContract, DiscourseContract,
 )
 from uuid import uuid4
 
@@ -155,6 +155,7 @@ class TestShowrunner:
         agent.store.put("critique", CritiqueContract(
             reviewer="critic", verdict="pass", target_type="story_draft", summary="Pass"
         ))
+        agent.store.put("discourse", DiscourseContract())
         ctx = AgentContext(workflow_id="06", step_id="approve_final")
         result = agent.execute(ctx)
         assert result.success is True

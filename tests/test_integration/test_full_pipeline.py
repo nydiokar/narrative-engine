@@ -83,10 +83,11 @@ class TestFullPipeline:
         orchestrator = PipelineOrchestrator()
         results = orchestrator.run_workflow("00-brief-and-taxonomy")
 
-        assert len(results) == 5
+        assert len(results) == 6
         assert all(r.success for r in results)
         store = get_store()
         assert len(store.list_by_type("theme")) == 1
+        assert len(store.list_by_type("discourse")) == 1
 
     def test_workflow_01_seed_to_premise(self):
         self._seed_story()

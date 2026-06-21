@@ -34,6 +34,7 @@ _SHARED_WORKFLOWS: dict[str, list[WorkflowStep]] = {
         WorkflowStep("theme_specialist", "select_genre"),
         WorkflowStep("world_researcher", "set_world_axes"),
         WorkflowStep("character_architect", "prepare_layers"),
+        WorkflowStep("showrunner", "define_discourse"),
         WorkflowStep("showrunner", "approve_brief"),
     ],
     "01-seed-to-premise": [
@@ -190,7 +191,7 @@ _ALL_WORKFLOW_IDS = sorted(set(_SHARED_WORKFLOWS) | set(_BOOK_WORKFLOWS))
 # Contract types produced by each workflow. Used for skip-locked logic:
 # if all output types exist and are locked, the workflow is skipped.
 WORKFLOW_OUTPUT_TYPES: dict[str, set[str]] = {
-    "00-brief-and-taxonomy": {"story", "theme", "character", "world"},
+    "00-brief-and-taxonomy": {"story", "theme", "character", "world", "discourse"},
     "01-seed-to-premise": {"character", "object_of_value"},
     "02-premise-to-structure": {"world"},
     "03-structure-to-episodes": {"episode", "chapter"},
