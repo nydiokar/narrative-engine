@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "message": "No line editor contracts found with prescribed changes. All 4 critique contracts passed with empty revision_instructions. No prose replacements to apply.",
+  "errors": [],
+  "artifacts": [],
+  "contract_data": {
+    "changes": [],
+    "total_changes_requested": 0,
+    "total_changes_applied": 0,
+    "changes_skipped": 0,
+    "skip_reasons": [],
+    "affected_contract_ids": []
+  }
+}

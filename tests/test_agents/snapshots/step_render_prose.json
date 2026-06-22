@@ -1,0 +1,152 @@
+{
+  "success": true,
+  "message": "Generated 6 scenes across 3 chapters for episode \"The Sunken Trial\": Descent to the Temple (2 scenes), The Chamber of Echoes (2 scenes), The Hunt Begins (2 scenes). Medium: book.",
+  "errors": [],
+  "artifacts": [],
+  "contracts_data": [
+    {
+      "sequence_number": 0,
+      "setting_location": "The Shattered Coast shoreline",
+      "setting_time": "Dawn",
+      "setting_atmosphere": "Cold, brine-laden mist clinging to the rocks",
+      "scene_type": "exposition",
+      "canonical_phase": "competence",
+      "emotional_tone": "anticipation",
+      "content": "Elara Vex pulled the frayed collar of her burnt conclave robe tighter as the first grey light bled across the horizon. The sea was a flat sheet of pewter, unnaturally still, and the mist curled around the scattered boulders like fingers testing their grip. She unfolded the stolen map for the hundredth time, its ink already smudged from the damp air. \"You said the temple lay east of the broken spire,\" she murmured to no one \u2014 the archivist's whispers had fallen silent three days ago, leaving only the map and her own gnawing doubt. Her crystallized scar pulsed, a dull thrum beneath the skin of her left hand, pulling her gaze toward a distant promontory where the cliff face split into a dark fissure. The map marked it as the Sea-Gate, the outer entrance to the Sunken Temple. She folded the parchment and tucked it into her belt, then began picking her way across the slippery rocks, each step a small rebellion against the voice in her head that said she would fail again.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "anticipation",
+          "intensity": "medium"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Elara is at the edge of known territory, doubting her abilities but driven by the map and the archivist's guidance.",
+        "action_occurs": "Elara follows the coast toward the Sea-Gate entrance of the Sunken Temple, her scar pulling her forward and confirming the map is accurate so far.",
+        "state_after": "Elara reaches the threshold of the temple, her resolve hardened by the physical confirmation that the fragment is real and reachable.",
+        "value_object_change": "doubt_to_belief",
+        "future_action_possible_or_blocked": "Elara must now enter the Sunken Temple and navigate its flooded corridors to reach the fragment chamber."
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "The Sea-Gate entrance of the Sunken Temple",
+      "setting_time": "Morning",
+      "setting_atmosphere": "Damp, ancient, heavy with the weight of submerged stone",
+      "scene_type": "rising_action",
+      "canonical_phase": "competence",
+      "emotional_tone": "fear",
+      "content": "The fissure opened into a wide cavern where the sea had swallowed everything below waist height. Pillars encrusted with salt and barnacles rose from the black water, their surfaces carved with glyphs that had long since worn smooth. Elara stood at the edge, one hand braced against the slick stone, her scar blazing now \u2014 not a pulse but a steady burn that sang through her bones. The fragment was here, somewhere in the depths below. She unslung the pack from her shoulder and withdrew a small lantern, its flame guttering as she held it over the water. The beam revealed nothing but her own pale reflection staring back. \"I've come this far,\" she said, her voice echoing off the vaulted ceiling. A ripple disturbed the surface \u2014 something moving below. She drew a sharp breath and forced herself to step into the water. It was shockingly cold, stealing the warmth from her legs in seconds. She waded forward, the lantern held high, every sense straining for the trap she was certain the temple had laid for her.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "fear",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Elara stands at the threshold of the Sunken Temple, knowing the first fragment is somewhere within but fearing the dangers that await.",
+        "action_occurs": "Elara enters the flooded Sea-Gate cavern, wading into the dark water, and senses movement below the surface as her scar burns with the fragment's proximity.",
+        "state_after": "Elara is committed \u2014 inside the temple, surrounded by unknown threats, but past the point of turning back.",
+        "value_object_change": "hesitation_to_commitment",
+        "future_action_possible_or_blocked": "The temple's traps and submerged passages now stand between Elara and the fragment; retreat is still possible but would mean abandoning the quest."
+      }
+    },
+    {
+      "sequence_number": 2,
+      "setting_location": "Flooded corridor deep within the Sunken Temple",
+      "setting_time": "Late morning (indistinguishable \u2014 no natural light)",
+      "setting_atmosphere": "Stifling, waterlogged, walls weeping moisture and decay",
+      "scene_type": "rising_action",
+      "canonical_phase": "competence",
+      "emotional_tone": "fear",
+      "content": "The corridor narrowed until Elara could touch both walls with her outstretched arms. The water here was shallower \u2014 only knee-deep \u2014 but the ceiling had collapsed in sections, forcing her to crawl through gaps where the stone groaned under its own weight. Her scar pulsed in rhythm with her heartbeat, guiding her left at each fork. Once, she stepped on a pressure plate she did not see. The wall to her right slid open with a grinding shudder, and a jet of dark water erupted from the gap, slamming her against the opposite wall. She gasped, swallowed brine, and clawed for purchase as the current tried to drag her into the opening. Her fingers found a crack in the stone, and she held, coughing and sputtering, until the pressure eased. \"A warning,\" she rasped, pulling herself upright. \"Just a warning.\" But her hands were shaking as she inspected the floor more carefully, searching for the telltale shift in stone that marked the next trap. The echoes of her own movements bounced off the walls at odd angles, disorienting her sense of direction.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "fear",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Elara is navigating the flooded corridors of the Sunken Temple, trusting the pull of her scar but unprepared for the temple's defenses.",
+        "action_occurs": "Elara triggers a water-trap that nearly drowns her, forcing her to rely on reflexes and desperation to survive.",
+        "state_after": "Elara is shaken but more alert, understanding that the temple is actively hostile and that she must proceed with extreme caution.",
+        "value_object_change": "careless_to_cautious",
+        "future_action_possible_or_blocked": "Elara must continue deeper into the temple, now aware that the traps are triggered by pressure and that the echoes may conceal additional dangers."
+      }
+    },
+    {
+      "sequence_number": 3,
+      "setting_location": "The inner chamber of the Sunken Temple \u2014 the Chamber of Echoes",
+      "setting_time": "Noon (faint blue light from a submerged crystal in the ceiling)",
+      "setting_atmosphere": "Hushed, sacred, the water perfectly still and impossibly clear",
+      "scene_type": "climax",
+      "canonical_phase": "competence",
+      "emotional_tone": "joy",
+      "content": "The chamber opened like a cathedral underwater. A shaft of pale blue light descended from a crystal embedded in the ceiling, illuminating a stone pedestal at the center where the first fragment rested \u2014 a shard of obsidian no larger than her palm, its surface crawling with veins of silver light. Elara's scar screamed. The pain brought her to her knees in the shallow water, her left hand clenched against her chest. Through watering eyes she stared at the fragment, and the fragment seemed to stare back, humming with a frequency that vibrated in her teeth. She crawled toward it, each inch an agony, her scar burning brighter as she approached. When her fingers finally closed around the shard, a wave of sensation crashed through her \u2014 not magic, not power, but something older: recognition. The fragment knew her. She laughed, a broken, wet sound. \"I found you,\" she whispered. And then, louder, with tears cutting tracks through the grime on her face: \"I found you.\" For the first time since the Spire fell, she believed she might actually succeed.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "joy",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Elara has survived the temple's traps and stands at the threshold of the inner chamber, in great pain from her scar's proximity to the fragment.",
+        "action_occurs": "Elara retrieves the first crystal fragment, experiencing a profound moment of recognition and validation that restores her belief in her own capability.",
+        "state_after": "Elara has the first fragment and a renewed sense of purpose, but the act of retrieval has sent a signal that will alert the cabal to her location.",
+        "value_object_change": "despair_to_hope",
+        "future_action_possible_or_blocked": "The cabal now knows the first fragment has been recovered and will dispatch hunters; Elara must escape the temple before they arrive."
+      }
+    },
+    {
+      "sequence_number": 4,
+      "setting_location": "The Sunken Temple \u2014 exit corridor near the Sea-Gate",
+      "setting_time": "Early afternoon",
+      "setting_atmosphere": "Urgent, claustrophobic, the water beginning to churn with distant disturbance",
+      "scene_type": "rising_action",
+      "canonical_phase": "performance",
+      "emotional_tone": "fear",
+      "content": "The first sign of trouble was the water. As Elara splashed back through the flooded corridor, the water level began to drop \u2014 not slowly, but with the sucking haste of a drain being opened. She froze, listening. Footsteps, muffled by stone and distance, but unmistakable. Multiple sets. Moving with purpose. Her scar, which had calmed after she secured the fragment, now burned with a different sensation \u2014 warning. She pressed herself against the wall and extinguished her lantern. Darkness swallowed her completely. The footsteps grew louder, accompanied by voices she could not quite make out. The cabal. They had detected the retrieval and come for her. She clutched the fragment in her pocket and calculated: the Sea-Gate was fifty yards ahead, but open ground. They would see her the moment she broke cover. She needed another way out. Desperately, she felt along the wall, her fingers brushing the same pressure plate that had nearly killed her earlier. An idea formed \u2014 dangerous, reckless, and the only option she had.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "fear",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Elara is exiting the temple with the first fragment, triumphant but exhausted, believing she has time to escape cleanly.",
+        "action_occurs": "Elara detects the cabal's arrival \u2014 multiple hunters entering the temple \u2014 and realizes she is trapped between them and the exit.",
+        "state_after": "Elara is cornered, her triumph turned to terror, and must devise a desperate escape plan using the temple's own traps against her pursuers.",
+        "value_object_change": "triumph_to_desperation",
+        "future_action_possible_or_blocked": "Elara must either fight through the cabal hunters or find an alternate escape route; direct confrontation seems suicidal."
+      }
+    },
+    {
+      "sequence_number": 5,
+      "setting_location": "The Sea-Gate exit \u2014 Sunken Temple exterior",
+      "setting_time": "Afternoon",
+      "setting_atmosphere": "Frantic, sun breaking through clouds after the temple's perpetual darkness",
+      "scene_type": "resolution",
+      "canonical_phase": "performance",
+      "emotional_tone": "surprise",
+      "content": "She triggered the pressure plate deliberately. The wall slid open, and the water jet erupted \u2014 but this time she was ready, throwing herself sideways as the torrent blasted past her into the corridor behind. A cry of alarm from the darkness told her she had hit at least one of them. She ran. The water was rushing back now, filling the corridor as the old mechanism cycled, and she slipped and stumbled through the Sea-Gate, emerging into blinding sunlight. She did not stop. She crashed through the shallows, scrambled over the rocks, and threw herself behind a boulder as a bolt of crackling energy \u2014 red, the color of blood-magic \u2014 sizzled past her ear and shattered the stone where she had stood a second before. Her heart hammering, she pressed her back against the rock and looked at the fragment in her hand. It pulsed calmly, silver and serene, utterly indifferent to the chaos around her. \"Well,\" she gasped between heaving breaths, \"that could have gone better.\" A second bolt slammed into the boulder, spraying her with stone shards. She was alive. She had the fragment. And now she knew exactly how much the cabal wanted it back.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "surprise",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Elara is trapped inside the temple with cabal hunters closing in, needing to escape or be captured.",
+        "action_occurs": "Elara uses the temple's own water-trap mechanism against the hunters and makes a desperate break for the exit, barely escaping a magical attack.",
+        "state_after": "Elara is free, wounded in spirit but intact, with the first fragment secured and a clear understanding that the cabal is now actively hunting her.",
+        "value_object_change": "trapped_to_free",
+        "future_action_possible_or_blocked": "The covert phase of the quest is over; Elara is now a known target and must evade pursuit while planning her next move toward the second fragment."
+      }
+    }
+  ]
+}

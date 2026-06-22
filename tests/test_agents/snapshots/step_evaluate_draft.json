@@ -1,0 +1,73 @@
+{
+  "success": true,
+  "message": "Developmental edit complete for 'The Crystal Key'. The narrative demonstrates strong structural foundations: a clean four-act architecture mapped to Greimasian phases (manipulation→competence→performance→sanction), a well-characterized protagonist whose arc progresses from guilt-driven atonement through righteous resolve to sacrificial redemption, and thematic coherence centered on Redemption through Sacrifice. Key findings: pacing ramps appropriately across episodes 0-2 with the narrative hinge at episode 2 (The Forest of Betrayal); genre delivery is strong for Epic Fantasy with Dark Fantasy undertones; the character arc for Elara Vex is complete and personality-consistent. Priority issues to address before proceeding to prose: (1) Episode 3 is truncated — only 'Return to the Spire' chapter is defined; at minimum one additional chapter needed for the final confrontation climax and a denouement scene showing Elara's post-sacrifice state. (2) No secondary characters defined — no helper_ids or opponent_ids on story contract, no relationships on character contract; the cabal leader and archivist need characterization for the confrontation to land. (3) Scene content is entirely generic placeholder (0 word count, duplicated content) — all 12 scenes need prose drafting. (4) The 'partially compromised map' thread is raised but never resolved as a structural question (who compromised it, and does it relate to the archivist's trustworthiness?). (5) The Isolation vs. Connection secondary theme is raised but the ending resolves only through moral clarity, not through any act of reconnection — consider adding a post-climax beat where Elara re-establishes a human connection.",
+  "errors": [],
+  "artifacts": [
+    {
+      "name": "evaluate_draft",
+      "type": "developmental_edit_report",
+      "data": {
+        "pacing_score": 7,
+        "genre_delivery_score": 8,
+        "character_arc_assessments": [
+          {
+            "character_name": "Elara Vex",
+            "completeness_score": 7,
+            "issues": [
+              "Arc from guilt to righteous resolve to sacrifice is structurally sound, but the final state after sanction is underspecified — terminal_state is empty in the character contract",
+              "No personality_changes or value_shifts are recorded in the arc field, making the degree of internal transformation untrackable",
+              "The arc relies entirely on external plot revelations (cabal orchestration) for the guilt→resolve pivot; an additional internal beat before the climax would strengthen agency"
+            ]
+          }
+        ],
+        "thematic_coherence_score": 8,
+        "structural_recommendations": [
+          "Episode 3 (The Spire's Judgment): add a chapter 2 for the final confrontation/crisis decision (shatter vs. assemble), and a chapter 3 for denouement showing Elara's post-sacrifice world and any reconnection",
+          "Define the cabal leader as a character contract entry with opposed values, core desires, and a relationship to Elara (betrayer from her past)",
+          "Define the archivist as a character contract entry — even if never physically present, their identity, motives, and credibility must be structurally grounded so the trust theme lands",
+          "Resolve the 'compromised map' thread: specify who tampered with it (cabal? archivist? independent actor?) and whether Elara ever learns the answer",
+          "Add an explicit sanction scene: the Spire (or a representative of the world Elara once belonged to) must formally acknowledge her moral choice, completing the narrative program's canonical_phases",
+          "Scene 1 (Whispers in the Ruins): three identical scenes exist — deduplicate and differentiate them into distinct dramatic beats (revelation, resistance, first stirring of hope)",
+          "Set specific word counts per scene (not just per chapter) and ensure Episode 3 chapters have word_count_targets defined",
+          "Add a relationship entry for Elara's connection to the dead acolytes — their names and her memories of them should surface at key emotional beats"
+        ],
+        "priority_issues": [
+          "Episode 3 is truncated — missing climax and denouement chapters; cannot evaluate ending quality",
+          "Zero secondary characters defined — the cabal leader and archivist must be characterized for the final confrontation and trust theme to function",
+          "All 12 scene contents are generic placeholders with 0 word count — need prose drafting before structural evaluation can be fully validated"
+        ]
+      }
+    }
+  ],
+  "contract_data": {
+    "pacing_score": 7,
+    "genre_delivery_score": 8,
+    "character_arc_assessments": [
+      {
+        "character_name": "Elara Vex",
+        "completeness_score": 7,
+        "issues": [
+          "Arc from guilt to righteous resolve to sacrifice is structurally sound, but the final state after sanction is underspecified — terminal_state is empty in the character contract",
+          "No personality_changes or value_shifts are recorded in the arc field, making the degree of internal transformation untrackable",
+          "The arc relies entirely on external plot revelations (cabal orchestration) for the guilt→resolve pivot; an additional internal beat before the climax would strengthen agency"
+        ]
+      }
+    ],
+    "thematic_coherence_score": 8,
+    "structural_recommendations": [
+      "Episode 3 (The Spire's Judgment): add a chapter 2 for the final confrontation/crisis decision (shatter vs. assemble), and a chapter 3 for denouement showing Elara's post-sacrifice world and any reconnection",
+      "Define the cabal leader as a character contract entry with opposed values, core desires, and a relationship to Elara (betrayer from her past)",
+      "Define the archivist as a character contract entry — even if never physically present, their identity, motives, and credibility must be structurally grounded so the trust theme lands",
+      "Resolve the 'compromised map' thread: specify who tampered with it (cabal? archivist? independent actor?) and whether Elara ever learns the answer",
+      "Add an explicit sanction scene: the Spire (or a representative of the world Elara once belonged to) must formally acknowledge her moral choice, completing the narrative program's canonical_phases",
+      "Scene 1 (Whispers in the Ruins): three identical scenes exist — deduplicate and differentiate them into distinct dramatic beats (revelation, resistance, first stirring of hope)",
+      "Set specific word counts per scene (not just per chapter) and ensure Episode 3 chapters have word_count_targets defined",
+      "Add a relationship entry for Elara's connection to the dead acolytes — their names and her memories of them should surface at key emotional beats"
+    ],
+    "priority_issues": [
+      "Episode 3 is truncated — missing climax and denouement chapters; cannot evaluate ending quality",
+      "Zero secondary characters defined — the cabal leader and archivist must be characterized for the final confrontation and trust theme to function",
+      "All 12 scene contents are generic placeholders with 0 word count — need prose drafting before structural evaluation can be fully validated"
+    ]
+  }
+}

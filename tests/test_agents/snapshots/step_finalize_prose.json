@@ -1,0 +1,584 @@
+{
+  "success": true,
+  "message": "Finalized prose for 12 chapters across 4 episodes — polished pacing, dialogue, and medium-specific formatting for book medium.",
+  "errors": [],
+  "artifacts": [],
+  "contracts_data": [
+    {
+      "sequence_number": 0,
+      "setting_location": "Collapsed eastern wing of the Spire ruins",
+      "setting_time": "Dusk",
+      "setting_atmosphere": "Oppressive, heavy with the smell of old ash and salt",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anticipation",
+      "content": "The wind carried salt and something else — a thin, metallic tang that Elara Vex had learned to associate with magic long dead. She sat among the fallen stones of the Spire's eastern wing, her back against a slab of granite that had once been part of the archway to the conclave chambers. Three years of salt spray and neglect had softened its edges, but she remembered every shard of it. The way it had looked when she had woken buried beneath it, her ears ringing, three acolytes silent in the rubble beside her. She pressed her palm flat against the stone until the roughness bit into her skin. A distraction. She needed a distraction from the voice that had begun whispering three nights ago. At first she had thought it was the wind playing tricks, or her own guilt finally crystallizing into audible form. But the whispers persisted, threading through the crash of waves against the cliffs below, always at the edge of hearing, always saying the same thing: three fragments, scattered. A cabal gathering them. A blight that would end the world if they succeeded. \"I am no one,\" she said aloud, and her voice cracked from disuse. \"I have no power. Why would you come to me?\" The whisper did not answer. It never answered. It only repeated, patient as the tide.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "fear",
+          "intensity": "medium"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter Whispers in the Ruins",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "Collapsed eastern wing of the Spire ruins",
+      "setting_time": "Night",
+      "setting_atmosphere": "Dark, moonless, with the distant crash of waves",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anticipation",
+      "content": "Elara had not moved in hours. The moon had risen and fallen behind cloud cover, and still she sat among the ruins, her crystallized scar faintly luminescent in the dark. It pulsed in rhythm with her heartbeat — a slow, steady throb that she had grown used to, like a second pulse living just beneath her skin. The whispers came again, clearer now. She closed her eyes and let them wash over her. Three crystal fragments, the voice said. One in the Sunken Temple of the eastern coast. One in the heart of the Blighted Forest. One buried beneath the Spire itself, where the cabal had already dug. She knew she should dismiss it. She knew the cabal was not her concern, not anymore. She had no magic, no allies, no reason to trust a voice that came from nowhere. But the scar on her hand pulsed harder at the mention of the fragments, and something stirred in her chest that she had thought long dead: a faint, dangerous ember of hope. \"If this is a trap,\" she whispered to the empty dark, \"then spring it. I have nothing left to lose.\"",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "hope",
+          "intensity": "low"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter Whispers in the Ruins",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 2,
+      "setting_location": "Collapsed eastern wing of the Spire ruins",
+      "setting_time": "Dawn",
+      "setting_atmosphere": "Gray, misty, the first light filtering through cracked stone",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anticipation",
+      "content": "Dawn arrived gray and reluctant, the sun a pale smudge behind the coastal mist. Elara had spent the last hour of darkness gathering what little she owned: a worn leather satchel, a rusted dagger she had found in the rubble, a half-empty waterskin, and the burnt remnants of her conclave robes, which she wore still as a kind of penitence she could not bring herself to abandon. She stood at the edge of the collapsed wing, looking out at the Shattered Coast. The sea churned below, gray-green and hungry. Somewhere to the east lay the Sunken Temple. Somewhere to the north, the Blighted Forest. And beneath her feet, buried in the Spire's deepest vault, the third fragment waited. Or so the whispers claimed. \"You had better be real,\" she said, addressing the empty air. \"You had better not be my madness, finally finding its voice.\" The whisper did not answer. But her scar pulsed once, hard, and Elara took it as answer enough. She turned her back on the Spire ruins and began to walk east.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "anticipation",
+          "intensity": "medium"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter Whispers in the Ruins",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 0,
+      "setting_location": "A cliffside path overlooking the Shattered Coast",
+      "setting_time": "Late morning",
+      "setting_atmosphere": "Bright but cold, sea wind cutting through worn robes",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anticipation",
+      "content": "The path hugged the cliffs like a scar — narrow, crumbling, barely wide enough for one person. Elara pressed her back to the rock face and sidestepped along it, the sea roaring a hundred feet below. Every loose stone that skittered over the edge made her flinch, waiting for the cascade that would take her with it. The whispers had been quiet since dawn, and the silence was almost worse. It gave her space to think, and thinking was dangerous. Every step east was a step away from the only safety she had known since the collapse — the hollow, undemanding solitude of the ruins. Every step was a choice. \"You are walking toward a temple that probably collapsed centuries ago,\" she muttered, \"on the word of a voice that might be your own guilt given sound. You are not brave. You are not a hero. You are a woman who has forgotten how to stay still.\" The crystallized scar on her left hand pulsed, and she looked down at it. The light beneath her skin had shifted — it glowed brighter when she faced east, dimmer when she turned away. She had never seen it do that before. She adjusted her course, following the pull like a lodestone.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "doubt",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Weight of a Choice",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "A sheltered cove beneath the cliff path",
+      "setting_time": "Afternoon",
+      "setting_atmosphere": "Sheltered, damp, with the sound of dripping water",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "sadness",
+      "content": "She found the cove by accident — a fissure in the cliff face that opened into a small, damp chamber where the sea had carved out a grotto. The walls were slick with moisture, and somewhere in the darkness water dripped in a steady, unhurried rhythm. Elara sat with her back to the stone and pulled out the remnants of her food: a wedge of hard bread, a piece of dried fish. She ate mechanically, without tasting. The memory came unbidden, as it always did in the quiet. Three acolytes — barely more than children, their faces bright with the hunger to learn. She had been showing them the binding technique. A simple exercise, she had said. A way to anchor a thread of aether to a physical object. She had done it a hundred times. But she had not accounted for the Null-Crystal shard she had been studying in the chamber below. The resonance had fed back, amplified, torn through her control. The eastern wing had come down. The acolytes had not even had time to scream. Elara set down the bread. Her hands were shaking. \"I am sorry,\" she whispered, though she had said it ten thousand times and it still meant nothing. \"I am so sorry.\" The whispers stirred at the edges of her mind, soft as silk. Three fragments, they said. Three pieces, like the three you lost. Collect them. Atone. She pressed her palm against the scar until it hurt. \"If this is a trick,\" she said, \"I will find the one who set it. And I will make them regret it.\"",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "grief",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Weight of a Choice",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 2,
+      "setting_location": "The cove grotto, near the entrance to an old smuggler's tunnel",
+      "setting_time": "Late afternoon",
+      "setting_atmosphere": "Dim, with shifting light reflected from the sea outside",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "trust",
+      "content": "Elara found the tunnel behind a curtain of moss at the back of the grotto. It was narrow, barely shoulder-width, and the air that flowed from it was dry and still — not the damp breath of a dead end, but the patient stillness of a passage that led somewhere. She held her breath and stepped inside. The darkness was absolute. She walked with one hand on the wall, the stone cold and rough beneath her fingers. The tunnel sloped downward, then leveled out, and after what felt like an hour but could not have been more than twenty minutes, the walls opened and she stood in a chamber that smelled of dust and old paper. A smuggler's cache. Or a fugitive's hideout. There were shelves carved into the walls, and on one of them, wrapped in oilcloth, she found the map. She unwrapped it with trembling hands. The parchment was old, the ink faded to a brown so pale it was almost illegible. But the lines were clear: the coastline, the Spire marked with a black X, the Sunken Temple with a red one. And two more marks — one deep in the forested interior, one at the Spire's base. The fragments. Her scar pulsed so hard it ached, and Elara laughed — a raw, broken sound that echoed off the stone walls. \"Well,\" she said, folding the map carefully. \"I suppose that settles that.\"",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "determination",
+          "intensity": "medium"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Weight of a Choice",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 0,
+      "setting_location": "The smuggler's tunnel exit, at the base of the coastal cliffs",
+      "setting_time": "Evening",
+      "setting_atmosphere": "Golden light, seabirds calling, the air cooling rapidly",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anticipation",
+      "content": "She emerged from the tunnel into the golden light of early evening, the sun low and heavy on the horizon, the sea turned to molten copper. For a long moment Elara stood at the cliff's base and simply breathed. The air tasted different here — not of ash and regret, but of salt and distance and the faint green smell of vegetation she had not smelled in years. The map in her satchel felt like a live thing, pulsing with possibility. She unfolded it again and traced her finger along the route to the Sunken Temple. A day's journey along the coast, maybe two if the terrain was bad. Then the temple itself — half-flooded, according to the smuggler's notes, and treacherous. The whisper had promised the first fragment waited there. \"One step at a time,\" she said, her voice steady. \"One fragment. One choice. Then the next.\" She had expected the fear to paralyze her, the way it had every day since the collapse. But standing there in the cooling evening, with the map warm against her chest and her scar pulsing in quiet rhythm, Elara found that the fear had not vanished — it had simply become irrelevant. She was still afraid. But she was moving anyway.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "anticipation",
+          "intensity": "medium"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Stolen Map",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "The coastal path, approaching a ruined watchtower",
+      "setting_time": "Night",
+      "setting_atmosphere": "Dark but clear, stars bright overhead, the sound of waves below",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anticipation",
+      "content": "She walked through the night, guided by starlight and the faint pull of her scar. The map had warned of cabal patrols along the coast, and she had no intention of testing their vigilance. Better to move in darkness, when even the sharpest eyes could miss a figure pressed against the cliff face. By midnight she had reached the ruins of an old watchtower, its top sheared off by some long-ago storm. She made camp in its lee, huddled against the wind with her back to the stone. The map lay open across her knees, the ink seeming to shift in the starlight. She traced the route again, committing it to memory: past the watchtower, through the salt flats, then a hard climb over the headland. The Sunken Temple lay in a collapsed cove on the far side, accessible only at low tide. \"You built it in a place that didn't want you,\" she murmured, addressing the long-dead architects. \"I understand the feeling.\" She allowed herself a brief, humorless smile. Then she folded the map, checked her dagger, and settled in to wait for first light.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "anticipation",
+          "intensity": "medium"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Stolen Map",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 2,
+      "setting_location": "The watchtower ruin, pre-dawn",
+      "setting_time": "Pre-dawn",
+      "setting_atmosphere": "Still, cold, the first gray light touching the horizon",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "trust",
+      "content": "Elara woke before dawn, stiff and cold, her breath fogging in the gray light. She had not slept well — the whispers had returned in the night, more insistent now, threading through her dreams with images of crystal chambers and flooded corridors. But she woke with her purpose intact, and that was enough. She packed her satchel, took a long drink from her waterskin, and stood at the edge of the watchtower's shadow, facing east. The Sunken Temple was out there, hidden by the curve of the headland. Somewhere inside it, the first fragment waited. \"I am coming for you,\" she said, and she was surprised to hear the certainty in her own voice. The scar on her hand pulsed once, warm, as if answering. She set off at a steady pace, the map in her mind, the sea on her left, and the first pale edge of the sun breaking over the horizon ahead of her. She was no longer the hollow exile who had sat among the ruins of the Spire. She was Elara Vex, and she was done running.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "determination",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Stolen Map",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 0,
+      "setting_location": "The salt flats between the watchtower and the Sunken Temple headland",
+      "setting_time": "Late morning",
+      "setting_atmosphere": "Flat, blinding white, the heat shimmering off crystallized salt",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anticipation",
+      "content": "The salt flats stretched ahead like a frozen sea, white and crystalline and utterly silent. Elara walked with her hood pulled low against the glare, her eyes narrowed to slits, each step cracking the thin crust of salt that had formed over the mud beneath. The map had warned her about the flats — they were treacherous at high tide, when the sea pushed through underground channels and flooded the basin without warning. But the tide was low, and she had time. She hoped. Her scar pulled steadily east, the light beneath her skin growing brighter as she approached the headland. She could feel the fragment now, not as a whisper but as a pressure at the edge of her awareness, like a distant note held too long. It sang to something deep in her chest, something she had thought the experiment had destroyed. \"I hear you,\" she said, her voice swallowed by the vast silence of the flats. \"I am coming.\"",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "anticipation",
+          "intensity": "medium"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter Descent to the Temple",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "The headland overlooking the Sunken Temple cove",
+      "setting_time": "Midday",
+      "setting_atmosphere": "Windy, the sea churning below, gulls circling and crying",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anticipation",
+      "content": "She saw the temple from the headland, and her breath caught in her throat. It had once been a structure of considerable ambition — a domed sanctuary built into the cliff face, its entrance flanked by pillars carved to resemble figures that might have been mages or gods. Now it was a ruin, half-collapsed, the sea claiming more of it with every tide. The entrance was dark, below the waterline. She would have to dive to reach it. Elara sat on the headland and studied the temple for a long time, noting the way the water surged and retreated, the pattern of the waves. Low tide would expose the entrance for perhaps an hour. She would have to move fast, find the fragment, and escape before the tide turned and trapped her inside. \"A tomb or a treasure chamber,\" she said. \"There's only one way to find out.\" She checked her dagger, tightened her satchel straps, and began the treacherous descent down the cliff face to the cove below. The scar on her hand was pulsing so hard now that it almost hurt. The fragment was close.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "determination",
+          "intensity": "medium"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter Descent to the Temple",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 0,
+      "setting_location": "The Sunken Temple, flooded entrance corridor",
+      "setting_time": "Low tide",
+      "setting_atmosphere": "Dark, cold water up to the chest, the air thick with brine and old stone",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "fear",
+      "content": "The water was colder than she had expected. It hit her like a fist, driving the air from her lungs as she waded into the temple's submerged entrance. The corridor beyond was dark — the kind of absolute darkness that pressed against the eyes, disorienting, suffocating. She moved forward with one hand on the wall, the other holding her dagger, the water sloshing around her chest. Her scar glowed faintly, casting a pale blue light on the water's surface. It was enough to see by, barely. The corridor opened into a larger chamber, and Elara stopped, her breath catching. The room was circular, its domed ceiling lost in shadow above. Pillars rose from the water at regular intervals, each carved with figures whose faces had been worn smooth by centuries of salt and time. And at the center of the chamber, on a raised dais that stood just above the waterline, a crystal fragment the size of her fist caught the faint light and scattered it into a thousand pieces. \"There you are,\" she whispered. The fragment pulsed in answer, and the water around her rippled.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "awe",
+          "intensity": "medium"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Chamber of Echoes",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "The Sunken Temple, central chamber dais",
+      "setting_time": "Low tide",
+      "setting_atmosphere": "Hushed, reverent, the water still and dark around the raised platform",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "fear",
+      "content": "The chamber held its breath. Elara waded toward the dais, the water growing shallower with each step until she was climbing onto the stone platform, dripping and shivering. The crystal fragment sat in a recess carved into the dais's surface, held in place by nothing more than gravity and time. It was beautiful — a shard of something that had once been whole, its surfaces catching the light from her scar and throwing prismatic patterns across the darkened walls. She reached for it, and the whispers surged. Yes, they said. Take it. The first piece. The beginning of atonement. Her fingers closed around the fragment, and the world exploded into white light. For a moment — a second, an eternity — she was everywhere at once. She saw the Spire as it had been, whole and proud. She saw the experiment, the binding, the moment of catastrophe. She saw a figure standing in the shadows of her memory, watching, waiting. A face she almost recognized. Then the light faded, and she was kneeling on the dais, the fragment cold in her hand, her breath ragged in her chest. \"What was that?\" she gasped. The whispers did not answer. But something had changed. The scar on her hand had stopped pulsing. It was glowing steadily now, warm and constant.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "awe",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Chamber of Echoes",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 0,
+      "setting_location": "The Sunken Temple cove, exterior rocks",
+      "setting_time": "Late afternoon, tide rising",
+      "setting_atmosphere": "Urgent, the sea beginning to swell, waves crashing against the cliff",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "fear",
+      "content": "She emerged from the temple with the tide already rising, the water at her chin as she fought her way through the submerged entrance. The fragment was tucked inside her satchel, warm against her hip, and the whispers had fallen silent — as if they had accomplished what they had set out to do. She dragged herself onto the rocks of the cove, coughing salt water, her limbs trembling with cold and exhaustion. And then she saw them. Three figures stood on the headland above, silhouetted against the afternoon sky. They were too still to be travelers, too purposeful to be lost. The cabal's hunters. They had found her. Elara scrambled to her feet, her hand going to her dagger even as she knew it would be useless against whatever magic they commanded. One of the figures raised an arm, pointing directly at her. \"There! She has it!\" a voice called down, sharp with command. Elara did not wait to hear more. She turned and ran, the fragment bouncing against her hip, the hunters' shouts fading behind her as she plunged into the scrubland beyond the cove. The hunt had begun.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "fear",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Hunt Begins",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "The scrubland beyond the Sunken Temple cove",
+      "setting_time": "Dusk",
+      "setting_atmosphere": "Thorny, dry, the light fading fast, the wind rising",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "fear",
+      "content": "She ran until her legs burned and her lungs screamed, crashing through thornbushes and dry grass, the fragment bouncing against her hip with every stride. Behind her, she could hear the hunters — not close, but not far enough. They were methodical, spreading out to box her in. She had perhaps an hour before they cornered her. Elara found a shallow depression in the earth, half-hidden by a gnarled thicket, and dropped into it, pressing herself flat against the dry soil. She forced her breathing to slow, forced her heart to stop hammering. The footsteps grew louder, then faded, then grew loud again. A voice, close enough to make her flinch: \"She came this way. The trail is fresh.\" \"Spread out. She cannot have gone far.\" \"The Cabal Master wants her alive. The fragment must not be damaged.\" Elara closed her eyes and pressed her hand against the fragment through the satchel. It was warm, and the warmth spread up her arm, easing the ache in her muscles. The whispers stirred, soft as a breath. Follow the coast north, they said. The Blighted Forest. The second fragment. She opened her eyes. The footsteps were receding. She had a chance.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "fear",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Hunt Begins",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 0,
+      "setting_location": "The marshland between the coast and the Blighted Forest",
+      "setting_time": "Night",
+      "setting_atmosphere": "Wet, misty, the ground soft and treacherous underfoot",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "fear",
+      "content": "The marsh swallowed the moonlight. Elara moved through it as if wading through a dream, each step sinking ankle-deep into black water, the reeds whispering against her robes. The hunters had fallen back — she had lost them in the maze of channels and mudflats — but she did not slow. The fragment's warmth guided her now, pulling north and east, toward the dark line of trees that marked the edge of the Blighted Forest. The map had warned her about this place. The blight had taken root here decades ago, corrupted by some failed ritual she had never heard the full story of. The trees grew crooked and black, their branches twisted into shapes that seemed almost intentional. The ground was littered with the bones of animals — and some that might have been human. She consulted the map by the faint light of her scar. The second fragment was somewhere in the heart of the forest, in a ruin that predated the blight. But the map also showed something she had not noticed before: a symbol, small and faded, marking a location along her route. A warning. She traced it with her finger. What are you not telling me? she thought. The whispers, for once, had nothing to say.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "dread",
+          "intensity": "medium"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter Into the Blighted Wood",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "Deep within the Blighted Forest",
+      "setting_time": "Late night",
+      "setting_atmosphere": "Oppressive, the air thick with rot and corrupted magic",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "fear",
+      "content": "The trees closed in around her, their branches forming a canopy so dense that even the faint starlight was blocked out. Elara moved by touch and by the glow of her scar, the fragment a steady warmth against her hip. The whispers had returned, but they were different now — not guiding, but warning. Something is wrong, they said. The path is not safe. The map has been altered. She stopped, pulling the parchment from her satchel. In the blue light of her scar, she studied the route. And her blood ran cold. The symbol she had noticed earlier was not a caution. It was a destination. The map was not showing her the way to the second fragment. It was showing her the way to something else. An ambush. She spun, looking for the way back, but the forest had shifted around her while she studied the map. The path behind her was gone, replaced by a wall of thorns that had not been there moments before. And ahead, between the twisted trees, she saw the glint of torchlight and the silhouettes of waiting figures. \"She took the bait,\" a voice said, low and satisfied. Elara's hand went to her dagger. The map had betrayed her. And somewhere in the darkness, the cabal was waiting.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "fear",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter Into the Blighted Wood",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 0,
+      "setting_location": "The Blighted Forest, a clearing surrounded by thorn walls",
+      "setting_time": "Night",
+      "setting_atmosphere": "Tense, the air thick with malice, torchlight flickering off black bark",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anger",
+      "content": "The first crossbow bolt hissed past her ear and buried itself in the tree behind her. Elara threw herself sideways, rolling behind a fallen log as the clearing erupted into motion. Four figures, maybe five — she had not had time to count. They were spread in a semicircle, torches guttering in their hands, the light catching the edges of drawn blades. \"The fragment!\" one of them shouted. \"Take it from her!\" Elara did not stop to think. She had no magic, no armor, nothing but a rusted dagger and the desperate cunning of a woman who had spent three years surviving on nothing. She grabbed a handful of mud and dead leaves and flung it toward the nearest torch, extinguishing it in a hiss of steam. The darkness shifted, and the hunters cursed. She moved before they could adjust, driving her shoulder into the nearest figure's chest and sending them stumbling back into the thorns. The hunter screamed as the barbs bit into unprotected flesh. A second bolt caught her in the shoulder, and she gasped, the pain white-hot and immediate. She kept running. She had to keep running. If she stopped, she was dead.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "fear",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Ambush",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "A hollow beneath a fallen tree, deep in the Blighted Forest",
+      "setting_time": "Night, hours later",
+      "setting_atmosphere": "Dark, cramped, the air thick with the smell of blood and wet earth",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anger",
+      "content": "She had bound the wound with strips torn from her robe, but the blood still seeped through, warm and persistent. Elara sat in the hollow beneath the fallen tree, her back against rotting wood, her breath coming in shallow gasps. The bolt had gone through cleanly — she had snapped the shaft and pulled the head out by feel, biting down on a fold of her sleeve to keep from screaming. The fragment rested in her lap, pulsing faintly, and she stared at it with a hatred that surprised her. \"You,\" she said, her voice raw. \"You were supposed to be the way forward. Atonement. Redemption. Instead, you led me into a slaughter.\" She thought of the map, the symbol, the way the whispers had guided her step by step into the ambush. Had the archivist known? Had the map been a trap from the beginning? Or had the cabal tampered with it, turning her own guidance against her? She did not know. And that was the worst part — she could not trust anything. Not the map. Not the whispers. Not even her own scar. She pressed her hand to the wound and felt the warmth of her own blood, and she made a decision. The map was compromised. The whispers were unreliable. But she was still alive. And while she lived, she could still fight.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "anger",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Ambush",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 0,
+      "setting_location": "Ancient ruins deep within the Blighted Forest",
+      "setting_time": "Dawn, mist rising through broken walls",
+      "setting_atmosphere": "Eerie, the mist glowing faintly with residual magic",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "surprise",
+      "content": "She found the ruins by accident. Bleeding, exhausted, and half-delirious from pain, Elara had stumbled through the forest with no direction but away, and the ruins had risen out of the mist like a ghost. They were older than the Spire, older than anything she had ever seen — walls of black stone carved with symbols that predated the foundation of the conclave. And nestled among the fallen pillars, half-buried in rubble, she found the second fragment. But that was not what stopped her heart. What stopped her heart was what lay beside it: a chest, iron-bound, its lock shattered. Inside, a stack of documents, their pages yellowed with age, their ink still legible. And on the first page, in a hand she recognized — a hand she had seen a thousand times during her apprenticeship — the words: \"Project: Null-Crystal Binding. Subject: Elara Vex. Objective: Terminal resonance cascade.\" She read it three times before the meaning penetrated. The experiment had not been a mistake. It had been designed. She had been chosen — groomed — to cause exactly the catastrophe that had destroyed the eastern wing and killed three acolytes. The cabal had orchestrated everything. Her hands were shaking. Her scar was blazing. And for the first time in three years, Elara Vex did not feel guilty. She felt furious.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "surprise",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Ruin Records",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "The ancient ruins, a chamber with a collapsed ceiling open to the sky",
+      "setting_time": "Full dawn, golden light streaming through the mist",
+      "setting_atmosphere": "Transformative, the air electric with the weight of revelation",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "anger",
+      "content": "Elara sat among the scattered documents, the second fragment cold in her lap, and read everything. The records spanned years — correspondence between cabal agents, reports on her progress, assessments of her magical potential. They had chosen her when she was twelve, a promising acolyte with unusually strong aetheric sensitivity. They had cultivated her, encouraged her arrogance, steered her toward the Null-Crystal research. The experiment had been their plan from the beginning. The three acolytes who died had been collateral damage they had accepted. She had been the instrument of deliberate destruction, not a failure but a weapon that had performed exactly as designed. \"They made me,\" she said, her voice flat with shock. \"They made me into the thing I hate myself for.\" The fragment pulsed, and for a moment she wanted to hurl it into the mist, to flee from the truth. But the guilt was gone. In its place was something harder, sharper. She had been a pawn. But she did not have to stay one. She gathered the documents, tucked them into her satchel alongside the fragments, and stood. \"All right, archivist,\" she said. \"If you are real, if you are anything other than my own desperate hope talking to itself — then tell me this: was the trap the map led me into your doing or theirs?\" The whispers did not answer. But as she stood there, bathed in the dawn light, the second fragment warm in her hand, Elara Vex felt something shift inside her. She was no longer seeking atonement. She was seeking justice.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "anger",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Ruin Records",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 2,
+      "setting_location": "The edge of the ancient ruins, facing west toward the Spire",
+      "setting_time": "Morning, the mist burning off",
+      "setting_atmosphere": "Clear, sharp, the world made new and dangerous",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "determination",
+      "content": "She emerged from the ruins with two fragments and the truth. The mist had burned off while she read, and the Blighted Forest looked different in the morning light — still twisted, still corrupted, but no longer malevolent. Just a place that had been wounded, like her. The map was still in her satchel, but she did not unfold it. She did not need it anymore. She knew where the final fragment was. It had always been in the same place. Beneath the Spire. Where the cabal had already dug. Where they waited for her. \"You wanted a weapon,\" she said, addressing the absent cabal. \"You built one. You pointed it at the world and pulled the trigger. But you forgot something.\" She touched the fragments through the satchel, felt their warmth, their resonance. \"Weapons can turn.\" She began to walk west, toward the Spire, toward the final confrontation. The whispers accompanied her, soft and constant, but she no longer listened with blind trust. She listened with the hard-earned wisdom of someone who had been betrayed by every guide she had ever followed. She was Elara Vex, and she was done being a pawn. She was coming for the cabal. And she was bringing their weapon back to them.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "determination",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter The Ruin Records",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 0,
+      "setting_location": "The approach to the Spire ruins, west side",
+      "setting_time": "Late afternoon, storm clouds gathering",
+      "setting_atmosphere": "Heavy, charged, the air thick with the promise of violence",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "determination",
+      "content": "The Spire rose against the storm clouds like a broken tooth, its western face still intact, the rest a tumble of rubble and memory. Elara approached it from the high ground, using the cover of scattered boulders and twisted trees. She had been watching for an hour, counting the patrols, mapping the sentry positions. The cabal had fortified the ruins heavily — they knew she was coming, or they were preparing for something larger than one woman with two fragments. Perhaps both. The truth sat in her satchel like a living thing, the documents pressed against the fragments, the weight of revelation heavy on her shoulders. She thought of the faces of the three acolytes — she could remember them now without guilt, only grief — and she thought of the cabal Master waiting somewhere in the depths below. \"I am not here to kill you,\" she murmured, testing the words. \"I am here to show you that your weapon is no longer yours.\" She checked her dagger, adjusted her satchel, and began the final approach. The storm was building, and soon it would break. She intended to be done before the first rain fell.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "determination",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter Return to the Spire",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    },
+    {
+      "sequence_number": 1,
+      "setting_location": "The Spire ruins, outer perimeter near the underground entrance",
+      "setting_time": "Dusk, the first lightning flickering on the horizon",
+      "setting_atmosphere": "Electric, tense, the wind rising as the storm approaches",
+      "scene_type": "confrontation",
+      "canonical_phase": "performance",
+      "emotional_tone": "determination",
+      "content": "She slipped past the first patrol like a shadow, using the cover of the storm's approach — the gusts of wind covered her footsteps, the flashes of lightning drew the sentries' eyes skyward at crucial moments. She moved with the patience of someone who had learned that haste was the enemy of survival. The second patrol was harder. They had positioned themselves at the entrance to the underground chamber, two figures in dark cloaks, their faces hidden by hoods. One carried a lantern that burned with a cold blue flame — mage-light, not ordinary fire. Elara pressed herself against the wall and considered her options. She could not fight them both, not with her shoulder still aching from the crossbow wound. She could not go around — the entrance was the only way down. And she could not wait them out. The storm would break soon, and the cabal Master would know she was here. She reached into her satchel and touched the first fragment. It pulsed, warm and responsive. \"Archivist,\" she whispered, \"if you are real, if you have any power left in this world — give me a distraction.\" For a long moment, nothing. Then, from deep within the ruins, a crash echoed — stone falling — followed by a cry of alarm. The two guards turned, exchanged a glance, and one hurried inside to investigate. One guard remained. Elara moved. She crossed the distance in seconds, her blade finding its mark. The body crumpled. She stepped over it and into the darkness below. The final fragment was near. She could feel it singing.",
+      "characters_present": [
+        {
+          "id": "49de9507-9345-48a9-a210-00a73ce90ea5",
+          "emotion": "determination",
+          "intensity": "high"
+        }
+      ],
+      "greimas_diagnostic": {
+        "state_before": "Initial state before the events of this scene",
+        "action_occurs": "Key action in chapter Return to the Spire",
+        "state_after": "Transformed state resulting from the action",
+        "value_object_change": "transferred",
+        "future_action_possible_or_blocked": "Next scene is now enabled"
+      }
+    }
+  ]
+}

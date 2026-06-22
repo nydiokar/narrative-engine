@@ -1,0 +1,290 @@
+{
+  "success": true,
+  "message": "Planned speech acts for 10 chapters (18 scenes) across 4 episodes",
+  "errors": [],
+  "artifacts": [
+    "ff45f25d-e2ba-4895-97da-63237d71e3df",
+    "a747b9a5-1ff1-4fb7-ba75-2dd3aa1b14ed",
+    "18401b7a-44ca-436d-80ef-93a53e4eb85e",
+    "acefc3eb-cdcd-45ce-829b-a59e59dc7284",
+    "6fe2ab35-b89d-4abb-85b5-7816e45bdf9c",
+    "d79adf23-9606-4baa-9c76-da5fe582afc2",
+    "b25723f6-5db9-4fb5-bbb9-d3cdb9f15c68",
+    "694b8ae6-6fe4-4fdd-b789-f55fa156f5d5",
+    "3e864651-ae69-47c0-810c-1f1db2c08fea",
+    "aee7772d-1e06-4be0-a660-6bc22d6af190"
+  ],
+  "contracts_data": [
+    {
+      "scene_id": "ff45f25d-e2ba-4895-97da-63237d71e3df",
+      "speech_acts": [
+        {
+          "speaker": "Archivist",
+          "target": "Elara Vex",
+          "function": "reveal",
+          "subtext": "Frames the crystal fragments as a cosmic duty — but what the archivist actually wants from Elara remains opaque",
+          "expected_effect": "Elara learns of the quest and the cabal's plan; a faint hope stirs beneath her paralysis"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "Archivist",
+          "function": "deflect",
+          "subtext": "Claims powerlessness and indifference as a shield — she is terrified of failing again and losing the last shard of her identity",
+          "expected_effect": "The archivist must find a stronger lever; Elara's deflection signals she is not yet closed to persuasion"
+        },
+        {
+          "speaker": "Archivist",
+          "target": "Elara Vex",
+          "function": "persuade",
+          "subtext": "Invokes atonement deliberately — the archivist knows guilt is Elara's only remaining fuel and is willing to use it",
+          "expected_effect": "Elara's dormant hope and guilt conflict; she does not answer aloud but her scar pulses"
+        }
+      ],
+      "silence_flags": [],
+      "tension_rating": "medium"
+    },
+    {
+      "scene_id": "a747b9a5-1ff1-4fb7-ba75-2dd3aa1b14ed",
+      "speech_acts": [
+        {
+          "speaker": "Elara Vex",
+          "target": "Archivist",
+          "function": "confess",
+          "subtext": "She asks whether she can trust the whispers, but what she really asks is whether she is worth saving — a test of the archivist's intent",
+          "expected_effect": "The archivist must reframe her self-doubt as the very reason she must act"
+        },
+        {
+          "speaker": "Archivist",
+          "target": "Elara Vex",
+          "function": "command",
+          "subtext": "Orders her to rise and seek the map, testing whether any fight remains beneath the guilt",
+          "expected_effect": "Elara bristles at being commanded, revealing her autonomy need is intact beneath the despair"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "Archivist",
+          "function": "deflect",
+          "subtext": "Invokes the three dead acolytes as a reason she cannot act — using guilt as a wall against the risk of hoping again",
+          "expected_effect": "Archivist presses harder, knowing the guilt-wall is also a door"
+        },
+        {
+          "speaker": "Archivist",
+          "target": "Elara Vex",
+          "function": "reveal",
+          "subtext": "Drops that her experiment was sabotaged, offering righteous anger as a cleaner motivator than guilt",
+          "expected_effect": "Elara's paralysis fractures into shock and the first flicker of fury"
+        }
+      ],
+      "silence_flags": [],
+      "tension_rating": "high"
+    },
+    {
+      "scene_id": "18401b7a-44ca-436d-80ef-93a53e4eb85e",
+      "speech_acts": [],
+      "silence_flags": ["Elara Vex"],
+      "tension_rating": "high"
+    },
+    {
+      "scene_id": "acefc3eb-cdcd-45ce-829b-a59e59dc7284",
+      "speech_acts": [
+        {
+          "speaker": "Elara Vex",
+          "target": "Archivist",
+          "function": "bargain",
+          "subtext": "Asks for proof the map is not a trap, but what she is really bargaining for is certainty — which neither can provide",
+          "expected_effect": "Archivist deflects; Elara's trust remains conditional, her vigilance sharpens"
+        },
+        {
+          "speaker": "Archivist",
+          "target": "Elara Vex",
+          "function": "deflect",
+          "subtext": "Responds that trust is earned through action, not given in advance — may be withholding, may simply not know",
+          "expected_effect": "Elara is frustrated but continues; the archivist's credibility is neither confirmed nor refuted"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "herself",
+          "function": "confess",
+          "subtext": "Mutters that she must be mad to follow a dead voice — testing her own sanity aloud",
+          "expected_effect": "Articulating doubt externalizes it; she feels slightly more in control for having named it"
+        }
+      ],
+      "silence_flags": [],
+      "tension_rating": "low"
+    },
+    {
+      "scene_id": "6fe2ab35-b89d-4abb-85b5-7816e45bdf9c",
+      "speech_acts": [],
+      "silence_flags": ["Elara Vex"],
+      "tension_rating": "high"
+    },
+    {
+      "scene_id": "d79adf23-9606-4baa-9c76-da5fe582afc2",
+      "speech_acts": [
+        {
+          "speaker": "Cabal Hunter",
+          "target": "Elara Vex",
+          "function": "command",
+          "subtext": "Orders surrender with the casual confidence of someone who expects a broken mage to comply — underestimating her",
+          "expected_effect": "Elara's pride is stung; she realizes they see her as the woman she used to be, not who she is becoming"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "Cabal Hunter",
+          "function": "mock",
+          "subtext": "Taunts them for sending a squad after a 'broken mage' — bravado masking terror, testing their competence",
+          "expected_effect": "Hunter is angered into rashness; underestimation becomes overreach"
+        },
+        {
+          "speaker": "Cabal Hunter",
+          "target": "Elara Vex",
+          "function": "threaten",
+          "subtext": "Promises a fate worse than death, revealing they have orders to make an example of her",
+          "expected_effect": "Elara's survival instinct overrides pride; she shifts from confrontation to escape"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "Cabal Hunter",
+          "function": "deflect",
+          "subtext": "Throws debris and flees, shouting a taunt over her shoulder — flight framed as dismissiveness",
+          "expected_effect": "Hunter pursues in fury, abandoning tactical discipline for revenge"
+        }
+      ],
+      "silence_flags": [],
+      "tension_rating": "high"
+    },
+    {
+      "scene_id": "b25723f6-5db9-4fb5-bbb9-d3cdb9f15c68",
+      "speech_acts": [
+        {
+          "speaker": "Elara Vex",
+          "target": "Archivist",
+          "function": "confess",
+          "subtext": "Accuses the archivist of leading her into a trap as the map fails to match the terrain — what she really fears is that she was never meant to succeed",
+          "expected_effect": "Archivist must defend its credibility or let the accusation stand"
+        },
+        {
+          "speaker": "Archivist",
+          "target": "Elara Vex",
+          "function": "deflect",
+          "subtext": "Admits the map was stolen, not created, and may have been tampered with — distances itself from responsibility without confirming or denying",
+          "expected_effect": "Elara's paranoia spikes; she can no longer trust the map, only herself"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "herself",
+          "function": "confess",
+          "subtext": "Whispers that she should have stayed in exile — self-preservation screaming at her to flee — but keeps walking",
+          "expected_effect": "Action contradicts words; she proves to herself that she is committed even when terrified"
+        }
+      ],
+      "silence_flags": [],
+      "tension_rating": "medium"
+    },
+    {
+      "scene_id": "694b8ae6-6fe4-4fdd-b789-f55fa156f5d5",
+      "speech_acts": [
+        {
+          "speaker": "Cabal Ambusher",
+          "target": "Elara Vex",
+          "function": "threaten",
+          "subtext": "Reveals the map was a trap all along, aiming to break her spirit before the blades finish the work",
+          "expected_effect": "Elara's worst fear is confirmed — but instead of freezing, desperation sharpens her instincts"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "Cabal Ambusher",
+          "function": "deflect",
+          "subtext": "Claims she has survived worse — a lie feeding her own courage as much as a taunt to the enemy",
+          "expected_effect": "Ambusher scoffs and presses the attack, but Elara's defiance unsettles them"
+        },
+        {
+          "speaker": "Cabal Ambusher",
+          "target": "Elara Vex",
+          "function": "mock",
+          "subtext": "Calls her a fool for trusting a dead traitor's map — inadvertently reveals the archivist was no ally of the cabal either",
+          "expected_effect": "Elara files away the implication mid-combat: the archivist and cabal are enemies, not co-conspirators"
+        }
+      ],
+      "silence_flags": [],
+      "tension_rating": "high"
+    },
+    {
+      "scene_id": "3e864651-ae69-47c0-810c-1f1db2c08fea",
+      "speech_acts": [
+        {
+          "speaker": "Elara Vex",
+          "target": "Archivist",
+          "function": "confess",
+          "subtext": "She reads the records aloud to confirm what she is seeing — the words are not for the archivist but for herself, to make the truth real",
+          "expected_effect": "The guilt she has carried for years is replaced by shock; she needs the archivist to confirm she is not misreading"
+        },
+        {
+          "speaker": "Archivist",
+          "target": "Elara Vex",
+          "function": "reveal",
+          "subtext": "Confirms she was sabotaged — and that this is why the archivist chose her: she is the only one with motive and moral claim to stop them",
+          "expected_effect": "Elara's guilt transmutes to righteous fury; her quest recontextualized from atonement to justice"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "Archivist",
+          "function": "command",
+          "subtext": "Demands everything the archivist has withheld — she is done being a pawn, even to a dead ally",
+          "expected_effect": "Archivist concedes it does not know everything; the power dynamic shifts — Elara is no longer a supplicant"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "herself",
+          "function": "confess",
+          "subtext": "Vows aloud that she will stop them — not for revenge but for justice. She is trying on the identity of righteous avenger to see if it fits",
+          "expected_effect": "It fits. She names her new purpose and the name solidifies her resolve"
+        }
+      ],
+      "silence_flags": [],
+      "tension_rating": "high"
+    },
+    {
+      "scene_id": "aee7772d-1e06-4be0-a660-6bc22d6af190",
+      "speech_acts": [
+        {
+          "speaker": "Cabal Leader",
+          "target": "Elara Vex",
+          "function": "mock",
+          "subtext": "Welcomes the 'prodigal failure' back, couching a genuine offer of alliance in cruelty — the leader respects Elara's power and wants it, but cannot offer respect openly",
+          "expected_effect": "Elara must resist the seduction of belonging; the leader's mockery reveals their value system"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "Cabal Leader",
+          "function": "reveal",
+          "subtext": "States plainly that she knows the truth — they destroyed her to control the crystal. She wants the leader to acknowledge the betrayal, to validate her pain",
+          "expected_effect": "Leader is unmoved; the confession is weaponized against her — 'then you know you owe us nothing and can still choose us'"
+        },
+        {
+          "speaker": "Cabal Leader",
+          "target": "Elara Vex",
+          "function": "persuade",
+          "subtext": "Argues the crystal can restore her power, that she can have everything back — fundamentally misunderstands that Elara's desire is atonement, not power",
+          "expected_effect": "Elara realizes the leader's moral language is untranslatable to hers; the offer confirms they have nothing for her"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "Cabal Leader",
+          "function": "threaten",
+          "subtext": "Warns she will shatter the crystal before she lets them use it — a commitment spoken aloud that terrifies even her",
+          "expected_effect": "Leader is genuinely shocked; this outcome was not in their calculations"
+        },
+        {
+          "speaker": "Elara Vex",
+          "target": "none",
+          "function": "confess",
+          "subtext": "Chooses to shatter the crystal in silence. The act itself is the speech act — words would diminish it",
+          "expected_effect": "The blight disperses; Elara loses her remaining power but gains moral clarity and redemption"
+        }
+      ],
+      "silence_flags": [],
+      "tension_rating": "high"
+    }
+  ]
+}
