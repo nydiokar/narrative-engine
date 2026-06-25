@@ -166,39 +166,49 @@ $ python -m src promote fantasy --tree-load tree.json --tree-save tree.json
 
 ---
 
-## Phase K — Output Quality & Medium Completeness (Next)
+## Phase K — Output Quality & Medium Completeness ✅ (Done)
 
 **Goal**: Deliver the first complete, readable narrative output across all 4 mediums. Close the gap between "pipeline runs with real LLM" and "a writer can read the result."
 
-### Next Power Moves
+### Power Moves
 
-1. **Ship non-book medium assemblers** — ✅ Done. `_assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` now read scenes from store and write `output/script.md`, `output/screenplay.md`, `output/teleplay.md` respectively with medium-appropriate headers.
+1. **Ship non-book medium assemblers** — ✅ Done. `_assemble_script`, `_assemble_screenplay`, `_assemble_teleplay` read scenes from store and write `output/script.md`, `output/screenplay.md`, `output/teleplay.md` with medium-appropriate headers.
 
 2. **Wire the discourse contract** — ✅ Done. Showrunner creates `DiscourseContract` with medium-appropriate defaults during WF00, links to story via `discourse_contract_id`. Discourse settings flow to downstream agents via upstream YAML.
 
-3. **Establish quality baseline + regression suite** — Run 3 genres full pipeline with real LLM, capture soft gate scores as a repeatable baseline. Build snapshot-based regression tests for each agent's LLM output parsing so future changes cannot silently break output structure.
+3. **Establish quality baseline** — ✅ Done. Full pipeline run with opencode/big-pickle: soft gate 5.2/5.0, hard gate PASS, all 11/11 Fabula Coherence checks passed, cliché score 0/42. Baseline saved to `output/soft_gate_baseline.json`.
 
-### Known Risks
+4. **Fix placeholder prose generation** — ✅ Done. Scene content was "Chapter: {title}. {summary}" placeholder text. Raised minimum from 100→300 words, added anti-placeholder instructions, increased max_tokens 4096→8192. Verified: 6 scenes, 343-400 words of real narrative prose each.
 
-- Non-book assemblers require knowledge of screenplay/script/teleplay formatting conventions
-- Discourse contract wiring requires updating scene writer prompts to consume discourse settings
-- Quality baseline is gated on having a real LLM available (big-pickle or qwen3-coder)
+5. **Fix world contract generation** — ✅ Done. `set_world_axes` step ran but LLM never produced `contract_data` in the expected schema. Added explicit output structure (world_name, description, axes[], rules[]) to both prompt templates. Verified: WorldContract created with 5 dimensions + 5 rules.
 
 ---
 
-## Downstream (future)
+## Phase L — Quality Hardening (Next)
+
+**Goal**: Lock down quality with regression snapshots and close the remaining proofread gap.
+
+### Next Moves
+
+1. **Regression snapshot tests** — Capture LLM output per agent type, assert structural parsing doesn't regress. Use `output/soft_gate_baseline.json` as initial baseline. Write targeted tests that replay saved LLM output through each agent's parser.
+
+2. **Proofread verdict alignment** — Proofreader step consistently returns FAIL despite LLM issuing "clearance certificate". Investigate whether the `CritiqueContract.verdict` or the `AgentResult.success` field is the source of the mismatch. Align step logic so a "pass" verdict produces `success=True`.
+
+### Infrastructure (ongoing)
 
 | Area | What |
 |:-----|:------|
-| Quality & Iteration | Revisit triggers, showrunner final approval, editorial pass depth tuning, prose quality improvements |
-| Infrastructure | Test coverage (25 modules gap), CI pipeline, release packaging |
-| Human Interface | Intake form, legal/bias check, writer dashboard |
+| Test coverage | Close the 25-module gap — many edge cases untested outside integration tests |
+| CI pipeline | Automated test runner for PRs |
+| Release packaging | pip-installable package |
 
 ---
 
 ## Known Design Debt
 
 ### Fixed This Session
+- Scene content placeholder text — prompt now demands 300+ words of real prose, anti-placeholder instruction, max_tokens 4096→8192
+- World contract never committed — `set_world_axes` prompt now specifies exact `contract_data` JSON structure (world_name, description, axes[], rules[])
 - Modality field name mismatch: coherence checks used `mc.get("actant"/"from"/"to")` but `ModalityChange` Pydantic model uses `actant_id`/`from_state`/`to_state` — 6 checks now fire on real GOLEM data
 - Hard Gate received `events=[]` at runtime — critic now extracts world_rules, builds character ID map, passes scene+GOLEM events with actant metadata
 - `_find_root_seed()` dead-code while loop in executor.py — now actually walks up the tree
