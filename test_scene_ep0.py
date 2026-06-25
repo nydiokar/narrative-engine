@@ -35,4 +35,7 @@ print(f"Errors: {result.get('errors', [])}")
 print(f"Scenes returned: {len(cd)}")
 if cd:
     for s in cd[:3]:
+        content = s.get('content', '')[:200]
         print(f"  Scene: type={s.get('scene_type')}, loc={s.get('setting_location')}")
+        print(f"    content[:200] = {content!r}")
+        print(f"    content len = {len(s.get('content', ''))}")

@@ -1,12 +1,33 @@
 # Context — Narrative Engine
 
-## Current Status (June 21, 2026)
+## Current Status (June 26, 2026)
 
-All 435 tests pass. Full pipeline runs clean with real LLM (llama3.2 @ localhost:11434, OpenCode big-pickle).
+All 468 tests pass. Full pipeline runs clean with real LLM (OpenCode big-pickle).
 Branching (sequential + parallel) works with correct contract seeding + variant comparison.
-ROADMAP.md and CONTEXT.md aligned. 3 power moves defined, PM1 and PM2 completed.
+Prose generation now produces 300+ words of real narrative per scene (verified with real LLM).
+World contracts now properly committed to store (5 axes + rules per generation).
 
 ## Recent Work
+
+### Session: Full Prose Generation + World Contract Fix (June 26, 2026)
+
+**Goal:** Fix placeholder scene content (was "Chapter: {title}. {summary}" pattern) and world contract generation (LLM didn't produce `contract_data`).
+
+**Achievements:**
+
+1. **Full prose generation** (`src/agents/prompts/scene_writer.md`):
+   - Raised minimum from 100→300 words per scene
+   - Added explicit anti-placeholder instruction
+   - Expanded example to show expected quality (prose with sensory detail, dialogue, internal state)
+   - Increased `max_tokens` from 4096→8192
+   - Verified with real LLM: 6 scenes, 343-400 words each, all real narrative prose
+
+2. **World contract fix** (`src/agents/prompts/world_researcher.md`, `.opencode/agents/world-researcher.md`):
+   - Root cause: prompt told LLM "Return world axis data as `contract_data`" but never specified the JSON structure
+   - Added explicit fields: `world_name`, `description`, `axes` (array of `{axis, value, description}`), `rules` (array of strings)
+   - Updated opencode agent config with same structure
+   - `test_set_world_axes_success` now verifies WorldContract is actually created (was only checking `success=True`)
+   - Verified with real LLM: WorldContract created with 5 dimensions + 5 rules
 
 ### Session: Roadmap Alignment + Power Moves Defined
 
@@ -130,31 +151,40 @@ python -m src run --to final --load state.json --save state.json --provider open
    - Scene count 24→36 (12 chapters × 3 fallback scenes).
    - All 9 scene writer tests now pass in 0.18s (was hanging >5s).
 
-## All Tests (435 passed)
+## All Tests (468 passed)
 
 | Suite | Count | Status |
 |-------|-------|--------|
 | Tree tests | 58 | ✅ |
 | Pipeline/Showrunner/Store | 36 | ✅ |
 | Scene writer | 9 | ✅ |
+| World researcher | 3 | ✅ |
 | Full pipeline integration | 4 | ✅ |
-| All others | 328 | ✅ |
+| All others | 358 | ✅ |
 
-Total: 435 tests pass. Run with `pytest tests/ -q`.
+Total: 468 tests pass. Run with `pytest tests/ -q`.
 
-## Next Power Moves
+## Completed
 
-| # | Move | Why | Status |
-|---|------|-----|--------|
-| 1 | **Ship non-book assemblers** | Only book medium produced a readable file. | ✅ Done |
-| 2 | **Wire discourse contract** | Pipeline now tracks narrative discourse settings. | ✅ Done |
-| 3 | **Quality baseline + regression suite** | Soft gate scores collected: 5.2/5.0 with opencode/big-pickle. Baseline saved to `output/soft_gate_baseline.json`. | ✅ Done |
-| 4 | **Full prose generation** | Scene content is summary-level placeholder — prompt templates need revision for actual prose output at ~300+ words per scene. | 🔴 Todo |
-| 5 | **World contract fix** | `set_world_axes` runs but LLM response doesn't produce a world contract. Fix parsing or prompt to generate world/rule contracts. | 🔴 Todo |
-| 6 | **Regression snapshot tests** | Capture LLM output per agent type, assert structural parsing doesn't regress. Use `output/soft_gate_baseline.json` as initial baseline. | 🔴 Todo |
+| # | Item | Detail | Status |
+|---|------|--------|--------|
+| 1 | **Non-book assemblers** | Ship screenplay/script/teleplay writers | ✅ Done |
+| 2 | **Discourse contract** | Wire discourse settings through pipeline | ✅ Done |
+| 3 | **Quality baseline** | Full pipeline run, soft gate 5.2/5.0 | ✅ Done |
+| 4 | **Full prose generation** | LLM now produces 300+ words of real narrative prose per scene (was placeholder summary) | ✅ Done |
+| 5 | **World contract fix** | LLM returns `contract_data` with axes/rules; WorldContract committed to store | ✅ Done |
+
+## Next
+
+| # | Item | Detail | Status |
+|---|------|--------|--------|
+| 6 | **Regression snapshot tests** | Capture LLM output per agent type, assert structural parsing doesn't regress | 🔴 Todo |
+| 7 | **Proofread verdict alignment** | Investigate why proofreader returns FAIL despite "pass" verdict; align step logic | 🔴 Todo |
 
 ## Key Commands
 ```
+python -m src run --to final --provider opencode
+python -m src run --to final --load state.json --save state.json --provider opencode
 python -m src branch --vary genre --values fantasy,scifi --from premise --to structure --tree-load state.json --tree-save tree.json --provider opencode
 python -m src branch --vary genre --values fantasy,scifi,horror --parallel --max-workers 3 --tree-load state.json --tree-save tree.json
 python -m src compare --labels fantasy,scifi --tree-load tree.json --detail
@@ -162,9 +192,7 @@ python -m pytest tests/ -q
 ```
 
 ## Known Issues
-- **Scene content is placeholder text** — `content` field repeats "Chapter: {title}. {summary}" pattern, not full prose. Prompt templates need to instruct the LLM to generate actual narrative prose (300+ words per scene).
-- **`set_world_axes` doesn't produce world contracts** — the step runs successfully but the LLM response lacks `contract_data` in the expected schema. World/rule contracts are never committed.
-- **`SubprocessLLMProvider.cmd_template` is dead code** — the `generate()` method hardcodes its own command format, ignoring the template which includes `--dangerously-skip-permissions`. The hardcoded approach works with opencode v1.17.8 but should be unified.
+- **`SubprocessLLMProvider.cmd_template` is dead code** — the `generate()` method hardcodes its own command format, ignoring the template which includes `--dangerously-skip-permissions`. Works but should be unified.
 - **Editorial proofread step** consistently returns FAIL despite "clearance certificate issued" — the `CritiqueContract` verdict may be "pass" but the step's logic detects an issue. Tolerated by editorial checkpoint.
 - **ContractStore singleton leaks state across tests** — tests must manually reset between runs.
 - **25 Python modules lack dedicated unit tests** — many edge cases untested outside the pipeline integration tests.

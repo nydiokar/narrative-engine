@@ -21,7 +21,14 @@ class TestWorldResearcher:
         assert result.success is False
 
     def test_set_world_axes_success(self):
-        mock = MockLLMProvider(fallback='{"success": true}')
+        mock = MockLLMProvider(fallback=(
+            '{"success": true, "contract_data": {'
+            '"world_name": "Test World", '
+            '"description": "A world for testing", '
+            '"axes": [{"axis": "magic", "value": 0.5, "description": "Magic level"}], '
+            '"rules": ["Rule one"]'
+            "}}"
+        ))
         set_llm(mock)
         agent = WorldResearcher()
         agent.store.put("story", StoryContract(title="T", premise="P"))
@@ -29,6 +36,11 @@ class TestWorldResearcher:
         ctx = AgentContext(workflow_id="00", step_id="set_world_axes")
         result = agent.execute(ctx)
         assert result.success is True
+        worlds = agent.list_contracts("world")
+        assert len(worlds) == 1
+        assert worlds[0].name == "Test World"
+        assert len(worlds[0].dimensions) == 1
+        assert worlds[0].dimensions[0].axis == "magic"
 
     def test_assign_settings_success(self):
         mock = MockLLMProvider(fallback='{"success": true}')

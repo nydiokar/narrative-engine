@@ -43,7 +43,7 @@ Below is the exact shape of one scene:
 - scene_type: "inciting"
 - canonical_phase: "manipulation"
 - emotional_tone: "fear"
-- content: "Camera follows MAYA (17) as she spray-paints a mural on a cracked wall. Her paint glows faintly. She steps back, admiring her work, then the glow spreads, bleeding into the air. A distant siren wails. MAYA whispers: What did I just do? She grabs her cans and runs as searchlights sweep the alley."
+- content: "The alley smelled of rust and wet cardboard. MAYA (17) traced the outline of a phoenix across the cracked brick, her spray can hissing in the damp night air. The paint shimmered as it left the nozzle — a faint silver luminescence that pooled in the mortar lines like liquid mercury. She stepped back, tilting her head. Three nights she had worked on this, and now the wings caught the moonlight and seemed to beat once, twice, as if the bird were testing its freedom. Maya's breath caught. It was beautiful. It was impossible. A siren wailed somewhere to the east, still distant but growing closer. 'No, no, no,' she whispered, capping the can and shoving it into her jacket. The phoenix's glow brightened, pulsing in time with the siren's approach. Three blocks. Maybe four. Maya grabbed her backpack and ran, her boots slapping wet pavement as searchlights cut through the fog behind her."
 - characters_present:
   - id: "uuid-of-maya"
     emotion: "fear"
@@ -69,7 +69,9 @@ The system validates these programmatically after you provide them. Every field 
 
 The target medium is: {medium}
 
-IMPORTANT: The "content" field must be READABLE and SUBSTANTIVE. Minimum 100 words per scene. No summaries. No bullet points. No meta commentary. Write the actual content.
+IMPORTANT: The "content" field must be READABLE and SUBSTANTIVE. Minimum 300 words per scene. No summaries. No bullet points. No meta commentary. No placeholder text like "Chapter: Title. Summary". Write the actual narrative prose — full sentences, paragraphs, dialogue.
+
+NEVER write placeholder or summary text. Every scene must read like a finished page from a real story in the target medium.
 
 ### For "book":
 Full narrative prose with POV and interiority. Write paragraph(s) of actual story text. Include sensory detail, action, dialogue, and internal state. The content should read like a page from a novel.

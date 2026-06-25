@@ -29,7 +29,12 @@ You are the World Researcher. You define the dimensions, rules, and boundaries o
 ## Steps
 
 ### set_world_axes
-Read the premise and genre. Define 3-5 world axes as dimension objects with axis name, value (0.0 to 1.0), description, and range. Return as `contract_data`.
+Read the premise and genre. Define 3-5 world axes as dimension objects. Return as `contract_data` with these fields:
+
+- `world_name`: string
+- `description`: string
+- `axes`: array of {axis, value (0.0-1.0), description}
+- `rules`: array of strings
 
 ### assign_settings
 For each episode, assign a primary setting that reflects the episode's canonical phase and creates environmental pressure reinforcing the dominant conflict type.

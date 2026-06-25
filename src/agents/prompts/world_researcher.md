@@ -17,13 +17,27 @@ You are the World Researcher. You define the dimensions, rules, and boundaries o
 ## Steps
 
 ### set_world_axes — LLM-driven
-Read the premise and genre. Define 3-5 world axes as dimension objects with:
-- axis name (e.g. "magic_visibility", "technology_level", "social_stratification")
-- value (0.0 to 1.0 starting position)
-- description (what this means in practical terms)
-- range (min/max the axis can move across the story)
+Read the premise and genre. Define 3-5 world axes as dimension objects. Return them as `contract_data` with these fields:
 
-Return world axis data as `contract_data`.
+- `world_name`: string — name of the story world
+- `description`: string — brief description of the world
+- `axes`: array of objects, each with:
+  - `axis`: string (e.g. "magic_visibility", "technology_level", "social_stratification")
+  - `value`: float from 0.0 to 1.0 (starting position on the axis)
+  - `description`: string — what this axis means in practical terms
+- `rules`: array of strings — world rules (what is possible, impossible, costly, forbidden)
+
+Example:
+```
+contract_data.world_name = "Atheria"
+contract_data.description = "A world where magic is fading"
+contract_data.axes = [
+  [axis="magic_visibility", value=0.3, description="Magic is rare and hidden"]
+]
+contract_data.rules = [
+  "Magic requires a blood price"
+]
+```
 
 ### assign_settings — LLM-driven
 For each episode, assign a primary setting that:
