@@ -16,6 +16,7 @@ from uuid import uuid4
 from rich.console import Console
 from rich.markup import escape
 from rich.panel import Panel
+from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 
 from src.agents.director import Director
@@ -312,12 +313,31 @@ class TreeExecutor:
                     fut_to_idx[fut] = i
 
                 raw_results: list[dict | None] = [None] * len(variant_tasks)
-                for fut in concurrent.futures.as_completed(fut_to_idx):
-                    idx = fut_to_idx[fut]
-                    try:
-                        raw_results[idx] = fut.result()
-                    except Exception as e:
-                        raw_results[idx] = {"error": str(e)}
+                total = len(variant_tasks)
+                done = 0
+                console = Console()
+                with Progress(
+                    SpinnerColumn(),
+                    TextColumn("[progress.description]{task.description}"),
+                    console=console,
+                ) as progress:
+                    task_id = progress.add_task(
+                        f"Running {total} variant(s) in parallel...",
+                        total=total,
+                    )
+                    for fut in concurrent.futures.as_completed(fut_to_idx):
+                        idx = fut_to_idx[fut]
+                        try:
+                            raw_results[idx] = fut.result()
+                        except Exception as e:
+                            raw_results[idx] = {"error": str(e)}
+                        done += 1
+                        label_done = variant_tasks[idx][1]
+                        progress.update(
+                            task_id,
+                            advance=1,
+                            description=f"[{done}/{total}] {label_done} done",
+                        )
 
             for i, (value, label, all_params) in enumerate(variant_tasks):
                 result = raw_results[i]
@@ -527,14 +547,14 @@ class TreeExecutor:
             ))
         else:
             console.print(Panel(
-                f"[bold]Diff:[/bold] [{node_a.label}] vs [{node_b.label}]",
+                f"[bold]Diff:[/bold] {escape(node_a.label)} vs {escape(node_b.label)}",
                 style="yellow",
             ))
             for type_key, typediffs in diffs.items():
                 table = Table(title=f"{type_key} differences")
                 table.add_column("Field", style="cyan")
-                table.add_column(f"[{node_a.label}]", style="green")
-                table.add_column(f"[{node_b.label}]", style="yellow")
+                table.add_column(escape(node_a.label), style="green")
+                table.add_column(escape(node_b.label), style="yellow")
                 for td in typediffs:
                     a_str = str(td["a"])[:60] if td["a"] is not None else "—"
                     b_str = str(td["b"])[:60] if td["b"] is not None else "—"

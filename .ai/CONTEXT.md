@@ -1,6 +1,6 @@
 # Narrative Engine — Project Context
 
-**Branch:** `main` | **Last Updated:** 2026-06-20 | **Status:** Phase J — full pipeline runs clean with real LLM via opencode provider
+**Branch:** `main` | **Last Updated:** 2026-07-12 | **Status:** Phase J — full pipeline runs clean with real LLM via opencode provider; tree branch UX improved
 
 ---
 
@@ -63,11 +63,19 @@ State saved to `state.json` — can resume from any checkpoint with `--load stat
 
 4. **Prompt cleanup**: `showrunner.md` prompts (both `src/agents/prompts/` and `.opencode/agents/`) fixed — `approve_structure` no longer mentions episodes; `approve_episodes` now describes the 4-phase validation.
 
+5. **Branch `--from` auto-detect** (`src/cli.py:415-419`): `cmd_branch` defaulted `--from` to `"premise"` regardless of `--vary`. Now auto-detects via `_VARY_FROM_CHECKPOINT` when `--from` is not specified. `--vary genre` → `--from brief`; `--vary world` → `--from structure`; etc.
+
+6. **Parallel branch progress bar** (`src/tree/executor.py:314-336`): Added Rich spinner + progress bar to parallel branch execution. Shows `[n/N] label done` as each variant completes.
+
+7. **Diff display labels** (`src/tree/executor.py:549-557`): Rich markup `[fantasy]` was interpreted as style tags, hiding labels. Fixed by using `escape()` on node labels in Panel and Table headers.
+
+8. **Project venv**: Created `.venv` for narrative-engine. Previous session ran with AI-team's venv (missing PyYAML, broken namespace package `yaml`), causing 90 test failures that appeared to be code bugs.
+
 ### Test Status
 
-- 36 relevant tests pass (showrunner: 16, store: 9, checkpoints: 10, base: 3)
-- 2 pre-existing failures unrelated to changes (compare print format, orphan node root)
-- 1 pre-existing hang (`test_scene_writer_renders_prose` — LLM retry loop without mock)
+- 468 tests pass (all green, 1 pydantic serialization warning)
+- No pre-existing failures — previous 90 failures were caused by wrong Python interpreter (AI-team venv used instead of project venv)
+- Fix: created `.venv` for narrative-engine with all deps (pydantic, pyyaml, rich, pydantic-settings, etc.)
 
 ---
 
@@ -126,22 +134,22 @@ State saved to `state.json` — can resume from any checkpoint with `--load stat
 
 ### Short-term (P0–P1)
 
-| Task | Why | How |
-|:-----|:----|:----|
-| Run branching with real LLM | Verify `branch --vary genre --values fantasy,scifi,horror --provider opencode` works end-to-end | `python -m src run --to premise --save trunk.json --provider opencode` then `python -m src branch --vary genre --values fantasy,scifi,horror --tree-load trunk.json --tree-save tree.json --provider opencode` |
-| Run compare/diff with real LLM output | Verify tree comparison tools render real (non-mock) variant data correctly | `python -m src compare --labels fantasy,scifi,horror --tree-load tree.json` |
-| Run parallel branching | Verify ThreadPoolExecutor works with opencode subprocess provider (concurrent `opencode run` calls) | `python -m src branch --vary genre --values a,b,c --parallel --max-workers 3 --provider opencode` |
-| Quality baseline across genres | Compare soft gate scores for fantasy vs scifi vs horror variants | Compare output of `--detail` for each variant |
-| Fix `test_scene_writer_renders_prose` hanging | Scene writer test calls real LLM instead of mock | Add `set_llm(mock)` in test or fix test isolation |
-| Fix 2 pre-existing test failures | compare print format assertion and orphan node root detection | Investigate and update assertions in `test_tree/test_executor.py` |
+| Task | Why | How | Status |
+|:-----|:----|:----|:-------|
+| Run branching with real LLM | Verify `branch --vary genre --values fantasy,scifi,horror --provider opencode` works end-to-end | `python -m src run --to premise --save trunk.json --provider opencode` then `python -m src branch --vary genre --values fantasy,scifi,horror --tree-load trunk.json --tree-save tree.json --provider opencode` | 🔲 |
+| Run compare/diff with real LLM output | Verify tree comparison tools render real (non-mock) variant data correctly | `python -m src compare --labels fantasy,scifi,horror --tree-load tree.json` | 🔲 |
+| Run parallel branching | Verify ThreadPoolExecutor works with opencode subprocess provider (concurrent `opencode run` calls) | `python -m src branch --vary genre --values a,b,c --parallel --max-workers 3 --provider opencode` | 🔲 |
+| Quality baseline across genres | Compare soft gate scores for fantasy vs scifi vs horror variants | Compare output of `--detail` for each variant | 🔲 |
+| Fix pre-existing test failures | Was 90 failures from wrong venv; 2 pre-existing from assertion mismatch | Created project `.venv`, all 468 tests now pass | ✅ |
 
 ### Medium-term (P2)
 
-| Task | Why | How |
-|:-----|:----|:----|
-| --from auto-detect with branch command | Branch from a checkpoint by auto-detecting depth from tree state | Add `find_next_checkpoint` integration to `cmd_branch` |
-| CLI polish: rich progress bars | Current output is verbose and scrolls off | Replace print with Rich progress display per workflow |
-| Docs site update | mkdocs site may reference outdated mock-only behavior | Review and update `docs/` |
+| Task | Why | How | Status |
+|:-----|:----|:----|:-------|
+| --from auto-detect with branch command | Branch from a checkpoint by auto-detecting depth from vary field | `_VARY_FROM_CHECKPOINT` lookup when `--from` not specified | ✅ |
+| CLI polish: rich progress bars | Current output is verbose and scrolls off | Added Rich spinner + progress bar for parallel branch execution | ✅ (partial) |
+| Diff display fix | Rich markup `[label]` interpreted as style tags, hiding labels | `escape()` on node labels in Panel and Table headers | ✅ |
+| Docs site update | mkdocs site may reference outdated mock-only behavior | Review and update `docs/` | 🔲 |
 
 ### Longer-term
 

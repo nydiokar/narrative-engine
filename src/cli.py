@@ -54,7 +54,7 @@ from src.agents.store import ContractStore, get_store, reset_store
 from src.contracts.models import Medium, StoryContract
 from src.pipeline.checkpoints import CHECKPOINT_ORDER, expected_contracts_at_checkpoint, find_next_checkpoint, run_to_checkpoint
 from src.pipeline.orchestrator import default_agent_registry
-from src.tree.executor import BranchConfig, TreeExecutor
+from src.tree.executor import BranchConfig, TreeExecutor, _VARY_FROM_CHECKPOINT
 from src.tree.node import TreeNode, TreeStore
 
 
@@ -358,7 +358,7 @@ def cmd_diff(args: list[str]):
 
 def cmd_branch(args: list[str]):
     """python -m src branch --vary FIELD --values LIST [--from Ck] [--to Ck] [--tree-load P] [--tree-save P] [--lock TYPE] [--parallel]"""
-    branch_from = "premise"
+    branch_from: str | None = None
     branch_to = "final"
     vary_field = "genre"
     values_str = None
@@ -411,6 +411,10 @@ def cmd_branch(args: list[str]):
                 max_workers = int(args[i + 1])
             except ValueError:
                 pass
+
+    if branch_from is None:
+        branch_from = _VARY_FROM_CHECKPOINT.get(vary_field, "brief")
+        print(f"  Auto-detected --from '{branch_from}' from --vary {vary_field}")
 
     _setup_llm(use_real_llm=use_real_llm, model_name=model_name, provider_type=provider_type)
     agents = default_agent_registry(store=get_store())
@@ -469,7 +473,7 @@ def cmd_branch(args: list[str]):
         seed_snapshot = {"contracts": seed_contracts, "field_locks": {}}
         root = TreeNode(label="root", checkpoint="", store_snapshot=seed_snapshot, active=True)
         tree.root = root
-        print(f"Created root from current store")
+        print("Created root from current store")
 
     # Apply locks from --lock flag (support field-level locking)
     if lock_types:
